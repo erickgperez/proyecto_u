@@ -48,9 +48,7 @@ class UploadFileController extends Controller
             ->join('secundaria.sector as B', function ($join) {
                 $join->on(DB::raw('LOWER("A".sector)'), '=', DB::raw('LOWER("B".descripcion)'));
             })
-            ->join('public.distrito as C', function ($join) {
-                $join->on(DB::raw('LOWER("A".codigo_distrito)'), '=', DB::raw('LOWER("C".codigo)'));
-            })
+            ->join('public.distrito as C', 'A.codigo_distrito', '=', 'C.codigo')
             ->groupBy('codigo_ce', 'nombre_centro_educativo', 'direccion', 'B.id', 'C.id')
             ->whereNotIn('codigo_ce', function ($qb) {
                 $qb->select('codigo')->from('secundaria.institucion');

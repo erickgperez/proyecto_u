@@ -40,7 +40,10 @@ class CandidatosController extends Controller
      */
     public function listado(Request $request)
     {
-        $query = SecundariaDataBachillerato::orderBy('nota_promocion', 'desc');
+        $query = DB::table('secundaria.data_bachillerato', 'A')
+            ->select('A.*', 'B.fecha_envio_correo', 'B.fecha_aceptacion', 'B.created_at as fecha_invitacion')
+            ->leftJoin('secundaria.invitacion as B', 'A.nie', '=', 'B.nie')
+            ->orderBy('nota_promocion', 'desc');
 
         $departamentos = $request->get('departamentos');
         if ($departamentos !== null) {
