@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->comment('Invitaciones enviadas a los estudiantes de bachillerato');
             $table->string('nie', length: 15)->unique()->comment('Número de identificación de estudiante');
+            $table->boolean('invitado')->default(true);
             $table->dateTime('fecha_envio_correo')->comment('Fecha en que se envía el correo de invitación');
             $table->dateTime('fecha_aceptacion')->comment('Fecha en que el estudiante acepta la invitación y realiza su registro como aspirante');
             $table->timestamps();

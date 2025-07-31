@@ -41,7 +41,7 @@ class CandidatosController extends Controller
     public function listado(Request $request)
     {
         $query = DB::table('secundaria.data_bachillerato', 'A')
-            ->select('A.*', 'B.fecha_envio_correo', 'B.fecha_aceptacion', 'B.created_at as fecha_invitacion')
+            ->select('A.*', 'B.invitado', 'B.fecha_envio_correo', 'B.fecha_aceptacion', 'B.created_at as fecha_invitacion')
             ->leftJoin('secundaria.invitacion as B', 'A.nie', '=', 'B.nie')
             ->orderBy('nota_promocion', 'desc');
 

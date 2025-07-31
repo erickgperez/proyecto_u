@@ -37,7 +37,7 @@ const headers = [
     { title: 'Centro Educativo', key: 'nombre_centro_educativo' },
     { title: 'Opción', key: 'opcion_bachillerato' },
     { title: 'Nota', key: 'nota_promocion' },
-    { title: 'Acciones', key: 'actions', align: 'end', sortable: false },
+    { title: 'Seleccionar', key: 'invitado', align: 'end', sortable: false },
 ];
 
 const sortBy = [{ key: 'nota_promocion', order: 'desc' }];
@@ -183,15 +183,13 @@ const nombreCompleto = (item: any) => {
                             hover
                             striped="odd"
                         >
-                            <template v-slot:item.actions="{ item }">
-                                <div class="d-flex ga-2 justify-end">
-                                    <v-icon color="green-darken-2" icon="mdi-chevron-right-circle-outline" size="large"></v-icon>
-                                </div>
-                            </template>
                             <template v-slot:item.primer_nombre="{ item }">
                                 <div class="d-flex ga-2">
                                     {{ nombreCompleto(item) }}
                                 </div>
+                            </template>
+                            <template v-slot:item.invitado="{ item }">
+                                <v-checkbox-btn v-model="item.invitado" :ripple="false"></v-checkbox-btn>
                             </template>
                         </v-data-table>
                     </v-card>
