@@ -30,16 +30,19 @@ Despues de clonar entrar al directorio en que se clonó el proyecto
 ### Configurar la conexión a la base de datos
 
 Abrir el archivo `.env` y adecuar los valores
-`DB_CONNECTION=pgsql
+
+```
+DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=usuariodb
 DB_USERNAME=proyectodb
-DB_PASSWORD=clavedb`
+DB_PASSWORD=clavedb
+```
 
 ### Cargar la estructura de la base de datos
 
-`php artisan migrate`
+`php artisan migrate:fresh --seed --force`
 
 ### Iniciar el servidor de desarrollo
 
