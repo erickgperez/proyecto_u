@@ -83,6 +83,22 @@ const nombreCompleto = (item: any) => {
         .filter((x) => x != null)
         .join(' ');
 };
+
+const toggleSeleccion = (item: any) => {
+    item.invitado = !item.invitado;
+    console.log(item);
+    axios
+        .patch(route('ingreso-bachillerato-candidato-invitacion'), {
+            nie: item.nie,
+            invitado: item.invitado,
+        })
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+};
 </script>
 
 <template>
@@ -193,7 +209,7 @@ const nombreCompleto = (item: any) => {
                                 </div>
                             </template>
                             <template v-slot:item.invitado="{ item }">
-                                <v-checkbox-btn v-model="item.invitado" :ripple="false"></v-checkbox-btn>
+                                <v-checkbox-btn v-model="item.invitado" :ripple="false" @click="toggleSeleccion(item)"></v-checkbox-btn>
                             </template>
                         </v-data-table>
                     </v-card>

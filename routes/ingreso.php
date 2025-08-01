@@ -11,4 +11,5 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/ingreso/bachillerato/import-data', [UploadFileController::class, 'import'])->name('ingreso-import-data-bachillerato');
     Route::get('/ingreso/bachillerato/candidatos', [CandidatosController::class, 'index'])->name('ingreso-bachillerato-candidatos');
     Route::post('/ingreso/bachillerato/candidatos/listado', [CandidatosController::class, 'listado'])->name('ingreso-bachillerato-candidatos-listado');
+    Route::patch('/ingreso/bachillerato/candidato/invitacion', [CandidatosController::class, 'invitacion'])->name('ingreso-bachillerato-candidato-invitacion');
 });
