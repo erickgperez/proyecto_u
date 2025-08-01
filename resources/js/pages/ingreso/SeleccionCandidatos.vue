@@ -28,6 +28,7 @@ const props = defineProps<Props>();
 const search = ref('');
 
 const headers = [
+    { title: '#', key: 'row_number', align: 'start' },
     { title: 'NIE', key: 'nie', align: 'start' },
     { title: 'Estudiante', key: 'primer_nombre' },
     { title: 'Correo', key: 'correo' },
@@ -183,6 +184,9 @@ const nombreCompleto = (item: any) => {
                             hover
                             striped="odd"
                         >
+                            <template v-slot:item.row_number="{ index }">
+                                {{ index + 1 }}
+                            </template>
                             <template v-slot:item.primer_nombre="{ item }">
                                 <div class="d-flex ga-2">
                                     {{ nombreCompleto(item) }}
