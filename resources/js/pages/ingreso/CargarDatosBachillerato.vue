@@ -10,7 +10,7 @@ const form = useForm({
 const rules = [
     (value: any) => {
         if (value) return true;
-        return 'Debe elegir un archivo de excel';
+        return 'Debe elegir un archivo csv';
     },
 ];
 
@@ -40,8 +40,12 @@ function submit() {
 
 <template>
     <Head title="Cargar datos "></Head>
-    <AppLayout>
-        <v-sheet class="mx-auto mt-10" width="300">
+    <AppLayout
+        titulo="Carga de archivo de datos"
+        subtitulo="Suba un archivo csv conteniendo los datos de los estudiantes de bachillerato"
+        icono="mdi-email-fast-outline"
+    >
+        <v-sheet class="pa-5 mx-auto" width="400">
             <v-form fast-fail @submit.prevent="submit">
                 <v-file-input
                     label="Subir un archivo CSV"

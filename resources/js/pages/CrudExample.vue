@@ -136,7 +136,7 @@ onMounted(() => {
 
 <template>
     <Head title="Ejemplo CRUD"> </Head>
-    <AppLayout>
+    <AppLayout titulo="Ejemplo de CRUD" subtitulo="Página que servirá de plantilla para el funcionamiento de CRUDs" icono="mdi-wrench-clock">
         <v-window v-model="step" class="h-auto w-100">
             <v-window-item :value="1">
                 <v-card>

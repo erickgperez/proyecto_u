@@ -102,7 +102,11 @@ const toggleSeleccion = (item: any) => {
 
 <template>
     <Head title="Selección de candidatos"></Head>
-    <AppLayout>
+    <AppLayout
+        titulo="Selección de candidatos"
+        subtitulo="Seleccione los estudiantes que serán invitados a participar en las carreras"
+        icono="mdi-email-fast-outline"
+    >
         <v-form fast-fail @submit.prevent="getCandidatos">
             <v-stepper
                 editable
@@ -111,8 +115,8 @@ const toggleSeleccion = (item: any) => {
                 show-actions
                 prev-text="Anterior"
                 next-text="Continuar"
-                alt-labels
                 color="#333"
+                alt-labels
             >
                 <template v-slot:item.1>
                     <v-container fluid>

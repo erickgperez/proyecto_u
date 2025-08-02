@@ -78,11 +78,17 @@ const handleLoadComponentMessage = (component: string) => {
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
     activeTab?: string;
+    titulo?: string;
+    subtitulo?: string;
+    icono?: string;
 }
 
 withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
     activeTab: () => 'tab1',
+    titulo: () => '',
+    subtitulo: () => '',
+    icono: () => '',
 });
 </script>
 
@@ -92,6 +98,9 @@ withDefaults(defineProps<Props>(), {
         :isFirstTab="true"
         :breadcrumbs="breadcrumbs"
         :activeTab="activeTab"
+        :titulo="titulo"
+        :subtitulo="subtitulo"
+        :icono="icono"
         @loadComponent="handleLoadComponentMessage"
     >
         <slot />

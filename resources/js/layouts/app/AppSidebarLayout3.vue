@@ -12,6 +12,9 @@ interface Props {
     breadcrumbs?: BreadcrumbItemType[];
     activeTab?: string;
     isFirstTab?: boolean;
+    titulo?: string;
+    subtitulo?: string;
+    icono?: string;
 }
 const drawer = ref(true);
 const group = ref(null);
@@ -66,6 +69,9 @@ const props = withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
     activeTab: () => 'tab1',
     isFirstTab: () => true,
+    titulo: () => '',
+    subtitulo: () => '',
+    icono: () => '',
 });
 
 onMounted(() => {
@@ -314,10 +320,28 @@ onMounted(() => {
                     </v-list>
                 </template>
 
-                <v-app-bar-title>Aplicación <span v-if="!isFirstTab"> :: Sección secundaria de trabajo</span></v-app-bar-title>
+                <v-app-bar-title>
+                    <v-card class="mx-auto" :prepend-icon="props.icono">
+                        <template v-slot:title>
+                            <span class="font-weight-black text-info">{{ props.titulo }}</span>
+                        </template>
+                        <template v-slot:subtitle>
+                            <span class="font-weight-black">{{ props.subtitulo }}</span>
+                        </template>
+                        <template v-slot:prepend>
+                            <v-icon size="x-large" color="info"></v-icon>
+                        </template>
+                    </v-card>
+                </v-app-bar-title>
             </v-app-bar>
-            <v-main class="ma-5">
-                <slot />
+            <v-main class="mt-1">
+                <v-card class="bg-surface-light mx-auto">
+                    <v-card-text class="pt-4">
+                        <v-sheet class="mx-auto">
+                            <slot />
+                        </v-sheet>
+                    </v-card-text>
+                </v-card>
             </v-main>
         </v-app>
     </v-responsive>

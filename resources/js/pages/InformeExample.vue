@@ -29,7 +29,7 @@ onMounted(() => {
 
 <template>
     <Head title="Informe de ejemplo"> </Head>
-    <AppLayout>
+    <AppLayout titulo="Plantilla de informe" subtitulo="Página que muestra el esquema de funcionamiento de un informe" icono="mdi-list-box-outline">
         <v-stepper editable v-model="step" :items="items" show-actions prev-text="Anterior" next-text="Continuar" alt-labels color="#333">
             <template v-slot:item.1>
                 <h3 class="text-h6">Parámetros para mostrar el informe</h3>
