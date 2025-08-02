@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plan_estudio_carrera', function (Blueprint $table) {
+        Schema::create('plan_estudio.carrera', function (Blueprint $table) {
             $table->id();
 
             $table->string('codigo', length: 30)->unique();
             $table->text('nombre');
-            $table->foreignId('certificacion_de')->comment('Una carrera puede estar compuesta de certificaciones, las certificaciones también serán guardadas como una carrera');
+            $table->foreignId('certificacion_de')->nullable()->comment('Una carrera puede estar compuesta de certificaciones, las certificaciones también serán guardadas como una carrera');
             $table->foreign('certificacion_de')->references('id')->on('plan_estudio.carrera')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->foreignId('tipo_carrera_id');
             $table->foreign('tipo_carrera_id')->references('id')->on('plan_estudio.tipo_carrera')->onDelete('RESTRICT')->onUpdate('CASCADE');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plan_estudio_carrera');
+        Schema::dropIfExists('plan_estudio.carrera');
     }
 };

@@ -2,7 +2,7 @@
 
 namespace App\Imports;
 
-use App\Models\Secundaria\SecundariaDataBachillerato;
+use App\Models\Secundaria\DataBachillerato;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
@@ -16,7 +16,7 @@ class BachilleratoImport implements ToModel, WithHeadingRow, WithChunkReading, W
     public function model(array $row)
     {
 
-        return new SecundariaDataBachillerato([
+        return new DataBachillerato([
             'nie' => $row['nie'],
             'correo' => $row['correo_electronico'],
             'primer_nombre' => $row['primer_nombre'],
@@ -36,8 +36,7 @@ class BachilleratoImport implements ToModel, WithHeadingRow, WithChunkReading, W
             'departamento' => $row['departamento'],
             'codigo_distrito' => $row['codigo_distrito'],
             'distrito' => $row['distrito'],
-            'opcion_bachillerato' => $row['opcion_de_bach_tecnico'],
-            'nota_promocion' => $row['nota'],
+            'opcion_bachillerato' => $row['opcion_de_bach_tecnico']
         ]);
     }
 

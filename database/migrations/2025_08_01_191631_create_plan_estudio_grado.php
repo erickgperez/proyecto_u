@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plan_estudio_grado', function (Blueprint $table) {
+        Schema::create('plan_estudio.grado', function (Blueprint $table) {
             $table->id();
             $table->comment('Contine el grado otorgado por un tipo de carrera');
             $table->string('codigo', length: 15)->unique();
@@ -27,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plan_estudio_grado');
+        Schema::dropIfExists('plan_estudio.grado');
     }
 };

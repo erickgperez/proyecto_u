@@ -27,7 +27,9 @@ class DatabaseSeeder extends Seeder
             DistritoSeeder::class,
             SecundariaSectorSeeder::class,
             PlanEstudioGradoSeeder::class,
-            PlanEstudioTipoCarreraSeeder::class
+            PlanEstudioTipoCarreraSeeder::class,
+            PlanEstudioCarreraSeeder::class,
+            PlanEstudioCarrera2Seeder::class
         ]);
     }
 }

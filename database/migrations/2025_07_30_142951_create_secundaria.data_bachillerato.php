@@ -33,9 +33,7 @@ return new class extends Migration
             $table->string('departamento', length: 100)->nullable();
             $table->string('codigo_distrito', length: 7)->nullable();
             $table->string('distrito', length: 100)->nullable();
-            $table->string('opcion_bachillerato', length: 100)->nullable();
-            $table->decimal('nota_promocion', total: 6, places: 2)->nullable()->comment('Nota obtenida por el estudiante en la prueba AVANZO');
-            //$table->timestamps();
+            $table->string('opcion_bachillerato', length: 100)->nullable();            //$table->timestamps();
         });
     }
 

@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('plan_estudio_tipo_carrera', function (Blueprint $table) {
+        Schema::create('plan_estudio.tipo_carrera', function (Blueprint $table) {
             $table->id();
 
             $table->comment('Tipo de la carrera, por ejemplo: Técnica, Ingeniería, Licenciatura...');
             $table->string('codigo', length: 20)->unique();
             $table->string('descripcion', length: 50);
-            $table->foreignId('grado_id')->comment('Relación para determinar el grado que otorga la carrera');
+            $table->foreignId('grado_id')->nullable()->comment('Relación para determinar el grado que otorga la carrera');
             $table->foreign('grado_id')->references('id')->on('plan_estudio.grado')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('plan_estudio_tipo_carrera');
+        Schema::dropIfExists('plan_estudio.tipo_carrera');
     }
 };

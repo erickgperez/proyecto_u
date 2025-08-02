@@ -37,11 +37,10 @@ const headers = [
     { title: 'Sector', key: 'sector' },
     { title: 'Centro Educativo', key: 'nombre_centro_educativo' },
     { title: 'Opción', key: 'opcion_bachillerato' },
-    { title: 'Nota', key: 'nota_promocion' },
     { title: 'Seleccionar', key: 'invitado', align: 'end', sortable: false },
 ];
 
-const sortBy = [{ key: 'nota_promocion', order: 'desc' }];
+//const sortBy = [];
 
 watch(step, () => {
     if (step.value == 2 && formChanged.value) {
@@ -195,7 +194,6 @@ const toggleSeleccion = (item: any) => {
                             :items="candidatos"
                             border="primary thin"
                             class="w-100"
-                            :sort-by="sortBy"
                             multi-sort
                             hover
                             striped="odd"

@@ -4,7 +4,7 @@ namespace App\Models\Secundaria;
 
 use Illuminate\Database\Eloquent\Model;
 
-class SecundariaDataBachillerato extends Model
+class DataBachillerato extends Model
 {
     //
     protected $table = "secundaria.data_bachillerato";

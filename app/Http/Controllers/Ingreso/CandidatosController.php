@@ -3,8 +3,7 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
-use App\Models\Secundaria\SecundariaDataBachillerato;
-use App\Models\Secundaria\SecundariaInvitacion;
+use App\Models\Secundaria\Invitacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -43,8 +42,7 @@ class CandidatosController extends Controller
     {
         $query = DB::table('secundaria.data_bachillerato', 'A')
             ->select('A.*', 'B.invitado', 'B.fecha_envio_correo', 'B.fecha_aceptacion', 'B.created_at as fecha_invitacion')
-            ->leftJoin('secundaria.invitacion as B', 'A.nie', '=', 'B.nie')
-            ->orderBy('nota_promocion', 'desc');
+            ->leftJoin('secundaria.invitacion as B', 'A.nie', '=', 'B.nie');
 
         $departamentos = $request->get('departamentos');
         if ($departamentos !== null) {
@@ -65,14 +63,14 @@ class CandidatosController extends Controller
         $nie = $request->get('nie');
         $invitado = $request->get('invitado');
         // Buscar la invitacion
-        $invitacion = SecundariaInvitacion::where('nie', $nie)->first();
+        $invitacion = Invitacion::where('nie', $nie)->first();
         if ($invitacion) {
             //Actualizar la invitación
             echo 1;
         } else {
             //Crear la invitación
             if ($invitado) {
-                SecundariaInvitacion::create([
+                Invitacion::create([
                     'nie' => $nie,
                     'codigo' => chr(rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999),
                     'invitado' => true
