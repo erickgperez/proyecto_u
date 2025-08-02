@@ -2,12 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Departamento;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SectorSeeder extends Seeder
+class SecundariaSectorSeeder extends Seeder
 {
     /**
      * Run the database seeds.

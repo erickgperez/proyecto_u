@@ -3,7 +3,6 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -26,7 +25,9 @@ class DatabaseSeeder extends Seeder
             DepartamentoSeeder::class,
             MunicipioSeeder::class,
             DistritoSeeder::class,
-            SectorSeeder::class
+            SecundariaSectorSeeder::class,
+            PlanEstudioGradoSeeder::class,
+            PlanEstudioTipoCarreraSeeder::class
         ]);
     }
 }
