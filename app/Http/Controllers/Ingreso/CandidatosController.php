@@ -58,6 +58,26 @@ class CandidatosController extends Controller
         return response()->json($query->get());
     }
 
+
+    /**
+     *
+     */
+    public function resumen(Request $request)
+    {
+        $query = DB::table('secundaria.data_bachillerato', 'A')
+            ->selectRaw('"A".departamento, "A".sexo, "A".sector, "A".opcion_bachillerato,
+                        count("A".nie) as candidatos, count("B".fecha_envio_correo) as invitados')
+            ->leftJoin('secundaria.invitacion as B', 'A.nie', '=', 'B.nie')
+            ->groupBy(
+                'A.departamento',
+                'A.sexo',
+                'A.sector',
+                'A.opcion_bachillerato',
+            );
+
+        return response()->json($query->get());
+    }
+
     public function invitacion(Request $request)
     {
         $nie = $request->get('nie');

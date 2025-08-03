@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import GraficoCandidatos from '@/components/ingreso/GraficoCandidatos.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
@@ -21,7 +22,7 @@ const form = ref({
 });
 
 const candidatos = ref([]);
-
+const tab = ref('option-1');
 const step = ref(1);
 const formChanged = ref(true);
 const props = defineProps<Props>();
@@ -107,152 +108,177 @@ const toggleSeleccion = (item: any) => {
         subtitulo="Estudiantes que son candidatos a estudiar en las carreras universitarias"
         icono="mdi-email-fast-outline"
     >
-        <v-form fast-fail @submit.prevent="getCandidatos">
-            <v-stepper
-                editable
-                :items="['Parámetros de agrupación', 'Selección de candidatos']"
-                v-model="step"
-                show-actions
-                prev-text="Anterior"
-                next-text="Continuar"
-                color="#333"
-                alt-labels
-            >
-                <template v-slot:item.1>
-                    <v-container fluid>
-                        <v-row>
-                            <v-col cols="6">
-                                <v-combobox
-                                    v-model="form.departamentos"
-                                    :items="props.departamentos"
-                                    item-title="departamento"
-                                    label="Departamento"
-                                    multiple
-                                    clearable
-                                >
-                                    <template v-slot:selection="data">
-                                        <v-chip size="small">
-                                            <template v-slot:prepend>
-                                                <v-avatar class="text-uppercase bg-blue" start>
-                                                    {{
-                                                        data.item.title
-                                                            .split(' ')
-                                                            .map((w) => w.charAt(0))
-                                                            .join('')
-                                                    }}
-                                                </v-avatar>
-                                            </template>
-                                            {{ data.item.title }}
-                                        </v-chip>
-                                    </template>
-                                </v-combobox>
-                            </v-col>
-                            <v-col cols="6">
-                                <v-combobox
-                                    v-model="form.opciones"
-                                    :items="props.opcionesBachillerato"
-                                    item-title="opcion"
-                                    label="Opciones de bachillerato"
-                                    multiple
-                                    clearable
-                                    chips
-                                    persistent-hint
-                                    hint="Si no elije ninguna opción, se mostrarán los candidatos para todos los tipos de bachillerato"
-                                >
-                                </v-combobox>
-                            </v-col>
-                        </v-row>
-                    </v-container>
-                </template>
-                <template v-slot:item.2>
-                    <v-card>
-                        <v-card-title class="d-flex align-center pe-2">
-                            <v-icon icon="mdi-format-list-text"></v-icon> &nbsp; Listado de candidatos
-                            <v-spacer></v-spacer>
+        <div class="d-flex flex-row">
+            <v-tabs v-model="tab" color="primary" direction="vertical">
+                <v-tab prepend-icon="mdi-chart-bar" text="Resumen" value="option-1"></v-tab>
+                <v-tab prepend-icon="mdi-list-status" text="Listado" value="option-2"></v-tab>
+            </v-tabs>
 
-                            <v-text-field
-                                v-model="search"
-                                density="compact"
-                                label="Buscar"
-                                prepend-inner-icon="mdi-magnify"
-                                variant="outlined"
-                                rounded="xl"
-                                flat
-                                hide-details
-                                single-line
-                            ></v-text-field>
-
-                            <v-btn
-                                icon="mdi-file-export-outline"
-                                color="primary"
-                                variant="tonal"
-                                class="ma-2"
-                                title="Exportar"
-                                @click="exportToExcel"
-                            ></v-btn>
-                        </v-card-title>
-
-                        <v-data-table
-                            v-model:search="search"
-                            :headers="headers"
-                            :items="candidatos"
-                            border="primary thin"
-                            class="w-100"
-                            multi-sort
-                            hover
-                            striped="odd"
-                        >
-                            <template v-slot:item.row_number="{ index }">
-                                {{ index + 1 }}
-                            </template>
-                            <template v-slot:item.primer_nombre="{ item }">
-                                <div class="d-flex ga-2">
-                                    {{ nombreCompleto(item) }}
-                                </div>
-                            </template>
-                            <template v-slot:item.invitado="{ item }">
-                                <v-checkbox-btn v-model="item.invitado" :ripple="false" @click="toggleSeleccion(item)"></v-checkbox-btn>
-                            </template>
-                        </v-data-table>
+            <v-tabs-window v-model="tab" class="w-full">
+                <v-tabs-window-item value="option-1">
+                    <v-card flat>
+                        <v-card-text> <GraficoCandidatos /> </v-card-text>
                     </v-card>
-                </template>
-                <template v-slot:next></template>
-                <template v-slot:prev>
-                    <v-row justify="start">
-                        <v-col cols="auto">
-                            <v-btn
-                                @click="step--"
-                                :disabled="step == 1"
-                                rounded
-                                variant="tonal"
-                                color="blue-darken-4"
-                                prepend-icon="mdi-arrow-left-bold"
-                            >
-                                <template v-slot:prepend>
-                                    <v-icon color="success"></v-icon>
-                                </template>
-                                Atrás
-                            </v-btn>
-                        </v-col>
+                </v-tabs-window-item>
 
-                        <v-col cols="auto">
-                            <v-btn
-                                @click="step++"
-                                :disabled="step != 1"
-                                rounded
-                                variant="tonal"
-                                color="blue-darken-4"
-                                append-icon="mdi-arrow-right-bold"
-                            >
-                                <template v-slot:append>
-                                    <v-icon color="success"></v-icon>
-                                </template>
-                                Siguiente
-                            </v-btn>
-                        </v-col>
-                    </v-row>
-                </template>
-            </v-stepper>
-        </v-form>
+                <v-tabs-window-item value="option-2">
+                    <v-card flat>
+                        <v-card-text>
+                            <v-form fast-fail @submit.prevent="getCandidatos">
+                                <v-stepper
+                                    editable
+                                    :items="['Parámetros de agrupación', 'Selección de candidatos']"
+                                    v-model="step"
+                                    show-actions
+                                    prev-text="Anterior"
+                                    next-text="Continuar"
+                                    color="#333"
+                                    alt-labels
+                                >
+                                    <template v-slot:item.1>
+                                        <v-container fluid>
+                                            <v-row>
+                                                <v-col cols="6">
+                                                    <v-combobox
+                                                        v-model="form.departamentos"
+                                                        :items="props.departamentos"
+                                                        item-title="departamento"
+                                                        label="Departamento"
+                                                        multiple
+                                                        clearable
+                                                    >
+                                                        <template v-slot:selection="data">
+                                                            <v-chip size="small">
+                                                                <template v-slot:prepend>
+                                                                    <v-avatar class="text-uppercase bg-blue" start>
+                                                                        {{
+                                                                            data.item.title
+                                                                                .split(' ')
+                                                                                .map((w) => w.charAt(0))
+                                                                                .join('')
+                                                                        }}
+                                                                    </v-avatar>
+                                                                </template>
+                                                                {{ data.item.title }}
+                                                            </v-chip>
+                                                        </template>
+                                                    </v-combobox>
+                                                </v-col>
+                                                <v-col cols="6">
+                                                    <v-combobox
+                                                        v-model="form.opciones"
+                                                        :items="props.opcionesBachillerato"
+                                                        item-title="opcion"
+                                                        label="Opciones de bachillerato"
+                                                        multiple
+                                                        clearable
+                                                        chips
+                                                        persistent-hint
+                                                        hint="Si no elije ninguna opción, se mostrarán los candidatos para todos los tipos de bachillerato"
+                                                    >
+                                                    </v-combobox>
+                                                </v-col>
+                                            </v-row>
+                                        </v-container>
+                                    </template>
+                                    <template v-slot:item.2>
+                                        <v-card>
+                                            <v-card-title class="d-flex align-center pe-2">
+                                                <v-icon icon="mdi-format-list-text"></v-icon> &nbsp; Listado de candidatos
+                                                <v-spacer></v-spacer>
+
+                                                <v-text-field
+                                                    v-model="search"
+                                                    density="compact"
+                                                    label="Buscar"
+                                                    prepend-inner-icon="mdi-magnify"
+                                                    variant="outlined"
+                                                    rounded="xl"
+                                                    flat
+                                                    hide-details
+                                                    single-line
+                                                ></v-text-field>
+
+                                                <v-btn
+                                                    icon="mdi-file-export-outline"
+                                                    color="primary"
+                                                    variant="tonal"
+                                                    class="ma-2"
+                                                    title="Exportar"
+                                                    @click="exportToExcel"
+                                                ></v-btn>
+                                            </v-card-title>
+
+                                            <v-data-table
+                                                v-model:search="search"
+                                                :headers="headers"
+                                                :items="candidatos"
+                                                border="primary thin"
+                                                class="w-100"
+                                                multi-sort
+                                                hover
+                                                striped="odd"
+                                            >
+                                                <template v-slot:item.row_number="{ index }">
+                                                    {{ index + 1 }}
+                                                </template>
+                                                <template v-slot:item.primer_nombre="{ item }">
+                                                    <div class="d-flex ga-2">
+                                                        {{ nombreCompleto(item) }}
+                                                    </div>
+                                                </template>
+                                                <template v-slot:item.invitado="{ item }">
+                                                    <v-checkbox-btn
+                                                        v-model="item.invitado"
+                                                        :ripple="false"
+                                                        @click="toggleSeleccion(item)"
+                                                    ></v-checkbox-btn>
+                                                </template>
+                                            </v-data-table>
+                                        </v-card>
+                                    </template>
+                                    <template v-slot:next></template>
+                                    <template v-slot:prev>
+                                        <v-row justify="start">
+                                            <v-col cols="auto">
+                                                <v-btn
+                                                    @click="step--"
+                                                    :disabled="step == 1"
+                                                    rounded
+                                                    variant="tonal"
+                                                    color="blue-darken-4"
+                                                    prepend-icon="mdi-arrow-left-bold"
+                                                >
+                                                    <template v-slot:prepend>
+                                                        <v-icon color="success"></v-icon>
+                                                    </template>
+                                                    Atrás
+                                                </v-btn>
+                                            </v-col>
+
+                                            <v-col cols="auto">
+                                                <v-btn
+                                                    @click="step++"
+                                                    :disabled="step != 1"
+                                                    rounded
+                                                    variant="tonal"
+                                                    color="blue-darken-4"
+                                                    append-icon="mdi-arrow-right-bold"
+                                                >
+                                                    <template v-slot:append>
+                                                        <v-icon color="success"></v-icon>
+                                                    </template>
+                                                    Siguiente
+                                                </v-btn>
+                                            </v-col>
+                                        </v-row>
+                                    </template>
+                                </v-stepper>
+                            </v-form>
+                        </v-card-text>
+                    </v-card>
+                </v-tabs-window-item>
+            </v-tabs-window>
+        </div>
     </AppLayout>
 </template>

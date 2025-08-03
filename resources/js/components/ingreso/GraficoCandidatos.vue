@@ -1,37 +1,25 @@
 <template>
     <div class="p-4">
-        <h2 class="mb-4 text-xl font-bold">Tabla pivote con filtros y gráfico</h2>
+        <!-- <h2 class="mb-4 text-xl font-bold">Tabla pivote con filtros y gráfico</h2>-->
 
         <!-- Selectores principales -->
-        <div class="mb-4 flex flex-wrap gap-4">
-            <div>
-                <label class="block font-semibold">Fila (row):</label>
-                <select v-model="rowKey" class="rounded border p-1">
-                    <option disabled value="">-- Seleccionar --</option>
-                    <option v-for="col in columns" :key="col" :value="col">{{ col }}</option>
-                </select>
-            </div>
+        <div class="mb-4 flex">
+            <v-select v-model="rowKey" label="Fila" :items="columns"></v-select>
 
-            <div>
-                <label class="block font-semibold">Columna (column):</label>
-                <select v-model="colKey" class="rounded border p-1">
-                    <option disabled value="">-- Seleccionar --</option>
-                    <option v-for="col in columns" :key="col" :value="col" :disabled="col === rowKey">
-                        {{ col }}
-                    </option>
-                </select>
-            </div>
+            <v-select v-model="colKey" label="Columna" :items="columns"></v-select>
 
-            <div>
-                <label class="block font-semibold">Tipo de gráfico:</label>
-                <select v-model="chartType" class="rounded border p-1">
-                    <option value="heatmap">Heatmap</option>
-                    <option value="bar">Barras</option>
-                    <option value="line">Líneas</option>
-                </select>
-            </div>
+            <v-select
+                v-model="chartType"
+                label="Tipo de visualizaicón"
+                item-title="label"
+                :items="[
+                    { value: 'bar', label: 'Barras' },
+                    { value: 'line', label: 'Líneas' },
+                    { value: 'tabla', label: 'Tabla de datos' },
+                ]"
+            ></v-select>
         </div>
-        <div>
+        <!--<div>
             <label class="block font-semibold">Campo numérico:</label>
             <select v-model="metricField" class="rounded border p-1">
                 <option disabled value="">-- Seleccionar --</option>
@@ -48,23 +36,25 @@
                 <option value="count">Conteo</option>
                 <option value="avg">Promedio</option>
             </select>
-        </div>
-
+        </div>-->
+        Filtros
+        <v-divider class="border-opacity-100" color="info" :thickness="4"></v-divider>
         <!-- Filtros adicionales -->
-        <div v-if="filterableFields.length" class="mb-4 flex flex-wrap gap-4">
-            <div v-for="field in filterableFields" :key="field" class="flex flex-col">
-                <label class="font-semibold">{{ field }}</label>
-                <select v-model="filters[field]" class="rounded border p-1">
+        <v-row v-if="filterableFields.length">
+            <v-col v-for="field in filterableFields" :key="field">
+                <v-select v-model="filters[field]" :items="getUniqueValues(field)" :label="field" clearable multiple></v-select>
+                <!--<label class="font-semibold">{{ field }}</label>
+                <select v-model="filters[field]" class="rounded border p-1" multiple>
                     <option value="">(Todos)</option>
                     <option v-for="val in getUniqueValues(field)" :key="val" :value="val">
                         {{ val }}
                     </option>
-                </select>
-            </div>
-        </div>
+                </select>-->
+            </v-col>
+        </v-row>
 
         <!-- Tabla pivote -->
-        <table class="mb-6 table-auto border-collapse border border-gray-400">
+        <table v-show="chartType == 'tabla'" class="w-full">
             <thead>
                 <tr>
                     <th class="border border-gray-400 px-2 py-1">{{ rowKey }}</th>
@@ -84,47 +74,52 @@
         </table>
 
         <!-- Gráfico -->
-        <div ref="plotlyContainer" class="mx-auto w-full max-w-3xl"></div>
+        <div v-show="chartType != 'tabla'" ref="plotlyContainer" class="mx-auto w-full"></div>
     </div>
 </template>
 
-<script setup>
+<script setup lang="ts">
+import axios from 'axios';
 import Plotly from 'plotly.js-dist-min';
+
 import { computed, onMounted, ref, watch } from 'vue';
 
 // 🔸 Datos de ejemplo
-const data = [
-    { color: 'blue', shape: 'circle', count: 10, category: 'A' },
-    { color: 'red', shape: 'triangle', count: 20, category: 'B' },
-    { color: 'blue', shape: 'triangle', count: 15, category: 'A' },
-    { color: 'red', shape: 'circle', count: 5, category: 'B' },
-    { color: 'blue', shape: 'circle', count: 8, category: 'A' },
-    { color: 'red', shape: 'circle', count: 12, category: 'A' },
-];
+const data = ref([]);
 
 // 🔹 Variables reactivas
-const columns = Object.keys(data[0]);
-const rowKey = ref('color');
-const colKey = ref('shape');
-const chartType = ref('heatmap');
+const rowKey = ref('sector');
+const colKey = ref('departamento');
+const chartType = ref('bar');
 // Selector de campo métrico y operación
-const metricField = ref('count');
+const metricField = ref('candidatos');
 const aggregation = ref('sum');
 
 // 🔹 Filtros dinámicos
 const filters = ref({});
 
 // 🔹 Campos filtrables (no usados como row ni col)
-const filterableFields = computed(() => columns.filter((c) => c !== rowKey.value && c !== colKey.value && c !== 'count'));
+const filterableFields = computed(() =>
+    columns.value.filter((c) => c !== rowKey.value && c !== colKey.value && c !== 'invitados' && c !== 'candidatos'),
+);
 
 // 🔹 Valores únicos por campo
 function getUniqueValues(field) {
-    return [...new Set(data.map((item) => item[field]))];
+    return [...new Set(data.value.map((item) => item[field]))];
 }
 
 // 🔹 Datos filtrados según filtros activos
+const columns = computed(() => {
+    if (data.value.length > 0) {
+        return Object.keys(data.value[0]).filter((c) => c !== 'invitados' && c !== 'candidatos');
+    } else {
+        return [];
+    }
+});
 const filteredData = computed(() => {
-    return data.filter((item) => Object.entries(filters.value).every(([field, selected]) => (selected ? item[field] === selected : true)));
+    return data.value.filter((item) =>
+        Object.entries(filters.value).every(([field, selected]) => (selected && !selected.length == 0 ? selected.includes(item[field]) : true)),
+    );
 });
 
 // 🔹 Valores únicos de fila y columna
@@ -132,7 +127,7 @@ const uniqueRowValues = computed(() => [...new Set(filteredData.value.map((item)
 const uniqueColValues = computed(() => [...new Set(filteredData.value.map((item) => item[colKey.value]))]);
 
 // Detectar campos numéricos
-const numericFields = columns.filter((c) => typeof data.find((item) => typeof item[c] === 'number') !== 'undefined');
+const numericFields = columns.value.filter((c) => typeof data.value.find((item) => typeof item[c] === 'number') !== 'undefined');
 
 // Calcular valor por celda con la métrica seleccionada
 function getCellValue(rowVal, colVal) {
@@ -156,40 +151,55 @@ function getCellValue(rowVal, colVal) {
 const plotlyContainer = ref();
 
 function renderChart() {
-    const z = uniqueRowValues.value.map((row) => uniqueColValues.value.map((col) => getCellValue(row, col)));
+    if (chartType.value != 'tabla') {
+        const z = uniqueRowValues.value.map((row) => uniqueColValues.value.map((col) => getCellValue(row, col)));
 
-    let traces = [];
-    const layout = {
-        title: `Gráfico: ${chartType.value}`,
-        xaxis: { title: colKey.value },
-        yaxis: { title: rowKey.value },
-        margin: { t: 40 },
-    };
+        let traces = [];
+        const layout = {
+            title: `Candidatos`,
+            xaxis: { title: colKey.value },
+            yaxis: { title: rowKey.value },
+            margin: { t: 40 },
+        };
 
-    if (chartType.value === 'heatmap') {
-        traces = [
-            {
-                z,
+        if (chartType.value === 'heatmap') {
+            traces = [
+                {
+                    z,
+                    x: uniqueColValues.value,
+                    y: uniqueRowValues.value,
+                    type: 'heatmap',
+                    colorscale: 'YlGnBu',
+                },
+            ];
+        } else {
+            traces = uniqueRowValues.value.map((row, i) => ({
                 x: uniqueColValues.value,
-                y: uniqueRowValues.value,
-                type: 'heatmap',
-                colorscale: 'YlGnBu',
-            },
-        ];
-    } else {
-        traces = uniqueRowValues.value.map((row, i) => ({
-            x: uniqueColValues.value,
-            y: uniqueColValues.value.map((col) => z[i][uniqueColValues.value.indexOf(col)]),
-            type: chartType.value,
-            name: row,
-        }));
-    }
+                y: uniqueColValues.value.map((col) => z[i][uniqueColValues.value.indexOf(col)]),
+                type: chartType.value,
+                name: row,
+            }));
+        }
 
-    Plotly.newPlot(plotlyContainer.value, traces, layout, { responsive: true });
+        Plotly.newPlot(plotlyContainer.value, traces, layout, { responsive: true });
+    }
+}
+
+async function getResumenCandidatos() {
+    data.value = [];
+    try {
+        const response = await axios.get(route('ingreso-bachillerato-candidatos-resumen'));
+        data.value = response.data;
+        renderChart();
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 // 🔹 Actualizar al cambiar parámetros
 watch([rowKey, colKey, chartType, filters, aggregation, metricField], renderChart, { deep: true });
 
-onMounted(renderChart);
+onMounted(() => {
+    getResumenCandidatos();
+});
 </script>
