@@ -45,18 +45,10 @@ const moduloActual = ref<Modulo>(modulos[0]);
 
 const handleLogout = () => {
     router.flushAll();
-    localStorage.removeItem('active_app_tabs');
 };
 
-const emit = defineEmits<{
-    loadComponent: [component: string];
-}>();
-
 const handleLinkClick = (hrefName: string) => {
-    //router.get(route(hrefName), {}, { preserveState: true, preserveScroll: false });
-
-    const componentName = hrefName.replaceAll('-', '');
-    emit('loadComponent', componentName);
+    router.get(route(hrefName), {}, { preserveState: true, preserveScroll: true });
 };
 
 watch(group, () => {
@@ -75,7 +67,6 @@ const props = withDefaults(defineProps<Props>(), {
     <v-responsive>
         <v-app>
             <v-navigation-drawer
-                :permanent="isFirstTab"
                 :expand-on-hover="drawer"
                 :rail="drawer"
                 :location="$vuetify.display.mobile ? 'bottom' : undefined"

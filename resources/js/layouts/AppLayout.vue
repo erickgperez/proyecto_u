@@ -18,7 +18,7 @@ withDefaults(defineProps<Props>(), {
 </script>
 
 <template>
-    <AppSidebarLayout :isFirstTab="true" :breadcrumbs="breadcrumbs" :activeTab="activeTab" :titulo="titulo" :subtitulo="subtitulo" :icono="icono">
+    <AppSidebarLayout :breadcrumbs="breadcrumbs" :titulo="titulo" :subtitulo="subtitulo" :icono="icono">
         <slot />
     </AppSidebarLayout>
 </template>
