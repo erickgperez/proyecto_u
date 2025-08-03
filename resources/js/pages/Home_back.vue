@@ -10,7 +10,7 @@ const InformeExample = defineAsyncComponent(() => import('@/pages/InformeExample
 const ProfileContent = defineAsyncComponent(() => import('@/pages/settings/Profile.vue'));
 const DashboardContent = defineAsyncComponent(() => import('@/pages/Dashboard.vue'));
 const IngresoBachilleratoCargarArchivo = defineAsyncComponent(() => import('@/pages/ingreso/CargarDatosBachillerato.vue'));
-const SeleccionCandidatos = defineAsyncComponent(() => import('@/pages/ingreso/SeleccionCandidatos.vue'));
+const Candidatos = defineAsyncComponent(() => import('@/pages/ingreso/Candidatos.vue'));
 
 // Los componentes que pueden ser cargados dinamicamente
 const tabsComponent = markRaw({
@@ -19,7 +19,7 @@ const tabsComponent = markRaw({
     informeExample: InformeExample,
     crudExample: CrudExample,
     ingresoBachilleratoCargarArchivo: IngresoBachilleratoCargarArchivo,
-    seleccionCandidatos: SeleccionCandidatos,
+    candidatos: Candidatos,
 });
 
 const breadcrumbs: BreadcrumbItem[] = [

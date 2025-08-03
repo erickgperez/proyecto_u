@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { BreadcrumbItemType } from '@/types';
 import { Link, router } from '@inertiajs/vue3';
-import { onMounted, ref, watch } from 'vue';
+import { ref, watch } from 'vue';
 
 import { type User } from '@/types';
 import { usePage } from '@inertiajs/vue3';
@@ -10,13 +10,11 @@ const user = page.props.auth.user as User;
 
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
-    activeTab?: string;
-    isFirstTab?: boolean;
     titulo?: string;
     subtitulo?: string;
     icono?: string;
 }
-const drawer = ref(true);
+const drawer = ref(false);
 const group = ref(null);
 
 const menu = ref(false);
@@ -67,15 +65,9 @@ watch(group, () => {
 
 const props = withDefaults(defineProps<Props>(), {
     breadcrumbs: () => [],
-    activeTab: () => 'tab1',
-    isFirstTab: () => true,
     titulo: () => '',
     subtitulo: () => '',
     icono: () => '',
-});
-
-onMounted(() => {
-    drawer.value = !props.isFirstTab;
 });
 </script>
 
@@ -153,7 +145,7 @@ onMounted(() => {
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-account-star-outline"
-                                        title="Seleccionar candidatos"
+                                        title="Candidatos"
                                         :class="$page.url === '/ingreso/bachillerato/candidatos' ? 'bg-blue-lighten-4' : ''"
                                         @click="handleLinkClick('ingreso-bachillerato-candidatos')"
                                     >

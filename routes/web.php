@@ -35,9 +35,8 @@ Route::get('/ingreso/bachillerato/cargar-archivo', function () {
 
 Route::get('/c', function () {
     return Inertia::render('Home', [
-        'componente' => '',
-        'titulo' => '',
-    ]);
+        /*'componente' => '',
+        'titulo' => '',*/]);
 })->middleware(['auth', 'verified'])->name('close');
 
 require __DIR__ . '/settings.php';

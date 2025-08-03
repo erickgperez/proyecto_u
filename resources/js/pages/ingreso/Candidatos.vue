@@ -101,10 +101,10 @@ const toggleSeleccion = (item: any) => {
 </script>
 
 <template>
-    <Head title="Selección de candidatos"></Head>
+    <Head title="Candidatos"></Head>
     <AppLayout
-        titulo="Selección de candidatos"
-        subtitulo="Seleccione los estudiantes que serán invitados a participar en las carreras"
+        titulo="Candidatos"
+        subtitulo="Estudiantes que son candidatos a estudiar en las carreras universitarias"
         icono="mdi-email-fast-outline"
     >
         <v-form fast-fail @submit.prevent="getCandidatos">

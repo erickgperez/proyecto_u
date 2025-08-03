@@ -27,7 +27,7 @@ class CandidatosController extends Controller
             ->groupBy('opcion_bachillerato')
             ->get();
 
-        return Inertia::render('ingreso/SeleccionCandidatos', [
+        return Inertia::render('ingreso/Candidatos', [
             'status' => $request->session()->get('status'),
             //'componente' => 'seleccionCandidatos',            'titulo' => 'Seleccionar candidatos',
             'departamentos' => $departamentos,
