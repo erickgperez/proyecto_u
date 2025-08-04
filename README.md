@@ -49,3 +49,24 @@ DB_PASSWORD=clavedb
 `composer run dev`
 
 Cargar el sitio en el navegador, verificar el puerto en que se ejecutó, por ejemplo: <http://127.0.0.1:8000>
+
+## Configuración extra
+
+Definir el nombre de la aplicación en el archivo .env
+
+```
+APP_NAME='Nombre Aplicación'
+```
+
+Configurar los parámetros para el envío de correos
+
+```
+MAIL_MAILER=log
+MAIL_SCHEME=null
+MAIL_HOST=127.0.0.1
+MAIL_PORT=2525
+MAIL_USERNAME=null
+MAIL_PASSWORD=null
+MAIL_FROM_ADDRESS="info@sistec.edu.sv"
+MAIL_FROM_NAME="${APP_NAME}"
+```

@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CandidatoInvitado;
+use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\Invitacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Mail;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -84,18 +87,20 @@ class CandidatosController extends Controller
         $invitado = $request->get('invitado');
         // Buscar la invitacion
         $invitacion = Invitacion::where('nie', $nie)->first();
-        if ($invitacion) {
-            //Actualizar la invitación
-            echo 1;
-        } else {
-            //Crear la invitación
-            if ($invitado) {
-                Invitacion::create([
-                    'nie' => $nie,
-                    'codigo' => chr(rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999),
-                    'invitado' => true
-                ]);
-            }
+        $bachiller = DataBachillerato::where('nie', $nie)->first();
+        if (!$invitacion && $invitado) {
+            $invitacion = Invitacion::create([
+                'nie' => $nie,
+                'codigo' => chr(rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999),
+                'invitado' => true
+            ]);
+        }
+        if ($bachiller->correo) {
+            // Enviar correo
+            Mail::to($bachiller->correo)->send(
+                new CandidatoInvitado($bachiller)
+            );
+            $invitacion->fecha_envio_correo = new \DateTime();
         }
 
         return response()->json(['message' => 'Cambio realizado']);
