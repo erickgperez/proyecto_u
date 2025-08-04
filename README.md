@@ -70,3 +70,10 @@ MAIL_PASSWORD=null
 MAIL_FROM_ADDRESS="info@sistec.edu.sv"
 MAIL_FROM_NAME="${APP_NAME}"
 ```
+
+Verificar que se están leyendo los trabajos de las colas, se recomienda configurar alguna utilidad
+como `supervisor` para que verifique que siempre se estén leyendo las colas
+
+```
+php artisan queue:work
+```
