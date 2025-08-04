@@ -97,7 +97,7 @@ class CandidatosController extends Controller
         }
         if ($bachiller->correo) {
             // Enviar correo
-            Mail::to($bachiller->correo)->send(
+            Mail::to($bachiller->correo)->queue(
                 new CandidatoInvitado($bachiller)
             );
             $invitacion->fecha_envio_correo = new \DateTime();
