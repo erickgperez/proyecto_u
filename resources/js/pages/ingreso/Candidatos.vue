@@ -4,7 +4,8 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
-import { ref, watch } from 'vue';
+import Swal from 'sweetalert2';
+import { nextTick, ref, watch } from 'vue';
 import * as XLSX from 'xlsx';
 
 interface Departamento {
@@ -34,11 +35,11 @@ const headers = [
     { title: 'Estudiante', key: 'primer_nombre' },
     { title: 'Correo', key: 'correo' },
     { title: 'Sexo', key: 'sexo' },
-    { title: 'Edad', key: 'edad', align: 'end' },
+    //{ title: 'Edad', key: 'edad', align: 'end' },
     { title: 'Sector', key: 'sector' },
     { title: 'Centro Educativo', key: 'nombre_centro_educativo' },
     { title: 'Opción', key: 'opcion_bachillerato' },
-    { title: 'Seleccionar', key: 'invitado', align: 'end', sortable: false },
+    { title: 'Invitar', key: 'invitado', align: 'end', sortable: false },
 ];
 
 //const sortBy = [];
@@ -86,19 +87,59 @@ const nombreCompleto = (item: any) => {
 
 const toggleSeleccion = (item: any) => {
     item.invitado = !item.invitado;
-    console.log(item);
-    axios
-        .patch(route('ingreso-bachillerato-candidato-invitacion'), {
-            nie: item.nie,
-            invitado: item.invitado,
-        })
-        .then(function (response) {
-            console.log(response);
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
+
+    axios.patch(route('ingreso-bachillerato-candidato-save-field'), {
+        nie: item.nie,
+        invitado: item.invitado,
+        campo: 'invitado',
+    });
 };
+
+const editedItem = ref(null);
+const editField = ref(null);
+
+function startEditing(item: any) {
+    editedItem.value = { ...item }; // copia
+
+    // Esperar al próximo ciclo para que el input esté montado
+    nextTick(() => {
+        if (editField.value) {
+            editField.value.focus();
+        }
+    });
+}
+
+function saveItem(campo: string) {
+    const valid = ref(true);
+
+    if (campo === 'correo' && editedItem.value && editedItem.value.correo !== null && editedItem.value.correo !== '') {
+        //validar el correo
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        valid.value = emailRegex.test(editedItem.value.correo);
+    }
+    if (valid.value) {
+        const index = candidatos.value.findIndex((i) => i.nie === editedItem.value.nie);
+        if (index !== -1) {
+            candidatos.value[index] = { ...editedItem.value };
+
+            axios.patch(route('ingreso-bachillerato-candidato-save-field'), {
+                nie: editedItem.value.nie,
+                correo: editedItem.value.correo,
+                campo: 'correo',
+            });
+        }
+        editedItem.value = null;
+    } else {
+        Swal.fire({
+            title: 'Error',
+            position: 'top-end',
+            text: 'Dirección de correo no válida',
+            icon: 'error',
+            showConfirmButton: false,
+            timer: 1500,
+        });
+    }
+}
 </script>
 
 <template>
@@ -223,12 +264,36 @@ const toggleSeleccion = (item: any) => {
                                                     {{ index + 1 }}
                                                 </template>
                                                 <template v-slot:item.primer_nombre="{ item }">
-                                                    <div class="d-flex ga-2">
-                                                        {{ nombreCompleto(item) }}
+                                                    {{ nombreCompleto(item) }}
+                                                </template>
+                                                <template v-slot:item.correo="{ item }">
+                                                    <div v-if="editedItem?.nie === item.nie">
+                                                        <v-text-field
+                                                            v-model="editedItem.correo"
+                                                            ref="editField"
+                                                            type="email"
+                                                            hide-details
+                                                            @keyup.enter="saveItem('correo')"
+                                                            @blur="saveItem('correo')"
+                                                            @keydown.esc="editedItem = null"
+                                                        />
+                                                    </div>
+                                                    <div v-else-if="item.correo != null && item.correo != ''" @dblclick="startEditing(item)">
+                                                        {{ item.correo }}
+                                                    </div>
+                                                    <div v-else class="justify-end">
+                                                        <v-btn
+                                                            color="indigo"
+                                                            icon="mdi-email-plus-outline"
+                                                            size="small"
+                                                            title="Agregar dirección de correo electrónico"
+                                                            @click="startEditing(item)"
+                                                        />
                                                     </div>
                                                 </template>
                                                 <template v-slot:item.invitado="{ item }">
                                                     <v-checkbox-btn
+                                                        v-if="item.correo != null"
                                                         v-model="item.invitado"
                                                         :ripple="false"
                                                         @click="toggleSeleccion(item)"

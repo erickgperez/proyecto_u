@@ -81,26 +81,38 @@ class CandidatosController extends Controller
         return response()->json($query->get());
     }
 
-    public function invitacion(Request $request)
+    public function saveField(Request $request)
     {
         $nie = $request->get('nie');
-        $invitado = $request->get('invitado');
-        // Buscar la invitacion
-        $invitacion = Invitacion::where('nie', $nie)->first();
+        $campo = $request->get('campo');
+
+
+
         $bachiller = DataBachillerato::where('nie', $nie)->first();
-        if (!$invitacion && $invitado) {
-            $invitacion = Invitacion::create([
-                'nie' => $nie,
-                'codigo' => chr(rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999),
-                'invitado' => true
-            ]);
-        }
-        if ($bachiller->correo) {
-            // Enviar correo
-            Mail::to($bachiller->correo)->queue(
-                new CandidatoInvitado($bachiller)
-            );
-            $invitacion->fecha_envio_correo = new \DateTime();
+
+        if ($campo == 'invitado') {
+            $invitado = $request->get('invitado');
+            // Buscar la invitacion
+            $invitacion = Invitacion::where('nie', $nie)->first();
+            if (!$invitacion && $invitado) {
+                $invitacion = Invitacion::create([
+                    'nie' => $nie,
+                    'codigo' => chr(rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999),
+                    'invitado' => true
+                ]);
+            }
+            if ($bachiller->correo) {
+                // Enviar correo
+                Mail::to($bachiller->correo)->queue(
+                    new CandidatoInvitado($bachiller)
+                );
+                $invitacion->fecha_envio_correo = new \DateTime();
+            }
+        } elseif ($campo == 'correo') {
+            $correo = $request->get('correo');
+            $bachiller->correo = $correo;
+
+            $bachiller->save();
         }
 
         return response()->json(['message' => 'Cambio realizado']);
