@@ -11,5 +11,6 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/ingreso/bachillerato/candidatos', [CandidatosController::class, 'index'])->name('ingreso-bachillerato-candidatos');
     Route::post('/ingreso/bachillerato/candidatos/listado', [CandidatosController::class, 'listado'])->name('ingreso-bachillerato-candidatos-listado');
     Route::get('/ingreso/bachillerato/candidatos/resumen', [CandidatosController::class, 'resumen'])->name('ingreso-bachillerato-candidatos-resumen');
+    Route::post('/ingreso/bachillerato/candidatos/invitaciones', [CandidatosController::class, 'invitaciones'])->name('ingreso-bachillerato-candidatos-invitaciones');
     Route::patch('/ingreso/bachillerato/candidato/save/field', [CandidatosController::class, 'saveField'])->name('ingreso-bachillerato-candidato-save-field');
 });

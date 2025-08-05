@@ -117,4 +117,38 @@ class CandidatosController extends Controller
 
         return response()->json(['message' => 'Cambio realizado']);
     }
+
+    public function invitaciones(Request $request)
+    {
+        $tipoEnvio = $request->get('tipoEnvio');
+        $tipoInvitacion = $request->get('tipoInvitacion');
+
+        $query = DataBachillerato::from('secundaria.data_bachillerato as A')
+            ->select('A.*', 'B.invitado', 'B.fecha_envio_correo', 'B.fecha_aceptacion', 'B.created_at as fecha_invitacion')
+            ->leftJoin('secundaria.invitacion as B', 'A.nie', '=', 'B.nie')
+            ->whereNotNull('A.correo');
+
+        $bachilleres = [];
+        if ($tipoEnvio === 'todos') {
+            $bachilleres = $query->get();
+        }
+
+        foreach ($bachilleres as $bachiller) {
+            $nie = $bachiller->nie;
+            $invitacion = Invitacion::firstOrCreate([
+                'nie' => $nie,
+                'codigo' => chr(rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999),
+                'invitado' => true
+            ]);
+            if ($invitacion->fecha_envio_correo === null || $tipoInvitacion === 'reenvio') {
+                Mail::to($bachiller->correo)->queue(
+                    new CandidatoInvitado($bachiller)
+                );
+                $invitacion->fecha_envio_correo = new \DateTime();
+            }
+        }
+
+
+        return response()->json(['message' => 'Envios realizados']);
+    }
 }

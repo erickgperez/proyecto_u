@@ -15,17 +15,6 @@ import 'vuetify/styles';
 // Register Vuetify as plugin
 const vuetify = createVuetify();
 
-/*
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
-import 'vuetify/styles';
-
-const vuetify = createVuetify({
-    components,
-    directives,
-}); */
-
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
 createInertiaApp({
