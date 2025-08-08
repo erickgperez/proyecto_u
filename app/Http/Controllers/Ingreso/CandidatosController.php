@@ -128,24 +128,27 @@ class CandidatosController extends Controller
             ->leftJoin('secundaria.invitacion as B', 'A.nie', '=', 'B.nie')
             ->whereNotNull('A.correo');
 
-        $bachilleres = [];
-        if ($tipoEnvio === 'todos') {
-            $bachilleres = $query->get();
+
+        if ($tipoInvitacion === 'nuevo') {
+            //Solo los que no tengan fecha de envío de correo
+            $query->whereNull('fecha_envio_correo');
         }
 
+        $bachilleres = $query->get();
         foreach ($bachilleres as $bachiller) {
             $nie = $bachiller->nie;
             $invitacion = Invitacion::firstOrCreate([
-                'nie' => $nie,
-                'codigo' => chr(rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999),
-                'invitado' => true
+                'nie' => $nie
             ]);
-            if ($invitacion->fecha_envio_correo === null || $tipoInvitacion === 'reenvio') {
-                Mail::to($bachiller->correo)->queue(
-                    new CandidatoInvitado($bachiller)
-                );
-                $invitacion->fecha_envio_correo = new \DateTime();
-            }
+
+            $invitacion->codigo = (rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999);
+            $invitacion->invitado = true;
+            Mail::to($bachiller->correo)->queue(
+                new CandidatoInvitado($bachiller)
+            );
+            $invitacion->fecha_envio_correo = new \DateTime();
+
+            $invitacion->save();
         }
 
 
