@@ -61,4 +61,10 @@ RUN mkdir -p /usr/src/php/ext/redis \
 
 USER laravel
 
-CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]
+# Expose PHP-FPM port
+EXPOSE 9000
+
+# Start PHP-FPM
+CMD ["php-fpm"]
+
+#CMD ["php-fpm", "-y", "/usr/local/etc/php-fpm.conf", "-R"]

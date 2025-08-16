@@ -31,7 +31,7 @@ Abrir/crear el archivo `.env` y adecuar los valores
 
 ```
 DB_CONNECTION=pgsql
-DB_HOST=postgresql #para uso con docker
+DB_HOST=db #para uso con docker
 DB_PORT=5432
 DB_DATABASE=usuariodb
 DB_USERNAME=proyectodb
@@ -57,17 +57,12 @@ Active los contenedores para el servidor web, ejecutando
 
 `docker compose run --rm artisan migrate:fresh --seed --force`
 
-## Iniciar el servidor
+## Acceder
 
-Desarrollo
-`docker compose run --rm --service-ports npm run dev`
+Entrar a <http://localhost:8080>
 
 Producción
-`docker compose run --rm npm run build`
-
-Cargar el sitio en el navegador
-
-`http:\\localhost`
+`docker compose run --rm vite npm run build`
 
 ## Configuración extra
 
