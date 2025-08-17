@@ -12,10 +12,15 @@ export default defineConfig({
         },
         hmr: {
             host: 'localhost', // Or the IP of your Docker host
+            //protocol: 'wss',
         },
         host: '0.0.0.0', // Listen on all interfaces
         port: 5173,
         strictPort: true,
+        /*https: {
+            key: '/var/www/html/docker/nginx/ssl/localhost.key',
+            cert: '/var/www/html/docker/nginx/ssl/localhost.crt',
+        },*/
     },
     plugins: [
         laravel({

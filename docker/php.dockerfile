@@ -53,10 +53,10 @@ RUN mkdir -p /usr/src/php/ext/redis \
     && echo 'redis' >> /usr/src/php-available-exts \
     && docker-php-ext-install redis
 
-#COPY ./dockerfiles/configs/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
+#COPY ./dockerfiles/config/opcache.ini /usr/local/etc/php/conf.d/opcache.ini
 
 # Copy Supervisor configuration
-#COPY ./dockerfiles/configs/supervisord.conf /etc/supervisord.conf
+#COPY ./dockerfiles/config/supervisord.conf /etc/supervisord.conf
 
 
 USER laravel

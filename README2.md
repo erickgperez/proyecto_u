@@ -15,11 +15,12 @@ Despues de clonar entrar al directorio en que se clonó el proyecto
 
 crear un certificado autofirmado para el servidor nginx (solo para desarrollo, para producción use un certificado real)
 
-`mkdir ./ssl/certs`
-
-`mkdir ./ssl/private`
-
-`openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout ./ssl/private/localhost.key -out ./ssl/certs/localhost.crt -config ./ssl/localhost.conf`
+```
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 \
+  -keyout docker/nginx/ssl/localhost.key \
+  -out docker/nginx/ssl/localhost.crt \
+  -subj "/CN=localhost"
+```
 
 ## Copiar el archivo de variables de entorno
 
@@ -59,7 +60,9 @@ Active los contenedores para el servidor web, ejecutando
 
 ## Acceder
 
-Entrar a <http://localhost:8080>
+Entrar a <http://localhost:8433>
+
+El navegador dará una advertencia de “sitio no seguro” porque es un certificado autofirmado, pero funcionará al agregar la excepción de seguridad.
 
 Producción
 `docker compose run --rm vite npm run build`
