@@ -38,7 +38,9 @@ class UploadFileController extends Controller
 
         $path = $request->file('archivo')->store('imports');
 
-        DB::delete('delete from secundaria.data_bachillerato');
+        if ($request->get('tipoCarga') === 'nueva') {
+            DB::delete('delete from secundaria.data_bachillerato');
+        }
 
         Excel::import(new BachilleratoImport, $path);
 

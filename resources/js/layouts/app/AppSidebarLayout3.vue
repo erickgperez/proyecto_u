@@ -115,11 +115,11 @@ const props = withDefaults(defineProps<Props>(), {
                     </Link>
                     <v-list-item
                         v-if="moduloActual.codigo == 'ingreso-universitario'"
-                        prepend-icon="mdi-town-hall"
+                        prepend-icon="mdi-bulletin-board"
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
                     >
-                        Bachillerato
+                        Convocatoria
                         <v-menu activator="parent">
                             <v-list class="bg-blue-grey-darken-2">
                                 <Link :href="route('ingreso-bachillerato-cargar-archivo')" preserve-state preserve-scroll>
