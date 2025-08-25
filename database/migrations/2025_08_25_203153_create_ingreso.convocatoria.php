@@ -14,7 +14,9 @@ return new class extends Migration
         Schema::create('ingreso.convocatoria', function (Blueprint $table) {
             $table->id();
             $table->comment('Las convocatorias que se realizarán en ingreso universitario');
+            $table->string('nombre', length: 100);
             $table->string('descripcion', length: 255)->nullable();
+            $table->timestamp('fecha');
             $table->text('cuerpo_mensaje')->nullable();
             $table->string('afiche', length: 255)->nullable();
 
