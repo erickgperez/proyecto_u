@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Ingreso\CandidatosController;
+use App\Http\Controllers\Ingreso\ConvocatoriaController;
 use App\Http\Controllers\Ingreso\UploadFileController;
 use Illuminate\Support\Facades\Route;
 
@@ -13,4 +14,5 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/ingreso/bachillerato/candidatos/resumen', [CandidatosController::class, 'resumen'])->name('ingreso-bachillerato-candidatos-resumen');
     Route::post('/ingreso/bachillerato/candidatos/invitaciones', [CandidatosController::class, 'invitaciones'])->name('ingreso-bachillerato-candidatos-invitaciones');
     Route::patch('/ingreso/bachillerato/candidato/save/field', [CandidatosController::class, 'saveField'])->name('ingreso-bachillerato-candidato-save-field');
+    Route::get('/ingreso/convocatoria', [ConvocatoriaController::class, 'index'])->name('ingreso-convocatoria-index');
 });

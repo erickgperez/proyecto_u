@@ -122,6 +122,16 @@ const props = withDefaults(defineProps<Props>(), {
                         Convocatoria
                         <v-menu activator="parent">
                             <v-list class="bg-blue-grey-darken-2">
+                                <Link :href="route('ingreso-convocatoria-index')" preserve-state preserve-scroll>
+                                    <v-list-item
+                                        link
+                                        prepend-icon="mdi-upload-circle-outline"
+                                        title="Gestionar Convocatoria"
+                                        :class="$page.url === '/ingreso/convocatoria' ? 'bg-blue-lighten-4' : ''"
+                                        @click="handleLinkClick('ingreso-convocatoria-index')"
+                                    >
+                                    </v-list-item>
+                                </Link>
                                 <Link :href="route('ingreso-bachillerato-cargar-archivo')" preserve-state preserve-scroll>
                                     <v-list-item
                                         link
