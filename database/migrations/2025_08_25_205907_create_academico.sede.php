@@ -16,7 +16,7 @@ return new class extends Migration
             $table->comment('Registro de las sedes');
             $table->string('codigo', length: 20)->unique();
             $table->string('nombre', length: 255)->nullable();
-            $table->foreignId('distrito_id');
+            $table->foreignId('distrito_id')->comment('Distrito donde está ubicada la sede');
             $table->foreign('distrito_id')->references('id')->on('distrito');
 
             $table->timestamps();
