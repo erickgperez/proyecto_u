@@ -18,6 +18,9 @@ const vuetify = createVuetify({
     components: {
         VDateInput,
     },
+    locale: {
+        locale: 'es-SV', // or 'en-CA'
+    },
 });
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
