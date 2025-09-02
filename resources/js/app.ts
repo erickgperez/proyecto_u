@@ -12,8 +12,13 @@ import '@mdi/font/css/materialdesignicons.css';
 import { createVuetify } from 'vuetify';
 import 'vuetify/styles';
 
+import { VDateInput } from 'vuetify/labs/VDateInput';
 // Register Vuetify as plugin
-const vuetify = createVuetify();
+const vuetify = createVuetify({
+    components: {
+        VDateInput,
+    },
+});
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
