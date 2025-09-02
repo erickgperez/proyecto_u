@@ -287,19 +287,34 @@ onMounted(() => {
         </v-card-actions>
 
         <!-- ********************************** ADECUAR EL FORMULARIO SEGÚN SE REQUIERA ********************-->
-        <v-dialog v-model="dialog" max-width="500">
-            <v-card :subtitle="`${isEditing ? 'Actualizar' : 'Crear'} convocatoria`" :title="`${isEditing ? 'Editar' : 'Agregar'} convocatoria`">
+        <v-dialog v-model="dialog" max-width="600">
+            <v-card :title="`${isEditing ? 'Editar' : 'Agregar'} convocatoria`">
                 <template v-slot:text>
                     <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
-                        <v-row>
-                            <v-col cols="12">
-                                <v-text-field v-model="formModel.fecha" label="Fecha"></v-text-field>
-                            </v-col>
+                        <v-date-input
+                            clearable
+                            required
+                            v-model="formModel.fecha"
+                            :rules="[(v) => !!v || 'La fecha es requerida']"
+                            label="Fecha *"
+                        ></v-date-input>
 
-                            <v-col cols="12" md="6">
-                                <v-text-field v-model="formModel.nombre" label="Author"></v-text-field>
-                            </v-col>
-                        </v-row>
+                        <v-text-field
+                            required
+                            v-model="formModel.nombre"
+                            :rules="[
+                                (v) => !!v || 'El nombre de la convocatoria es requerido',
+                                (v) => (!!v && v.length <= 100) || 'Longitud máxima de 100 caracteres',
+                            ]"
+                            counter="100"
+                            label="Nombre *"
+                        ></v-text-field>
+                        <v-text-field
+                            v-model="formModel.descripcion"
+                            :rules="[(v) => v.length <= 100 || 'Longitud máxima de 255 caracteres']"
+                            counter="255"
+                            label="Descripción"
+                        ></v-text-field>
                     </v-form>
                 </template>
 
