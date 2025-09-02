@@ -46,37 +46,28 @@ const selectedItemLabel = computed(() => selectedItem.value.title ?? '');
 const titleList = ref('Listado de convocatorias');
 function createNewRecord() {
     return {
-        title: '',
-        author: '',
-        genre: '',
-        year: currentYear,
-        pages: 1,
+        nombre: '',
+        descripcion: '',
+        fecha: '',
+        cuerpo_mensaje: '',
+        afiche: '',
     };
 }
 const headers = [
-    { title: 'Título', key: 'title', align: 'start' },
-    { title: 'Autor', key: 'author' },
-    { title: 'Género', key: 'genre' },
-    { title: 'Año', key: 'year', align: 'end' },
-    { title: 'Páginas', key: 'pages', align: 'end' },
-    { title: 'Acciones', key: 'actions', align: 'end', sortable: false },
+    { title: 'fecha', key: 'fecha' },
+    { title: 'Nombre', key: 'nombre', align: 'start' },
+    { title: 'Descripción', key: 'descripcion' },
 ];
 
 const sortBy = [
-    { key: 'year', order: 'desc' },
-    { key: 'title', order: 'desc' },
+    { key: 'fecha', order: 'asc' },
+    { key: 'nombre', order: 'asc' },
 ];
 
 function reset() {
     dialog.value = false;
     formModel.value = createNewRecord();
-    items.value = [
-        { id: 1, title: 'To Kill a Mockingbird', author: 'Harper Lee', genre: 'Fiction', year: 1960, pages: 281 },
-        { id: 2, title: '1984', author: 'George Orwell', genre: 'Dystopian', year: 1949, pages: 328 },
-        { id: 3, title: 'The Great Gatsby', author: 'F. Scott Fitzgerald', genre: 'Fiction', year: 1925, pages: 180 },
-        { id: 4, title: 'Sapiens', author: 'Yuval Noah Harari', genre: 'Non-Fiction', year: 2011, pages: 443 },
-        { id: 5, title: 'Dune', author: 'Frank Herbert', genre: 'Sci-Fi', year: 1965, pages: 412 },
-    ];
+    items.value = [];
 }
 
 function edit(id) {
@@ -84,11 +75,11 @@ function edit(id) {
 
     formModel.value = {
         id: found.id,
-        title: found.title,
-        author: found.author,
-        genre: found.genre,
-        year: found.year,
-        pages: found.pages,
+        nombre: found.nombre,
+        descripcion: found.descripcion,
+        fecha: found.fecha,
+        cuerpo_mensaje: found.cuerpo_mensaje,
+        afiche: found.afiche,
     };
 
     dialog.value = true;
@@ -296,27 +287,31 @@ onMounted(() => {
 
         <!-- ********************************** ADECUAR EL FORMULARIO SEGÚN SE REQUIERA ********************-->
         <v-dialog v-model="dialog" max-width="500">
-            <v-card :subtitle="`${isEditing ? 'Update' : 'Create'} your favorite book`" :title="`${isEditing ? 'Edit' : 'Add'} a Book`">
+            <v-card :subtitle="`${isEditing ? 'Actualizar' : 'Crear'} convocatoria`" :title="`${isEditing ? 'Editar' : 'Agregar'} convocatoria`">
                 <template v-slot:text>
                     <v-row>
                         <v-col cols="12">
-                            <v-text-field v-model="formModel.title" label="Title"></v-text-field>
+                            <v-text-field v-model="formModel.fecha" label="Title"></v-text-field>
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-text-field v-model="formModel.author" label="Author"></v-text-field>
+                            <v-text-field v-model="formModel.nombre" label="Author"></v-text-field>
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-select v-model="formModel.genre" :items="['Fiction', 'Dystopian', 'Non-Fiction', 'Sci-Fi']" label="Genre"></v-select>
+                            <v-select
+                                v-model="formModel.descripcion"
+                                :items="['Fiction', 'Dystopian', 'Non-Fiction', 'Sci-Fi']"
+                                label="Genre"
+                            ></v-select>
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-number-input v-model="formModel.year" :max="currentYear" :min="1" label="Year"></v-number-input>
+                            <v-number-input v-model="formModel.afiche" :max="currentYear" :min="1" label="Year"></v-number-input>
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-number-input v-model="formModel.pages" :min="1" label="Pages"></v-number-input>
+                            <v-number-input v-model="formModel.cuerpo_mensaje" :min="1" label="Pages"></v-number-input>
                         </v-col>
                     </v-row>
                 </template>
