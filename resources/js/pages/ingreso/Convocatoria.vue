@@ -11,6 +11,7 @@ const selectedItem = ref('');
 const selectedAction = ref('');
 
 const search = ref('');
+const loading = ref(false);
 
 const currentYear = new Date().getFullYear();
 
@@ -97,7 +98,7 @@ function remove(id: number) {
     items.value.splice(index, 1);
 }
 
-function save() {
+function submitForm() {
     if (isEditing.value) {
         const index = items.value.findIndex((item) => item.id === formModel.value.id);
         items.value[index] = formModel.value;
@@ -289,41 +290,27 @@ onMounted(() => {
         <v-dialog v-model="dialog" max-width="500">
             <v-card :subtitle="`${isEditing ? 'Actualizar' : 'Crear'} convocatoria`" :title="`${isEditing ? 'Editar' : 'Agregar'} convocatoria`">
                 <template v-slot:text>
-                    <v-row>
-                        <v-col cols="12">
-                            <v-text-field v-model="formModel.fecha" label="Title"></v-text-field>
-                        </v-col>
+                    <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
+                        <v-row>
+                            <v-col cols="12">
+                                <v-text-field v-model="formModel.fecha" label="Fecha"></v-text-field>
+                            </v-col>
 
-                        <v-col cols="12" md="6">
-                            <v-text-field v-model="formModel.nombre" label="Author"></v-text-field>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                            <v-select
-                                v-model="formModel.descripcion"
-                                :items="['Fiction', 'Dystopian', 'Non-Fiction', 'Sci-Fi']"
-                                label="Genre"
-                            ></v-select>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                            <v-number-input v-model="formModel.afiche" :max="currentYear" :min="1" label="Year"></v-number-input>
-                        </v-col>
-
-                        <v-col cols="12" md="6">
-                            <v-number-input v-model="formModel.cuerpo_mensaje" :min="1" label="Pages"></v-number-input>
-                        </v-col>
-                    </v-row>
+                            <v-col cols="12" md="6">
+                                <v-text-field v-model="formModel.nombre" label="Author"></v-text-field>
+                            </v-col>
+                        </v-row>
+                    </v-form>
                 </template>
 
                 <v-divider></v-divider>
 
                 <v-card-actions class="bg-surface-light">
-                    <v-btn text="Cancel" variant="plain" @click="dialog = false"></v-btn>
+                    <v-btn text="Cancelar" variant="plain" @click="dialog = false"></v-btn>
 
                     <v-spacer></v-spacer>
 
-                    <v-btn text="Save" @click="save"></v-btn>
+                    <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4">Guardar</v-btn>
                 </v-card-actions>
             </v-card>
         </v-dialog>
