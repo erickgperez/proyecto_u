@@ -81,7 +81,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formModel.descripcion"
-                            :rules="[(v) => v.length <= 100 || 'Longitud máxima de 255 caracteres']"
+                            :rules="[(v) => v.length <= 255 || 'Longitud máxima de 255 caracteres']"
                             counter="255"
                             label="Descripción"
                         ></v-text-field>
