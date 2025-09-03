@@ -19,7 +19,7 @@ const vuetify = createVuetify({
         VDateInput,
     },
     locale: {
-        locale: 'es-SV', // or 'en-CA'
+        locale: 'es', // or 'en-CA'
     },
 });
 

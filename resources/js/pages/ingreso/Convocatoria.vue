@@ -2,7 +2,7 @@
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { saveAs } from 'file-saver';
-import { computed, onMounted, ref, shallowRef, toRef } from 'vue';
+import { computed, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
 const step = ref(1);
@@ -11,9 +11,6 @@ const selectedItem = ref('');
 const selectedAction = ref('');
 
 const search = ref('');
-const loading = ref(false);
-
-const currentYear = new Date().getFullYear();
 
 const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(items.value);
@@ -29,9 +26,8 @@ const exportToExcel = () => {
 };
 
 const items = ref([]);
-const formModel = ref(createNewRecord());
-const dialog = shallowRef(false);
-const isEditing = toRef(() => !!formModel.value.id);
+
+//const dialog = shallowRef(false);
 
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
@@ -45,15 +41,7 @@ const selectedItemLabel = computed(() => selectedItem.value.title ?? '');
 
 // Título del listado
 const titleList = ref('Listado de convocatorias');
-function createNewRecord() {
-    return {
-        nombre: '',
-        descripcion: '',
-        fecha: '',
-        cuerpo_mensaje: '',
-        afiche: '',
-    };
-}
+
 const headers = [
     { title: 'fecha', key: 'fecha' },
     { title: 'Nombre', key: 'nombre', align: 'start' },
@@ -65,49 +53,9 @@ const sortBy = [
     { key: 'nombre', order: 'asc' },
 ];
 
-function reset() {
-    dialog.value = false;
-    formModel.value = createNewRecord();
-    items.value = [];
-}
-
-function edit(id) {
-    const found = items.value.find((item) => item.id === id);
-
-    formModel.value = {
-        id: found.id,
-        nombre: found.nombre,
-        descripcion: found.descripcion,
-        fecha: found.fecha,
-        cuerpo_mensaje: found.cuerpo_mensaje,
-        afiche: found.afiche,
-    };
-
-    dialog.value = true;
-}
-
-// ***********************************************
-
-function add() {
-    formModel.value = createNewRecord();
-    dialog.value = true;
-}
-
 function remove(id: number) {
     const index = items.value.findIndex((item) => item.id === id);
     items.value.splice(index, 1);
-}
-
-function submitForm() {
-    if (isEditing.value) {
-        const index = items.value.findIndex((item) => item.id === formModel.value.id);
-        items.value[index] = formModel.value;
-    } else {
-        formModel.value.id = items.value.length + 1;
-        items.value.push(formModel.value);
-    }
-
-    dialog.value = false;
 }
 
 const selectItem = (item: any) => {
@@ -120,10 +68,6 @@ const selectAction = (accion: string) => {
     selectedAction.value = accion;
     step.value++;
 };
-
-onMounted(() => {
-    reset();
-});
 </script>
 
 <template>
@@ -147,7 +91,16 @@ onMounted(() => {
                             hide-details
                             single-line
                         ></v-text-field>
-                        <v-btn icon="mdi-table-plus" color="success" class="ml-2" title="Agregar nueva convocatoria" @click="add"></v-btn>
+                        <v-btn
+                            icon="mdi-table-plus"
+                            color="success"
+                            class="ml-2"
+                            title="Agregar nueva convocatoria"
+                            @click="
+                                selectAction('new');
+                                step = 3;
+                            "
+                        ></v-btn>
                         <v-btn
                             icon="mdi-file-export-outline"
                             color="primary"
@@ -272,7 +225,14 @@ onMounted(() => {
         <v-divider></v-divider>
 
         <v-card-actions>
-            <v-btn v-if="step > 1" prepend-icon="mdi-arrow-left-bold" rounded variant="tonal" color="blue-darken-4" @click="step--">
+            <v-btn
+                v-if="step > 1 && selectedAction != 'new'"
+                prepend-icon="mdi-arrow-left-bold"
+                rounded
+                variant="tonal"
+                color="blue-darken-4"
+                @click="step--"
+            >
                 <template v-slot:prepend>
                     <v-icon color="success"></v-icon>
                 </template>
@@ -282,52 +242,8 @@ onMounted(() => {
                 <template v-slot:prepend>
                     <v-icon color="success"></v-icon>
                 </template>
-                Ir al inicio
+                Regresar al listado
             </v-btn>
         </v-card-actions>
-
-        <!-- ********************************** ADECUAR EL FORMULARIO SEGÚN SE REQUIERA ********************-->
-        <v-dialog v-model="dialog" max-width="600">
-            <v-card :title="`${isEditing ? 'Editar' : 'Agregar'} convocatoria`">
-                <template v-slot:text>
-                    <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
-                        <v-date-input
-                            clearable
-                            required
-                            v-model="formModel.fecha"
-                            :rules="[(v) => !!v || 'La fecha es requerida']"
-                            label="Fecha *"
-                        ></v-date-input>
-
-                        <v-text-field
-                            required
-                            v-model="formModel.nombre"
-                            :rules="[
-                                (v) => !!v || 'El nombre de la convocatoria es requerido',
-                                (v) => (!!v && v.length <= 100) || 'Longitud máxima de 100 caracteres',
-                            ]"
-                            counter="100"
-                            label="Nombre *"
-                        ></v-text-field>
-                        <v-text-field
-                            v-model="formModel.descripcion"
-                            :rules="[(v) => v.length <= 100 || 'Longitud máxima de 255 caracteres']"
-                            counter="255"
-                            label="Descripción"
-                        ></v-text-field>
-                    </v-form>
-                </template>
-
-                <v-divider></v-divider>
-
-                <v-card-actions class="bg-surface-light">
-                    <v-btn text="Cancelar" variant="plain" @click="dialog = false"></v-btn>
-
-                    <v-spacer></v-spacer>
-
-                    <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4">Guardar</v-btn>
-                </v-card-actions>
-            </v-card>
-        </v-dialog>
     </AppLayout>
 </template>
