@@ -26,7 +26,7 @@ interface FormData {
     id: number | null;
     nombre: string;
     descripcion: string;
-    fecha: string;
+    fecha: Date | null;
     cuerpo_mensaje: string;
     afiche: File | null;
 }
@@ -35,7 +35,7 @@ const formData: FormData = reactive({
     id: null,
     nombre: '',
     descripcion: '',
-    fecha: '',
+    fecha: null,
     cuerpo_mensaje: '',
     afiche: null,
 });

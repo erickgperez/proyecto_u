@@ -22,13 +22,13 @@ class ConvocatoriaController extends Controller
     {
         // Aunque se ha validado del lado del cliente, validar aquí también
         $validatedData = $request->validate([
-            'nombre' => 'string|max:100',
+            'nombre' => 'required|string|max:100',
             'descripcion' => 'string|max:255',
-            'fecha' => 'string',
+            'fecha' => 'required|date',
             'cuerpo_mensaje' => 'string',
             'afiche' => 'file|mimes:pdf',
         ]);
-
+        dd($validatedData);
         return response()->json(['message' => 'Datos guardados']);
     }
 }
