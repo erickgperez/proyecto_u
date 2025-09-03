@@ -1,7 +1,11 @@
 <script setup lang="ts">
+import axios from 'axios';
+import Swal from 'sweetalert2';
 import { onMounted, ref, toRef } from 'vue';
+import type { VForm } from 'vuetify/components';
 
 const loading = ref(false);
+const formRef = ref<VForm | null>(null);
 
 function createNewRecord() {
     return {
@@ -38,7 +42,41 @@ function edit(id) {
     formModel.value = createNewRecord();
 }*/
 
-function submitForm() {
+async function submitForm() {
+    console.log(isEditing.value);
+
+    const { valid } = await formRef.value!.validate();
+    loading.value = true;
+    if (valid) {
+        try {
+            const response = await axios.post(route('ingreso-import-data-bachillerato'), formModel, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                },
+            });
+            console.log(response);
+            formRef.value!.reset();
+            reset();
+
+            Swal.fire({
+                title: 'Éxito',
+                text: 'Datos subidos correctamente',
+                icon: 'success',
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 2500,
+                toast: true,
+            });
+        } catch (error) {
+            Swal.fire({
+                title: 'Error',
+                text: 'No se ha podido guardar el formulario',
+                icon: 'error',
+                confirmButtonColor: '#D7E1EE',
+            });
+        }
+    }
+    loading.value = false;
     if (isEditing.value) {
         //const index = items.value.findIndex((item) => item.id === formModel.value.id);
         //items.value[index] = formModel.value;
@@ -104,18 +142,13 @@ onMounted(() => {
                             counter
                         ></v-file-input>
                     </v-col>
+                    <v-col cols="12" align="right">
+                        <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
+                            Guardar
+                        </v-btn>
+                    </v-col>
                 </v-row>
             </v-form>
         </template>
-
-        <v-divider></v-divider>
-
-        <v-card-actions>
-            <!--<v-btn text="Cancelar" variant="plain" @click="dialog = false"></v-btn>
-        -->
-            <v-spacer></v-spacer>
-
-            <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">Guardar</v-btn>
-        </v-card-actions>
     </v-card>
 </template>
