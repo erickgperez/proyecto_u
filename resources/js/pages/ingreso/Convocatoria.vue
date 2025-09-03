@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { saveAs } from 'file-saver';
@@ -195,30 +196,7 @@ const selectAction = (accion: string) => {
             </v-window-item>
 
             <v-window-item :value="3">
-                <v-card title="Realizar acción">
-                    <v-row>
-                        <v-col cols="12" md="6">
-                            <v-card color="indigo" variant="outlined" class="md-6 mx-auto">
-                                <v-card-item>
-                                    <div>
-                                        <div class="text-overline mb-1">Datos del registro</div>
-                                        <div class="text-h6 mb-1">{{ selectedItem }}</div>
-                                    </div>
-                                </v-card-item>
-                            </v-card>
-                        </v-col>
-                        <v-col cols="12" md="6">
-                            <v-card color="indigo" variant="elevated" class="md-6 mx-auto">
-                                <v-card-item>
-                                    <div>
-                                        <div class="text-overline mb-1">Acción seleccionada</div>
-                                        <div class="text-h6 mb-1">{{ selectedAction }}</div>
-                                    </div>
-                                </v-card-item>
-                            </v-card>
-                        </v-col>
-                    </v-row>
-                </v-card>
+                <ConvocatoriaForm v-if="selectedAction == 'new'"></ConvocatoriaForm>
             </v-window-item>
         </v-window>
 

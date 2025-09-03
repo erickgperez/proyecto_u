@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, toRef } from 'vue';
+import { onMounted, ref, toRef } from 'vue';
 
 const loading = ref(false);
 
@@ -15,9 +15,7 @@ function createNewRecord() {
 }
 
 function reset() {
-    //dialog.value = false;
     formModel.value = createNewRecord();
-    items.value = [];
 }
 
 const formModel = ref(createNewRecord());
@@ -36,19 +34,17 @@ function edit(id) {
     };
 }
 
-// ***********************************************
-
-function add() {
+/*function add() {
     formModel.value = createNewRecord();
-}
+}*/
 
 function submitForm() {
     if (isEditing.value) {
-        const index = items.value.findIndex((item) => item.id === formModel.value.id);
-        items.value[index] = formModel.value;
+        //const index = items.value.findIndex((item) => item.id === formModel.value.id);
+        //items.value[index] = formModel.value;
     } else {
-        formModel.value.id = items.value.length + 1;
-        items.value.push(formModel.value);
+        //formModel.value.id = items.value.length + 1;
+        //items.value.push(formModel.value);
     }
 }
 
@@ -60,41 +56,66 @@ onMounted(() => {
     <v-card :title="`${isEditing ? 'Editar' : 'Agregar'} convocatoria`">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
-                <v-date-input
-                    clearable
-                    required
-                    v-model="formModel.fecha"
-                    :rules="[(v) => !!v || 'La fecha es requerida']"
-                    label="Fecha *"
-                ></v-date-input>
+                <v-row>
+                    <v-col cols="12">
+                        <v-date-input
+                            clearable
+                            required
+                            v-model="formModel.fecha"
+                            :rules="[(v) => !!v || 'La fecha es requerida']"
+                            label="Fecha *"
+                        ></v-date-input>
 
-                <v-text-field
-                    required
-                    v-model="formModel.nombre"
-                    :rules="[
-                        (v) => !!v || 'El nombre de la convocatoria es requerido',
-                        (v) => (!!v && v.length <= 100) || 'Longitud máxima de 100 caracteres',
-                    ]"
-                    counter="100"
-                    label="Nombre *"
-                ></v-text-field>
-                <v-text-field
-                    v-model="formModel.descripcion"
-                    :rules="[(v) => v.length <= 100 || 'Longitud máxima de 255 caracteres']"
-                    counter="255"
-                    label="Descripción"
-                ></v-text-field>
+                        <v-text-field
+                            required
+                            prepend-icon="mdi-form-textbox"
+                            v-model="formModel.nombre"
+                            :rules="[
+                                (v) => !!v || 'El nombre de la convocatoria es requerido',
+                                (v) => (!!v && v.length <= 100) || 'Longitud máxima de 100 caracteres',
+                            ]"
+                            counter="100"
+                            label="Nombre *"
+                        ></v-text-field>
+
+                        <v-text-field
+                            prepend-icon="mdi-form-textbox"
+                            v-model="formModel.descripcion"
+                            :rules="[(v) => v.length <= 100 || 'Longitud máxima de 255 caracteres']"
+                            counter="255"
+                            label="Descripción"
+                        ></v-text-field>
+
+                        <v-textarea
+                            prepend-icon="mdi-form-textarea"
+                            label="Cuerpo del mensaje"
+                            v-model="formModel.cuerpo_mensaje"
+                            hint="Mensaje que se enviará por correo electrónico cuando se hagan invitaciones a la convocatoria"
+                            persistent-hint
+                        ></v-textarea>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-file-input
+                            label="Afiche en formato PDF"
+                            accept=".pdf"
+                            clearable
+                            @input="formModel.afiche = $event.target.files[0]"
+                            show-size
+                            counter
+                        ></v-file-input>
+                    </v-col>
+                </v-row>
             </v-form>
         </template>
 
         <v-divider></v-divider>
 
-        <v-card-actions class="bg-surface-light">
-            <v-btn text="Cancelar" variant="plain" @click="dialog = false"></v-btn>
-
+        <v-card-actions>
+            <!--<v-btn text="Cancelar" variant="plain" @click="dialog = false"></v-btn>
+        -->
             <v-spacer></v-spacer>
 
-            <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4">Guardar</v-btn>
+            <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">Guardar</v-btn>
         </v-card-actions>
     </v-card>
 </template>

@@ -72,7 +72,6 @@ const submitForm = async () => {
                     label="Subir un archivo CSV"
                     accept=".csv"
                     clearable
-                    persistent-hint
                     v-model="formData.archivo"
                     @input="formData.archivo = $event.target.files[0]"
                     :rules="[(v) => !!v || 'Debe elegir un archivo']"
