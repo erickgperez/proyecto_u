@@ -15,4 +15,5 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/ingreso/bachillerato/candidatos/invitaciones', [CandidatosController::class, 'invitaciones'])->name('ingreso-bachillerato-candidatos-invitaciones');
     Route::patch('/ingreso/bachillerato/candidato/save/field', [CandidatosController::class, 'saveField'])->name('ingreso-bachillerato-candidato-save-field');
     Route::get('/ingreso/convocatoria', [ConvocatoriaController::class, 'index'])->name('ingreso-convocatoria-index');
+    Route::put('/ingreso/convocatoria/save', [ConvocatoriaController::class, 'save'])->name('ingreso-convocatoria-save');
 });

@@ -49,7 +49,7 @@ async function submitForm() {
     loading.value = true;
     if (valid) {
         try {
-            const response = await axios.post(route('ingreso-import-data-bachillerato'), formModel, {
+            const response = await axios.put(route('ingreso-convocatoria-save'), formModel, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -67,10 +67,10 @@ async function submitForm() {
                 timer: 2500,
                 toast: true,
             });
-        } catch (error) {
+        } catch (error: any) {
             Swal.fire({
                 title: 'Error',
-                text: 'No se ha podido guardar el formulario',
+                text: 'No se ha podido guardar el formulario (' + error.response.data.message + ')',
                 icon: 'error',
                 confirmButtonColor: '#D7E1EE',
             });
