@@ -1,41 +1,57 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, ref, toRef } from 'vue';
+import { onMounted, reactive, ref, toRef } from 'vue';
 import type { VForm } from 'vuetify/components';
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
 
-function createNewRecord() {
+/*function createNewRecord() {
     return {
         id: '',
         nombre: '',
         descripcion: '',
         fecha: '',
         cuerpo_mensaje: '',
-        afiche: '',
+        afiche: null,
     };
-}
+}*/
 
 function reset() {
-    formModel.value = createNewRecord();
+    //formData.value = createNewRecord();
 }
 
-const formModel = ref(createNewRecord());
-const isEditing = toRef(() => !!formModel.value.id);
+interface FormData {
+    id: number | null;
+    nombre: string;
+    descripcion: string;
+    fecha: string;
+    cuerpo_mensaje: string;
+    afiche: File | null;
+}
+
+const formData: FormData = reactive({
+    id: null,
+    nombre: '',
+    descripcion: '',
+    fecha: '',
+    cuerpo_mensaje: '',
+    afiche: null,
+});
+const isEditing = toRef(() => !!formData.id);
 
 function edit(id) {
     const found = items.value.find((item) => item.id === id);
 
-    formModel.value = {
+    /*formModel.value = {
         id: found.id,
         nombre: found.nombre,
         descripcion: found.descripcion,
         fecha: found.fecha,
         cuerpo_mensaje: found.cuerpo_mensaje,
         afiche: found.afiche,
-    };
+    };*/
 }
 
 /*function add() {
@@ -49,13 +65,14 @@ async function submitForm() {
     loading.value = true;
     if (valid) {
         try {
-            const response = await axios.put(route('ingreso-convocatoria-save'), formModel, {
+            const response = await axios.postForm(route('ingreso-convocatoria-save'), formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
             console.log(response);
             formRef.value!.reset();
+            formData.afiche = null;
             reset();
 
             Swal.fire({
@@ -99,7 +116,7 @@ onMounted(() => {
                         <v-date-input
                             clearable
                             required
-                            v-model="formModel.fecha"
+                            v-model="formData.fecha"
                             :rules="[(v) => !!v || 'La fecha es requerida']"
                             label="Fecha *"
                         ></v-date-input>
@@ -107,7 +124,7 @@ onMounted(() => {
                         <v-text-field
                             required
                             prepend-icon="mdi-form-textbox"
-                            v-model="formModel.nombre"
+                            v-model="formData.nombre"
                             :rules="[
                                 (v) => !!v || 'El nombre de la convocatoria es requerido',
                                 (v) => (!!v && v.length <= 100) || 'Longitud máxima de 100 caracteres',
@@ -118,8 +135,8 @@ onMounted(() => {
 
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
-                            v-model="formModel.descripcion"
-                            :rules="[(v) => v.length <= 255 || 'Longitud máxima de 255 caracteres']"
+                            v-model="formData.descripcion"
+                            :rules="[(v) => (!!v && v.length <= 255) || 'Longitud máxima de 255 caracteres']"
                             counter="255"
                             label="Descripción"
                         ></v-text-field>
@@ -127,7 +144,7 @@ onMounted(() => {
                         <v-textarea
                             prepend-icon="mdi-form-textarea"
                             label="Cuerpo del mensaje"
-                            v-model="formModel.cuerpo_mensaje"
+                            v-model="formData.cuerpo_mensaje"
                             hint="Mensaje que se enviará por correo electrónico cuando se hagan invitaciones a la convocatoria"
                             persistent-hint
                         ></v-textarea>
@@ -137,7 +154,8 @@ onMounted(() => {
                             label="Afiche en formato PDF"
                             accept=".pdf"
                             clearable
-                            @input="formModel.afiche = $event.target.files[0]"
+                            v-model="formData.afiche"
+                            @input="formData.afiche = $event.target.files[0]"
                             show-size
                             counter
                         ></v-file-input>
