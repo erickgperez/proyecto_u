@@ -73,7 +73,7 @@ const selectAction = (accion: string) => {
 
 <template>
     <Head title="Convocatoria"> </Head>
-    <AppLayout titulo="Gestionar Convocatoria" subtitulo="Administrar las convocatorias" icono="mdi-wrench-clock">
+    <AppLayout :titulo="$t('_administrar_convocatoria_')" :subtitulo="$t('_permite_gestionar_datos_convocatorias_')" icono="mdi-wrench-clock">
         <v-window v-model="step" class="h-auto w-100">
             <v-window-item :value="1">
                 <v-card>

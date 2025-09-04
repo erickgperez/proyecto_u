@@ -22,17 +22,17 @@ const menuModulos = ref(false);
 const modulos = [
     {
         codigo: 'ingreso-universitario',
-        nombre: 'Ingreso Universitario',
+        nombre: '_ingreso_universitario_',
         icono: 'mdi-account-plus-outline',
     },
     {
         codigo: 'gestion-academica',
-        nombre: 'Gestión Académica',
+        nombre: '_gestion_academica_',
         icono: 'mdi-file-document-edit-outline',
     },
     {
         codigo: 'calificaciones',
-        nombre: 'Calificaciones',
+        nombre: '_calificaciones_',
         icono: 'mdi-book-education-outline',
     },
 ];
@@ -73,7 +73,7 @@ const props = withDefaults(defineProps<Props>(), {
                 class="bg-blue-grey-darken-1"
             >
                 <v-list class="text-white">
-                    <v-list-item prepend-icon="mdi-school" subtitle="descripción" title="Nombre Aplicación">
+                    <v-list-item prepend-icon="mdi-school" title="SIGATEC">
                         <template v-slot:prepend>
                             <v-avatar>
                                 <v-icon color="info" icon="mdi-school" size="x-large"></v-icon>
@@ -91,7 +91,7 @@ const props = withDefaults(defineProps<Props>(), {
                             :class="$page.url === '/informe/example' ? 'bg-blue-lighten-4' : ''"
                             @click="handleLinkClick('informe-example')"
                         >
-                            Informe
+                            {{ $t('_informe_') }}
                         </v-list-item>
                     </Link>
                     <Link :href="route('crud-example')" preserve-state preserve-scroll>
@@ -110,23 +110,23 @@ const props = withDefaults(defineProps<Props>(), {
                             :class="$page.url === '/settings/profile' ? 'bg-blue-lighten-4' : ''"
                             @click="handleLinkClick('profile.edit')"
                         >
-                            Configuración
+                            {{ $t('_configuracion_') }}
                         </v-list-item>
                     </Link>
                     <v-list-item
                         v-if="moduloActual.codigo == 'ingreso-universitario'"
-                        prepend-icon="mdi-bulletin-board"
+                        prepend-icon="mdi-book-outline"
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
                     >
-                        Convocatoria
+                        {{ $t('_convocatoria_') }}
                         <v-menu activator="parent">
                             <v-list class="bg-blue-grey-darken-2">
                                 <Link :href="route('ingreso-convocatoria-index')" preserve-state preserve-scroll>
                                     <v-list-item
                                         link
-                                        prepend-icon="mdi-upload-circle-outline"
-                                        title="Gestionar Convocatoria"
+                                        prepend-icon="mdi-book-settings-outline"
+                                        :title="$t('_gestionar_convocatoria_')"
                                         :class="$page.url === '/ingreso/convocatoria' ? 'bg-blue-lighten-4' : ''"
                                         @click="handleLinkClick('ingreso-convocatoria-index')"
                                     >
@@ -136,7 +136,7 @@ const props = withDefaults(defineProps<Props>(), {
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-upload-circle-outline"
-                                        title="Cargar archivo"
+                                        :title="$t('_cargar_archivo_')"
                                         :class="$page.url === '/ingreso/bachillerato/cargar-archivo' ? 'bg-blue-lighten-4' : ''"
                                         @click="handleLinkClick('ingreso-bachillerato-cargar-archivo')"
                                     >
@@ -146,7 +146,7 @@ const props = withDefaults(defineProps<Props>(), {
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-account-star-outline"
-                                        title="Candidatos"
+                                        :title="$t('_candidatos_')"
                                         :class="$page.url === '/ingreso/bachillerato/candidatos' ? 'bg-blue-lighten-4' : ''"
                                         @click="handleLinkClick('ingreso-bachillerato-candidatos')"
                                     >
@@ -180,7 +180,7 @@ const props = withDefaults(defineProps<Props>(), {
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
                     >
-                        GESTION ACADEMICA
+                        {{ $t('_gestion_academica_') }}
                         <v-menu activator="parent">
                             <v-list class="bg-blue-grey-darken-2">
                                 <v-list-item v-for="i in 3" :key="i" link append-icon="mdi-menu-right">
@@ -210,7 +210,7 @@ const props = withDefaults(defineProps<Props>(), {
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
                     >
-                        CALIFICACIONES
+                        {{ $t('_calificaciones_') }}
                         <v-menu activator="parent">
                             <v-list class="bg-blue-grey-darken-2">
                                 <v-list-item v-for="i in 3" :key="i" link append-icon="mdi-menu-right">
@@ -246,10 +246,10 @@ const props = withDefaults(defineProps<Props>(), {
                                 color="indigo"
                                 v-bind="props"
                                 stacked
-                                :title="moduloActual.codigo === '' ? 'Módulos' : 'Módulo actual'"
+                                :title="moduloActual.codigo === '' ? $t('_modulos_') : $t('_modulo_actual_')"
                                 :prepend-icon="moduloActual.codigo === '' ? 'mdi-view-module' : moduloActual.icono"
                             >
-                                {{ moduloActual.codigo === '' ? 'Módulos' : moduloActual.nombre }}
+                                {{ moduloActual.codigo === '' ? $t('_modulos_') : $t(moduloActual.nombre) }}
                             </v-btn>
                         </template>
 
@@ -268,7 +268,7 @@ const props = withDefaults(defineProps<Props>(), {
                                                     @click="moduloActual = modulo"
                                                 >
                                                     <v-btn :prepend-icon="modulo.icono" stacked variant="plain" height="150" width="150">
-                                                        {{ modulo.nombre }}
+                                                        {{ $t(modulo.nombre) }}
                                                     </v-btn>
                                                 </v-card>
                                             </v-item>
@@ -300,12 +300,17 @@ const props = withDefaults(defineProps<Props>(), {
                                             preserve-state
                                             preserve-scroll
                                         >
-                                            Settings
+                                            {{ $t('_configuracion_') }}
                                         </Link>
                                     </v-list-item>
 
                                     <v-list-item prepend-icon="mdi-logout">
-                                        <Link class="block" method="post" :href="route('logout')" @click="handleLogout" as="button"> Log out </Link>
+                                        <Link class="block" method="post" :href="route('logout')" @click="handleLogout" as="button">
+                                            {{ $t('_cerrar_sesion_') }}
+                                        </Link>
+                                    </v-list-item>
+                                    <v-list-item prepend-icon="mdi-translate">
+                                        <v-select v-model="$i18n.locale" :items="$i18n.availableLocales" outlined dense></v-select>
                                     </v-list-item>
                                 </v-list>
                             </v-card>
