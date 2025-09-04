@@ -13,6 +13,9 @@ import { createVuetify } from 'vuetify';
 import 'vuetify/styles';
 
 import { VDateInput } from 'vuetify/labs/VDateInput';
+
+import i18n from './plugins/i18n'; // Adjust path as needed
+
 // Register Vuetify as plugin
 const vuetify = createVuetify({
     components: {
@@ -33,6 +36,7 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(vuetify)
+            .use(i18n) // Add the i18n plugin
             .mount(el);
     },
     progress: {
