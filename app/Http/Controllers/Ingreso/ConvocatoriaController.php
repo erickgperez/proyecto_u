@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
+use App\Models\Ingreso\Convocatoria;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -28,7 +29,22 @@ class ConvocatoriaController extends Controller
             'cuerpo_mensaje' => 'string',
             'afiche' => 'file|mimes:pdf',
         ]);
-        dd($validatedData);
+
+        $convocatoria = new Convocatoria();
+        $convocatoria->nombre = $validatedData['nombre'];
+        $convocatoria->descripcion = $validatedData['descripcion'];
+        $convocatoria->fecha = $validatedData['fecha'];
+        $convocatoria->cuerpo_mensaje = $validatedData['cuerpo_mensaje'];
+        if ($request->hasFile('afiche')) {
+            $file = $request->file('afiche');
+
+            $path = $file->store('documents/convocatorias');
+
+            $convocatoria->afiche = $path;
+        }
+
+        $convocatoria->save();
+
         return response()->json(['message' => 'Datos guardados']);
     }
 }

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('cuerpo_mensaje')->nullable()->comment('Texto que se mostrará en las invitaciones que se enviarán por correo ');
             $table->string('afiche', length: 255)->nullable()->comment('Archivo del afiche informativo de la convocatoria, se adjuntará en la invitación enviada por correo');
 
-            $table->foreignId('calendarizacion_id')->comment('Calendario de eventos de la convocatoria');
+            $table->foreignId('calendarizacion_id')->nullable()->comment('Calendario de eventos de la convocatoria');
             $table->foreign('calendarizacion_id')->references('id')->on('public.calendarizacion')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->timestamps();
         });
