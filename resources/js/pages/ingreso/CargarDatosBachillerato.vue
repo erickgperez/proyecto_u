@@ -23,8 +23,8 @@ const formData: FormData = reactive({
 const loading = ref(false);
 
 const tipoCarga = [
-    { value: 'nueva', label: t('_carga_completa_borrar_anteriores_') },
-    { value: 'incremental', label: t('_cargar_solo_datos_nuevos_') },
+    { value: 'nueva', title: t('_carga_completa_borrar_anteriores_') },
+    { value: 'incremental', title: t('_cargar_solo_datos_nuevos_') },
 ];
 
 const submitForm = async () => {
@@ -82,7 +82,6 @@ const submitForm = async () => {
                     :label="$t('_tipo_carga_')"
                     :rules="[(v) => !!v || $t('_elija_tipo_carga_')]"
                     :items="tipoCarga"
-                    :item-title="'label'"
                     v-model="formData.tipoCarga"
                 ></v-select>
                 <v-btn :loading="loading" class="mt-2" type="submit" block rounded variant="tonal" color="blue-darken-4">{{ $t('_enviar_') }}</v-btn>
