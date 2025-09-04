@@ -6,6 +6,10 @@ import Swal from 'sweetalert2';
 import { reactive, ref } from 'vue';
 import type { VForm } from 'vuetify/components';
 
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n(); // Ahora puedes usar 't()' en tu script
+
 const formRef = ref<VForm | null>(null);
 interface FormData {
     archivo: File | null;
@@ -19,8 +23,8 @@ const formData: FormData = reactive({
 const loading = ref(false);
 
 const tipoCarga = [
-    { value: 'nueva', label: 'Carga completa, borrar datos existentes de cargas anteriores' },
-    { value: 'incremental', label: 'Cargar solo datos nuevos' },
+    { value: 'nueva', label: t('_carga_completa_borrar_anteriores_') },
+    { value: 'incremental', label: t('_cargar_solo_datos_nuevos_') },
 ];
 
 const submitForm = async () => {
@@ -38,8 +42,8 @@ const submitForm = async () => {
             formData.tipoCarga = 'incremental';
 
             Swal.fire({
-                title: 'Éxito',
-                text: 'Datos subidos correctamente',
+                title: t('_exito_'),
+                text: t('_datos_subidos_correctamente_'),
                 icon: 'success',
                 position: 'top-end',
                 showConfirmButton: false,
@@ -48,8 +52,8 @@ const submitForm = async () => {
             });
         } catch (error) {
             Swal.fire({
-                title: 'Error',
-                text: 'Verifique que ha subido un archivo CSV, con {tabulador} como separador de campo ',
+                title: t('_error_'),
+                text: t('_verifique_que_ha_subido_archivo_csv_'),
                 icon: 'error',
                 confirmButtonColor: '#D7E1EE',
             });
@@ -60,32 +64,28 @@ const submitForm = async () => {
 </script>
 
 <template>
-    <Head title="Cargar datos "></Head>
-    <AppLayout
-        titulo="Carga de archivo de datos"
-        subtitulo="Suba un archivo csv conteniendo los datos de los estudiantes de bachillerato"
-        icono="mdi-email-fast-outline"
-    >
+    <Head :title="$t('_cargar_datos_')"></Head>
+    <AppLayout :titulo="$t('_carga_archivo_datos_')" :subtitulo="$t('_suba_archivo_datos_estudiantes_bachillerato_')" icono="mdi-email-fast-outline">
         <v-sheet class="pa-5 mx-auto" width="400">
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-file-input
-                    label="Subir un archivo CSV"
+                    :label="$t('_subir_archivo_csv_')"
                     accept=".csv"
                     clearable
                     v-model="formData.archivo"
                     @input="formData.archivo = $event.target.files[0]"
-                    :rules="[(v) => !!v || 'Debe elegir un archivo']"
+                    :rules="[(v) => !!v || $t('_debe_elegir_archivo_')]"
                     show-size
                     counter
                 ></v-file-input>
                 <v-select
-                    label="Tipo de carga:"
-                    :rules="[(v) => !!v || 'Elija el tipo de carga']"
+                    :label="$t('_tipo_carga_')"
+                    :rules="[(v) => !!v || $t('_elija_tipo_carga_')]"
                     :items="tipoCarga"
                     :item-title="'label'"
                     v-model="formData.tipoCarga"
                 ></v-select>
-                <v-btn :loading="loading" class="mt-2" type="submit" block rounded variant="tonal" color="blue-darken-4">Enviar</v-btn>
+                <v-btn :loading="loading" class="mt-2" type="submit" block rounded variant="tonal" color="blue-darken-4">{{ $t('_enviar_') }}</v-btn>
             </v-form>
         </v-sheet>
     </AppLayout>
