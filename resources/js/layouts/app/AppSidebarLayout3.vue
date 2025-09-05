@@ -2,11 +2,18 @@
 import type { BreadcrumbItemType } from '@/types';
 import { Link, router } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
+import { useLocale } from 'vuetify';
 
 import { type User } from '@/types';
 import { usePage } from '@inertiajs/vue3';
 const page = usePage();
 const user = page.props.auth.user as User;
+
+const { current } = useLocale();
+
+function changeLocale(locale: string) {
+    current.value = locale;
+}
 
 interface Props {
     breadcrumbs?: BreadcrumbItemType[];
@@ -310,7 +317,13 @@ const props = withDefaults(defineProps<Props>(), {
                                         </Link>
                                     </v-list-item>
                                     <v-list-item prepend-icon="mdi-translate">
-                                        <v-select v-model="$i18n.locale" :items="$i18n.availableLocales" outlined dense></v-select>
+                                        <v-select
+                                            v-model="$i18n.locale"
+                                            :items="$i18n.availableLocales"
+                                            outlined
+                                            dense
+                                            @update:modelValue="changeLocale"
+                                        ></v-select>
                                     </v-list-item>
                                 </v-list>
                             </v-card>

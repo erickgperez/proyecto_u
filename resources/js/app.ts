@@ -10,6 +10,7 @@ import { initializeTheme } from './composables/useAppearance';
 // Vuetify
 import '@mdi/font/css/materialdesignicons.css';
 import { createVuetify } from 'vuetify';
+import { en, es } from 'vuetify/locale';
 import 'vuetify/styles';
 
 import { VDateInput } from 'vuetify/labs/VDateInput';
@@ -21,9 +22,11 @@ const vuetify = createVuetify({
     components: {
         VDateInput,
     },
-    /*locale: {
+    locale: {
         locale: 'es', // or 'en-CA'
-    },*/
+        fallback: 'en',
+        messages: { es, en },
+    },
 });
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
