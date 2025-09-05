@@ -8,7 +8,7 @@ import type { VForm } from 'vuetify/components';
 
 import { useI18n } from 'vue-i18n';
 
-const { t } = useI18n(); // Ahora puedes usar 't()' en tu script
+const { t } = useI18n();
 
 const formRef = ref<VForm | null>(null);
 interface FormData {

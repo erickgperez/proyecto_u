@@ -20,6 +20,10 @@ const form = ref({
     opciones: [],
 });
 
+import { useI18n } from 'vue-i18n';
+
+const { t } = useI18n();
+
 const candidatos = ref([]);
 const step = ref(1);
 const formChanged = ref(true);
@@ -29,14 +33,14 @@ const search = ref('');
 const headers = [
     { title: '#', key: 'row_number', align: 'start' },
     { title: 'NIE', key: 'nie', align: 'start' },
-    { title: 'Estudiante', key: 'primer_nombre' },
-    { title: 'Correo', key: 'correo' },
-    { title: 'Sexo', key: 'sexo' },
+    { title: t('_estudiante_'), key: 'primer_nombre' },
+    { title: t('_correo_'), key: 'correo' },
+    { title: t('_sexo_'), key: 'sexo' },
     //{ title: 'Edad', key: 'edad', align: 'end' },
-    { title: 'Sector', key: 'sector' },
-    { title: 'Centro Educativo', key: 'nombre_centro_educativo' },
-    { title: 'Opción', key: 'opcion_bachillerato' },
-    { title: 'Invitar', key: 'invitado', align: 'end', sortable: false },
+    { title: t('_sector_'), key: 'sector' },
+    { title: t('_centro_educativo_'), key: 'nombre_centro_educativo' },
+    { title: t('_opcion_'), key: 'opcion_bachillerato' },
+    { title: t('_invitar_'), key: 'invitado', align: 'end', sortable: false },
 ];
 
 //const sortBy = [];
@@ -130,7 +134,7 @@ function saveItem(campo: string) {
         Swal.fire({
             title: 'Error',
             position: 'top-end',
-            text: 'Dirección de correo no válida',
+            text: t('_direccion_correo_no_valida_'),
             icon: 'error',
             showConfirmButton: false,
             timer: 1500,
@@ -142,11 +146,11 @@ function saveItem(campo: string) {
     <v-form fast-fail @submit.prevent="getCandidatos">
         <v-stepper
             editable
-            :items="['Parámetros de agrupación', 'Selección de candidatos']"
+            :items="[$t('_parametros_agrupación_'), $t('_seleccion_candidatos_')]"
             v-model="step"
             show-actions
-            prev-text="Anterior"
-            next-text="Continuar"
+            :prev-text="$t('_anterior_')"
+            :next-text="$t('_continuar_')"
             color="#333"
             alt-labels
         >
@@ -158,7 +162,7 @@ function saveItem(campo: string) {
                                 v-model="form.departamentos"
                                 :items="props.departamentos"
                                 item-title="departamento"
-                                label="Departamento"
+                                :label="$t('_departamento_')"
                                 multiple
                                 clearable
                             >
@@ -184,12 +188,12 @@ function saveItem(campo: string) {
                                 v-model="form.opciones"
                                 :items="props.opcionesBachillerato"
                                 item-title="opcion"
-                                label="Opciones de bachillerato"
+                                :label="$t('_opciones_bachillerato_')"
                                 multiple
                                 clearable
                                 chips
                                 persistent-hint
-                                hint="Si no elije ninguna opción, se mostrarán los candidatos para todos los tipos de bachillerato"
+                                :hint="$t('_si_no_elije_opcion_mostrara_todas_')"
                             >
                             </v-combobox>
                         </v-col>
@@ -199,13 +203,13 @@ function saveItem(campo: string) {
             <template v-slot:item.2>
                 <v-card>
                     <v-card-title class="d-flex align-center pe-2">
-                        <v-icon icon="mdi-format-list-text"></v-icon> &nbsp; Listado de candidatos
+                        <v-icon icon="mdi-format-list-text"></v-icon> &nbsp; {{ $t('_listado_candidatos_') }}
                         <v-spacer></v-spacer>
 
                         <v-text-field
                             v-model="search"
                             density="compact"
-                            label="Buscar"
+                            :label="$t('_buscar_')"
                             prepend-inner-icon="mdi-magnify"
                             variant="outlined"
                             rounded="xl"
@@ -219,7 +223,7 @@ function saveItem(campo: string) {
                             color="primary"
                             variant="tonal"
                             class="ma-2"
-                            title="Exportar"
+                            :title="$t('_exportar_')"
                             @click="exportToExcel"
                         ></v-btn>
                     </v-card-title>
@@ -260,7 +264,7 @@ function saveItem(campo: string) {
                                     color="indigo"
                                     icon="mdi-email-plus-outline"
                                     size="small"
-                                    title="Agregar dirección de correo electrónico"
+                                    :title="$t('_agregar_direccion_correo_')"
                                     @click="startEditing(item)"
                                 />
                             </div>
