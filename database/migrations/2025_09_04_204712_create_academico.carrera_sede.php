@@ -11,15 +11,16 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ingreso.convocatoria_carrera', function (Blueprint $table) {
+        Schema::create('academico.carrera_sede', function (Blueprint $table) {
             $table->id();
-            $table->comment('Relación para definir las carreras para las cuales se hará la convocatoria');
-
-            $table->foreignId('convocatoria_id');
-            $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->comment('Relación para definir las carreras que se imparten en una sede');
 
             $table->foreignId('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('plan_estudio.carrera')->onDelete('CASCADE')->onUpdate('CASCADE');
+
+            $table->foreignId('sede_id');
+            $table->foreign('sede_id')->references('id')->on('academico.sede')->onDelete('CASCADE')->onUpdate('CASCADE');
+
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ingreso.convocatoria_carrera');
+        Schema::dropIfExists('academico.carrera_sede');
     }
 };
