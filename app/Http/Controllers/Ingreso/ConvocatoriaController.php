@@ -24,10 +24,10 @@ class ConvocatoriaController extends Controller
         // Aunque se ha validado del lado del cliente, validar aquí también
         $validatedData = $request->validate([
             'nombre' => 'required|string|max:100',
-            'descripcion' => 'string|max:255',
+            'descripcion' => 'nullable|string|max:255',
             'fecha' => 'required|date',
-            'cuerpo_mensaje' => 'string',
-            'afiche' => 'file|mimes:pdf',
+            'cuerpo_mensaje' => 'nullable|string',
+            'afiche' => 'nullable|file|mimes:pdf',
         ]);
 
         $convocatoria = new Convocatoria();
