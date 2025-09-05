@@ -3,6 +3,7 @@ import axios from 'axios';
 import { saveAs } from 'file-saver';
 import Swal from 'sweetalert2';
 import { nextTick, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import * as XLSX from 'xlsx';
 
 interface Departamento {
@@ -19,8 +20,6 @@ const form = ref({
     departamentos: [],
     opciones: [],
 });
-
-import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
 

@@ -2,6 +2,7 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { reactive, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const formRef = ref<VForm | null>(null);
@@ -12,32 +13,19 @@ const form = reactive({
 });
 const loading = ref(false);
 
+const { t } = useI18n();
+
 const tipoEnvioRules: ((value: string) => true | string)[] = [(v) => !!v || 'Elija un tipo de envío'];
 const tipoInvitacionRules: ((value: string) => true | string)[] = [(v) => !!v || 'Elija la forma de invitación'];
 
 const opciones = [
-    { value: 'todos', label: 'Todos los bachilleres en la base de datos' },
-    { value: 'opciones', label: 'Solo a estudiantes de bachilleratos que son requisitos para las carreras universitarias' },
+    { value: 'todos', label: t('_todos_estudiantes_en_base_datos_') },
+    { value: 'opciones', label: t('_solo_estudiantes_para_carreras_universitarias_') },
 ];
 const opcionesTipoInvitacion = [
-    { value: 'nuevo', label: 'Solo invitaciones que no se hayan enviado antes' },
-    { value: 'reenvio', label: 'Reenviar invitación si ya fue enviada' },
+    { value: 'nuevo', label: t('_solo_invitaciones_no_enviadas_anteriormente_') },
+    { value: 'reenvio', label: t('_reenviar_invitacion_') },
 ];
-
-/*async function enviarInvitaciones() {
-    const valid = formRef.value?.validate();
-    console.log(valid);
-    if (valid) {
-        try {
-            const response = await axios.post(route('ingreso-bachillerato-candidatos-invitaciones'), {
-                tipoEnvio: form.tipoEnvio,
-                tipoInvitacion: form.tipoInvitacion,
-            });
-        } catch (error) {
-            console.error(error);
-        }
-    }
-}*/
 
 async function submitForm(): Promise<void> {
     const result = await formRef.value?.validate();
@@ -51,9 +39,9 @@ async function submitForm(): Promise<void> {
             })
             .then(function (response) {
                 Swal.fire({
-                    title: 'Enviado',
+                    title: t('_enviado_'),
                     position: 'top-end',
-                    text: 'Invitaciones enviadas correctamente',
+                    text: t('_invitaciones_enviadas_correctamente_'),
                     icon: 'success',
                     showConfirmButton: false,
                     timer: 1500,
@@ -71,10 +59,10 @@ async function submitForm(): Promise<void> {
 <template>
     <v-card class="mx-auto my-8" elevation="16">
         <v-card-item>
-            <v-card-title> Enviar invitaciones a bachilleres </v-card-title>
+            <v-card-title> {{ $t('_enviar_invitaciones_bachilleres_') }} </v-card-title>
 
             <v-card-subtitle>
-                Las invitaciones solo se mandarán a estudiantes de bachillerato que tengan correo electrónico registrado
+                {{ $t('_invitaciones_se_enviaran_si_tiene_correo_') }}
             </v-card-subtitle>
         </v-card-item>
 
@@ -82,23 +70,23 @@ async function submitForm(): Promise<void> {
             <v-form @submit.prevent="submitForm" ref="formRef">
                 <div>
                     <v-select
-                        label="Enviar invitaciones a:"
+                        :label="$t('_enviar_invitaciones_a_')"
                         :rules="tipoEnvioRules"
                         :items="opciones"
                         :item-title="'label'"
                         v-model="form.tipoEnvio"
                     ></v-select>
                     <v-select
-                        label="Tipo invitación"
+                        :label="$t('_tipo_invitacion_')"
                         :rules="tipoInvitacionRules"
                         :items="opcionesTipoInvitacion"
                         :item-title="'label'"
                         v-model="form.tipoInvitacion"
                     ></v-select>
                 </div>
-                <v-btn :loading="loading" rounded variant="tonal" color="blue-darken-4" append-icon="mdi-email-arrow-right-outline" type="submit"
-                    >Enviar</v-btn
-                >
+                <v-btn :loading="loading" rounded variant="tonal" color="blue-darken-4" append-icon="mdi-email-arrow-right-outline" type="submit">
+                    {{ $t('_enviar_') }}
+                </v-btn>
             </v-form>
             <v-overlay v-model="loading" persistent class="align-center justify-center" contained>
                 <v-progress-circular color="primary" size="64" indeterminate></v-progress-circular>
