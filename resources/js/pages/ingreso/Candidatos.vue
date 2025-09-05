@@ -21,17 +21,13 @@ const tab = ref('option-1');
 </script>
 
 <template>
-    <Head title="Candidatos"></Head>
-    <AppLayout
-        titulo="Candidatos"
-        subtitulo="Estudiantes que son candidatos a estudiar en las carreras universitarias"
-        icono="mdi-email-fast-outline"
-    >
+    <Head :title="$t('_candidatos_')"></Head>
+    <AppLayout :titulo="$t('_candidatos_')" :subtitulo="$t('_estudiantes_candidatos_carrera_universitaria_')" icono="mdi-email-fast-outline">
         <div class="d-flex flex-row">
             <v-tabs v-model="tab" color="primary" direction="vertical">
-                <v-tab prepend-icon="mdi-chart-bar" text="Resumen" value="option-1"></v-tab>
-                <v-tab prepend-icon="mdi-list-status" text="Listado" value="option-2"></v-tab>
-                <v-tab prepend-icon="mdi-email-fast-outline" text="Invitaciones" value="option-3"></v-tab>
+                <v-tab prepend-icon="mdi-chart-bar" :text="$t('_resumen_')" value="option-1"></v-tab>
+                <v-tab prepend-icon="mdi-list-status" :text="$t('_listado_')" value="option-2"></v-tab>
+                <v-tab prepend-icon="mdi-email-fast-outline" :text="$t('_invitaciones_')" value="option-3"></v-tab>
             </v-tabs>
 
             <v-tabs-window v-model="tab" class="w-full">
