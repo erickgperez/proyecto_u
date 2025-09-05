@@ -113,13 +113,15 @@ onMounted(() => {
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
                     <v-col cols="12">
-                        <v-date-input
-                            clearable
-                            required
-                            v-model="formData.fecha"
-                            :rules="[(v) => !!v || 'La fecha es requerida']"
-                            label="Fecha *"
-                        ></v-date-input>
+                        <v-locale-provider locale="es">
+                            <v-date-input
+                                clearable
+                                required
+                                v-model="formData.fecha"
+                                :rules="[(v) => !!v || 'La fecha es requerida']"
+                                label="Fecha *"
+                            ></v-date-input>
+                        </v-locale-provider>
 
                         <v-text-field
                             required
@@ -136,7 +138,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion"
-                            :rules="[(v) => (!!v && v.length <= 255) || 'Longitud máxima de 255 caracteres']"
+                            :rules="[(v) => v.length <= 255 || 'Longitud máxima de 255 caracteres']"
                             counter="255"
                             label="Descripción"
                         ></v-text-field>
