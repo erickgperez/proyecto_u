@@ -4,52 +4,28 @@
 
         <!-- Selectores principales -->
         <div class="mb-4 flex">
-            <v-select v-model="rowKey" label="Fila" :items="columns"></v-select>
+            <v-select v-model="rowKey" :label="$t('_fila_')" :items="columns"></v-select>
 
-            <v-select v-model="colKey" label="Columna" :items="columns"></v-select>
+            <v-select v-model="colKey" :label="$t('_columna_')" :items="columns"></v-select>
 
             <v-select
                 v-model="chartType"
-                label="Tipo de visualizaicón"
+                :label="$t('_tipo_visualizacion_')"
                 item-title="label"
                 :items="[
-                    { value: 'bar', label: 'Barras' },
-                    { value: 'line', label: 'Líneas' },
-                    { value: 'tabla', label: 'Tabla de datos' },
+                    { value: 'bar', label: $t('_barras_') },
+                    { value: 'line', label: $t('_lineas_') },
+                    { value: 'tabla', label: $t('_tabla_datos_') },
                 ]"
             ></v-select>
         </div>
-        <!--<div>
-            <label class="block font-semibold">Campo numérico:</label>
-            <select v-model="metricField" class="rounded border p-1">
-                <option disabled value="">-- Seleccionar --</option>
-                <option v-for="col in numericFields" :key="col" :value="col">
-                    {{ col }}
-                </option>
-            </select>
-        </div>
 
-        <div>
-            <label class="block font-semibold">Métrica:</label>
-            <select v-model="aggregation" class="rounded border p-1">
-                <option value="sum">Suma</option>
-                <option value="count">Conteo</option>
-                <option value="avg">Promedio</option>
-            </select>
-        </div>-->
-        Filtros
+        {{ $t('_filtros_') }}
         <v-divider class="border-opacity-100" color="info" :thickness="4"></v-divider>
         <!-- Filtros adicionales -->
         <v-row v-if="filterableFields.length">
             <v-col v-for="field in filterableFields" :key="field">
                 <v-select v-model="filters[field]" :items="getUniqueValues(field)" :label="field" clearable multiple></v-select>
-                <!--<label class="font-semibold">{{ field }}</label>
-                <select v-model="filters[field]" class="rounded border p-1" multiple>
-                    <option value="">(Todos)</option>
-                    <option v-for="val in getUniqueValues(field)" :key="val" :value="val">
-                        {{ val }}
-                    </option>
-                </select>-->
             </v-col>
         </v-row>
 
