@@ -4,12 +4,15 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { saveAs } from 'file-saver';
 import { computed, onMounted, PropType, ref } from 'vue';
+import { useDate } from 'vuetify';
 import * as XLSX from 'xlsx';
 
 const step = ref(1);
 
 const selectedItem = ref('');
 const selectedAction = ref('');
+
+const date = useDate();
 
 const search = ref('');
 
@@ -63,6 +66,7 @@ const headers = [
     { title: 'fecha', key: 'fecha' },
     { title: 'Nombre', key: 'nombre', align: 'start' },
     { title: 'Descripción', key: 'descripcion' },
+    { title: 'Acciones', key: 'actions' },
 ];
 
 const sortBy = [
@@ -143,6 +147,11 @@ onMounted(() => {
                         hover
                         striped="odd"
                     >
+                        <template v-slot:item.fecha="{ item }">
+                            <div class="d-flex ga-2">
+                                {{ date.format(item.fecha, 'keyboardDate') }}
+                            </div>
+                        </template>
                         <template v-slot:item.actions="{ item }">
                             <div class="d-flex ga-2 justify-end">
                                 <v-icon color="primary" icon="mdi-pencil" size="small" @click="edit(item.id)"></v-icon>
