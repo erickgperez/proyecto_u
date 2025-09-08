@@ -2,7 +2,10 @@
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, reactive, ref, toRef } from 'vue';
+import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
+
+const { t } = useI18n();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -78,8 +81,8 @@ async function submitForm() {
             reset();
 
             Swal.fire({
-                title: 'Éxito',
-                text: 'Datos subidos correctamente',
+                title: t('_exito_'),
+                text: t('_datos_subidos_correctamente_'),
                 icon: 'success',
                 position: 'top-end',
                 showConfirmButton: false,
@@ -87,9 +90,10 @@ async function submitForm() {
                 toast: true,
             });
         } catch (error: any) {
+            console.log(error.response.data.message);
             Swal.fire({
-                title: 'Error',
-                text: 'No se ha podido guardar el formulario (' + error.response.data.message + ')',
+                title: t('_error_'),
+                text: t('_no_se_pudo_guardar_formulario_'),
                 icon: 'error',
                 confirmButtonColor: '#D7E1EE',
             });
@@ -136,32 +140,32 @@ onMounted(() => {
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
                             :rules="[
-                                (v) => !!v || 'El nombre de la convocatoria es requerido',
-                                (v) => (!!v && v.length <= 100) || 'Longitud máxima de 100 caracteres',
+                                (v) => !!v || $t('_nombre_requerido_'),
+                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima') + ': 100 ' + $t('_caracteres_'),
                             ]"
                             counter="100"
-                            label="Nombre *"
+                            :label="$t('_nombre_') + ' *'"
                         ></v-text-field>
 
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion"
-                            :rules="[(v) => v.length <= 255 || 'Longitud máxima de 255 caracteres']"
+                            :rules="[(v) => v.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
                             counter="255"
-                            label="Descripción"
+                            :label="$t('_descripcion_')"
                         ></v-text-field>
 
                         <v-textarea
                             prepend-icon="mdi-form-textarea"
-                            label="Cuerpo del mensaje"
+                            :label="$t('_cuerpo_mensaje_')"
                             v-model="formData.cuerpo_mensaje"
-                            hint="Mensaje que se enviará por correo electrónico cuando se hagan invitaciones a la convocatoria"
+                            :hint="$t('_consejo_cuerpo_mensaje_')"
                             persistent-hint
                         ></v-textarea>
                     </v-col>
                     <v-col cols="12">
                         <v-file-input
-                            label="Afiche en formato PDF"
+                            :label="$t('_afiche_formato_pdf_')"
                             accept=".pdf"
                             clearable
                             v-model="formData.afiche"
@@ -172,7 +176,7 @@ onMounted(() => {
                     </v-col>
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
-                            Guardar
+                            {{ $t('_guardar_') }}
                         </v-btn>
                     </v-col>
                 </v-row>
