@@ -3,13 +3,13 @@ import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { saveAs } from 'file-saver';
-import { computed, onMounted, PropType, ref } from 'vue';
+import { computed, PropType, ref } from 'vue';
 import { useDate } from 'vuetify';
 import * as XLSX from 'xlsx';
 
 const step = ref(1);
 
-const selectedItem = ref('');
+const selectedItem = ref<Item>();
 const selectedAction = ref('');
 
 const date = useDate();
@@ -37,12 +37,12 @@ const exportToExcel = () => {
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
 interface Item {
-    id: number;
-    fecha: Date;
+    id: number | null;
+    fecha: Date | null;
     nombre: string;
     descripcion: string;
     cuerpo_mensaje: string;
-    afiche: string;
+    afiche: string | null;
 }
 
 const props = defineProps({
@@ -53,11 +53,14 @@ const props = defineProps({
     },
 });
 
+//const localItems = reactive<Item[]>([]);
+const localItems = ref([...props.items]); // Create a shallow copy
+
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_convocatorias');
 const fileName = ref('convocatorias');
 
-const selectedItemLabel = computed(() => selectedItem.value.nombre ?? '');
+const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 
 // Título del listado
 const titleList = ref('Listado de convocatorias');
@@ -90,9 +93,23 @@ const selectAction = (accion: string) => {
     step.value++;
 };
 
-onMounted(() => {
-    //Recuperar las convocatorias registradas
-});
+const handleFormSave = (data: Item) => {
+    console.log(data.descripcion);
+    if (selectedAction.value == 'edit') {
+        const index = props.items.findIndex((item) => item.id === data.id);
+
+        const element = props.items[index];
+        element.id = data.id;
+        element.fecha = data.fecha;
+        element.nombre = data.nombre;
+        element.descripcion = data.descripcion;
+        element.cuerpo_mensaje = data.cuerpo_mensaje;
+    } else {
+        //formModel.value.id = items.value.length + 1;
+        //items.value.push(formModel.value);
+        console.log('nuevo');
+    }
+};
 </script>
 
 <template>
@@ -123,6 +140,7 @@ onMounted(() => {
                             title="Agregar nueva convocatoria"
                             @click="
                                 selectAction('new');
+                                selectedItem = createNewRecord();
                                 step = 3;
                             "
                         ></v-btn>
@@ -139,7 +157,7 @@ onMounted(() => {
                     <v-data-table
                         v-model:search="search"
                         :headers="headers"
-                        :items="props.items"
+                        :items="localItems"
                         border="primary thin"
                         class="w-100"
                         :sort-by="sortBy"
@@ -162,7 +180,10 @@ onMounted(() => {
                                     color="green-darken-2"
                                     icon="mdi-chevron-right-circle-outline"
                                     size="large"
-                                    @click="selectItem(item)"
+                                    @click="
+                                        selectedAction = '';
+                                        selectItem(item);
+                                    "
                                 ></v-icon>
                             </div>
                         </template>
@@ -229,7 +250,12 @@ onMounted(() => {
             </v-window-item>
 
             <v-window-item :value="3">
-                <ConvocatoriaForm v-if="selectedAction == 'new' || selectedAction == 'edit'" :item="selectedItem"></ConvocatoriaForm>
+                <ConvocatoriaForm
+                    v-if="selectedAction == 'new' || selectedAction == 'edit'"
+                    :item="selectedItem"
+                    :accion="selectedAction"
+                    @form-saved="handleFormSave"
+                ></ConvocatoriaForm>
             </v-window-item>
         </v-window>
 

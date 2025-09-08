@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, reactive, ref, toRef } from 'vue';
+import { onMounted, reactive, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -9,6 +9,8 @@ const { t } = useI18n();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
+
+const emit = defineEmits(['form-saved']);
 
 /*function createNewRecord() {
     return {
@@ -23,6 +25,8 @@ const formRef = ref<VForm | null>(null);
 
 function reset() {
     //formData.value = createNewRecord();
+    formRef.value!.reset();
+    formData.afiche = null;
 }
 
 interface FormData {
@@ -34,7 +38,7 @@ interface FormData {
     afiche: File | null;
 }
 
-const props = defineProps(['item']);
+const props = defineProps(['item', 'accion']);
 
 const formData: FormData = reactive({
     id: null,
@@ -64,21 +68,19 @@ function edit(id) {
 }*/
 
 async function submitForm() {
-    console.log(isEditing.value);
-
     const { valid } = await formRef.value!.validate();
     loading.value = true;
     if (valid) {
         try {
-            const response = await axios.postForm(route('ingreso-convocatoria-save'), formData, {
+            await axios.postForm(route('ingreso-convocatoria-save'), formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            console.log(response);
-            formRef.value!.reset();
-            formData.afiche = null;
-            reset();
+            emit('form-saved', formData);
+            //formRef.value!.reset();
+            //formData.afiche = null;
+            //reset();
 
             Swal.fire({
                 title: t('_exito_'),
@@ -100,6 +102,7 @@ async function submitForm() {
         }
     }
     loading.value = false;
+
     if (isEditing.value) {
         //const index = items.value.findIndex((item) => item.id === formModel.value.id);
         //items.value[index] = formModel.value;
@@ -109,7 +112,17 @@ async function submitForm() {
     }
 }
 
+watch(
+    () => props.accion,
+    (newValue) => {
+        if (newValue === 'new') {
+            reset();
+        }
+    },
+);
+
 onMounted(() => {
+    console.log('entro');
     reset();
     formData.id = props.item.id;
     formData.fecha = props.item.fecha;
@@ -120,7 +133,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_agregar_convocatoria_')} `">
+    <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_crear_convocatoria_')} `">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
