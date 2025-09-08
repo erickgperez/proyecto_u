@@ -16,7 +16,8 @@ class ConvocatoriaController extends Controller
     public function index(Request $request): Response
     {
 
-        return Inertia::render('ingreso/Convocatoria', []);
+        $convocatorias = Convocatoria::all();
+        return Inertia::render('ingreso/Convocatoria', ['items' => $convocatorias]);
     }
 
     public function save(Request $request)

@@ -3,7 +3,7 @@ import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { saveAs } from 'file-saver';
-import { computed, ref } from 'vue';
+import { computed, onMounted, PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
 const step = ref(1);
@@ -26,13 +26,29 @@ const exportToExcel = () => {
     saveAs(data, fileName.value + '.xlsx');
 };
 
-const items = ref([]);
+//const items = ref([]);
 
 //const dialog = shallowRef(false);
 
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
+interface Item {
+    id: number;
+    fecha: Date;
+    nombre: string;
+    descripcion: string;
+    cuerpo_mensaje: string;
+    afiche: string;
+}
+
+const props = defineProps({
+    items: {
+        type: Array as PropType<Item[]>,
+        required: true,
+        default: () => [],
+    },
+});
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_convocatorias');
@@ -69,6 +85,10 @@ const selectAction = (accion: string) => {
     selectedAction.value = accion;
     step.value++;
 };
+
+onMounted(() => {
+    //Recuperar las convocatorias registradas
+});
 </script>
 
 <template>
@@ -115,7 +135,7 @@ const selectAction = (accion: string) => {
                     <v-data-table
                         v-model:search="search"
                         :headers="headers"
-                        :items="items"
+                        :items="props.items"
                         border="primary thin"
                         class="w-100"
                         :sort-by="sortBy"
