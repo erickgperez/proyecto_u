@@ -17,7 +17,7 @@ const date = useDate();
 const search = ref('');
 
 const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(items.value);
+    const worksheet = XLSX.utils.json_to_sheet(props.items);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, sheetName.value);
 
@@ -229,7 +229,7 @@ onMounted(() => {
             </v-window-item>
 
             <v-window-item :value="3">
-                <ConvocatoriaForm v-if="selectedAction == 'new'"></ConvocatoriaForm>
+                <ConvocatoriaForm v-if="selectedAction == 'new' || selectedAction == 'edit'" :item="selectedItem"></ConvocatoriaForm>
             </v-window-item>
         </v-window>
 

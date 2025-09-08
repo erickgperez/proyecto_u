@@ -31,6 +31,8 @@ interface FormData {
     afiche: File | null;
 }
 
+const props = defineProps(['item']);
+
 const formData: FormData = reactive({
     id: null,
     nombre: '',
@@ -105,6 +107,12 @@ async function submitForm() {
 
 onMounted(() => {
     reset();
+    formData.id = props.item.id;
+    formData.fecha = props.item.fecha;
+    formData.nombre = props.item.nombre;
+    formData.descripcion = props.item.descripcion;
+    formData.cuerpo_mensaje = props.item.cuerpo_mensaje;
+    formData.afiche = props.item.afiche;
 });
 </script>
 <template>
