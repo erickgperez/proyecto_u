@@ -57,7 +57,7 @@ const props = defineProps({
 const sheetName = ref('Listado_convocatorias');
 const fileName = ref('convocatorias');
 
-const selectedItemLabel = computed(() => selectedItem.value.title ?? '');
+const selectedItemLabel = computed(() => selectedItem.value.nombre ?? '');
 
 // Título del listado
 const titleList = ref('Listado de convocatorias');
@@ -154,9 +154,10 @@ onMounted(() => {
                         </template>
                         <template v-slot:item.actions="{ item }">
                             <div class="d-flex ga-2 justify-end">
-                                <v-icon color="primary" icon="mdi-pencil" size="small" @click="edit(item.id)"></v-icon>
+                                <!--<v-icon color="primary" icon="mdi-pencil" size="small" @click="edit(item.id)"></v-icon>
 
                                 <v-icon color="error" icon="mdi-delete" size="small" @click="remove(item.id)"></v-icon>
+                            -->
                                 <v-icon
                                     color="green-darken-2"
                                     icon="mdi-chevron-right-circle-outline"
@@ -170,19 +171,22 @@ onMounted(() => {
             </v-window-item>
 
             <v-window-item :value="2">
-                <v-card class="align-center justify-center" :title="'Registro seleccionado: ' + selectedItemLabel">
+                <v-card class="align-center justify-center">
+                    <v-card-title>
+                        <h2 class="text-blue-darken-3">{{ selectedItemLabel }}</h2></v-card-title
+                    >
                     <v-row dense>
                         <v-col cols="12" md="12">
                             <span class="text-h6">
                                 <br />
-                                <span>Elija la acción a realizar</span>
+                                <span>{{ $t('_elija_accion_realizar_') }}</span>
                             </span>
                         </v-col>
                         <v-col cols="12" md="6">
                             <v-card
                                 class="mx-auto"
-                                subtitle="Editar la información del registro seleccionado"
-                                title="Editar"
+                                subtitle="_editar_datos_registro_seleccionado_"
+                                :title="$t('_editar_')"
                                 @click="selectAction('edit')"
                             >
                                 <template v-slot:prepend>
