@@ -150,7 +150,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion"
-                            :rules="[(v) => v.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
+                            :rules="[(v) => v?.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
                             counter="255"
                             :label="$t('_descripcion_')"
                         ></v-text-field>

@@ -185,7 +185,7 @@ onMounted(() => {
                         <v-col cols="12" md="6">
                             <v-card
                                 class="mx-auto"
-                                subtitle="_editar_datos_registro_seleccionado_"
+                                :subtitle="$t('_editar_datos_registro_seleccionado_')"
                                 :title="$t('_editar_')"
                                 @click="selectAction('edit')"
                             >
