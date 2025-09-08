@@ -112,11 +112,11 @@ onMounted(() => {
     formData.nombre = props.item.nombre;
     formData.descripcion = props.item.descripcion;
     formData.cuerpo_mensaje = props.item.cuerpo_mensaje;
-    formData.afiche = props.item.afiche;
+    //formData.afiche = props.item.afiche; //El tratamiento del archivo será diferente
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? 'Editar' : 'Agregar'} convocatoria`">
+    <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_agregar_convocatoria_')} `">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
@@ -126,8 +126,8 @@ onMounted(() => {
                                 clearable
                                 required
                                 v-model="formData.fecha"
-                                :rules="[(v) => !!v || 'La fecha es requerida']"
-                                label="Fecha *"
+                                :rules="[(v) => !!v || $t('_fecha_requerida_')]"
+                                :label="$t('_fecha_') + ' *'"
                             ></v-date-input>
                         </v-locale-provider>
 

@@ -31,11 +31,17 @@ class ConvocatoriaController extends Controller
             'afiche' => 'nullable|file|mimes:pdf',
         ]);
 
-        $convocatoria = new Convocatoria();
+        if ($request->get('id') === null) {
+            $convocatoria = new Convocatoria();
+        } else {
+            $convocatoria = Convocatoria::find($request->get('id'));
+        }
+
         $convocatoria->nombre = $validatedData['nombre'];
         $convocatoria->descripcion = $validatedData['descripcion'];
         $convocatoria->fecha = $validatedData['fecha'];
         $convocatoria->cuerpo_mensaje = $validatedData['cuerpo_mensaje'];
+
         if ($request->hasFile('afiche')) {
             $file = $request->file('afiche');
 
