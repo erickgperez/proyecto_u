@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
+import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { saveAs } from 'file-saver';
@@ -214,7 +215,7 @@ const handleFormSave = (data: Item) => {
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-card class="mx-auto" subtitle="Mostrar los datos solo de lectura" title="Ver" @click="selectAction('show')">
+                            <v-card class="mx-auto" :subtitle="$t('_mostrar_datos_solo_lectura_')" :title="$t('_ver_')" @click="selectAction('show')">
                                 <template v-slot:prepend>
                                     <v-avatar color="teal-lighten-4">
                                         <v-icon icon="mdi-eye-outline" size="x-large"></v-icon>
@@ -248,6 +249,7 @@ const handleFormSave = (data: Item) => {
                     :accion="selectedAction"
                     @form-saved="handleFormSave"
                 ></ConvocatoriaForm>
+                <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
             </v-window-item>
         </v-window>
 

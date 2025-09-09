@@ -51,6 +51,7 @@
     "_gestion_academica_": "Academic management",
     "_gestionar_convocatoria_": "Manage application process",
     "_guardar_": "Save",
+    "_id_": "Id",
     "_ingreso_universitario_": "University admission",
     "_invitaciones_": "Invitations",
     "_invitaciones_enviadas_correctamente_": "Invitations sent successfully",
@@ -62,7 +63,9 @@
     "_longitud_maxima_": "Maximum length",
     "_modulo_actual_": "Current module",
     "_modulos_": "Modules",
-    "_no_se_pudo_guardar_formulario_": "No se ha podido guardar el formulario",
+    "_mostrar_convocatoria_": "Show application process",
+    "_mostrar_datos_solo_lectura_": "Display read-only data",
+    "_no_se_pudo_guardar_formulario_": "The form could not be saved.",
     "_nombre_": "Name",
     "_nombre_requerido_": "Name required",
     "_opcion_": "Option",
@@ -83,5 +86,6 @@
     "_tipo_invitacion_": "Invitation type",
     "_tipo_grafico_": "Display type",
     "_todos_estudiantes_en_base_datos_": "All students in the database",
+    "_ver_": "Show",
     "_verifique_que_ha_subido_archivo_csv_": "Verify that you have uploaded a CSV file, with {tab} as the field separator"
 }

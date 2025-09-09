@@ -51,6 +51,7 @@
     "_gestion_academica_": "Gestión académica",
     "_gestionar_convocatoria_": "Gestionar convocatoria",
     "_guardar_": "Guardar",
+    "_id_": "Id",
     "_ingreso_universitario_": "Ingreso universitario",
     "_invitaciones_": "Invitaciones",
     "_invitaciones_enviadas_correctamente_": "Invitaciones enviadas correctamente",
@@ -62,6 +63,8 @@
     "_longitud_maxima_": "Longitud máxima",
     "_modulo_actual_": "Módulo actual",
     "_modulos_": "Módulos",
+    "_mostrar_convocatoria_": "Mostrar convocatoria",
+    "_mostrar_datos_solo_lectura_": "Mostrar los datos solo de lectura",
     "_no_se_pudo_guardar_formulario_": "No se ha podido guardar el formulario",
     "_nombre_": "Nombre",
     "_nombre_requerido_": "Nombre requerido",
@@ -83,5 +86,6 @@
     "_tipo_invitacion_": "Tipo invitación",
     "_tipo_visualizacion_": "Tipo de visualización",
     "_todos_estudiantes_en_base_datos_": "Todos los estudiantes en la base de datos",
+    "_ver_": "Ver",
     "_verifique_que_ha_subido_archivo_csv_": "Verifique que ha subido un archivo CSV, con {tabulador} como separador de campo"
 }
