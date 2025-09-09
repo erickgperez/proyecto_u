@@ -122,14 +122,15 @@ watch(
 );
 
 onMounted(() => {
-    console.log('entro');
     reset();
-    formData.id = props.item.id;
-    formData.fecha = props.item.fecha;
-    formData.nombre = props.item.nombre;
-    formData.descripcion = props.item.descripcion;
-    formData.cuerpo_mensaje = props.item.cuerpo_mensaje;
-    //formData.afiche = props.item.afiche; //El tratamiento del archivo será diferente
+    if (props.accion === 'edit') {
+        formData.id = props.item.id;
+        formData.fecha = props.item.fecha;
+        formData.nombre = props.item.nombre;
+        formData.descripcion = props.item.descripcion;
+        formData.cuerpo_mensaje = props.item.cuerpo_mensaje;
+        //formData.afiche = props.item.afiche; //El tratamiento del archivo será diferente
+    }
 });
 </script>
 <template>

@@ -94,20 +94,13 @@ const selectAction = (accion: string) => {
 };
 
 const handleFormSave = (data: Item) => {
-    console.log(data.descripcion);
     if (selectedAction.value == 'edit') {
-        const index = props.items.findIndex((item) => item.id === data.id);
+        const index = localItems.value.findIndex((item) => item.id === data.id);
 
-        const element = props.items[index];
-        element.id = data.id;
-        element.fecha = data.fecha;
-        element.nombre = data.nombre;
-        element.descripcion = data.descripcion;
-        element.cuerpo_mensaje = data.cuerpo_mensaje;
+        localItems.value[index] = data;
     } else {
-        //formModel.value.id = items.value.length + 1;
-        //items.value.push(formModel.value);
-        console.log('nuevo');
+        localItems.value.push(data);
+        step.value = 1;
     }
 };
 </script>
