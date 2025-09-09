@@ -69,7 +69,7 @@ const headers = [
     { title: 'fecha', key: 'fecha' },
     { title: 'Nombre', key: 'nombre', align: 'start' },
     { title: 'Descripción', key: 'descripcion' },
-    { title: 'Acciones', key: 'actions' },
+    { title: 'Acciones', key: 'actions', align: 'end' },
 ];
 
 const sortBy = [
@@ -118,7 +118,7 @@ const handleFormSave = (data: Item) => {
                         <v-text-field
                             v-model="search"
                             density="compact"
-                            label="Buscar"
+                            :label="$t('_buscar_')"
                             prepend-inner-icon="mdi-magnify"
                             variant="outlined"
                             rounded="xl"
@@ -130,10 +130,9 @@ const handleFormSave = (data: Item) => {
                             icon="mdi-table-plus"
                             color="success"
                             class="ml-2"
-                            title="Agregar nueva convocatoria"
+                            :title="$t('_crear_convocatoria_')"
                             @click="
                                 selectAction('new');
-                                selectedItem = createNewRecord();
                                 step = 3;
                             "
                         ></v-btn>
@@ -142,7 +141,7 @@ const handleFormSave = (data: Item) => {
                             color="primary"
                             variant="tonal"
                             class="ma-2"
-                            title="Exportar"
+                            :title="$t('_exportar_')"
                             @click="exportToExcel"
                         ></v-btn>
                     </v-card-title>
