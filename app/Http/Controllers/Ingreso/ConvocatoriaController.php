@@ -54,4 +54,9 @@ class ConvocatoriaController extends Controller
 
         return response()->json(['message' => 'Datos guardados']);
     }
+
+    public function delete(string $id)
+    {
+        return response()->json(['status' => 'ok', 'message' => $id]);
+    }
 }

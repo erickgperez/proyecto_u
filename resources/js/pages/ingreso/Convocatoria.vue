@@ -3,12 +3,17 @@ import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import axios from 'axios';
 import { saveAs } from 'file-saver';
+import Swal from 'sweetalert2';
 import { computed, PropType, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
 import * as XLSX from 'xlsx';
 
 const step = ref(1);
+
+const { t } = useI18n();
 
 const selectedItem = ref<Item>();
 const selectedAction = ref('');
@@ -78,9 +83,56 @@ const sortBy = [
     { key: 'nombre', order: 'asc' },
 ];
 
-function remove(id: number) {
-    const index = items.value.findIndex((item) => item.id === id);
-    items.value.splice(index, 1);
+function remove() {
+    const hasError = ref(false);
+    const message = ref('');
+    const messageLog = ref('');
+    Swal.fire({
+        title: t('_confirmar_borrar_registro_'),
+        text: selectedItem.value?.nombre,
+        showCancelButton: true,
+        confirmButtonText: t('_borrar_'),
+        cancelButtonText: t('_cancelar_'),
+        confirmButtonColor: '#e5adac',
+        cancelButtonColor: '#D7E1EE',
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const resp = await axios.delete(route('ingreso-convocatoria-delete', { id: selectedItem.value?.id }));
+
+                if (resp.data.status == 'ok') {
+                    Swal.fire({
+                        title: t('_exito_'),
+                        text: t('_registro_eliminado_correctamente_'),
+                        icon: 'success',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        toast: true,
+                    });
+
+                    const index = localItems.value.findIndex((item) => item.id === selectedItem.value?.id);
+                    localItems.value.splice(index, 1);
+                } else {
+                    hasError.value = true;
+                    message.value = resp.data.message;
+                }
+            } catch (error: any) {
+                hasError.value = true;
+                messageLog.value = error.response.data.message;
+            }
+
+            if (hasError.value) {
+                console.log(messageLog.value);
+                Swal.fire({
+                    title: t('_error_'),
+                    text: t('_no_se_pudo_eliminar_') + message.value,
+                    icon: 'error',
+                    confirmButtonColor: '#D7E1EE',
+                });
+            }
+        }
+    });
 }
 
 const selectItem = (item: any) => {
@@ -91,7 +143,6 @@ const selectItem = (item: any) => {
 
 const selectAction = (accion: string) => {
     selectedAction.value = accion;
-    step.value++;
 };
 
 const handleFormSave = (data: Item) => {
@@ -201,7 +252,10 @@ const handleFormSave = (data: Item) => {
                                 class="mx-auto"
                                 :subtitle="$t('_editar_datos_registro_seleccionado_')"
                                 :title="$t('_editar_')"
-                                @click="selectAction('edit')"
+                                @click="
+                                    selectAction('edit');
+                                    step++;
+                                "
                             >
                                 <template v-slot:prepend>
                                     <v-avatar color="blue-darken-2">
@@ -215,7 +269,15 @@ const handleFormSave = (data: Item) => {
                         </v-col>
 
                         <v-col cols="12" md="6">
-                            <v-card class="mx-auto" :subtitle="$t('_mostrar_datos_solo_lectura_')" :title="$t('_ver_')" @click="selectAction('show')">
+                            <v-card
+                                class="mx-auto"
+                                :subtitle="$t('_mostrar_datos_solo_lectura_')"
+                                :title="$t('_ver_')"
+                                @click="
+                                    selectAction('show');
+                                    step++;
+                                "
+                            >
                                 <template v-slot:prepend>
                                     <v-avatar color="teal-lighten-4">
                                         <v-icon icon="mdi-eye-outline" size="x-large"></v-icon>
@@ -227,7 +289,15 @@ const handleFormSave = (data: Item) => {
                             </v-card>
                         </v-col>
                         <v-col cols="12" md="6">
-                            <v-card class="mx-auto" subtitle="Borrar el registro seleccionado" title="Eliminar" @click="selectAction('delete')">
+                            <v-card
+                                class="mx-auto"
+                                subtitle="Borrar el registro seleccionado"
+                                title="Eliminar"
+                                @click="
+                                    selectAction('delete');
+                                    remove();
+                                "
+                            >
                                 <template v-slot:prepend>
                                     <v-avatar color="red-lighten-1">
                                         <v-icon icon="mdi-delete-alert" size="x-large"></v-icon>

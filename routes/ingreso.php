@@ -16,4 +16,5 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::patch('/ingreso/bachillerato/candidato/save/field', [CandidatosController::class, 'saveField'])->name('ingreso-bachillerato-candidato-save-field');
     Route::get('/ingreso/convocatoria', [ConvocatoriaController::class, 'index'])->name('ingreso-convocatoria-index');
     Route::post('/ingreso/convocatoria/save', [ConvocatoriaController::class, 'save'])->name('ingreso-convocatoria-save');
+    Route::delete('/ingreso/convocatoria/{id}/delete', [ConvocatoriaController::class, 'delete'])->name('ingreso-convocatoria-delete');
 });
