@@ -17,7 +17,16 @@ class ConvocatoriaController extends Controller
     {
 
         $convocatorias = Convocatoria::all();
-        return Inertia::render('ingreso/Convocatoria', ['items' => $convocatorias]);
+
+        $resp = [];
+        foreach ($convocatorias as $row) {
+            $conv = $row->toArray();
+            $conv['created_by'] = $row->creator;
+            $conv['updated_by'] = $row->updater;
+
+            $resp[] = $conv;
+        }
+        return Inertia::render('ingreso/Convocatoria', ['items' => $resp]);
     }
 
     public function save(Request $request)
@@ -52,7 +61,11 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoria]);
+        $conv = $convocatoria->toArray();
+        $conv['created_by'] = $convocatoria->creator;
+        $conv['updated_by'] = $convocatoria->updater;
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $conv]);
     }
 
     public function delete(int $id)

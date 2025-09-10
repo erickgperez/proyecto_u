@@ -50,6 +50,22 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
+                    {{ $t('_created_at_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ date.format(props.item.created_at, 'keyboardDateTime12h') }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('_created_by_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.created_by.name + ' ' + props.item.created_by.email }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
                     {{ $t('_updated_at_') }}
                 </v-col>
                 <v-col cols="8">
@@ -58,10 +74,10 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_created_at_') }}
+                    {{ $t('_updated_by_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ date.format(props.item.created_at, 'keyboardDateTime12h') }}
+                    {{ props.item.updated_by.name + ' ' + props.item.updated_by.email }}
                 </v-col>
             </v-row>
         </template>

@@ -11,6 +11,7 @@
     "_cerrar_sesion_": "Cerrar sesión",
     "_crear_convocatoria_": "Crear convocatoria",
     "_created_at_": "Creado en",
+    "_created_by_": "Creado por",
     "_permite_gestionar_datos_convocatorias_": "Permite gestionar los datos de las convocatoria",
     "_informe_": "Informe",
     "_calificaciones_": "Calificaciones",
@@ -94,6 +95,7 @@
     "_tipo_visualizacion_": "Tipo de visualización",
     "_todos_estudiantes_en_base_datos_": "Todos los estudiantes en la base de datos",
     "_updated_at_": "Actualizado en",
+    "_updated_by_": "Actualizado por",
     "_ver_": "Ver",
     "_verifique_que_ha_subido_archivo_csv_": "Verifique que ha subido un archivo CSV, con {tabulador} como separador de campo"
 }
