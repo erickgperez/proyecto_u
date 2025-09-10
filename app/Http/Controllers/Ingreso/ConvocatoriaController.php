@@ -52,11 +52,17 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        return response()->json(['message' => 'Datos guardados']);
+        return response()->json(['status' => 'ok', 'message' => 'Datos guardados']);
     }
 
-    public function delete(string $id)
+    public function delete(int $id)
     {
-        return response()->json(['status' => 'ok', 'message' => $id]);
+        $delete = Convocatoria::destroy($id);
+
+        if ($delete == 0) {
+            return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);
+        } else {
+            return response()->json(['status' => 'ok', 'message' => $id]);
+        }
     }
 }

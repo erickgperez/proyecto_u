@@ -113,9 +113,11 @@ function remove() {
 
                     const index = localItems.value.findIndex((item) => item.id === selectedItem.value?.id);
                     localItems.value.splice(index, 1);
+
+                    step.value = 1;
                 } else {
                     hasError.value = true;
-                    message.value = resp.data.message;
+                    message.value = t(resp.data.message);
                 }
             } catch (error: any) {
                 hasError.value = true;
@@ -126,7 +128,7 @@ function remove() {
                 console.log(messageLog.value);
                 Swal.fire({
                     title: t('_error_'),
-                    text: t('_no_se_pudo_eliminar_') + message.value,
+                    text: t('_no_se_pudo_eliminar_') + '. ' + message.value,
                     icon: 'error',
                     confirmButtonColor: '#D7E1EE',
                 });
