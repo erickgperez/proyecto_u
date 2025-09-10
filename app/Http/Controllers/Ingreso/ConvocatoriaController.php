@@ -55,6 +55,14 @@ class ConvocatoriaController extends Controller
         if ($request->hasFile('afiche')) {
             $file = $request->file('afiche');
 
+            if ($request->get('id') != null) {
+                //Verificar si ya tenía un afiche cargado, en ese caso borrarlo para subir el nuevo
+                $filePath = $convocatoria->afiche;
+                if (Storage::exists($filePath)) {
+                    Storage::delete($filePath);
+                }
+            }
+
             $path = $file->store('documents/convocatorias');
 
             $convocatoria->afiche = $path;
