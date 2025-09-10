@@ -37,10 +37,10 @@ class ConvocatoriaController extends Controller
             $convocatoria = Convocatoria::find($request->get('id'));
         }
 
-        $convocatoria->nombre = $validatedData['nombre'];
-        $convocatoria->descripcion = $validatedData['descripcion'];
-        $convocatoria->fecha = $validatedData['fecha'];
-        $convocatoria->cuerpo_mensaje = $validatedData['cuerpo_mensaje'];
+        $convocatoria->nombre = $request->get('nombre');
+        $convocatoria->descripcion = $request->get('descripcion');
+        $convocatoria->fecha = $request->get('fecha');
+        $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
 
         if ($request->hasFile('afiche')) {
             $file = $request->file('afiche');
@@ -52,7 +52,7 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        return response()->json(['status' => 'ok', 'message' => 'Datos guardados']);
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoria]);
     }
 
     public function delete(int $id)

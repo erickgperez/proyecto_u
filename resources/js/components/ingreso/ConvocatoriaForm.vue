@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, reactive, ref, toRef, watch } from 'vue';
+import { onMounted, reactive, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -12,19 +12,7 @@ const formRef = ref<VForm | null>(null);
 
 const emit = defineEmits(['form-saved']);
 
-/*function createNewRecord() {
-    return {
-        id: '',
-        nombre: '',
-        descripcion: '',
-        fecha: '',
-        cuerpo_mensaje: '',
-        afiche: null,
-    };
-}*/
-
 function reset() {
-    //formData.value = createNewRecord();
     formRef.value!.reset();
     formData.afiche = null;
 }
@@ -50,47 +38,31 @@ const formData: FormData = reactive({
 });
 const isEditing = toRef(() => !!formData.id);
 
-function edit(id) {
-    const found = items.value.find((item) => item.id === id);
-
-    /*formModel.value = {
-        id: found.id,
-        nombre: found.nombre,
-        descripcion: found.descripcion,
-        fecha: found.fecha,
-        cuerpo_mensaje: found.cuerpo_mensaje,
-        afiche: found.afiche,
-    };*/
-}
-
-/*function add() {
-    formModel.value = createNewRecord();
-}*/
-
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
     loading.value = true;
     if (valid) {
         try {
-            await axios.postForm(route('ingreso-convocatoria-save'), formData, {
+            const resp = await axios.postForm(route('ingreso-convocatoria-save'), formData, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            emit('form-saved', formData);
-            //formRef.value!.reset();
-            //formData.afiche = null;
-            //reset();
-
-            Swal.fire({
-                title: t('_exito_'),
-                text: t('_datos_subidos_correctamente_'),
-                icon: 'success',
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2500,
-                toast: true,
-            });
+            if (resp.data.status == 'ok') {
+                if (!isEditing.value) {
+                    reset();
+                }
+                emit('form-saved', resp.data.convocatoria);
+                Swal.fire({
+                    title: t('_exito_'),
+                    text: t('_datos_subidos_correctamente_'),
+                    icon: 'success',
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    toast: true,
+                });
+            }
         } catch (error: any) {
             console.log(error.response.data.message);
             Swal.fire({
@@ -102,24 +74,7 @@ async function submitForm() {
         }
     }
     loading.value = false;
-
-    if (isEditing.value) {
-        //const index = items.value.findIndex((item) => item.id === formModel.value.id);
-        //items.value[index] = formModel.value;
-    } else {
-        //formModel.value.id = items.value.length + 1;
-        //items.value.push(formModel.value);
-    }
 }
-
-watch(
-    () => props.accion,
-    (newValue) => {
-        if (newValue === 'new') {
-            reset();
-        }
-    },
-);
 
 onMounted(() => {
     reset();
@@ -164,7 +119,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion"
-                            :rules="[(v) => v?.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
+                            :rules="[(v) => !v || v.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
                             counter="255"
                             :label="$t('_descripcion_')"
                         ></v-text-field>
