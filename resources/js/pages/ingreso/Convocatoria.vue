@@ -6,7 +6,7 @@ import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { saveAs } from 'file-saver';
 import Swal from 'sweetalert2';
-import { computed, PropType, ref } from 'vue';
+import { computed, PropType, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
 import * as XLSX from 'xlsx';
@@ -157,6 +157,15 @@ const handleFormSave = (data: Item) => {
         step.value = 1;
     }
 };
+
+watch(
+    () => step.value,
+    (newValue) => {
+        if (newValue < 3) {
+            selectedAction.value = '';
+        }
+    },
+);
 </script>
 
 <template>

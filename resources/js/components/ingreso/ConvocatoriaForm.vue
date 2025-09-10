@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { computed, onMounted, reactive, ref, toRef } from 'vue';
+import { computed, onMounted, reactive, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -74,6 +74,7 @@ async function submitForm() {
                     reset();
                 }
                 emit('form-saved', resp.data.convocatoria);
+                localItem.value.afiche = resp.data.convocatoria.afiche;
                 Swal.fire({
                     title: t('_exito_'),
                     text: t('_datos_subidos_correctamente_'),
@@ -108,6 +109,15 @@ onMounted(() => {
         //formData.afiche = props.item.afiche; //El tratamiento del archivo será diferente
     }
 });
+
+watch(
+    () => props.accion,
+    (newValue) => {
+        if (newValue == 'new') {
+            reset();
+        }
+    },
+);
 </script>
 <template>
     <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_crear_convocatoria_')} `">
