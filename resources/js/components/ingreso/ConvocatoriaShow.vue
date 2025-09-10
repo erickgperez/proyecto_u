@@ -48,6 +48,22 @@ const props = defineProps(['item', 'accion']);
                     {{ props.item.cuerpo_mensaje }}
                 </v-col>
             </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('_updated_at_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ date.format(props.item.updated_at, 'keyboardDateTime12h') }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('_created_at_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ date.format(props.item.created_at, 'keyboardDateTime12h') }}
+                </v-col>
+            </v-row>
         </template>
     </v-card>
 </template>

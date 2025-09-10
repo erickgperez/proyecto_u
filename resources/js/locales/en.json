@@ -10,6 +10,7 @@
     "_caracteres_": "Characters",
     "_cerrar_sesion_": "Logout",
     "_crear_convocatoria_": "Create application process",
+    "_created_at_": "Created at",
     "_permite_gestionar_datos_convocatorias_": "Allows you to manage application process data",
     "_informe_": "Report",
     "_calificaciones_": "Grades",
@@ -92,6 +93,7 @@
     "_tipo_invitacion_": "Invitation type",
     "_tipo_grafico_": "Display type",
     "_todos_estudiantes_en_base_datos_": "All students in the database",
+    "_updated_at_": "Updated at",
     "_ver_": "Show",
     "_verifique_que_ha_subido_archivo_csv_": "Verify that you have uploaded a CSV file, with {tab} as the field separator"
 }
