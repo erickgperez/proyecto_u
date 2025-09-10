@@ -91,4 +91,16 @@ class ConvocatoriaController extends Controller
             abort(404);
         }
     }
+
+    public function aficheDelete(int $id)
+    {
+        $convocatoria = Convocatoria::find($id);
+        $filePath = $convocatoria->afiche;
+        $convocatoria->afiche = null;
+        $convocatoria->save();
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
+        }
+        return response()->json(['status' => 'ok', 'message' => $id]);
+    }
 }

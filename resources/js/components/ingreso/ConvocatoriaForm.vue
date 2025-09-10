@@ -31,6 +31,7 @@ const nombreArchivo = computed(() => {
 });
 
 const props = defineProps(['item', 'accion']);
+const localItem = ref(props.item);
 
 const formData: FormData = reactive({
     id: null,
@@ -41,6 +42,22 @@ const formData: FormData = reactive({
     afiche: null,
 });
 const isEditing = toRef(() => !!formData.id);
+
+async function deleteAfiche() {
+    //:href="`/ingreso/afiche/delete/${props.item.id}`"
+    await axios.delete(route('ingreso-convocatoria-afiche-delete', { id: localItem.value.id }));
+
+    Swal.fire({
+        title: t('_exito_'),
+        text: t('_archivo_borrado_correctamente_'),
+        icon: 'success',
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 2500,
+        toast: true,
+    });
+    localItem.value.afiche = null;
+}
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -146,7 +163,7 @@ onMounted(() => {
                             show-size
                             counter
                         ></v-file-input>
-                        <span v-if="props.item.afiche != null">
+                        <span v-if="props.accion == 'edit' && localItem.afiche != null">
                             <v-list-item color="primary" rounded="xl">
                                 <template v-slot:prepend>
                                     <v-avatar color="blue">
@@ -167,7 +184,7 @@ onMounted(() => {
                                             :title="$t('_borrar_afiche_actual_')"
                                             icon="mdi-file-document-remove-outline"
                                             variant="text"
-                                            :href="`/ingreso/afiche/delete/${props.item.id}`"
+                                            @click="deleteAfiche"
                                         ></v-btn>
                                     </v-avatar>
                                 </template>
