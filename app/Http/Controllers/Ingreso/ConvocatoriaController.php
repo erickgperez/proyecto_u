@@ -71,6 +71,13 @@ class ConvocatoriaController extends Controller
 
     public function delete(int $id)
     {
+        $convocatoria = Convocatoria::find($id);
+
+        //Verificar si tiene un afiche cargado, borrarlo en ese caso
+        $filePath = $convocatoria->afiche;
+        if (Storage::exists($filePath)) {
+            Storage::delete($filePath);
+        }
         $delete = Convocatoria::destroy($id);
 
         if ($delete == 0) {
