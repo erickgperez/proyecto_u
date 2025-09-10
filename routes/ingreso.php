@@ -17,4 +17,6 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/ingreso/convocatoria', [ConvocatoriaController::class, 'index'])->name('ingreso-convocatoria-index');
     Route::post('/ingreso/convocatoria/save', [ConvocatoriaController::class, 'save'])->name('ingreso-convocatoria-save');
     Route::delete('/ingreso/convocatoria/{id}/delete', [ConvocatoriaController::class, 'delete'])->name('ingreso-convocatoria-delete');
+    Route::get('/ingreso/afiche/download/{id}', [ConvocatoriaController::class, 'aficheDownload'])->name('ingreso-convocatoria-afiche-download');
+    Route::delete('/ingreso/afiche/delete/{id}', [ConvocatoriaController::class, 'aficheDelete'])->name('ingreso-convocatoria-afiche-delete');
 });

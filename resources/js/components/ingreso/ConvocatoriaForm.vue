@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, reactive, ref, toRef } from 'vue';
+import { computed, onMounted, reactive, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -25,6 +25,10 @@ interface FormData {
     cuerpo_mensaje: string;
     afiche: File | null;
 }
+
+const nombreArchivo = computed(() => {
+    return props.item.afiche.split('/').slice(-1)[0];
+});
 
 const props = defineProps(['item', 'accion']);
 
@@ -142,6 +146,33 @@ onMounted(() => {
                             show-size
                             counter
                         ></v-file-input>
+                        <span v-if="props.item.afiche != null">
+                            <v-list-item color="primary" rounded="xl">
+                                <template v-slot:prepend>
+                                    <v-avatar color="blue">
+                                        <v-btn
+                                            :title="$t('_descargar_afiche_actual_')"
+                                            color="white"
+                                            icon="mdi-file-download-outline"
+                                            variant="text"
+                                            :href="`/ingreso/afiche/download/${props.item.id}`"
+                                        ></v-btn>
+                                    </v-avatar>
+                                </template>
+
+                                <v-list-item-title>{{ nombreArchivo }}</v-list-item-title>
+                                <template v-slot:append>
+                                    <v-avatar color="orange-lighten-2">
+                                        <v-btn
+                                            :title="$t('_borrar_afiche_actual_')"
+                                            icon="mdi-file-document-remove-outline"
+                                            variant="text"
+                                            :href="`/ingreso/afiche/delete/${props.item.id}`"
+                                        ></v-btn>
+                                    </v-avatar>
+                                </template>
+                            </v-list-item>
+                        </span>
                     </v-col>
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">

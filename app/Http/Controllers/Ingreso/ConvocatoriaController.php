@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ingreso;
 use App\Http\Controllers\Controller;
 use App\Models\Ingreso\Convocatoria;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -76,6 +77,18 @@ class ConvocatoriaController extends Controller
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);
         } else {
             return response()->json(['status' => 'ok', 'message' => $id]);
+        }
+    }
+
+    public function aficheDownload(int $id)
+    {
+        $convocatoria = Convocatoria::find($id);
+        $filePath = $convocatoria->afiche;
+
+        if (Storage::exists($filePath)) {
+            return Storage::download($filePath, 'archivo.pdf');
+        } else {
+            abort(404);
         }
     }
 }
