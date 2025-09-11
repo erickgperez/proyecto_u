@@ -21,7 +21,7 @@ interface Props {
     subtitulo?: string;
     icono?: string;
 }
-const drawer = ref(false);
+const drawer = ref(true);
 const group = ref(null);
 
 const menu = ref(false);
