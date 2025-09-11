@@ -86,7 +86,7 @@ const props = withDefaults(defineProps<Props>(), {
                 <v-divider></v-divider>
 
                 <v-list density="compact" nav>
-                    <Link :href="route('informe-example')" preserve-state preserve-scroll>
+                    <!-- <Link :href="route('informe-example')" preserve-state preserve-scroll>
                         <v-list-item
                             prepend-icon="mdi-text-box-multiple-outline"
                             class="text-body-1"
@@ -106,6 +106,7 @@ const props = withDefaults(defineProps<Props>(), {
                             CRUD
                         </v-list-item>
                     </Link>
+
                     <Link :href="route('profile.edit')" preserve-state preserve-scroll>
                         <v-list-item
                             prepend-icon="mdi-cog"
@@ -114,7 +115,7 @@ const props = withDefaults(defineProps<Props>(), {
                         >
                             {{ $t('_configuracion_') }}
                         </v-list-item>
-                    </Link>
+                    </Link> -->
                     <v-list-item
                         v-if="moduloActual.codigo == 'ingreso-universitario'"
                         prepend-icon="mdi-book-outline"
@@ -154,24 +155,6 @@ const props = withDefaults(defineProps<Props>(), {
                                     >
                                     </v-list-item>
                                 </Link>
-
-                                <v-list-item v-for="i in 3" :key="i" link append-icon="mdi-menu-right">
-                                    <v-list-item-title>Item {{ i }}</v-list-item-title>
-                                    <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
-                                        <v-list class="bg-blue-grey-darken-2">
-                                            <v-list-item v-for="j in 3" :key="j" link append-icon="mdi-menu-right">
-                                                <v-list-item-title>Item {{ i }} - {{ j }}</v-list-item-title>
-                                                <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
-                                                    <v-list class="bg-blue-grey-darken-2">
-                                                        <v-list-item v-for="k in 5" :key="k" link>
-                                                            <v-list-item-title>Item {{ i }} - {{ j }} - {{ k }}</v-list-item-title>
-                                                        </v-list-item>
-                                                    </v-list>
-                                                </v-menu>
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-menu>
-                                </v-list-item>
                             </v-list>
                         </v-menu>
                     </v-list-item>
