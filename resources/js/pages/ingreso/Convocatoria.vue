@@ -69,13 +69,13 @@ const fileName = ref('convocatorias');
 const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 
 // Título del listado
-const titleList = ref('Listado de convocatorias');
+const titleList = ref(t('_listado_convocatorias_'));
 
 const headers = [
-    { title: 'fecha', key: 'fecha' },
-    { title: 'Nombre', key: 'nombre', align: 'start' },
-    { title: 'Descripción', key: 'descripcion' },
-    { title: 'Acciones', key: 'actions', align: 'end' },
+    { title: t('_fecha_'), key: 'fecha' },
+    { title: t('_nombre_'), key: 'nombre', align: 'start' },
+    { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
 const sortBy = [
@@ -169,7 +169,7 @@ watch(
 </script>
 
 <template>
-    <Head title="Convocatoria"> </Head>
+    <Head :title="$t('_convocatoria_')"> </Head>
     <AppLayout :titulo="$t('_administrar_convocatoria_')" :subtitulo="$t('_permite_gestionar_datos_convocatorias_')" icono="mdi-wrench-clock">
         <v-window v-model="step" class="h-auto w-100">
             <v-window-item :value="1">
