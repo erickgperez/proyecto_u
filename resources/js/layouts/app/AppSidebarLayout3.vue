@@ -73,12 +73,7 @@ const props = withDefaults(defineProps<Props>(), {
 <template>
     <v-responsive>
         <v-app>
-            <v-navigation-drawer
-                :expand-on-hover="drawer"
-                :rail="drawer"
-                :location="$vuetify.display.mobile ? 'bottom' : undefined"
-                class="bg-blue-grey-darken-1"
-            >
+            <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined" class="bg-blue-grey-darken-1">
                 <v-list class="text-white">
                     <v-list-item prepend-icon="mdi-school" title="SIGATEC">
                         <template v-slot:prepend>
