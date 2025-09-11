@@ -2,10 +2,13 @@
 
 namespace App\Mail;
 
+use App\Models\Ingreso\Convocatoria;
 use App\Models\Secundaria\DataBachillerato;
 use Illuminate\Bus\Queueable;
+use Illuminate\Mail\Mailables\Address;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
+use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
@@ -17,7 +20,7 @@ class CandidatoInvitado extends Mailable
     /**
      * Create a new message instance.
      */
-    public function __construct(public DataBachillerato $bachiller)
+    public function __construct(public DataBachillerato $bachiller, public Convocatoria $convocatoria)
     {
         //
     }
@@ -28,8 +31,8 @@ class CandidatoInvitado extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Invitación a participar en carreras universitarias',
-            from: 'ingreso@sistec.edu.sv'
+            subject: 'Invitación a participar en carreras universitarias: ',
+            from: new Address('ingreso@sistec.edu.sv', 'Ingreso universitario')
         );
     }
 
@@ -50,6 +53,10 @@ class CandidatoInvitado extends Mailable
      */
     public function attachments(): array
     {
-        return [];
+        $attachment = [];
+        if ($this->convocatoria->afiche != null) {
+            $attachment[] = Attachment::fromPath($this->convocatoria->afiche)->as('afiche.pdf')->withMime('application/pdf');
+        }
+        return $attachment;
     }
 }

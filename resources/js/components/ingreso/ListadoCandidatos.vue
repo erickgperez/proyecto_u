@@ -10,9 +10,15 @@ interface Departamento {
     codigo_depto: string;
     departamento: string;
 }
+interface Convocatoria {
+    id: number;
+    nombre: string;
+    descripcion: string;
+}
 interface Props {
     departamentos?: Departamento[];
     opcionesBachillerato?: [];
+    convocatoria: Convocatoria;
 }
 const props = defineProps<Props>();
 
@@ -92,6 +98,7 @@ const toggleSeleccion = (item: any) => {
         nie: item.nie,
         invitado: item.invitado,
         campo: 'invitado',
+        idConvocatoria: props.convocatoria.id,
     });
 };
 

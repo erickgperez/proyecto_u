@@ -5,6 +5,16 @@ import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
+interface Convocatoria {
+    id: number;
+    nombre: string;
+    descripcion: string;
+}
+
+interface Props {
+    convocatoria: Convocatoria;
+}
+const props = defineProps<Props>();
 const formRef = ref<VForm | null>(null);
 // Datos del formulario
 const form = reactive({
@@ -36,6 +46,7 @@ async function submitForm(): Promise<void> {
             .post(route('ingreso-bachillerato-candidatos-invitaciones'), {
                 tipoEnvio: form.tipoEnvio,
                 tipoInvitacion: form.tipoInvitacion,
+                idConvocatoria: props.convocatoria.id,
             })
             .then(function (response) {
                 Swal.fire({

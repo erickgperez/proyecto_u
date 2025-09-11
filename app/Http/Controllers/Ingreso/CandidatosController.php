@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CandidatoInvitado;
+use App\Models\Ingreso\Convocatoria;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\Invitacion;
 use Illuminate\Http\Request;
@@ -29,12 +30,17 @@ class CandidatosController extends Controller
             ->orderBy('opcion_bachillerato', 'asc')
             ->groupBy('opcion_bachillerato')
             ->get();
+        $convocatorias = DB::table('ingreso.convocatoria')
+            ->select('id', 'nombre', 'descripcion')
+            ->orderBy('nombre', 'asc')
+            ->get();
 
         return Inertia::render('ingreso/Candidatos', [
             'status' => $request->session()->get('status'),
             //'componente' => 'seleccionCandidatos',            'titulo' => 'Seleccionar candidatos',
             'departamentos' => $departamentos,
-            'opcionesBachillerato' => $opcionesBachillerato
+            'opcionesBachillerato' => $opcionesBachillerato,
+            'convocatorias' => $convocatorias
         ]);
     }
 
@@ -85,10 +91,10 @@ class CandidatosController extends Controller
     {
         $nie = $request->get('nie');
         $campo = $request->get('campo');
-
-
+        $idConvocatoria = $request->get('idConvocatoria');
 
         $bachiller = DataBachillerato::where('nie', $nie)->first();
+        $convocatoria = Convocatoria::find($idConvocatoria);
 
         if ($campo == 'invitado') {
             $invitado = $request->get('invitado');
@@ -104,7 +110,7 @@ class CandidatosController extends Controller
             if ($bachiller->correo) {
                 // Enviar correo
                 Mail::to($bachiller->correo)->queue(
-                    new CandidatoInvitado($bachiller)
+                    new CandidatoInvitado($bachiller, $convocatoria)
                 );
                 $invitacion->fecha_envio_correo = new \DateTime();
             }
@@ -122,6 +128,9 @@ class CandidatosController extends Controller
     {
         $tipoEnvio = $request->get('tipoEnvio');
         $tipoInvitacion = $request->get('tipoInvitacion');
+        $idConvocatoria = $request->get('idConvocatoria');
+
+        $convocatoria = Convocatoria::find($idConvocatoria);
 
         $query = DataBachillerato::from('secundaria.data_bachillerato as A')
             ->select('A.*', 'B.invitado', 'B.fecha_envio_correo', 'B.fecha_aceptacion', 'B.created_at as fecha_invitacion')
@@ -144,7 +153,7 @@ class CandidatosController extends Controller
             $invitacion->codigo = (rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999);
             $invitacion->invitado = true;
             Mail::to($bachiller->correo)->queue(
-                new CandidatoInvitado($bachiller)
+                new CandidatoInvitado($bachiller, $convocatoria)
             );
             $invitacion->fecha_envio_correo = new \DateTime();
 
