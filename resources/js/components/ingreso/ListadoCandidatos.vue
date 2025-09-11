@@ -294,7 +294,7 @@ function saveItem(campo: string) {
                             <template v-slot:prepend>
                                 <v-icon color="success"></v-icon>
                             </template>
-                            Atrás
+                            {{ $t('_atras_') }}
                         </v-btn>
                     </v-col>
 
@@ -303,7 +303,7 @@ function saveItem(campo: string) {
                             <template v-slot:append>
                                 <v-icon color="success"></v-icon>
                             </template>
-                            Siguiente
+                            {{ $t('_siguiente_') }}
                         </v-btn>
                     </v-col>
                 </v-row>
