@@ -12,7 +12,7 @@ defineProps<{
 <template>
     <v-responsive class="rounded border">
         <v-app>
-            <v-navigation-drawer location="right" permanent :image="backgroundImage">
+            <v-navigation-drawer :location="$vuetify.display.mobile ? 'bottom' : 'right'" permanent :image="backgroundImage">
                 <DIV class="text-h2 text-blue-darken-4 text-center"> SIGATEC</DIV>
             </v-navigation-drawer>
 
