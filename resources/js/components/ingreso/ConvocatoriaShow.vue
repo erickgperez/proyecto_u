@@ -50,6 +50,25 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
+                    {{ $t('_afiche_') }}
+                </v-col>
+                <v-col cols="8">
+                    <span v-if="props.item.afiche != null">
+                        <v-avatar color="blue">
+                            <v-btn
+                                :title="$t('_descargar_afiche_actual_')"
+                                color="white"
+                                icon="mdi-file-download-outline"
+                                variant="text"
+                                :href="`/ingreso/afiche/download/${props.item.id}`"
+                            ></v-btn>
+                        </v-avatar>
+                    </span>
+                </v-col>
+            </v-row>
+
+            <v-row>
+                <v-col cols="4">
                     {{ $t('_created_at_') }}
                 </v-col>
                 <v-col cols="8">
