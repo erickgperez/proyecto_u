@@ -14,7 +14,6 @@ const emit = defineEmits(['form-saved']);
 
 function reset() {
     formRef.value!.reset();
-    formData.afiche = null;
 }
 
 interface FormData {
@@ -25,7 +24,6 @@ interface FormData {
 }
 
 const props = defineProps(['item', 'accion', 'distritos']);
-const localItem = ref(props.item);
 
 const formData: FormData = reactive({
     id: null,

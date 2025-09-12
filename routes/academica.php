@@ -7,4 +7,5 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/academica/sede', [SedeController::class, 'index'])->name('academica-sede');
     Route::post('/academica/sede/save', [SedeController::class, 'save'])->name('academica-sede-save');
+    Route::delete('/academica/sede/{id}/delete', [SedeController::class, 'delete'])->name('academica-sede-delete');
 });
