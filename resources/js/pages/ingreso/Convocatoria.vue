@@ -12,7 +12,7 @@ import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
 import * as XLSX from 'xlsx';
 
-const { hasPermission, hasRole } = usePermissions();
+const { hasPermission, hasAnyPermission } = usePermissions();
 
 const step = ref(1);
 
@@ -176,6 +176,7 @@ watch(
     <AppLayout :titulo="$t('_administrar_convocatoria_')" :subtitulo="$t('_permite_gestionar_datos_convocatorias_')" icono="mdi-wrench-clock">
         <div v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')">
             <v-window v-model="step" class="h-auto w-100">
+                <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
                     <v-card>
                         <v-card-title class="d-flex align-center pe-2">
@@ -252,8 +253,12 @@ watch(
                     </v-card>
                 </v-window-item>
 
+                <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
                 <v-window-item :value="2">
-                    <v-card class="align-center justify-center">
+                    <v-card
+                        v-if="hasAnyPermission(['INGRESO_CONVOCATORIA_EDITAR', 'INGRESO_CONVOCATORIA_MOSTRAR', 'INGRESO_CONVOCATORIA_BORRAR'])"
+                        class="align-center justify-center"
+                    >
                         <v-card-title>
                             <h2 class="text-blue-darken-3">{{ selectedItemLabel }}</h2></v-card-title
                         >
@@ -264,7 +269,7 @@ watch(
                                     <span>{{ $t('_elija_accion_realizar_') }}</span>
                                 </span>
                             </v-col>
-                            <v-col cols="12" md="6">
+                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_EDITAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_editar_datos_registro_seleccionado_')"
@@ -285,7 +290,7 @@ watch(
                                 </v-card>
                             </v-col>
 
-                            <v-col cols="12" md="6">
+                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_MOSTRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_mostrar_datos_solo_lectura_')"
@@ -305,7 +310,7 @@ watch(
                                     </template>
                                 </v-card>
                             </v-col>
-                            <v-col cols="12" md="6">
+                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_BORRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     subtitle="Borrar el registro seleccionado"
@@ -327,8 +332,12 @@ watch(
                             </v-col>
                         </v-row>
                     </v-card>
+                    <v-alert v-else border="top" type="warning" variant="outlined" prominent>
+                        {{ $t('_no_tiene_permiso_para_realizar_ninguna_accion_') }}
+                    </v-alert>
                 </v-window-item>
 
+                <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <ConvocatoriaForm
                         v-if="selectedAction == 'new' || selectedAction == 'edit'"
@@ -342,6 +351,7 @@ watch(
 
             <v-divider></v-divider>
 
+            <!-- ************************* NAVEGACIÓN ENTRE LAS PARTES DEL CRUD ****************************-->
             <v-card-actions>
                 <v-btn
                     v-if="step > 1 && selectedAction != 'new'"
@@ -354,13 +364,13 @@ watch(
                     <template v-slot:prepend>
                         <v-icon color="success"></v-icon>
                     </template>
-                    Regresar
+                    {{ $t('_atras_') }}
                 </v-btn>
                 <v-btn v-if="step == 3" prepend-icon="mdi-page-first" rounded variant="tonal" color="blue-darken-4" @click="step = 1">
                     <template v-slot:prepend>
                         <v-icon color="success"></v-icon>
                     </template>
-                    Regresar al listado
+                    {{ $t('_regresar_listado_') }}
                 </v-btn>
             </v-card-actions>
         </div>

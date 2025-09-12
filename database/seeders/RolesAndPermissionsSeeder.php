@@ -29,6 +29,9 @@ class RolesAndPermissionsSeeder extends Seeder
         //********** GESTIONAR CONVOCATORIA
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CREAR']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_EXPORTAR']);
+        Permission::create(['name' => 'INGRESO_CONVOCATORIA_EDITAR']);
+        Permission::create(['name' => 'INGRESO_CONVOCATORIA_MOSTRAR']);
+        Permission::create(['name' => 'INGRESO_CONVOCATORIA_BORRAR']);
 
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
@@ -47,14 +50,18 @@ class RolesAndPermissionsSeeder extends Seeder
                 'MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO',
                 'MENU_INGRESO_CONVOCATORIA_CANDIDATOS',
                 'INGRESO_CONVOCATORIA_CREAR',
-                'INGRESO_CONVOCATORIA_EXPORTAR'
+                'INGRESO_CONVOCATORIA_EXPORTAR',
+                'INGRESO_CONVOCATORIA_EDITAR',
+                'INGRESO_CONVOCATORIA_MOSTRAR',
+                'INGRESO_CONVOCATORIA_BORRAR'
             ]);
 
 
         $role = Role::create(['name' => 'aspirante'])
             ->givePermissionTo();
 
-        $role = Role::create(['name' => 'super-admin'])
-            ->givePermissionTo(Permission::all());
+        $role = Role::create(['name' => 'super-admin']);
+        // No se le dan permisos, este es el único rol que se verifica para dejar realizar cualquier acción
+        //->givePermissionTo(Permission::all());
     }
 }
