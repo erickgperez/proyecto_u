@@ -38,13 +38,11 @@ const exportToExcel = () => {
     saveAs(data, fileName.value + '.xlsx');
 };
 
-//const items = ref([]);
-
-//const dialog = shallowRef(false);
-
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
+const rutaBorrar = ref('ingreso-convocatoria-delete');
+
 interface Item {
     id: number | null;
     fecha: Date | null;
@@ -53,17 +51,6 @@ interface Item {
     cuerpo_mensaje: string;
     afiche: string | null;
 }
-
-const props = defineProps({
-    items: {
-        type: Array as PropType<Item[]>,
-        required: true,
-        default: () => [],
-    },
-});
-
-//const localItems = reactive<Item[]>([]);
-const localItems = ref([...props.items]); // Create a shallow copy
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_convocatorias');
@@ -86,6 +73,17 @@ const sortBy = [
     { key: 'nombre', order: 'asc' },
 ];
 
+//************ lo demás puede permanecer igual, cambiar solo que sea necesario
+const props = defineProps({
+    items: {
+        type: Array as PropType<Item[]>,
+        required: true,
+        default: () => [],
+    },
+});
+
+const localItems = ref([...props.items]);
+
 function remove() {
     const hasError = ref(false);
     const message = ref('');
@@ -101,7 +99,7 @@ function remove() {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const resp = await axios.delete(route('ingreso-convocatoria-delete', { id: selectedItem.value?.id }));
+                const resp = await axios.delete(route(rutaBorrar.value, { id: selectedItem.value?.id }));
 
                 if (resp.data.status == 'ok') {
                     Swal.fire({

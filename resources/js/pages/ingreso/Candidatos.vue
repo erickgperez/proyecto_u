@@ -105,10 +105,6 @@ watch(
                 </v-tabs-window>
             </div>
             <v-dialog v-model="dialog" max-width="400" persistent>
-                <!-- <template v-slot:activator="{ props: activatorProps }">
-                <v-btn v-bind="activatorProps"> Open Dialog </v-btn>
-            </template>-->
-
                 <v-card>
                     <v-card-text class="bg-surface-light pt-4">
                         <v-autocomplete
