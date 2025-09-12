@@ -2,9 +2,12 @@
 import GraficoCandidatos from '@/components/ingreso/GraficoCandidatos.vue';
 import Invitaciones from '@/components/ingreso/Invitaciones.vue';
 import ListadoCandidatos from '@/components/ingreso/ListadoCandidatos.vue';
+import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
+
+const { hasPermission, hasRole } = usePermissions();
 
 interface Departamento {
     codigo_depto: string;
@@ -43,6 +46,7 @@ watch(
 
 <template>
     <Head :title="$t('_candidatos_')"></Head>
+
     <AppLayout :titulo="$t('_candidatos_')" :subtitulo="$t('_estudiantes_candidatos_carrera_universitaria_')" icono="mdi-email-fast-outline">
         <div class="d-flex flex-row">
             <v-alert v-if="convocatoria != null" :title="$t('_convocatoria_seleccionada_')" type="info" border="top" prominent variant="outlined">
