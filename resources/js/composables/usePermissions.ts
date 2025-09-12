@@ -6,19 +6,27 @@ export function usePermissions() {
     const permissions = computed(() => usePage().props.auth.permissions);
 
     const hasPermission = (permissionName: string): boolean => {
-        return permissions.value.includes(permissionName) ?? false;
+        //Verifica que tenga el permiso o que tenga el rol super-admin
+        return permissions.value.includes(permissionName) || isSuperAdmin.value;
+    };
+
+    const hasAnyPermission = (permissionsName: string[]): boolean => {
+        //Verifica que tenga alguno de los permisos o que tenga el rol super-admin
+        const setPermissions = new Set(permissionsName);
+        return isSuperAdmin.value || permissions.value.some((el) => setPermissions.has(el));
     };
 
     const hasRole = (roleName: string): boolean => {
-        return roles.value.includes(roleName) ?? false;
+        return roles.value.includes(roleName);
     };
 
     const isSuperAdmin = computed<boolean>(() => {
-        return roles.value.includes('super-admin') ?? false; // Example for a common super-admin role
+        return roles.value.includes('super-admin');
     });
 
     return {
         hasPermission,
+        hasAnyPermission,
         hasRole,
         isSuperAdmin,
         userPermissions: computed(() => permissions.value || []),
