@@ -187,7 +187,7 @@ watch(
                                     </v-avatar>
                                 </template>
 
-                                <v-list-item-title>{{ nombreArchivo }}</v-list-item-title>
+                                <v-list-item-title>afiche.pdf</v-list-item-title>
                                 <template v-slot:append>
                                     <v-avatar color="orange-lighten-2">
                                         <v-btn
