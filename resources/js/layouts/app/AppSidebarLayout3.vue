@@ -1,11 +1,13 @@
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions';
 import type { BreadcrumbItemType } from '@/types';
-import { Link, router } from '@inertiajs/vue3';
+import { type User } from '@/types';
+import { Link, router, usePage } from '@inertiajs/vue3';
 import { ref, watch } from 'vue';
 import { useLocale } from 'vuetify';
 
-import { type User } from '@/types';
-import { usePage } from '@inertiajs/vue3';
+const { hasPermission, hasRole } = usePermissions();
+
 const page = usePage();
 const user = page.props.auth.user as User;
 
@@ -113,15 +115,20 @@ const props = withDefaults(defineProps<Props>(), {
                         </v-list-item>
                     </Link> -->
                     <v-list-item
-                        v-if="moduloActual.codigo == 'ingreso-universitario'"
+                        v-if="hasPermission('MODULO_INGRESO') && moduloActual.codigo == 'ingreso-universitario'"
                         prepend-icon="mdi-book-outline"
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
                     >
                         {{ $t('_convocatoria_') }}
-                        <v-menu activator="parent">
+                        <v-menu activator="parent" v-if="hasPermission('MENU_INGRESO_CONVOCATORIA')">
                             <v-list class="bg-blue-grey-darken-2">
-                                <Link :href="route('ingreso-convocatoria-index')" preserve-state preserve-scroll>
+                                <Link
+                                    :href="route('ingreso-convocatoria-index')"
+                                    preserve-state
+                                    preserve-scroll
+                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')"
+                                >
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-book-settings-outline"
@@ -130,7 +137,12 @@ const props = withDefaults(defineProps<Props>(), {
                                     >
                                     </v-list-item>
                                 </Link>
-                                <Link :href="route('ingreso-bachillerato-cargar-archivo')" preserve-state preserve-scroll>
+                                <Link
+                                    :href="route('ingreso-bachillerato-cargar-archivo')"
+                                    preserve-state
+                                    preserve-scroll
+                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO')"
+                                >
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-upload-circle-outline"
@@ -145,6 +157,7 @@ const props = withDefaults(defineProps<Props>(), {
                                         prepend-icon="mdi-account-star-outline"
                                         :title="$t('_candidatos_')"
                                         :class="$page.url === '/ingreso/bachillerato/candidatos' ? 'bg-blue-lighten-4' : ''"
+                                        v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')"
                                     >
                                     </v-list-item>
                                 </Link>
@@ -153,7 +166,7 @@ const props = withDefaults(defineProps<Props>(), {
                     </v-list-item>
 
                     <v-btn
-                        v-if="moduloActual.codigo == 'gestion-academica'"
+                        v-if="hasPermission('MODULO_GESTION_ACADEMICA') && moduloActual.codigo == 'gestion-academica'"
                         variant="text"
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
@@ -183,7 +196,7 @@ const props = withDefaults(defineProps<Props>(), {
                     </v-btn>
 
                     <v-btn
-                        v-if="moduloActual.codigo == 'calificaciones'"
+                        v-if="hasPermission('MODULO_CALIFICACIONES') && moduloActual.codigo == 'calificaciones'"
                         variant="text"
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"

@@ -14,21 +14,36 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Crear permisos
-        Permission::create(['name' => 'modulos']);
-        Permission::create(['name' => 'modulo_ingreso']);
-        Permission::create(['name' => 'modulo_calificaciones']);
-        Permission::create(['name' => 'modulo_gestion_academica']);
+        // ************** MODULOS
+        Permission::create(['name' => 'MODULOS']);
+        Permission::create(['name' => 'MODULO_INGRESO']);
+        Permission::create(['name' => 'MODULO_CALIFICACIONES']);
+        Permission::create(['name' => 'MODULO_GESTION_ACADEMICA']);
+
+        //************ MENUS
+        Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA']);
+        Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_GESTIONAR']);
+        Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO']);
+        Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_CANDIDATOS']);
+
 
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
 
         // Crear roles y asignar los permisos
-        $role = Role::create(['name' => 'gestor_academico'])
-            ->givePermissionTo(['modulos', 'modulo_gestion_academica']);
+        $role = Role::create(['name' => 'gestor-academico'])
+            ->givePermissionTo(['MODULOS', 'MODULO_GESTION_ACADEMICA']);
 
-        $role = Role::create(['name' => 'gestor_ingreso'])
-            ->givePermissionTo(['modulos', 'modulo_ingreso']);
+        $role = Role::create(['name' => 'gestor-ingreso'])
+            ->givePermissionTo([
+                'MODULOS',
+                'MODULO_INGRESO',
+                'MENU_INGRESO_CONVOCATORIA',
+                'MENU_INGRESO_CONVOCATORIA_GESTIONAR',
+                'MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO',
+                'MENU_INGRESO_CONVOCATORIA_CANDIDATOS'
+            ]);
 
 
         $role = Role::create(['name' => 'aspirante'])
