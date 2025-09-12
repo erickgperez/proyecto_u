@@ -67,43 +67,12 @@ class SedeController extends Controller
 
     public function delete(int $id)
     {
-        $convocatoria = Convocatoria::find($id);
-
-        //Verificar si tiene un afiche cargado, borrarlo en ese caso
-        $filePath = $convocatoria->afiche;
-        if ($filePath != null && Storage::exists($filePath)) {
-            Storage::delete($filePath);
-        }
-        $delete = Convocatoria::destroy($id);
+        $delete = Sede::destroy($id);
 
         if ($delete == 0) {
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);
         } else {
             return response()->json(['status' => 'ok', 'message' => $id]);
         }
-    }
-
-    public function aficheDownload(int $id)
-    {
-        $convocatoria = Convocatoria::find($id);
-        $filePath = $convocatoria->afiche;
-
-        if (Storage::exists($filePath)) {
-            return Storage::download($filePath, 'archivo.pdf');
-        } else {
-            abort(404);
-        }
-    }
-
-    public function aficheDelete(int $id)
-    {
-        $convocatoria = Convocatoria::find($id);
-        $filePath = $convocatoria->afiche;
-        $convocatoria->afiche = null;
-        $convocatoria->save();
-        if (Storage::exists($filePath)) {
-            Storage::delete($filePath);
-        }
-        return response()->json(['status' => 'ok', 'message' => $id]);
     }
 }
