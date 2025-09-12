@@ -1,5 +1,7 @@
 <?php
 
+namespace Database\Seeders;
+
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
@@ -11,7 +13,7 @@ class RolesAndPermissionsSeeder extends Seeder
         // Reset cached roles and permissions
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
-        // create permissions
+        // Crear permisos
         Permission::create(['name' => 'modulos']);
         Permission::create(['name' => 'modulo_ingreso']);
         Permission::create(['name' => 'modulo_calificaciones']);
@@ -21,17 +23,18 @@ class RolesAndPermissionsSeeder extends Seeder
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
 
-        // create roles and assign created permissions
+        // Crear roles y asignar los permisos
+        $role = Role::create(['name' => 'gestor_academico'])
+            ->givePermissionTo(['modulos', 'modulo_gestion_academica']);
 
-        // this can be done as separate statements
-        $role = Role::create(['name' => 'gestor_academico']);
-        $role->givePermissionTo(['modulos', 'modulo_gestion_academica']);
+        $role = Role::create(['name' => 'gestor_ingreso'])
+            ->givePermissionTo(['modulos', 'modulo_ingreso']);
 
-        // or may be done by chaining
+
         $role = Role::create(['name' => 'aspirante'])
             ->givePermissionTo();
 
-        $role = Role::create(['name' => 'super-admin']);
-        $role->givePermissionTo(Permission::all());
+        $role = Role::create(['name' => 'super-admin'])
+            ->givePermissionTo(Permission::all());
     }
 }

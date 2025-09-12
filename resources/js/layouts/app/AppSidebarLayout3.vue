@@ -54,10 +54,6 @@ const handleLogout = () => {
     router.flushAll();
 };
 
-const handleLinkClick = (hrefName: string) => {
-    router.get(route(hrefName), {}, { preserveState: true, preserveScroll: true });
-};
-
 watch(group, () => {
     drawer.value = false;
 });
@@ -131,7 +127,6 @@ const props = withDefaults(defineProps<Props>(), {
                                         prepend-icon="mdi-book-settings-outline"
                                         :title="$t('_gestionar_convocatoria_')"
                                         :class="$page.url === '/ingreso/convocatoria' ? 'bg-blue-lighten-4' : ''"
-                                        @click="handleLinkClick('ingreso-convocatoria-index')"
                                     >
                                     </v-list-item>
                                 </Link>
@@ -141,7 +136,6 @@ const props = withDefaults(defineProps<Props>(), {
                                         prepend-icon="mdi-upload-circle-outline"
                                         :title="$t('_cargar_archivo_')"
                                         :class="$page.url === '/ingreso/bachillerato/cargar-archivo' ? 'bg-blue-lighten-4' : ''"
-                                        @click="handleLinkClick('ingreso-bachillerato-cargar-archivo')"
                                     >
                                     </v-list-item>
                                 </Link>
@@ -151,7 +145,6 @@ const props = withDefaults(defineProps<Props>(), {
                                         prepend-icon="mdi-account-star-outline"
                                         :title="$t('_candidatos_')"
                                         :class="$page.url === '/ingreso/bachillerato/candidatos' ? 'bg-blue-lighten-4' : ''"
-                                        @click="handleLinkClick('ingreso-bachillerato-candidatos')"
                                     >
                                     </v-list-item>
                                 </Link>
