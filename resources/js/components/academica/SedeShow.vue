@@ -18,10 +18,10 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_fecha_') }}
+                    {{ $t('_codigo_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ date.format(props.item.fecha, 'keyboardDate') }}
+                    {{ props.item.codigo }}
                 </v-col>
             </v-row>
             <v-row>
@@ -34,36 +34,10 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_descripcion_') }}
+                    {{ $t('_distrito_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.descripcion }}
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="4">
-                    {{ $t('_cuerpo_mensaje_') }}
-                </v-col>
-                <v-col cols="8">
-                    {{ props.item.cuerpo_mensaje }}
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="4">
-                    {{ $t('_afiche_') }}
-                </v-col>
-                <v-col cols="8">
-                    <span v-if="props.item.afiche != null">
-                        <v-avatar color="blue">
-                            <v-btn
-                                :title="$t('_descargar_afiche_actual_')"
-                                color="white"
-                                icon="mdi-file-download-outline"
-                                variant="text"
-                                :href="`/ingreso/afiche/download/${props.item.id}`"
-                            ></v-btn>
-                        </v-avatar>
-                    </span>
+                    {{ props.item.distrito }}
                 </v-col>
             </v-row>
 
