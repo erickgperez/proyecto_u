@@ -33,6 +33,9 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_MOSTRAR']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_BORRAR']);
 
+        // ********** CARGAR ARCHIVO
+
+
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 

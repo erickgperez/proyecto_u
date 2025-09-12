@@ -1,10 +1,13 @@
 <script setup lang="ts">
+import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { reactive, ref } from 'vue';
 import type { VForm } from 'vuetify/components';
+
+const { hasPermission } = usePermissions();
 
 import { useI18n } from 'vue-i18n';
 
@@ -66,7 +69,7 @@ const submitForm = async () => {
 <template>
     <Head :title="$t('_cargar_datos_')"></Head>
     <AppLayout :titulo="$t('_carga_archivo_datos_')" :subtitulo="$t('_suba_archivo_datos_estudiantes_bachillerato_')" icono="mdi-email-fast-outline">
-        <v-sheet class="pa-5 mx-auto" width="400">
+        <v-sheet v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO')" class="pa-5 mx-auto" width="400">
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-file-input
                     :label="$t('_subir_archivo_csv_')"
@@ -87,5 +90,8 @@ const submitForm = async () => {
                 <v-btn :loading="loading" class="mt-2" type="submit" block rounded variant="tonal" color="blue-darken-4">{{ $t('_enviar_') }}</v-btn>
             </v-form>
         </v-sheet>
+        <v-alert v-else border="top" type="warning" variant="outlined" prominent>
+            {{ $t('_no_tiene_permiso_para_esta_accion_') }}
+        </v-alert>
     </AppLayout>
 </template>
