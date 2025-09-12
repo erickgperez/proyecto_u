@@ -172,7 +172,7 @@ watch(
 <template>
     <Head :title="$t('_convocatoria_')"> </Head>
     <AppLayout :titulo="$t('_administrar_convocatoria_')" :subtitulo="$t('_permite_gestionar_datos_convocatorias_')" icono="mdi-wrench-clock">
-        <div v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')">
+        <v-sheet v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
@@ -371,7 +371,7 @@ watch(
                     {{ $t('_regresar_listado_') }}
                 </v-btn>
             </v-card-actions>
-        </div>
+        </v-sheet>
         <v-alert v-else border="top" type="warning" variant="outlined" prominent>
             {{ $t('_no_tiene_permiso_para_esta_accion_') }}
         </v-alert>

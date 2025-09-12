@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, reactive, ref, toRef, watch } from 'vue';
+import { computed, onMounted, reactive, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -21,15 +21,19 @@ interface FormData {
     codigo: string;
     nombre: string;
     distrito_id: number | null;
+    municipio_id: number | null;
+    departamento_id: number | null;
 }
 
-const props = defineProps(['item', 'accion', 'distritos']);
+const props = defineProps(['item', 'accion', 'distritos', 'departamentos', 'municipios']);
 
 const formData: FormData = reactive({
     id: null,
     codigo: '',
     nombre: '',
     distrito_id: null,
+    municipio_id: null,
+    departamento_id: null,
 });
 const isEditing = toRef(() => !!formData.id);
 
@@ -73,6 +77,22 @@ async function submitForm() {
     loading.value = false;
 }
 
+const municipiosFiltrados = computed(() => {
+    if (!formData.departamento_id) {
+        return []; // No hay departamento seleccionado
+    }
+    return props.municipios.filter(
+        (municipio: any) => municipio.departamento_id === formData.departamento_id || municipio.id === formData.municipio_id,
+    );
+});
+
+const distritosFiltrados = computed(() => {
+    if (!formData.municipio_id) {
+        return []; // No hay municipio seleccionado
+    }
+    return props.distritos.filter((distrito: any) => distrito.municipio_id === formData.municipio_id || distrito.id === formData.distrito_id);
+});
+
 onMounted(() => {
     reset();
     if (props.accion === 'edit') {
@@ -80,6 +100,8 @@ onMounted(() => {
         formData.codigo = props.item.codigo;
         formData.nombre = props.item.nombre;
         formData.distrito_id = props.item.distrito_id;
+        formData.municipio_id = props.item.municipio_id;
+        formData.departamento_id = props.item.departamento_id;
     }
 });
 
@@ -122,8 +144,29 @@ watch(
                         ></v-text-field>
 
                         <v-autocomplete
+                            clearable
+                            :label="$t('_departamento_')"
+                            :items="props.departamentos"
+                            v-model="formData.departamento_id"
+                            item-title="descripcion"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                        ></v-autocomplete>
+
+                        <v-autocomplete
+                            clearable
+                            :label="$t('_municipio_')"
+                            :items="municipiosFiltrados"
+                            v-model="formData.municipio_id"
+                            item-title="descripcion"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                        ></v-autocomplete>
+
+                        <v-autocomplete
+                            clearable
                             :label="$t('_distrito_') + ' *'"
-                            :items="props.distritos"
+                            :items="distritosFiltrados"
                             v-model="formData.distrito_id"
                             :rules="[(v) => !!v || $t('_campo_requerido_')]"
                             item-title="descripcion"

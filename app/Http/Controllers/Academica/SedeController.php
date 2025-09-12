@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Academica;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academica\Sede;
+use App\Models\Departamento;
 use App\Models\Distrito;
 use App\Models\Ingreso\Convocatoria;
+use App\Models\Municipio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -22,6 +24,8 @@ class SedeController extends Controller
 
         $sedes = Sede::orderBy('nombre')->get();
         $distritos = Distrito::orderBy('descripcion')->get();
+        $departamentos = Departamento::orderBy('descripcion')->get();
+        $municipios = Municipio::orderBy('descripcion')->get();
 
         $resp = [];
         foreach ($sedes as $row) {
@@ -29,10 +33,13 @@ class SedeController extends Controller
             $items['created_by'] = $row->creator;
             $items['updated_by'] = $row->updater;
             $items['distrito'] = $row->distrito->descripcion;
+            $items['departamento_id'] = $row->distrito->municipio->departamento_id;
+            $items['municipio_id'] = $row->distrito->municipio_id;
 
             $resp[] = $items;
         }
-        return Inertia::render('academica/Sede', ['items' => $resp, 'distritos' => $distritos]);
+
+        return Inertia::render('academica/Sede', ['items' => $resp, 'distritos' => $distritos, 'departamentos' => $departamentos,  'municipios' => $municipios]);
     }
 
     public function save(Request $request)
@@ -61,6 +68,8 @@ class SedeController extends Controller
         $item['created_by'] = $sede->creator;
         $item['updated_by'] = $sede->updater;
         $item['distrito'] = $sede->distrito->descripcion;
+        $item['departamento_id'] = $sede->distrito->municipio->departamento_id;
+        $item['municipio_id'] = $sede->distrito->municipio_id;
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $item]);
     }

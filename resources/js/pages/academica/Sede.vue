@@ -46,6 +46,18 @@ const rutaBorrar = ref('academica-sede-delete');
 interface Distrito {
     id: number | null;
     descripcion: string;
+    municipio_id: number | null;
+}
+
+interface Departamento {
+    id: number | null;
+    descripcion: string;
+}
+
+interface Municipio {
+    id: number | null;
+    descripcion: string;
+    departamento_id: number | null;
 }
 
 interface Item {
@@ -53,6 +65,8 @@ interface Item {
     codigo: string;
     nombre: string;
     distrito: Distrito | null;
+    municipio_id: number | null;
+    departamento_id: number | null;
 }
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
@@ -81,6 +95,16 @@ const props = defineProps({
     },
     distritos: {
         type: Array as PropType<Distrito[]>,
+        required: true,
+        default: () => [],
+    },
+    departamentos: {
+        type: Array as PropType<Departamento[]>,
+        required: true,
+        default: () => [],
+    },
+    municipios: {
+        type: Array as PropType<Municipio[]>,
         required: true,
         default: () => [],
     },
@@ -178,7 +202,7 @@ watch(
 <template>
     <Head :title="$t('_sedes_')"> </Head>
     <AppLayout :titulo="$t('_administrar_sedes_')" :subtitulo="$t('_permite_gestionar_sedes_')" icono="mdi-wrench-clock">
-        <div v-if="hasPermission('MENU_ACADEMICA_SEDES')">
+        <v-sheet v-if="hasPermission('MENU_ACADEMICA_SEDES')">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
@@ -342,6 +366,8 @@ watch(
                         v-if="selectedAction == 'new' || selectedAction == 'edit'"
                         :item="selectedItem"
                         :distritos="props.distritos"
+                        :departamentos="props.departamentos"
+                        :municipios="props.municipios"
                         :accion="selectedAction"
                         @form-saved="handleFormSave"
                     ></SedeForm>
@@ -373,7 +399,7 @@ watch(
                     {{ $t('_regresar_listado_') }}
                 </v-btn>
             </v-card-actions>
-        </div>
+        </v-sheet>
         <v-alert v-else border="top" type="warning" variant="outlined" prominent>
             {{ $t('_no_tiene_permiso_para_esta_accion_') }}
         </v-alert>
