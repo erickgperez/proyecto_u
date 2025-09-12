@@ -55,7 +55,9 @@ class CandidatoInvitado extends Mailable
     {
         $attachment = [];
         if ($this->convocatoria->afiche != null) {
-            $attachment[] = Attachment::fromPath($this->convocatoria->afiche)->as('afiche.pdf')->withMime('application/pdf');
+            $filePath = storage_path('app/private/' . $this->convocatoria->afiche); // Adjust filename as needed
+
+            $attachment[] = Attachment::fromPath($filePath)->as('afiche.pdf')->withMime('application/pdf');
         }
         return $attachment;
     }
