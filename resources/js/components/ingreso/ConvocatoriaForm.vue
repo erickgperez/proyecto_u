@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { computed, onMounted, reactive, ref, toRef, watch } from 'vue';
+import { onMounted, reactive, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -25,10 +25,6 @@ interface FormData {
     cuerpo_mensaje: string;
     afiche: File | null;
 }
-
-const nombreArchivo = computed(() => {
-    return props.item.afiche.split('/').slice(-1)[0];
-});
 
 const props = defineProps(['item', 'accion']);
 const localItem = ref(props.item);

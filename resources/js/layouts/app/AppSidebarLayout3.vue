@@ -151,13 +151,17 @@ const props = withDefaults(defineProps<Props>(), {
                                     >
                                     </v-list-item>
                                 </Link>
-                                <Link :href="route('ingreso-bachillerato-candidatos')" preserve-state preserve-scroll>
+                                <Link
+                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')"
+                                    :href="route('ingreso-bachillerato-candidatos')"
+                                    preserve-state
+                                    preserve-scroll
+                                >
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-account-star-outline"
                                         :title="$t('_candidatos_')"
                                         :class="$page.url === '/ingreso/bachillerato/candidatos' ? 'bg-blue-lighten-4' : ''"
-                                        v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')"
                                     >
                                     </v-list-item>
                                 </Link>
@@ -165,35 +169,42 @@ const props = withDefaults(defineProps<Props>(), {
                         </v-menu>
                     </v-list-item>
 
-                    <v-btn
-                        v-if="hasPermission('MODULO_GESTION_ACADEMICA') && moduloActual.codigo == 'gestion-academica'"
-                        variant="text"
-                        append-icon="mdi-menu-right"
-                        class="text-body-1 text-none text-left"
-                    >
-                        {{ $t('_gestion_academica_') }}
-                        <v-menu activator="parent">
-                            <v-list class="bg-blue-grey-darken-2">
-                                <v-list-item v-for="i in 3" :key="i" link append-icon="mdi-menu-right">
-                                    <v-list-item-title>Gestión académica Item {{ i }}</v-list-item-title>
-                                    <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
-                                        <v-list class="bg-blue-grey-darken-2">
-                                            <v-list-item v-for="j in 3" :key="j" link append-icon="mdi-menu-right">
-                                                <v-list-item-title>Gestión académica Item {{ i }} - {{ j }}</v-list-item-title>
-                                                <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
-                                                    <v-list class="bg-blue-grey-darken-2">
-                                                        <v-list-item v-for="k in 5" :key="k" link>
-                                                            <v-list-item-title>Gestión Académica Item {{ i }} - {{ j }} - {{ k }}</v-list-item-title>
-                                                        </v-list-item>
-                                                    </v-list>
-                                                </v-menu>
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-menu>
-                                </v-list-item>
-                            </v-list>
-                        </v-menu>
-                    </v-btn>
+                    <DIV v-if="hasPermission('MODULO_GESTION_ACADEMICA') && moduloActual.codigo == 'gestion-academica'">
+                        <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede')" preserve-state preserve-scroll>
+                            <v-list-item
+                                prepend-icon="mdi-office-building-cog-outline"
+                                :class="$page.url === '/academica/sede' ? 'bg-blue-lighten-4' : ''"
+                            >
+                                {{ $t('_sedes_') }}
+                            </v-list-item>
+                        </Link>
+                        <!-- <v-btn variant="text" append-icon="mdi-menu-right" class="text-body-1 text-none text-left">
+                            {{ $t('_gestion_academica_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <v-list-item v-for="i in 3" :key="i" link append-icon="mdi-menu-right">
+                                        <v-list-item-title>Gestión académica Item {{ i }}</v-list-item-title>
+                                        <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
+                                            <v-list class="bg-blue-grey-darken-2">
+                                                <v-list-item v-for="j in 3" :key="j" link append-icon="mdi-menu-right">
+                                                    <v-list-item-title>Gestión académica Item {{ i }} - {{ j }}</v-list-item-title>
+                                                    <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
+                                                        <v-list class="bg-blue-grey-darken-2">
+                                                            <v-list-item v-for="k in 5" :key="k" link>
+                                                                <v-list-item-title
+                                                                    >Gestión Académica Item {{ i }} - {{ j }} - {{ k }}</v-list-item-title
+                                                                >
+                                                            </v-list-item>
+                                                        </v-list>
+                                                    </v-menu>
+                                                </v-list-item>
+                                            </v-list>
+                                        </v-menu>
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
+                        </v-btn>-->
+                    </DIV>
 
                     <v-btn
                         v-if="hasPermission('MODULO_CALIFICACIONES') && moduloActual.codigo == 'calificaciones'"

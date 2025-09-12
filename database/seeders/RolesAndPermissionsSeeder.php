@@ -21,10 +21,13 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'MODULO_GESTION_ACADEMICA']);
 
         //************ MENUS
+        // INGRESO
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA']);
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_GESTIONAR']);
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO']);
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_CANDIDATOS']);
+        // GESTION ACADEMICA
+        Permission::create(['name' => 'MENU_ACADEMICA_SEDES']);
 
         //********** GESTIONAR CONVOCATORIA
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CREAR']);
@@ -37,13 +40,24 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CANDIDATOS_LISTADO']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CANDIDATOS_INVITACIONES']);
 
+        // ******** SEDES
+        Permission::create(['name' => 'ACADEMICA_SEDE_CREAR']);
+        Permission::create(['name' => 'ACADEMICA_SEDE_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICA_SEDE_EDITAR']);
+        Permission::create(['name' => 'ACADEMICA_SEDE_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICA_SEDE_BORRAR']);
+
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 
 
         // Crear roles y asignar los permisos
         $role = Role::create(['name' => 'gestor-academico'])
-            ->givePermissionTo(['MODULOS', 'MODULO_GESTION_ACADEMICA']);
+            ->givePermissionTo([
+                'MODULOS',
+                'MODULO_GESTION_ACADEMICA',
+                'MENU_ACADEMICA_SEDES'
+            ]);
 
         $role = Role::create(['name' => 'gestor-ingreso'])
             ->givePermissionTo([

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
-import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
+import SedeForm from '@/components/academica/SedeForm.vue';
+import SedeShow from '@/components/academica/SedeShow.vue';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -41,46 +41,52 @@ const exportToExcel = () => {
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-const rutaBorrar = ref('ingreso-convocatoria-delete');
+const rutaBorrar = ref('academica-sede-delete');
+
+interface Distrito {
+    id: number | null;
+    descripcion: string;
+}
 
 interface Item {
     id: number | null;
-    fecha: Date | null;
+    codigo: string;
     nombre: string;
-    descripcion: string;
-    cuerpo_mensaje: string;
-    afiche: string | null;
+    distrito: Distrito | null;
 }
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_convocatorias');
-const fileName = ref('convocatorias');
+const sheetName = ref('Listado_sedes');
+const fileName = ref('sedes');
 
 const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 
 // Título del listado
-const titleList = ref(t('_listado_convocatorias_'));
+const titleList = ref(t('_listado_sedes_'));
 
 const headers = [
-    { title: t('_fecha_'), key: 'fecha' },
+    { title: t('_codigo_'), key: 'codigo' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
-    { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('_distrito_'), key: 'distrito' },
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
-const sortBy = [
-    { key: 'fecha', order: 'asc' },
-    { key: 'nombre', order: 'asc' },
-];
+const sortBy = [{ key: 'nombre', order: 'asc' }];
 
-//************ lo demás puede permanecer igual, cambiar solo que sea necesario
 const props = defineProps({
     items: {
         type: Array as PropType<Item[]>,
         required: true,
         default: () => [],
     },
+    distritos: {
+        type: Array as PropType<Distrito[]>,
+        required: true,
+        default: () => [],
+    },
 });
+
+//************ lo demás puede permanecer igual, cambiar solo que sea necesario
 
 const localItems = ref([...props.items]);
 
@@ -170,9 +176,9 @@ watch(
 </script>
 
 <template>
-    <Head :title="$t('_convocatoria_')"> </Head>
-    <AppLayout :titulo="$t('_administrar_convocatoria_')" :subtitulo="$t('_permite_gestionar_datos_convocatorias_')" icono="mdi-wrench-clock">
-        <div v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')">
+    <Head :title="$t('_sedes_')"> </Head>
+    <AppLayout :titulo="$t('_administrar_sedes_')" :subtitulo="$t('_permite_gestionar_sedes_')" icono="mdi-wrench-clock">
+        <div v-if="hasPermission('MENU_ACADEMICA_SEDES')">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
@@ -193,18 +199,18 @@ watch(
                                 single-line
                             ></v-text-field>
                             <v-btn
-                                v-if="hasPermission('INGRESO_CONVOCATORIA_CREAR')"
+                                v-if="hasPermission('ACADEMICA_SEDE_CREAR')"
                                 icon="mdi-table-plus"
                                 color="success"
                                 class="ml-2"
-                                :title="$t('_crear_convocatoria_')"
+                                :title="$t('_crear_sede_')"
                                 @click="
                                     selectAction('new');
                                     step = 3;
                                 "
                             ></v-btn>
                             <v-btn
-                                v-if="hasPermission('INGRESO_CONVOCATORIA_EXPORTAR')"
+                                v-if="hasPermission('ACADEMICA_SEDE_EXPORTAR')"
                                 icon="mdi-file-export-outline"
                                 color="primary"
                                 variant="tonal"
@@ -225,11 +231,6 @@ watch(
                             hover
                             striped="odd"
                         >
-                            <template v-slot:item.fecha="{ item }">
-                                <div class="d-flex ga-2">
-                                    {{ date.format(item.fecha, 'keyboardDate') }}
-                                </div>
-                            </template>
                             <template v-slot:item.actions="{ item }">
                                 <div class="d-flex ga-2 justify-end">
                                     <!--<v-icon color="primary" icon="mdi-pencil" size="small" @click="edit(item.id)"></v-icon>
@@ -254,7 +255,7 @@ watch(
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
                 <v-window-item :value="2">
                     <v-card
-                        v-if="hasAnyPermission(['INGRESO_CONVOCATORIA_EDITAR', 'INGRESO_CONVOCATORIA_MOSTRAR', 'INGRESO_CONVOCATORIA_BORRAR'])"
+                        v-if="hasAnyPermission(['ACADEMICA_SEDE_EDITAR', 'ACADEMICA_SEDE_MOSTRAR', 'ACADEMICA_SEDE_BORRAR'])"
                         class="align-center justify-center"
                     >
                         <v-card-title>
@@ -267,7 +268,7 @@ watch(
                                     <span>{{ $t('_elija_accion_realizar_') }}</span>
                                 </span>
                             </v-col>
-                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_EDITAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_SEDE_EDITAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_editar_datos_registro_seleccionado_')"
@@ -288,7 +289,7 @@ watch(
                                 </v-card>
                             </v-col>
 
-                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_MOSTRAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_SEDE_MOSTRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_mostrar_datos_solo_lectura_')"
@@ -308,7 +309,7 @@ watch(
                                     </template>
                                 </v-card>
                             </v-col>
-                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_BORRAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_SEDE_BORRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     subtitle="Borrar el registro seleccionado"
@@ -337,13 +338,14 @@ watch(
 
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
-                    <ConvocatoriaForm
+                    <SedeForm
                         v-if="selectedAction == 'new' || selectedAction == 'edit'"
                         :item="selectedItem"
+                        :distritos="props.distritos"
                         :accion="selectedAction"
                         @form-saved="handleFormSave"
-                    ></ConvocatoriaForm>
-                    <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
+                    ></SedeForm>
+                    <SedeShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SedeShow>
                 </v-window-item>
             </v-window>
 
