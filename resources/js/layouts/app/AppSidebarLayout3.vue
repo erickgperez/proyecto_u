@@ -3,7 +3,7 @@ import { usePermissions } from '@/composables/usePermissions';
 import type { BreadcrumbItemType } from '@/types';
 import { type User } from '@/types';
 import { Link, router, usePage } from '@inertiajs/vue3';
-import { ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useLocale } from 'vuetify';
 
 const { hasPermission, hasRole } = usePermissions();
@@ -24,7 +24,7 @@ interface Props {
     icono?: string;
 }
 const drawer = ref(true);
-const group = ref(null);
+//const group = ref(null);
 
 const menu = ref(false);
 const menuModulos = ref(false);
@@ -50,14 +50,18 @@ interface Modulo {
     nombre: string;
     icono: string;
 }
-const moduloActual = ref<Modulo>(modulos[0]);
+const moduloActual = ref<Modulo | null>(null);
 
 const handleLogout = () => {
     router.flushAll();
 };
 
-watch(group, () => {
-    drawer.value = false;
+watch(moduloActual, (newValue) => {
+    console.log(user.id);
+
+    if (newValue != null) {
+        localStorage.setItem('confUser-' + user.id, JSON.stringify({ userId: user.id, modulo: newValue.codigo }));
+    }
 });
 
 const props = withDefaults(defineProps<Props>(), {
@@ -65,6 +69,17 @@ const props = withDefaults(defineProps<Props>(), {
     titulo: () => '',
     subtitulo: () => '',
     icono: () => '',
+});
+
+onMounted(() => {
+    const confUser = localStorage.getItem('confUser-' + user.id);
+
+    if (confUser) {
+        const confUserObj = JSON.parse(confUser);
+        [moduloActual.value] = modulos.filter((modulo) => modulo.codigo === confUserObj.modulo);
+    } else {
+        moduloActual.value = modulos[0];
+    }
 });
 </script>
 
@@ -84,7 +99,7 @@ const props = withDefaults(defineProps<Props>(), {
                 <v-divider></v-divider>
 
                 <v-list density="compact" nav>
-                    <!-- <Link :href="route('informe-example')" preserve-state preserve-scroll>
+                    <!-- <Link :href="route('informe-example')"    >
                         <v-list-item
                             prepend-icon="mdi-text-box-multiple-outline"
                             class="text-body-1"
@@ -94,7 +109,7 @@ const props = withDefaults(defineProps<Props>(), {
                             {{ $t('_informe_') }}
                         </v-list-item>
                     </Link>
-                    <Link :href="route('crud-example')" preserve-state preserve-scroll>
+                    <Link :href="route('crud-example')"    >
                         <v-list-item
                             prepend-icon="mdi-form-textbox"
                             class="text-body-1"
@@ -105,7 +120,7 @@ const props = withDefaults(defineProps<Props>(), {
                         </v-list-item>
                     </Link>
 
-                    <Link :href="route('profile.edit')" preserve-state preserve-scroll>
+                    <Link :href="route('profile.edit')"    >
                         <v-list-item
                             prepend-icon="mdi-cog"
                             :class="$page.url === '/settings/profile' ? 'bg-blue-lighten-4' : ''"
@@ -115,7 +130,7 @@ const props = withDefaults(defineProps<Props>(), {
                         </v-list-item>
                     </Link> -->
                     <v-list-item
-                        v-if="hasPermission('MODULO_INGRESO') && moduloActual.codigo == 'ingreso-universitario'"
+                        v-if="hasPermission('MODULO_INGRESO') && moduloActual?.codigo == 'ingreso-universitario'"
                         prepend-icon="mdi-book-outline"
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
@@ -123,12 +138,7 @@ const props = withDefaults(defineProps<Props>(), {
                         {{ $t('_convocatoria_') }}
                         <v-menu activator="parent" v-if="hasPermission('MENU_INGRESO_CONVOCATORIA')">
                             <v-list class="bg-blue-grey-darken-2">
-                                <Link
-                                    :href="route('ingreso-convocatoria-index')"
-                                    preserve-state
-                                    preserve-scroll
-                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')"
-                                >
+                                <Link :href="route('ingreso-convocatoria-index')" v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')">
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-book-settings-outline"
@@ -139,8 +149,6 @@ const props = withDefaults(defineProps<Props>(), {
                                 </Link>
                                 <Link
                                     :href="route('ingreso-bachillerato-cargar-archivo')"
-                                    preserve-state
-                                    preserve-scroll
                                     v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO')"
                                 >
                                     <v-list-item
@@ -151,12 +159,7 @@ const props = withDefaults(defineProps<Props>(), {
                                     >
                                     </v-list-item>
                                 </Link>
-                                <Link
-                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')"
-                                    :href="route('ingreso-bachillerato-candidatos')"
-                                    preserve-state
-                                    preserve-scroll
-                                >
+                                <Link v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')" :href="route('ingreso-bachillerato-candidatos')">
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-account-star-outline"
@@ -169,8 +172,8 @@ const props = withDefaults(defineProps<Props>(), {
                         </v-menu>
                     </v-list-item>
 
-                    <DIV v-if="hasPermission('MODULO_GESTION_ACADEMICA') && moduloActual.codigo == 'gestion-academica'">
-                        <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede')" preserve-state preserve-scroll>
+                    <v-container v-if="hasPermission('MODULO_GESTION_ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
+                        <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede')">
                             <v-list-item
                                 prepend-icon="mdi-office-building-cog-outline"
                                 :class="$page.url === '/academica/sede' ? 'bg-blue-lighten-4' : ''"
@@ -178,36 +181,10 @@ const props = withDefaults(defineProps<Props>(), {
                                 {{ $t('_sedes_') }}
                             </v-list-item>
                         </Link>
-                        <!-- <v-btn variant="text" append-icon="mdi-menu-right" class="text-body-1 text-none text-left">
-                            {{ $t('_gestion_academica_') }}
-                            <v-menu activator="parent">
-                                <v-list class="bg-blue-grey-darken-2">
-                                    <v-list-item v-for="i in 3" :key="i" link append-icon="mdi-menu-right">
-                                        <v-list-item-title>Gestión académica Item {{ i }}</v-list-item-title>
-                                        <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
-                                            <v-list class="bg-blue-grey-darken-2">
-                                                <v-list-item v-for="j in 3" :key="j" link append-icon="mdi-menu-right">
-                                                    <v-list-item-title>Gestión académica Item {{ i }} - {{ j }}</v-list-item-title>
-                                                    <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
-                                                        <v-list class="bg-blue-grey-darken-2">
-                                                            <v-list-item v-for="k in 5" :key="k" link>
-                                                                <v-list-item-title
-                                                                    >Gestión Académica Item {{ i }} - {{ j }} - {{ k }}</v-list-item-title
-                                                                >
-                                                            </v-list-item>
-                                                        </v-list>
-                                                    </v-menu>
-                                                </v-list-item>
-                                            </v-list>
-                                        </v-menu>
-                                    </v-list-item>
-                                </v-list>
-                            </v-menu>
-                        </v-btn>-->
-                    </DIV>
+                    </v-container>
 
                     <v-btn
-                        v-if="hasPermission('MODULO_CALIFICACIONES') && moduloActual.codigo == 'calificaciones'"
+                        v-if="hasPermission('MODULO_CALIFICACIONES') && moduloActual?.codigo == 'calificaciones'"
                         variant="text"
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
@@ -248,10 +225,10 @@ const props = withDefaults(defineProps<Props>(), {
                                 color="indigo"
                                 v-bind="props"
                                 stacked
-                                :title="moduloActual.codigo === '' ? $t('_modulos_') : $t('_modulo_actual_')"
-                                :prepend-icon="moduloActual.codigo === '' ? 'mdi-view-module' : moduloActual.icono"
+                                :title="moduloActual?.codigo === '' ? $t('_modulos_') : $t('_modulo_actual_')"
+                                :prepend-icon="moduloActual?.codigo === '' ? 'mdi-view-module' : moduloActual?.icono"
                             >
-                                {{ moduloActual.codigo === '' ? $t('_modulos_') : $t(moduloActual.nombre) }}
+                                {{ moduloActual?.codigo === '' ? $t('_modulos_') : $t(moduloActual?.nombre || '') }}
                             </v-btn>
                         </template>
 
@@ -262,7 +239,7 @@ const props = withDefaults(defineProps<Props>(), {
                                         <v-col v-for="modulo in modulos" :key="modulo.codigo">
                                             <v-item>
                                                 <v-card
-                                                    :color="moduloActual.codigo == modulo.codigo ? 'primary' : ''"
+                                                    :color="moduloActual?.codigo == modulo.codigo ? 'primary' : ''"
                                                     class="d-flex align-center"
                                                     height="150"
                                                     width="150"
@@ -294,14 +271,7 @@ const props = withDefaults(defineProps<Props>(), {
                             <v-card>
                                 <v-list>
                                     <v-list-item prepend-icon="mdi-cog">
-                                        <Link
-                                            :href="route('profile.edit')"
-                                            prefetch
-                                            as="button"
-                                            :only="['tabContent']"
-                                            preserve-state
-                                            preserve-scroll
-                                        >
+                                        <Link :href="route('profile.edit')" prefetch as="button" :only="['tabContent']">
                                             {{ $t('_configuracion_') }}
                                         </Link>
                                     </v-list-item>
@@ -343,9 +313,9 @@ const props = withDefaults(defineProps<Props>(), {
             <v-main class="mt-1">
                 <v-card class="bg-surface-light mx-auto">
                     <v-card-text class="pt-4">
-                        <v-sheet class="mx-auto">
+                        <v-container class="mx-auto">
                             <slot />
-                        </v-sheet>
+                        </v-container>
                     </v-card-text>
                 </v-card>
             </v-main>
