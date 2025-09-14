@@ -38,7 +38,7 @@ const exportToExcel = () => {
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-const rutaBorrar = ref('plan-estudio-grado-delete');
+const rutaBorrar = ref('plan_estudio-grado-delete');
 const mensajes = {
     titulo1: t('grado._grados_'),
     titulo2: t('grado._administrar_grados_'),

@@ -39,7 +39,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.postForm(route('plan-estudio-grado-save'), formData);
+            const resp = await axios.postForm(route('plan_estudio-grado-save'), formData);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();
