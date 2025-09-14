@@ -79,6 +79,7 @@
     "_filtros_": "Filters",
     "grado": {
         "_administrar_grados_": "Manage university degrees",
+        "_codigo_ya existe_": "The degree code already exists in another record",
         "_crear_grado_": "Create degree",
         "_descripcion_femenino_": "Feminine description",
         "_descripcion_masculino_": "Male description",

@@ -40,9 +40,24 @@ class GradoController extends Controller
         ]);
 
         if ($request->get('id') === null) {
-            $grado = new Grado();
+            // Está agregando uno nuevo, verificar que no exista el código
+            $gradoCheck = Grado::where('codigo', $request->get('codigo'))->first();
+            if ($gradoCheck === null) {
+                $grado = new Grado();
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'grado._codigo_ya existe_']);
+            }
         } else {
-            $grado = Grado::find($request->get('id'));
+            // Verificar que el nuevo código que ponga no esté utilizado por otro registro
+            $gradoCheck = Grado::where('codigo', $request->get('codigo'))
+                ->where('id', '!=', $request->get('id'))
+                ->first();
+
+            if ($gradoCheck === null) {
+                $grado = Grado::find($request->get('id'));
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'grado._codigo_ya existe_']);
+            }
         }
 
         $grado->codigo = $request->get('codigo');

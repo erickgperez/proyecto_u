@@ -79,6 +79,7 @@
     "_filtros_": "Filtros",
     "grado": {
         "_administrar_grados_": "Administrar grados",
+        "_codigo_ya existe_": "El código del grado ya existe en otro registro",
         "_crear_grado_": "Crear grado",
         "_descripcion_femenino_": "Descripción femenino",
         "_descripcion_masculino_": "Descripción masculino",
