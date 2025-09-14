@@ -151,6 +151,7 @@
     "_tiene_una_cuenta_?_": "¿Ya tiene una cuenta?",
     "tipoCarrera": {
         "_administrar_tipo_carrera_": "Administrar tipo carrera",
+        "_codigo_ya existe_": "El código del tipo de carrera ya existe en otro registro",
         "_crear_tipo_carrera_": "Crear tipo carrera",
         "_editar_tipo_carrera_": "Editar tipo carrera",
         "_tipo_carrera_": "Tipo carrera",

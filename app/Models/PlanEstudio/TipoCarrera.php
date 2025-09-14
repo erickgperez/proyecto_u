@@ -2,6 +2,7 @@
 
 namespace App\Models\PlanEstudio;
 
+use App\Models\PlanEstudio\Grado;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 

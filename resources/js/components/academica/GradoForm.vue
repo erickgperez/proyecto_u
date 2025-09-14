@@ -25,7 +25,7 @@ interface FormData {
 
 const props = defineProps(['item', 'accion']);
 
-const formData: FormData = reactive({
+let formData: FormData = reactive({
     id: null,
     codigo: '',
     descripcion_masculino: '',
@@ -36,6 +36,9 @@ const isEditing = toRef(() => !!formData.id);
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
     loading.value = true;
+
+    const hasError = ref(false);
+    const message = ref('');
 
     if (valid) {
         try {
@@ -55,12 +58,20 @@ async function submitForm() {
                     timer: 2500,
                     toast: true,
                 });
+            } else {
+                hasError.value = true;
+                message.value = t(resp.data.message);
             }
         } catch (error: any) {
+            hasError.value = true;
+            message.value = t('_no_se_pudo_guardar_formulario_');
             console.log(error.response.data.message);
+        }
+
+        if (hasError.value) {
             Swal.fire({
                 title: t('_error_'),
-                text: t('_no_se_pudo_guardar_formulario_'),
+                text: message.value,
                 icon: 'error',
                 confirmButtonColor: '#D7E1EE',
             });
@@ -72,10 +83,7 @@ async function submitForm() {
 onMounted(() => {
     reset();
     if (props.accion === 'edit') {
-        formData.id = props.item.id;
-        formData.codigo = props.item.codigo;
-        formData.descripcion_masculino = props.item.descripcion_masculino;
-        formData.descripcion_femenino = props.item.descripcion_femenino;
+        formData = { ...props.item };
     }
 });
 

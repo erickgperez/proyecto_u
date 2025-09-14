@@ -57,8 +57,6 @@ const handleLogout = () => {
 };
 
 watch(moduloActual, (newValue) => {
-    console.log(user.id);
-
     if (newValue != null) {
         localStorage.setItem('confUser-' + user.id, JSON.stringify({ userId: user.id, modulo: newValue.codigo }));
     }

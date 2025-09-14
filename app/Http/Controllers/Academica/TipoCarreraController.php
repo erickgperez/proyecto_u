@@ -4,9 +4,6 @@ namespace App\Http\Controllers\Academica;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academica\Sede;
-use App\Models\Departamento;
-use App\Models\Distrito;
-use App\Models\Municipio;
 use App\Models\PlanEstudio\Grado;
 use App\Models\PlanEstudio\TipoCarrera;
 use Illuminate\Http\Request;
@@ -25,17 +22,16 @@ class TipoCarreraController extends Controller
         $tiposCarrera = TipoCarrera::orderBy('descripcion')->get();
         $grados = Grado::orderBy('codigo')->get();
 
-        $resp = [];
+        $items = [];
         foreach ($tiposCarrera as $row) {
-            $items = $row->toArray();
-            $items['created_by'] = $row->creator;
-            $items['updated_by'] = $row->updater;
-            $items['grado'] = $row->grado;
-            $items['grado_descripciones'] = ($row->grado->descripcion_masculino ?? '') . ', ' . ($row->grado->descripcion_femenino ?? '');
-            $resp[] = $items;
+            $item = $row->toArray();
+            $item['created_by'] = $row->creator;
+            $item['updated_by'] = $row->updater;
+            $item['grado'] = $row->grado;
+            $items[] = $item;
         }
 
-        return Inertia::render('academica/TipoCarrera', ['items' => $resp, 'grados' => $grados]);
+        return Inertia::render('academica/TipoCarrera', ['items' => $items, 'grados' => $grados]);
     }
 
     public function save(Request $request)
@@ -43,29 +39,43 @@ class TipoCarreraController extends Controller
         // Aunque se ha validado del lado del cliente, validar aquí también
         $request->validate([
             'codigo' => 'required|string|max:20',
-            'nombre' => 'nullable|string|max:255',
-            'distrito_id' => ['required', 'integer', Rule::exists('distrito', 'id')],
+            'descripcion' => 'required|string|max:255',
+            'grado_id' => ['nullable', 'integer', Rule::exists('pgsql.plan_estudio.grado', 'id')],
         ]);
 
         if ($request->get('id') === null) {
-            $sede = new Sede();
+            // Está agregando uno nuevo, verificar que no exista el código
+            $tipoCarreraCheck = TipoCarrera::where('codigo', $request->get('codigo'))->first();
+            if ($tipoCarreraCheck === null) {
+                $tipoCarrera = new TipoCarrera();
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'tipoCarrera._codigo_ya existe_']);
+            }
         } else {
-            $sede = Sede::find($request->get('id'));
+            // Verificar que el nuevo código que ponga no esté utilizado por otro registro
+            $tipoCarreraCheck = TipoCarrera::where('codigo', $request->get('codigo'))
+                ->where('id', '!=', $request->get('id'))
+                ->first();
+
+            if ($tipoCarreraCheck === null) {
+                $tipoCarrera = TipoCarrera::find($request->get('id'));
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'tipoCarrera._codigo_ya existe_']);
+            }
         }
 
-        $distrito = Distrito::find($request->get('distrito_id'));
-        $sede->codigo = $request->get('codigo');
-        $sede->nombre = $request->get('nombre');
-        $sede->distrito()->associate($distrito);
+        $grado = Grado::find($request->get('grado_id'));
 
-        $sede->save();
+        $tipoCarrera->codigo = $request->get('codigo');
+        $tipoCarrera->descripcion = $request->get('descripcion');
+        $tipoCarrera->grado()->associate($grado);
 
-        $item = $sede->toArray();
-        $item['created_by'] = $sede->creator;
-        $item['updated_by'] = $sede->updater;
-        $item['distrito'] = $sede->distrito->descripcion;
-        $item['departamento_id'] = $sede->distrito->municipio->departamento_id;
-        $item['municipio_id'] = $sede->distrito->municipio_id;
+        $tipoCarrera->save();
+
+        $item = $tipoCarrera->toArray();
+        $item['created_by'] = $tipoCarrera->creator;
+        $item['updated_by'] = $tipoCarrera->updater;
+        $item['grado'] = $tipoCarrera->grado;
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $item]);
     }

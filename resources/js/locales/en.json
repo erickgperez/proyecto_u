@@ -151,6 +151,7 @@
     "_tiene_una_cuenta_?_": "Already have an account?",
     "tipoCarrera": {
         "_administrar_tipo_carrera_": "Manage career type",
+        "_codigo_ya existe_": "The career type code already exists in another record",
         "_crear_tipo_carrera_": "Create career type",
         "_editar_tipo_carrera_": "Edit career type",
         "_tipo_carrera_": "Career type",

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SedeForm from '@/components/academica/SedeForm.vue';
-import SedeShow from '@/components/academica/SedeShow.vue';
+import TipoCarreraForm from '@/components/academica/TipoCarreraForm.vue';
+import TipoCarreraShow from '@/components/academica/TipoCarreraShow.vue';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -74,7 +74,6 @@ interface Item {
     codigo: string;
     nombre: string;
     grado: Grado | null;
-    grado_descripciones: string;
 }
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
@@ -89,7 +88,7 @@ const titleList = ref(mensajes.tituloListado);
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_descripcion_'), key: 'descripcion', align: 'start' },
-    { title: t('grado._grado_'), key: 'grado_descripciones' },
+    { title: t('grado._grado_'), key: 'grado.descripciones' },
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
@@ -128,7 +127,6 @@ function remove() {
         if (result.isConfirmed) {
             try {
                 const resp = await axios.delete(route(rutaBorrar.value, { id: selectedItem.value?.id }));
-
                 if (resp.data.status == 'ok') {
                     Swal.fire({
                         title: t('_exito_'),
@@ -357,14 +355,14 @@ watch(
 
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
-                    <SedeForm
+                    <TipoCarreraForm
                         v-if="selectedAction == 'new' || selectedAction == 'edit'"
                         :item="selectedItem"
                         :grados="props.grados"
                         :accion="selectedAction"
                         @form-saved="handleFormSave"
-                    ></SedeForm>
-                    <SedeShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SedeShow>
+                    ></TipoCarreraForm>
+                    <TipoCarreraShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></TipoCarreraShow>
                 </v-window-item>
             </v-window>
 
