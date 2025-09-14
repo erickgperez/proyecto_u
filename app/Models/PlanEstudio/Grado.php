@@ -14,4 +14,11 @@ class Grado extends Model
         'descripcion_masculino',
         'descripcion_femenino'
     ];
+
+    protected $appends = ['descripciones'];
+
+    public function getDescripcionesAttribute()
+    {
+        return "{$this->descripcion_masculino}, {$this->descripcion_femenino}";
+    }
 }
