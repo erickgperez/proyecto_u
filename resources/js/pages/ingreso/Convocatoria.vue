@@ -42,6 +42,12 @@ const exportToExcel = () => {
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
 const rutaBorrar = ref('ingreso-convocatoria-delete');
+const mensajes = {
+    titulo1: t('_convocatoria_'),
+    titulo2: t('_administrar_convocatoria_'),
+    subtitulo: t('_permite_gestionar_datos_convocatorias_'),
+    tituloListado: t('_listado_convocatorias_'),
+};
 
 interface Item {
     id: number | null;
@@ -59,7 +65,7 @@ const fileName = ref('convocatorias');
 const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 
 // Título del listado
-const titleList = ref(t('_listado_convocatorias_'));
+const titleList = ref(mensajes.tituloListado);
 
 const headers = [
     { title: t('_fecha_'), key: 'fecha' },
@@ -197,7 +203,7 @@ watch(
                                 icon="mdi-table-plus"
                                 color="success"
                                 class="ml-2"
-                                :title="$t('_crear_convocatoria_')"
+                                :title="$t('_crear_nuevo_registro_')"
                                 @click="
                                     selectAction('new');
                                     step = 3;
@@ -311,7 +317,7 @@ watch(
                             <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_BORRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
-                                    subtitle="Borrar el registro seleccionado"
+                                    :subtitle="$t('_borrar_registro_seleccionado_')"
                                     :title="$t('_eliminar_')"
                                     @click="
                                         selectAction('delete');

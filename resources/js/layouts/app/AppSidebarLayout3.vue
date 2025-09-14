@@ -172,16 +172,38 @@ onMounted(() => {
                         </v-menu>
                     </v-list-item>
 
-                    <v-container v-if="hasPermission('MODULO_GESTION_ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
-                        <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede')">
+                    <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION_ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
+                        <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede-index')">
                             <v-list-item
+                                link
                                 prepend-icon="mdi-office-building-cog-outline"
                                 :class="$page.url === '/academica/sede' ? 'bg-blue-lighten-4' : ''"
                             >
-                                {{ $t('_sedes_') }}
+                                {{ $t('sede._sedes_') }}
                             </v-list-item>
                         </Link>
-                    </v-container>
+                        <v-list-item
+                            v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO')"
+                            prepend-icon="mdi-collage"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('_plan_estudio_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link :href="route('plan-estudio-grado-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_GRADO')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-book-settings-outline"
+                                            :title="$t('grado._grado_')"
+                                            :class="$page.url === '/plan_estudio/grado' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
+                    </v-sheet>
 
                     <v-btn
                         v-if="hasPermission('MODULO_CALIFICACIONES') && moduloActual?.codigo == 'calificaciones'"

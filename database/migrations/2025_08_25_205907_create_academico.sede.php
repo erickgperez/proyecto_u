@@ -19,8 +19,8 @@ return new class extends Migration
             $table->foreignId('distrito_id')->comment('Distrito donde está ubicada la sede');
             $table->foreign('distrito_id')->references('id')->on('distrito');
 
-            $table->unsignedBigInteger('created_by')->nullable();
-            $table->unsignedBigInteger('updated_by')->nullable();
+            $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
+            $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
 

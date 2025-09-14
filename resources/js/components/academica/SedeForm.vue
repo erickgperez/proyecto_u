@@ -137,7 +137,7 @@ watch(
                             v-model="formData.nombre"
                             :rules="[
                                 (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 255) || $t('_longitud_maxima') + ': 100 ' + $t('_caracteres_'),
+                                (v) => (!!v && v.length <= 255) || $t('_longitud_maxima') + ': 255 ' + $t('_caracteres_'),
                             ]"
                             counter="100"
                             :label="$t('_nombre_') + ' *'"

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SedeForm from '@/components/academica/SedeForm.vue';
-import SedeShow from '@/components/academica/SedeShow.vue';
+import GradoForm from '@/components/academica/GradoForm.vue';
+import GradoShow from '@/components/academica/GradoShow.vue';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -38,76 +38,42 @@ const exportToExcel = () => {
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-const rutaBorrar = ref('academica-sede-delete');
+const rutaBorrar = ref('plan-estudio-grado-delete');
 const mensajes = {
-    titulo1: t('sede._sedes_'),
-    titulo2: t('sede._administrar_sedes_'),
-    subtitulo: t('sede._permite_gestionar_sedes_'),
-    tituloListado: t('sede._listado_sedes_'),
+    titulo1: t('grado._grados_'),
+    titulo2: t('grado._administrar_grados_'),
+    subtitulo: t('grado._permite_gestionar_grados_'),
+    tituloListado: t('grado._listado_grados_'),
 };
-
-interface Distrito {
-    id: number | null;
-    descripcion: string;
-    municipio_id: number | null;
-}
-
-interface Departamento {
-    id: number | null;
-    descripcion: string;
-}
-
-interface Municipio {
-    id: number | null;
-    descripcion: string;
-    departamento_id: number | null;
-}
 
 interface Item {
     id: number | null;
     codigo: string;
-    nombre: string;
-    distrito: Distrito | null;
-    municipio_id: number | null;
-    departamento_id: number | null;
+    descripcion_masculino: string;
+    descripcion_femenino: string;
 }
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_sedes');
-const fileName = ref('sedes');
+const sheetName = ref('Listado_grados');
+const fileName = ref('grados');
 
-const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
+const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
 
 // Título del listado
 const titleList = ref(mensajes.tituloListado);
 
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
-    { title: t('_nombre_'), key: 'nombre', align: 'start' },
-    { title: t('_distrito_'), key: 'distrito' },
+    { title: t('grado._descripcion_masculino_'), key: 'descripcion_masculino' },
+    { title: t('grado._descripcion_femenino_'), key: 'descripcion_femenino' },
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
-const sortBy = [{ key: 'nombre', order: 'asc' }];
+const sortBy = [{ key: 'codigo', order: 'asc' }];
 
 const props = defineProps({
     items: {
         type: Array as PropType<Item[]>,
-        required: true,
-        default: () => [],
-    },
-    distritos: {
-        type: Array as PropType<Distrito[]>,
-        required: true,
-        default: () => [],
-    },
-    departamentos: {
-        type: Array as PropType<Departamento[]>,
-        required: true,
-        default: () => [],
-    },
-    municipios: {
-        type: Array as PropType<Municipio[]>,
         required: true,
         default: () => [],
     },
@@ -123,7 +89,7 @@ function remove() {
     const messageLog = ref('');
     Swal.fire({
         title: t('_confirmar_borrar_registro_'),
-        text: selectedItem.value?.nombre,
+        text: selectedItem.value?.codigo,
         showCancelButton: true,
         confirmButtonText: t('_borrar_'),
         cancelButtonText: t('_cancelar_'),
@@ -205,7 +171,7 @@ watch(
 <template>
     <Head :title="mensajes.titulo1"> </Head>
     <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-wrench-clock">
-        <v-sheet v-if="hasPermission('MENU_ACADEMICA_SEDES')">
+        <v-sheet v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_GRADO')">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
@@ -226,7 +192,7 @@ watch(
                                 single-line
                             ></v-text-field>
                             <v-btn
-                                v-if="hasPermission('ACADEMICA_SEDE_CREAR')"
+                                v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_CREAR')"
                                 icon="mdi-table-plus"
                                 color="success"
                                 class="ml-2"
@@ -237,7 +203,7 @@ watch(
                                 "
                             ></v-btn>
                             <v-btn
-                                v-if="hasPermission('ACADEMICA_SEDE_EXPORTAR')"
+                                v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_EXPORTAR')"
                                 icon="mdi-file-export-outline"
                                 color="primary"
                                 variant="tonal"
@@ -260,10 +226,6 @@ watch(
                         >
                             <template v-slot:item.actions="{ item }">
                                 <div class="d-flex ga-2 justify-end">
-                                    <!--<v-icon color="primary" icon="mdi-pencil" size="small" @click="edit(item.id)"></v-icon>
-
-                                    <v-icon color="error" icon="mdi-delete" size="small" @click="remove(item.id)"></v-icon>
-                                -->
                                     <v-icon
                                         color="green-darken-2"
                                         icon="mdi-chevron-right-circle-outline"
@@ -282,7 +244,13 @@ watch(
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
                 <v-window-item :value="2">
                     <v-card
-                        v-if="hasAnyPermission(['ACADEMICA_SEDE_EDITAR', 'ACADEMICA_SEDE_MOSTRAR', 'ACADEMICA_SEDE_BORRAR'])"
+                        v-if="
+                            hasAnyPermission([
+                                'ACADEMICA_PLAN_ESTUDIO_GRADO_EDITAR',
+                                'ACADEMICA_PLAN_ESTUDIO_GRADO_MOSTRAR',
+                                'ACADEMICA_PLAN_ESTUDIO_GRADO_BORRAR',
+                            ])
+                        "
                         class="align-center justify-center"
                     >
                         <v-card-title>
@@ -295,7 +263,7 @@ watch(
                                     <span>{{ $t('_elija_accion_realizar_') }}</span>
                                 </span>
                             </v-col>
-                            <v-col v-if="hasPermission('ACADEMICA_SEDE_EDITAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_EDITAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_editar_datos_registro_seleccionado_')"
@@ -316,7 +284,7 @@ watch(
                                 </v-card>
                             </v-col>
 
-                            <v-col v-if="hasPermission('ACADEMICA_SEDE_MOSTRAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_MOSTRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_mostrar_datos_solo_lectura_')"
@@ -336,7 +304,7 @@ watch(
                                     </template>
                                 </v-card>
                             </v-col>
-                            <v-col v-if="hasPermission('ACADEMICA_SEDE_BORRAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_BORRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_borrar_registro_seleccionado_')"
@@ -365,16 +333,13 @@ watch(
 
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
-                    <SedeForm
+                    <GradoForm
                         v-if="selectedAction == 'new' || selectedAction == 'edit'"
                         :item="selectedItem"
-                        :distritos="props.distritos"
-                        :departamentos="props.departamentos"
-                        :municipios="props.municipios"
                         :accion="selectedAction"
                         @form-saved="handleFormSave"
-                    ></SedeForm>
-                    <SedeShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SedeShow>
+                    ></GradoForm>
+                    <GradoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></GradoShow>
                 </v-window-item>
             </v-window>
 
