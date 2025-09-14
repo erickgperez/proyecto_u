@@ -134,6 +134,7 @@
     "_resumen_": "Resumen",
     "sede": {
         "_administrar_sedes_": "Administrar sedes",
+        "_codigo_ya existe_": "El código de la sede ya existe en otro registro",
         "_sedes_": "Sedes",
         "_listado_sedes_": "Listado de sedes",
         "_permite_gestionar_sedes_": "Permite gestionar los datos de las sedes universitarias"

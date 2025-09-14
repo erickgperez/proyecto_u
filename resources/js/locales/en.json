@@ -134,6 +134,7 @@
     "_resumen_": "Summary",
     "sede": {
         "_administrar_sedes_": "Manage locations",
+        "_codigo_ya existe_": "The locations code already exists in another record",
         "_sedes_": "Locations",
         "_listado_sedes_": "Locations list",
         "_permite_gestionar_sedes_": "Allows you to manage data from university locations"

@@ -50,9 +50,25 @@ class SedeController extends Controller
         ]);
 
         if ($request->get('id') === null) {
-            $sede = new Sede();
+
+            // Está agregando uno nuevo, verificar que no exista el código
+            $sedeCheck = Sede::where('codigo', $request->get('codigo'))->first();
+            if ($sedeCheck === null) {
+                $sede = new Sede();
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'sede._codigo_ya existe_']);
+            }
         } else {
-            $sede = Sede::find($request->get('id'));
+            // Verificar que el nuevo código que ponga no esté utilizado por otro registro
+            $sedeCheck = Sede::where('codigo', $request->get('codigo'))
+                ->where('id', '!=', $request->get('id'))
+                ->first();
+
+            if ($sedeCheck === null) {
+                $sede = Sede::find($request->get('id'));
+            } else {
+                return response()->json(['status' => 'error', 'message' => 'tipoCarrera._codigo_ya existe_']);
+            }
         }
 
         $distrito = Distrito::find($request->get('distrito_id'));
