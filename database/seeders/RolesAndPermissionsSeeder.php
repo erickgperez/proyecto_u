@@ -31,6 +31,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'MENU_ACADEMICA_SEDES']);
         Permission::create(['name' => 'MENU_ACADEMICA_PLAN_ESTUDIO']);
         Permission::create(['name' => 'MENU_ACADEMICA_PLAN_ESTUDIO_GRADO']);
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA']);
 
         //********** GESTIONAR CONVOCATORIA
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CREAR']);
@@ -56,6 +57,13 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_GRADO_EDITAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_GRADO_MOSTRAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_GRADO_BORRAR']);
+
+        // ******** TIPO_CARRERA
+        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_CREAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_EDITAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_BORRAR']);
 
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();

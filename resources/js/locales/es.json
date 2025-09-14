@@ -149,6 +149,16 @@
     "_subir_archivo_csv_": "Subir un archivo CSV",
     "_tabla_datos_": "Tabla de datos",
     "_tiene_una_cuenta_?_": "¿Ya tiene una cuenta?",
+    "tipoCarrera": {
+        "_administrar_tipo_carrera_": "Administrar tipo carrera",
+        "_crear_tipo_carrera_": "Crear tipo carrera",
+        "_editar_tipo_carrera_": "Editar tipo carrera",
+        "_tipo_carrera_": "Tipo carrera",
+        "_tipos_carrera_": "Tipos carrera",
+        "_listado_tipos_carrera_": "Listado de tipos de carrera",
+        "_mostrar_": "Mostrar tipo carrera",
+        "_permite_gestionar_tipos_carrera_": "Permite gestionar los datos del tipo de carrera"
+    },
     "_tipo_carga_": "Tipo de carga",
     "_tipo_invitacion_": "Tipo invitación",
     "_tipo_visualizacion_": "Tipo de visualización",

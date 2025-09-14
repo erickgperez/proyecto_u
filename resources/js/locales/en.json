@@ -149,6 +149,16 @@
     "_subir_archivo_csv_": "Upload a CSV file",
     "_tabla_datos_": "Data table",
     "_tiene_una_cuenta_?_": "Already have an account?",
+    "tipoCarrera": {
+        "_administrar_tipo_carrera_": "Manage career type",
+        "_crear_tipo_carrera_": "Create career type",
+        "_editar_tipo_carrera_": "Edit career type",
+        "_tipo_carrera_": "Career type",
+        "_tipos_carrera_": "Career types",
+        "_listado_tipos_carrera_": "List of career types",
+        "_mostrar_": "Show career type",
+        "_permite_gestionar_tipos_carrera_": "Allows you to manage data on the type of career"
+    },
     "_tipo_carga_": "Type of load",
     "_tipo_invitacion_": "Invitation type",
     "_tipo_grafico_": "Display type",
