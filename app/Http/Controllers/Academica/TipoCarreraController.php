@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\Academica;
 
 use App\Http\Controllers\Controller;
-use App\Models\Academica\Sede;
 use App\Models\PlanEstudio\Grado;
 use App\Models\PlanEstudio\TipoCarrera;
 use Illuminate\Http\Request;
@@ -82,7 +81,7 @@ class TipoCarreraController extends Controller
 
     public function delete(int $id)
     {
-        $delete = Sede::destroy($id);
+        $delete = TipoCarrera::destroy($id);
 
         if ($delete == 0) {
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);

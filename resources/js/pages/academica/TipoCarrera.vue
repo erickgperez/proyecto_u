@@ -38,14 +38,14 @@ const exportToExcel = () => {
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-const rutaBorrar = ref('academica-sede-delete');
+const rutaBorrar = ref('plan_estudio-tipo_carrera-delete');
 const mensajes = {
     titulo1: t('tipoCarrera._tipos_carrera_'),
     titulo2: t('tipoCarrera._administrar_tipo_carrera_'),
     subtitulo: t('tipoCarrera._permite_gestionar_tipos_carrera_'),
     tituloListado: t('tipoCarrera._listado_tipos_carrera_'),
 };
-const campoMensajeConfirmarBorrado = selectedItem.value?.nombre;
+
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
     editar: 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_EDITAR',
@@ -72,7 +72,7 @@ interface Grado {
 interface Item {
     id: number | null;
     codigo: string;
-    nombre: string;
+    descripcion: string;
     grado: Grado | null;
 }
 
@@ -80,7 +80,7 @@ interface Item {
 const sheetName = ref('Listado_tipos_carreras');
 const fileName = ref('tipos_carrera');
 
-const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
+const selectedItemLabel = computed(() => selectedItem.value?.descripcion ?? '');
 
 // Título del listado
 const titleList = ref(mensajes.tituloListado);
@@ -117,7 +117,7 @@ function remove() {
     const messageLog = ref('');
     Swal.fire({
         title: t('_confirmar_borrar_registro_'),
-        text: campoMensajeConfirmarBorrado,
+        text: selectedItemLabel.value,
         showCancelButton: true,
         confirmButtonText: t('_borrar_'),
         cancelButtonText: t('_cancelar_'),
