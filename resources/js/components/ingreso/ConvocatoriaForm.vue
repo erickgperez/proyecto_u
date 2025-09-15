@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, reactive, ref, toRef, watch } from 'vue';
+import { onMounted, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -14,7 +14,7 @@ const emit = defineEmits(['form-saved']);
 
 function reset() {
     formRef.value!.reset();
-    formData.afiche = null;
+    formData.value.afiche = null;
 }
 
 interface FormData {
@@ -23,25 +23,25 @@ interface FormData {
     descripcion: string;
     fecha: Date | null;
     cuerpo_mensaje: string;
-    afiche: File | null;
+    afiche: string | null;
+    afiche_file: File | null;
 }
 
 const props = defineProps(['item', 'accion']);
-const localItem = ref(props.item);
 
-const formData: FormData = reactive({
+const formData = ref<FormData>({
     id: null,
     nombre: '',
     descripcion: '',
     fecha: null,
     cuerpo_mensaje: '',
-    afiche: null,
+    afiche_file: null,
+    afiche: '',
 });
-const isEditing = toRef(() => !!formData.id);
+const isEditing = toRef(() => !!formData.value.id);
 
 async function deleteAfiche() {
-    //:href="`/ingreso/afiche/delete/${props.item.id}`"
-    await axios.delete(route('ingreso-convocatoria-afiche-delete', { id: localItem.value.id }));
+    await axios.delete(route('ingreso-convocatoria-afiche-delete', { id: formData.value.id }));
 
     Swal.fire({
         title: t('_exito_'),
@@ -52,15 +52,19 @@ async function deleteAfiche() {
         timer: 2500,
         toast: true,
     });
-    localItem.value.afiche = null;
+    formData.value.afiche_file = null;
 }
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
     loading.value = true;
+
+    const hasError = ref(false);
+    const message = ref('');
+
     if (valid) {
         try {
-            const resp = await axios.postForm(route('ingreso-convocatoria-save'), formData, {
+            const resp = await axios.postForm(route('ingreso-convocatoria-save'), formData.value, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -70,7 +74,7 @@ async function submitForm() {
                     reset();
                 }
                 emit('form-saved', resp.data.convocatoria);
-                localItem.value.afiche = resp.data.convocatoria.afiche;
+                formData.value.afiche = resp.data.convocatoria.afiche;
                 Swal.fire({
                     title: t('_exito_'),
                     text: t('_datos_subidos_correctamente_'),
@@ -80,12 +84,20 @@ async function submitForm() {
                     timer: 2500,
                     toast: true,
                 });
+            } else {
+                hasError.value = true;
+                message.value = t(resp.data.message);
             }
         } catch (error: any) {
-            console.log(error.response.data.message);
+            hasError.value = true;
+            message.value = t('_no_se_pudo_guardar_formulario_');
+            console.log(error);
+        }
+
+        if (hasError.value) {
             Swal.fire({
                 title: t('_error_'),
-                text: t('_no_se_pudo_guardar_formulario_'),
+                text: message.value,
                 icon: 'error',
                 confirmButtonColor: '#D7E1EE',
             });
@@ -97,12 +109,7 @@ async function submitForm() {
 onMounted(() => {
     reset();
     if (props.accion === 'edit') {
-        formData.id = props.item.id;
-        formData.fecha = props.item.fecha;
-        formData.nombre = props.item.nombre;
-        formData.descripcion = props.item.descripcion;
-        formData.cuerpo_mensaje = props.item.cuerpo_mensaje;
-        //formData.afiche = props.item.afiche; //El tratamiento del archivo será diferente
+        formData.value = { ...props.item };
     }
 });
 
@@ -164,12 +171,12 @@ watch(
                             :label="$t('_afiche_formato_pdf_')"
                             accept=".pdf"
                             clearable
-                            v-model="formData.afiche"
-                            @input="formData.afiche = $event.target.files[0]"
+                            v-model="formData.afiche_file"
+                            @input="formData.afiche_file = $event.target.files[0]"
                             show-size
                             counter
                         ></v-file-input>
-                        <span v-if="props.accion == 'edit' && localItem.afiche != null">
+                        <span v-if="props.accion == 'edit' && formData.afiche != null">
                             <v-list-item color="primary" rounded="xl">
                                 <template v-slot:prepend>
                                     <v-avatar color="blue">

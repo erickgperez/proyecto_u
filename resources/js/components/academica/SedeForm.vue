@@ -69,7 +69,7 @@ async function submitForm() {
         } catch (error: any) {
             hasError.value = true;
             message.value = t('_no_se_pudo_guardar_formulario_');
-            console.log(error.response.data.message);
+            console.log(error);
         }
 
         if (hasError.value) {

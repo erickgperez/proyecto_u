@@ -38,7 +38,7 @@ class ConvocatoriaController extends Controller
             'descripcion' => 'nullable|string|max:255',
             'fecha' => 'required|date',
             'cuerpo_mensaje' => 'nullable|string',
-            'afiche' => 'nullable|file|mimes:pdf',
+            'afiche_file' => 'nullable|file|mimes:pdf',
         ]);
 
         if ($request->get('id') === null) {
@@ -52,8 +52,8 @@ class ConvocatoriaController extends Controller
         $convocatoria->fecha = $request->get('fecha');
         $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
 
-        if ($request->hasFile('afiche')) {
-            $file = $request->file('afiche');
+        if ($request->hasFile('afiche_file')) {
+            $file = $request->file('afiche_file');
 
             if ($request->get('id') != null) {
                 //Verificar si ya tenía un afiche cargado, en ese caso borrarlo para subir el nuevo
