@@ -18,17 +18,8 @@ class TipoCarreraController extends Controller
     public function index(): Response
     {
 
-        $tiposCarrera = TipoCarrera::orderBy('descripcion')->get();
+        $items = TipoCarrera::with('grado')->orderBy('descripcion')->get();
         $grados = Grado::orderBy('codigo')->get();
-
-        $items = [];
-        foreach ($tiposCarrera as $row) {
-            $item = $row->toArray();
-            $item['created_by'] = $row->creator;
-            $item['updated_by'] = $row->updater;
-            $item['grado'] = $row->grado;
-            $items[] = $item;
-        }
 
         return Inertia::render('academica/TipoCarrera', ['items' => $items, 'grados' => $grados]);
     }

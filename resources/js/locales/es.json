@@ -20,6 +20,20 @@
     "_campo_requerido_": "Este campo es requerido",
     "_cancelar_": "Cancelar",
     "_caracteres_": "Caracteres",
+    "carrera": {
+        "_administrar_": "Administrar carrera",
+        "_codigo_ya existe_": "El código de la carrera ya existe en otro registro",
+        "_crear_": "Crear carrera",
+        "_editar_": "Editar carrera",
+        "_singular_": "Carrera",
+        "_plural_": "Carreras",
+        "_listado_": "Listado carreras",
+        "_mostrar_": "Mostrar carrera",
+        "_permite_gestionar_": "Permite gestionar los datos de la carrera",
+
+        "_padre_": "Carrera padre",
+        "_tipo_": "Tipo de carrera"
+    },
     "_cerrar_sesion_": "Cerrar sesión",
     "_crear_convocatoria_": "Crear convocatoria",
     "_crear_nuevo_registro_": "Crear nuevo registro",

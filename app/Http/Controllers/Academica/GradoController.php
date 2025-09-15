@@ -16,18 +16,9 @@ class GradoController extends Controller
     public function index(): Response
     {
 
-        $grados = Grado::orderBy('codigo')->get();
+        $items = Grado::orderBy('codigo')->get();
 
-        $resp = [];
-        foreach ($grados as $row) {
-            $items = $row->toArray();
-            $items['created_by'] = $row->creator;
-            $items['updated_by'] = $row->updater;
-
-            $resp[] = $items;
-        }
-
-        return Inertia::render('academica/Grado', ['items' => $resp]);
+        return Inertia::render('academica/Grado', ['items' => $items]);
     }
 
     public function save(Request $request)

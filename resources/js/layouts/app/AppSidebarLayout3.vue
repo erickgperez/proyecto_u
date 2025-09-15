@@ -189,12 +189,12 @@ onMounted(() => {
                             {{ $t('_plan_estudio_') }}
                             <v-menu activator="parent">
                                 <v-list class="bg-blue-grey-darken-2">
-                                    <Link :href="route('plan_estudio-grado-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_GRADO')">
+                                    <Link :href="route('plan_estudio-carrera-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_CARRERA')">
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-book-settings-outline"
-                                            :title="$t('grado._grado_')"
-                                            :class="$page.url === '/plan_estudio/grado' ? 'bg-blue-lighten-4' : ''"
+                                            :title="$t('carrera._singular_')"
+                                            :class="$page.url === '/plan_estudio/carrera' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>
@@ -204,9 +204,18 @@ onMounted(() => {
                                     >
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-book-open-page-variant-outline"
+                                            prepend-icon="mdi-map-legend"
                                             :title="$t('tipoCarrera._tipo_carrera_')"
                                             :class="$page.url === '/plan_estudio/tipo_carrera' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link :href="route('plan_estudio-grado-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_GRADO')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-book-settings-outline"
+                                            :title="$t('grado._grado_')"
+                                            :class="$page.url === '/plan_estudio/grado' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

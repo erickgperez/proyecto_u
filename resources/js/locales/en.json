@@ -20,6 +20,20 @@
     "_campo_requerido_": "This field is required",
     "_cancelar_": "Cancel",
     "_caracteres_": "Characters",
+    "carrera": {
+        "_administrar_": "Career management",
+        "_codigo_ya existe_": "The career code already exists in another registry",
+        "_crear_": "Create career",
+        "_editar_": "Edit career",
+        "_singular_": "Career",
+        "_plural_": "Careers",
+        "_listado_": "Careers list",
+        "_mostrar_": "Show career",
+        "_permite_gestionar_": "Allows you to manage career data",
+
+        "_padre_": "Father career",
+        "_tipo_": "Career type"
+    },
     "_cerrar_sesion_": "Logout",
     "_crear_nuevo_registro_": "Create new record",
     "_crear_convocatoria_": "Create application process",
