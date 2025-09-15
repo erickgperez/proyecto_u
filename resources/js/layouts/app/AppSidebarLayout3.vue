@@ -198,15 +198,13 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
-                                </v-list>
-                                <v-list class="bg-blue-grey-darken-2">
                                     <Link
                                         :href="route('plan_estudio-tipo_carrera-index')"
                                         v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA')"
                                     >
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-book-settings-outline"
+                                            prepend-icon="mdi-book-open-page-variant-outline"
                                             :title="$t('tipoCarrera._tipo_carrera_')"
                                             :class="$page.url === '/plan_estudio/tipo_carrera' ? 'bg-blue-lighten-4' : ''"
                                         >
