@@ -6,7 +6,7 @@ const date = useDate();
 const props = defineProps(['item', 'accion']);
 </script>
 <template>
-    <v-card :title="$t('_mostrar_convocatoria_')">
+    <v-card :title="$t('tipoCarrera._mostrar_')">
         <template v-slot:text>
             <v-row>
                 <v-col cols="4">
@@ -26,18 +26,18 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_nombre_') }}
+                    {{ $t('_descripcion_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.nombre }}
+                    {{ props.item.descripcion }}
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_distrito_') }}
+                    {{ $t('grado._grado_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.distrito }}
+                    {{ props.item.grado?.descripciones }}
                 </v-col>
             </v-row>
 
@@ -51,26 +51,10 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_created_by_') }}
-                </v-col>
-                <v-col cols="8">
-                    {{ props.item.created_by.name + ' ' + props.item.created_by.email }}
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="4">
                     {{ $t('_updated_at_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ date.format(props.item.updated_at, 'keyboardDateTime12h') }}
-                </v-col>
-            </v-row>
-            <v-row>
-                <v-col cols="4">
-                    {{ $t('_updated_by_') }}
-                </v-col>
-                <v-col cols="8">
-                    {{ props.item.updated_by.name + ' ' + props.item.updated_by.email }}
                 </v-col>
             </v-row>
         </template>
