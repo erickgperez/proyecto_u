@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { computed, onMounted, reactive, ref, toRef, watch } from 'vue';
+import { computed, onMounted, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -27,7 +27,7 @@ interface FormData {
 
 const props = defineProps(['item', 'accion', 'distritos', 'departamentos', 'municipios']);
 
-let formData: FormData = reactive({
+const formData = ref<FormData>({
     id: null,
     codigo: '',
     nombre: '',
@@ -35,7 +35,7 @@ let formData: FormData = reactive({
     municipio_id: null,
     departamento_id: null,
 });
-const isEditing = toRef(() => !!formData.id);
+const isEditing = toRef(() => !!formData.value.id);
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -46,11 +46,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.postForm(route('academica-sede-save'), formData, {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            });
+            const resp = await axios.post(route('academica-sede-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();
@@ -89,25 +85,27 @@ async function submitForm() {
 }
 
 const municipiosFiltrados = computed(() => {
-    if (!formData.departamento_id) {
+    if (!formData.value.departamento_id) {
         return []; // No hay departamento seleccionado
     }
     return props.municipios.filter(
-        (municipio: any) => municipio.departamento_id === formData.departamento_id || municipio.id === formData.municipio_id,
+        (municipio: any) => municipio.departamento_id === formData.value.departamento_id || municipio.id === formData.value.municipio_id,
     );
 });
 
 const distritosFiltrados = computed(() => {
-    if (!formData.municipio_id) {
+    if (!formData.value.municipio_id) {
         return []; // No hay municipio seleccionado
     }
-    return props.distritos.filter((distrito: any) => distrito.municipio_id === formData.municipio_id || distrito.id === formData.distrito_id);
+    return props.distritos.filter(
+        (distrito: any) => distrito.municipio_id === formData.value.municipio_id || distrito.id === formData.value.distrito_id,
+    );
 });
 
 onMounted(() => {
     reset();
     if (props.accion === 'edit') {
-        formData = { ...props.item };
+        formData.value = { ...props.item };
     }
 });
 

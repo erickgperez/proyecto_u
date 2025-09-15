@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, reactive, ref, toRef, watch } from 'vue';
+import { onMounted, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -25,13 +25,13 @@ interface FormData {
 
 const props = defineProps(['item', 'accion']);
 
-let formData: FormData = reactive({
+const formData = ref<FormData>({
     id: null,
     codigo: '',
     descripcion_masculino: '',
     descripcion_femenino: '',
 });
-const isEditing = toRef(() => !!formData.id);
+const isEditing = toRef(() => !!formData.value.id);
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -42,7 +42,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.postForm(route('plan_estudio-grado-save'), formData);
+            const resp = await axios.postForm(route('plan_estudio-grado-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();
@@ -83,7 +83,7 @@ async function submitForm() {
 onMounted(() => {
     reset();
     if (props.accion === 'edit') {
-        formData = { ...props.item };
+        formData.value = { ...props.item };
     }
 });
 
