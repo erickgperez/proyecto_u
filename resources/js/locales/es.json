@@ -32,6 +32,7 @@
         "_permite_gestionar_": "Permite gestionar los datos de la carrera",
 
         "_padre_": "Carrera padre",
+        "_sedes_ayuda_": "Sedes en donde se imparte la carrera",
         "_tipo_": "Tipo de carrera"
     },
     "_cerrar_sesion_": "Cerrar sesión",

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Academica;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academica\Sede;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\Grado;
 use App\Models\PlanEstudio\TipoCarrera;
@@ -19,10 +20,11 @@ class CarreraController extends Controller
     public function index(): Response
     {
 
-        $items = Carrera::with('padre', 'tipo', 'creator', 'updater')->orderBy('nombre')->get();
+        $items = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes')->orderBy('nombre')->get();
         $tiposCarrera = TipoCarrera::orderBy('descripcion')->get();
+        $sedes = Sede::orderBy('nombre')->get();
 
-        return Inertia::render('academica/Carrera', ['items' => $items, 'tiposCarrera' => $tiposCarrera]);
+        return Inertia::render('academica/Carrera', ['items' => $items, 'tiposCarrera' => $tiposCarrera, 'sedes' => $sedes]);
     }
 
     public function save(Request $request)
@@ -64,10 +66,12 @@ class CarreraController extends Controller
         $carrera->padre()->associate($padre);
         $carrera->tipo()->associate($tipoCarrera);
 
+        $carrera->sedes()->sync($request->get('sedes') ?? []);
+
         $carrera->save();
 
         //Obtener la información de las relaciones del item recién creado/actualizado
-        $item = Carrera::with('padre', 'tipo', 'creator', 'updater')->find($carrera->id);
+        $item = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes')->find($carrera->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $item]);
     }

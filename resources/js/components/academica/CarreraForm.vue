@@ -22,9 +22,10 @@ interface FormData {
     nombre: string;
     certificacion_de: number | null;
     tipo_carrera_id: number | null;
+    sedes: [];
 }
 
-const props = defineProps(['item', 'accion', 'carreras', 'tiposCarrera']);
+const props = defineProps(['item', 'accion', 'carreras', 'tiposCarrera', 'sedes']);
 
 const formData = ref<FormData>({
     id: null,
@@ -32,6 +33,7 @@ const formData = ref<FormData>({
     nombre: '',
     certificacion_de: null,
     tipo_carrera_id: null,
+    sedes: [],
 });
 const isEditing = toRef(() => !!formData.value.id);
 
@@ -145,6 +147,20 @@ watch(
                             item-title="nombreCompleto"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
+                        ></v-autocomplete>
+
+                        <v-autocomplete
+                            clearable
+                            :label="$t('sede._sedes_')"
+                            :items="props.sedes"
+                            v-model="formData.sedes"
+                            item-title="nombre"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                            multiple
+                            chips
+                            :hint="$t('carrera._sedes_ayuda_')"
+                            persistent-hint
                         ></v-autocomplete>
                     </v-col>
 

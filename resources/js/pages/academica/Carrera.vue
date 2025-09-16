@@ -63,6 +63,12 @@ const permisos = {
     borrar: acc.borrar,
 };
 
+interface Sede {
+    id: number | null;
+    codigo: string;
+    nombre: string;
+}
+
 interface TipoCarrera {
     id: number | null;
     codigo: string;
@@ -114,6 +120,11 @@ const props = defineProps({
     },
     tiposCarrera: {
         type: Array as PropType<TipoCarrera[]>,
+        required: true,
+        default: () => [],
+    },
+    sedes: {
+        type: Array as PropType<Sede[]>,
         required: true,
         default: () => [],
     },
@@ -372,6 +383,7 @@ watch(
                         :item="selectedItem"
                         :carreras="props.items"
                         :tiposCarrera="props.tiposCarrera"
+                        :sedes="props.sedes"
                         :accion="selectedAction"
                         @form-saved="handleFormSave"
                     ></CarreraForm>

@@ -2,10 +2,12 @@
 
 namespace App\Models\PlanEstudio;
 
+use App\Models\Academica\Sede;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Carrera extends Model
 {
@@ -46,5 +48,10 @@ class Carrera extends Model
     public function getNombreCompletoAttribute(): string
     {
         return (string) "({$this->codigo}) {$this->nombre}";
+    }
+
+    public function sedes(): BelongsToMany
+    {
+        return $this->belongsToMany(Sede::class, 'academico.carrera_sede', 'carrera_id', 'sede_id');
     }
 }

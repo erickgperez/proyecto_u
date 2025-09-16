@@ -32,6 +32,7 @@
         "_permite_gestionar_": "Allows you to manage career data",
 
         "_padre_": "Father career",
+        "_sedes_ayuda_": "Locations where the degree is taught",
         "_tipo_": "Career type"
     },
     "_cerrar_sesion_": "Logout",
