@@ -7,6 +7,11 @@ import { createApp, h } from 'vue';
 import { ZiggyVue } from 'ziggy-js';
 import { initializeTheme } from './composables/useAppearance';
 
+import ElementPlus from 'element-plus';
+import ElementTiptapPlugin from 'element-tiptap';
+// import ElementTiptap's styles
+import 'element-tiptap/lib/style.css';
+
 // Vuetify
 import '@mdi/font/css/materialdesignicons.css';
 import { createVuetify } from 'vuetify';
@@ -39,7 +44,9 @@ createInertiaApp({
             .use(plugin)
             .use(ZiggyVue)
             .use(vuetify)
-            .use(i18n) // Add the i18n plugin
+            .use(i18n)
+            .use(ElementPlus)
+            .use(ElementTiptapPlugin)
             .mount(el);
     },
     progress: {

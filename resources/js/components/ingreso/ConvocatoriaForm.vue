@@ -63,6 +63,7 @@ async function submitForm() {
     const message = ref('');
 
     if (valid) {
+        formData.value.cuerpo_mensaje = content.value;
         try {
             const resp = await axios.postForm(route('ingreso-convocatoria-save'), formData.value, {
                 headers: {
@@ -121,6 +122,50 @@ watch(
         }
     },
 );
+
+import {
+    Bold,
+    BulletList,
+    Color,
+    Document,
+    FormatClear,
+    //FontSize,
+    // necessary extensions
+    //Heading,
+    History,
+    Image,
+    Indent,
+    Italic,
+    OrderedList,
+    Paragraph,
+    Strike,
+    Text,
+    TextAlign,
+    Underline,
+} from 'element-tiptap';
+
+// editor extensions
+const extensions = [
+    Document,
+    Text,
+    Paragraph,
+    //Heading.configure({ levels: [1, 2, 3] }),
+    //FontSize,
+    Bold,
+    Underline,
+    Italic,
+    Strike,
+    TextAlign,
+    BulletList,
+    OrderedList,
+    Indent,
+    Color,
+    Image.configure({ allowBase64: true }),
+    FormatClear,
+    History,
+];
+
+const content = ref(props.item.cuerpo_mensaje);
 </script>
 <template>
     <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_crear_convocatoria_')} `">
@@ -157,15 +202,8 @@ watch(
                             counter="255"
                             :label="$t('_descripcion_')"
                         ></v-text-field>
-
-                        <v-textarea
-                            prepend-icon="mdi-form-textarea"
-                            :label="$t('_cuerpo_mensaje_')"
-                            v-model="formData.cuerpo_mensaje"
-                            :hint="$t('_consejo_cuerpo_mensaje_')"
-                            persistent-hint
-                        ></v-textarea>
                     </v-col>
+
                     <v-col cols="12">
                         <v-file-input
                             :label="$t('_afiche_formato_pdf_')"
@@ -204,6 +242,20 @@ watch(
                             </v-list-item>
                         </span>
                     </v-col>
+                    <v-col cols="12" class="pl-15">
+                        <!--<v-textarea
+                            prepend-icon="mdi-form-textarea"
+                            :label="$t('_cuerpo_mensaje_')"
+                            v-model="formData.cuerpo_mensaje"
+                            :hint="$t('_consejo_cuerpo_mensaje_')"
+                            persistent-hint
+                        ></v-textarea>-->
+                        {{ $t('_cuerpo_mensaje_') }}
+                        <el-tiptap v-model:content="content" :extensions="extensions" />
+
+                        {{ $t('_consejo_cuerpo_mensaje_') }}
+                    </v-col>
+
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
                             {{ $t('_guardar_') }}
