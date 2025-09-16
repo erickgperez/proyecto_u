@@ -266,3 +266,14 @@ const content = ref(props.item.cuerpo_mensaje);
         </template>
     </v-card>
 </template>
+<style lang="css">
+.el-tiptap-editor__menu-bar {
+    position: fixed;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+    z-index: 10;
+}
+.ProseMirror {
+    padding-top: 40px;
+}
+</style>
