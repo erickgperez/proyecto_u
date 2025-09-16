@@ -53,10 +53,12 @@ const items = [
 
 <template>
     <v-layout>
-        <v-app-bar color="primary">
+        <v-app-bar color="primary" class="bg-transparent" density="compact" rounded="t-lg">
             <v-toolbar-title>{{ $t('convocatoria._listado_actividades_') }}</v-toolbar-title>
 
-            <v-btn icon="mdi-calendar-plus" :title="$t('calendario._agregar_actividad_')"></v-btn>
+            <template v-slot:append>
+                <v-btn icon="mdi-calendar-plus" :title="$t('calendario._agregar_actividad_')"></v-btn>
+            </template>
         </v-app-bar>
 
         <v-main>
