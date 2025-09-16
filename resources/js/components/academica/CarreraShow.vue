@@ -52,6 +52,19 @@ const props = defineProps(['item', 'accion']);
 
             <v-row>
                 <v-col cols="4">
+                    {{ $t('sede._sedes_') }}
+                </v-col>
+                <v-col cols="8">
+                    <v-list density="compact">
+                        <v-list-item v-for="sede in props.item.sedes" :key="sede.id" prepend-icon="mdi-circle-small">
+                            <v-list-item-title>{{ sede.nombre }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-col>
+            </v-row>
+
+            <v-row>
+                <v-col cols="4">
                     {{ $t('_created_at_') }}
                 </v-col>
                 <v-col cols="8">
