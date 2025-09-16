@@ -45,7 +45,7 @@ const props = defineProps(['item', 'accion']);
                     {{ $t('_cuerpo_mensaje_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.cuerpo_mensaje }}
+                    <div v-html="props.item.cuerpo_mensaje"></div>
                 </v-col>
             </v-row>
             <v-row>
