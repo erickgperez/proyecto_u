@@ -14,6 +14,10 @@
     "_borrar_afiche_actual_": "Delete current poster",
     "_borrar_registro_seleccionado_": "Delete the selected record",
     "_buscar_": "Search",
+    "calendario": {
+        "_agregar_actividad_": "Add new activity",
+        "_editar_actividad_": "Edit activity"
+    },
     "_calificaciones_": "Grades",
     "_cambiar_": "Change",
     "_cambiar_convocatoria_": "Change application process",
@@ -60,7 +64,8 @@
         "_calendarizar_descripcion_": "Schedule the activities carried out in the application process",
         "_convocatoria_": "Application process",
         "_convocatoria_a_utilizar_para_enviar_invitaciones_": "Application process to be used for sending invitations",
-        "_convocatoria_seleccionada_": "Selected application process"
+        "_convocatoria_seleccionada_": "Selected application process",
+        "_listado_actividades_": "List of activities of the application process"
     },
 
     "_correo_": "email",

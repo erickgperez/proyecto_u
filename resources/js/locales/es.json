@@ -14,6 +14,10 @@
     "_borrar_afiche_actual_": "Borrar afiche actual",
     "_borrar_registro_seleccionado_": "Borrar el registro seleccionado",
     "_buscar_": "Buscar",
+    "calendario": {
+        "_agregar_actividad_": "Agregar nueva actividad",
+        "_editar_actividad_": "Editar actividad"
+    },
     "_calificaciones_": "Calificaciones",
     "_cambiar_": "Cambiar",
     "_cambiar_convocatoria_": "Cambiar convocatoria",
@@ -60,7 +64,8 @@
         "_calendarizar_descripcion_": "Calendarizar las actividades que se realizán en la convocatoria",
         "_convocatoria_": "Convocatoria",
         "_convocatoria_a_utilizar_para_enviar_invitaciones_": "Convocatoria a utilizar para el envio de invitaciones",
-        "_convocatoria_seleccionada_": "Convocatoria seleccionada"
+        "_convocatoria_seleccionada_": "Convocatoria seleccionada",
+        "_listado_actividades_": "Listado de actividades de la convocatoria"
     },
     "_correo_": "Correo",
     "_consejo_cuerpo_mensaje_": "Mensaje que se enviará por correo electrónico cuando se hagan invitaciones a la convocatoria",
