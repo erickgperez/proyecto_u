@@ -133,7 +133,7 @@ onMounted(() => {
                         append-icon="mdi-menu-right"
                         class="text-body-1 text-none text-left"
                     >
-                        {{ $t('_convocatoria_') }}
+                        {{ $t('convocatoria._convocatoria_') }}
                         <v-menu activator="parent" v-if="hasPermission('MENU_INGRESO_CONVOCATORIA')">
                             <v-list class="bg-blue-grey-darken-2">
                                 <Link :href="route('ingreso-convocatoria-index')" v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')">

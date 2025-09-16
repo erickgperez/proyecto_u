@@ -14,9 +14,8 @@ return new class extends Migration
         Schema::create('calendarizacion', function (Blueprint $table) {
             $table->id();
 
-            $table->comment('Permite crear calendarizaciones para luego asignar a procesos');
-            $table->string('codigo', length: 20)->unique();
-            $table->string('descripcion', length: 50)->nullable();
+            $table->comment('Permite crear calendarizaciones para asignar a procesos');
+            $table->string('nombre', length: 200)->unique()->comment('Nombre de la calendarización, normalmente llevará el nombre del proceso al que está asociado el calendario');
 
             $table->timestamps();
         });

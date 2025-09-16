@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ConvocatoriaCalendario from '@/components/ingreso/ConvocatoriaCalendario.vue';
 import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
 import { usePermissions } from '@/composables/usePermissions';
@@ -43,10 +44,29 @@ const exportToExcel = () => {
 // *************************************************************************************************************
 const rutaBorrar = ref('ingreso-convocatoria-delete');
 const mensajes = {
-    titulo1: t('_convocatoria_'),
+    titulo1: t('convocatoria._convocatoria_'),
     titulo2: t('_administrar_convocatoria_'),
     subtitulo: t('_permite_gestionar_datos_convocatorias_'),
     tituloListado: t('_listado_convocatorias_'),
+};
+
+//Acciones que se pueden realizar al seleccionar un registro
+const acc = {
+    editar: 'INGRESO_CONVOCATORIA_EDITAR',
+    mostrar: 'INGRESO_CONVOCATORIA_MOSTRAR',
+    borrar: 'INGRESO_CONVOCATORIA_BORRAR',
+    calendarizar: 'INGRESO_CONVOCATORIA_CALENDARIZAR',
+};
+
+// Permisos requeridos por la interfaz
+const permisos = {
+    listado: 'MENU_INGRESO_CONVOCATORIA_GESTIONAR',
+    crear: 'INGRESO_CONVOCATORIA_CREAR',
+    exportar: 'INGRESO_CONVOCATORIA_EXPORTAR',
+    acciones: [acc.editar, acc.borrar, acc.mostrar],
+    editar: acc.editar,
+    mostrar: acc.mostrar,
+    borrar: acc.borrar,
 };
 
 interface Item {
@@ -176,9 +196,9 @@ watch(
 </script>
 
 <template>
-    <Head :title="$t('_convocatoria_')"> </Head>
+    <Head :title="$t('convocatoria._convocatoria_')"> </Head>
     <AppLayout :titulo="$t('_administrar_convocatoria_')" :subtitulo="$t('_permite_gestionar_datos_convocatorias_')" icono="mdi-wrench-clock">
-        <v-sheet v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')">
+        <v-sheet v-if="hasPermission(permisos.listado)">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
@@ -199,7 +219,7 @@ watch(
                                 single-line
                             ></v-text-field>
                             <v-btn
-                                v-if="hasPermission('INGRESO_CONVOCATORIA_CREAR')"
+                                v-if="hasPermission(permisos.crear)"
                                 icon="mdi-table-plus"
                                 color="success"
                                 class="ml-2"
@@ -210,7 +230,7 @@ watch(
                                 "
                             ></v-btn>
                             <v-btn
-                                v-if="hasPermission('INGRESO_CONVOCATORIA_EXPORTAR')"
+                                v-if="hasPermission(permisos.exportar)"
                                 icon="mdi-file-export-outline"
                                 color="primary"
                                 variant="tonal"
@@ -259,10 +279,7 @@ watch(
 
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
                 <v-window-item :value="2">
-                    <v-card
-                        v-if="hasAnyPermission(['INGRESO_CONVOCATORIA_EDITAR', 'INGRESO_CONVOCATORIA_MOSTRAR', 'INGRESO_CONVOCATORIA_BORRAR'])"
-                        class="align-center justify-center"
-                    >
+                    <v-card v-if="hasAnyPermission(permisos.acciones)" class="align-center justify-center">
                         <v-card-title>
                             <h2 class="text-blue-darken-3">{{ selectedItemLabel }}</h2></v-card-title
                         >
@@ -273,6 +290,28 @@ watch(
                                     <span>{{ $t('_elija_accion_realizar_') }}</span>
                                 </span>
                             </v-col>
+
+                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_CALENDARIZAR')" cols="12" md="6">
+                                <v-card
+                                    class="mx-auto"
+                                    :title="$t('convocatoria._calendarizar_')"
+                                    :subtitle="$t('convocatoria._calendarizar_descripcion_')"
+                                    @click="
+                                        selectAction('calendarizar');
+                                        step++;
+                                    "
+                                >
+                                    <template v-slot:prepend>
+                                        <v-avatar color="brown">
+                                            <v-icon icon="mdi-calendar-month-outline" size="x-large"></v-icon>
+                                        </v-avatar>
+                                    </template>
+                                    <template v-slot:append>
+                                        <v-icon color="success" icon="mdi-check"></v-icon>
+                                    </template>
+                                </v-card>
+                            </v-col>
+
                             <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_EDITAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
@@ -350,6 +389,7 @@ watch(
                         @form-saved="handleFormSave"
                     ></ConvocatoriaForm>
                     <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
+                    <ConvocatoriaCalendario v-if="selectedAction == 'calendarizar'"></ConvocatoriaCalendario>
                 </v-window-item>
             </v-window>
 

@@ -50,7 +50,14 @@ watch(
     <AppLayout :titulo="$t('_candidatos_')" :subtitulo="$t('_estudiantes_candidatos_carrera_universitaria_')" icono="mdi-email-fast-outline">
         <div v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')">
             <div class="d-flex flex-row">
-                <v-alert v-if="convocatoria != null" :title="$t('_convocatoria_seleccionada_')" type="info" border="top" prominent variant="outlined">
+                <v-alert
+                    v-if="convocatoria != null"
+                    :title="$t('convocatoria._convocatoria_seleccionada_')"
+                    type="info"
+                    border="top"
+                    prominent
+                    variant="outlined"
+                >
                     <div>{{ convocatoria?.nombre }}</div>
                     <div>{{ convocatoria?.descripcion }}</div>
 
@@ -110,7 +117,7 @@ watch(
                         <v-autocomplete
                             :label="$t('_convocatoria_')"
                             :items="props.convocatorias"
-                            :hint="$t('_convocatoria_a_utilizar_para_enviar_invitaciones_')"
+                            :hint="$t('convocatoria._convocatoria_a_utilizar_para_enviar_invitaciones_')"
                             persistent-hint
                             item-title="nombre"
                             item-value="id"

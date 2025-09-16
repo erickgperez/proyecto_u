@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
+use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -33,7 +34,7 @@ class ConvocatoriaController extends Controller
     public function save(Request $request)
     {
         // Aunque se ha validado del lado del cliente, validar aquí también
-        $validatedData = $request->validate([
+        $request->validate([
             'nombre' => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:255',
             'fecha' => 'required|date',
@@ -43,6 +44,13 @@ class ConvocatoriaController extends Controller
 
         if ($request->get('id') === null) {
             $convocatoria = new Convocatoria();
+            //Crear el calendario de actividades
+            $calendarizacion = new Calendarizacion();
+            $calendarizacion->nombre = $request->get('nombre'); //llevará el mismo nombre que la convocatoria
+            $calendarizacion->save();
+
+            //Asociar el calendario a la convocatoria
+            $convocatoria->calendario()->associate($calendarizacion);
         } else {
             $convocatoria = Convocatoria::find($request->get('id'));
         }

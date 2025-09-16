@@ -54,9 +54,14 @@
     "_confirmar_borrar_registro_": "Confirm to delete the selected record",
     "_confirmar_clave_": "Confirm password",
     "_continuar_": "Continue",
-    "_convocatoria_": "Application process",
-    "_convocatoria_a_utilizar_para_enviar_invitaciones_": "Application process to be used for sending invitations",
-    "_convocatoria_seleccionada_": "Selected application process",
+    "convocatoria": {
+        "_calendarizar_": "Activities Programming",
+        "_calendarizar_descripcion_": "Schedule the activities carried out in the application process",
+        "_convocatoria_": "Application process",
+        "_convocatoria_a_utilizar_para_enviar_invitaciones_": "Application process to be used for sending invitations",
+        "_convocatoria_seleccionada_": "Selected application process"
+    },
+
     "_correo_": "email",
     "_consejo_cuerpo_mensaje_": "Message that will be sent by email when invitations to the call are made",
     "_cuerpo_mensaje_": "Body of the message",
@@ -67,6 +72,7 @@
     "_departamento_": "Department",
     "_descargar_afiche_actual_": "Download current poster",
     "_descripcion_": "Description",
+    "_desde_": "From",
     "_direccion_email_": "Email address",
     "_direccion_correo_no_valida_": "Invalid email address",
     "_distrito_": "District",
@@ -107,6 +113,7 @@
     "_gestion_academica_": "Academic management",
     "_gestionar_convocatoria_": "Manage application process",
     "_guardar_": "Save",
+    "_hasta_": "To",
     "_id_": "Id",
     "_informe_": "Report",
     "_ingresar_": "Log in",
