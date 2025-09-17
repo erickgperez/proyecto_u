@@ -17,7 +17,6 @@ const step = ref(1);
 
 const { t } = useI18n();
 
-const selectedItem = ref<Item>();
 const selectedAction = ref('');
 
 const search = ref('');
@@ -52,6 +51,15 @@ interface Item {
     descripcion_masculino: string;
     descripcion_femenino: string;
 }
+
+const itemVacio = ref<Item>({
+    id: null,
+    codigo: '',
+    descripcion_masculino: '',
+    descripcion_femenino: '',
+});
+
+const selectedItem = ref<Item>(itemVacio.value);
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_grados');
@@ -137,7 +145,7 @@ function remove() {
     });
 }
 
-const selectItem = (item: any) => {
+const selectItem = (item: Item) => {
     selectedItem.value = item;
 
     step.value++;
@@ -199,6 +207,7 @@ watch(
                                 :title="$t('_crear_nuevo_registro_')"
                                 @click="
                                     selectAction('new');
+                                    selectedItem = itemVacio;
                                     step = 3;
                                 "
                             ></v-btn>
