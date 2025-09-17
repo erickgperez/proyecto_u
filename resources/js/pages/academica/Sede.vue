@@ -17,7 +17,6 @@ const step = ref(1);
 
 const { t } = useI18n();
 
-const selectedItem = ref<Item>();
 const selectedAction = ref('');
 
 const search = ref('');
@@ -45,7 +44,6 @@ const mensajes = {
     subtitulo: t('sede._permite_gestionar_sedes_'),
     tituloListado: t('sede._listado_sedes_'),
 };
-const campoMensajeConfirmarBorrado = selectedItem.value?.nombre;
 
 interface Distrito {
     id: number | null;
@@ -81,6 +79,9 @@ const itemVacio = ref<Item>({
     municipio_id: null,
     departamento_id: null,
 });
+
+const selectedItem = ref<Item>(itemVacio.value);
+
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_sedes');
 const fileName = ref('sedes');
@@ -132,7 +133,7 @@ function remove() {
     const messageLog = ref('');
     Swal.fire({
         title: t('_confirmar_borrar_registro_'),
-        text: campoMensajeConfirmarBorrado,
+        text: selectedItemLabel.value,
         showCancelButton: true,
         confirmButtonText: t('_borrar_'),
         cancelButtonText: t('_cancelar_'),

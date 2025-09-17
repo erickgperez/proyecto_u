@@ -97,7 +97,7 @@ function remove() {
     const messageLog = ref('');
     Swal.fire({
         title: t('_confirmar_borrar_registro_'),
-        text: selectedItem.value?.codigo,
+        text: selectedItemLabel.value,
         showCancelButton: true,
         confirmButtonText: t('_borrar_'),
         cancelButtonText: t('_cancelar_'),

@@ -17,7 +17,6 @@ const step = ref(1);
 
 const { t } = useI18n();
 
-const selectedItem = ref<Item>();
 const selectedAction = ref('');
 
 const search = ref('');
@@ -88,6 +87,16 @@ interface Item {
     padre: Carrera | null;
     tipoCarrera: TipoCarrera | null;
 }
+
+const itemVacio = ref<Item>({
+    id: null,
+    codigo: '',
+    nombre: '',
+    padre: null,
+    tipoCarrera: null,
+});
+
+const selectedItem = ref<Item>(itemVacio.value);
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_carreras');
@@ -249,6 +258,7 @@ watch(
                                 :title="$t('_crear_nuevo_registro_')"
                                 @click="
                                     selectAction('new');
+                                    selectedItem = itemVacio;
                                     step = 3;
                                 "
                             ></v-btn>
