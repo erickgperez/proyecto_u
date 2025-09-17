@@ -33,7 +33,7 @@ class CarreraController extends Controller
         $request->validate([
             'codigo' => 'required|string|max:30',
             'nombre' => 'required|string',
-            'tipo_carrera_id' => ['nullable', 'integer', Rule::exists('pgsql.plan_estudio.tipo_carrera', 'id')],
+            'tipo_carrera_id' => ['required', 'integer', Rule::exists('pgsql.plan_estudio.tipo_carrera', 'id')],
             'certificacion_de' => ['nullable', 'integer', Rule::exists('pgsql.plan_estudio.carrera', 'id')],
         ]);
 

@@ -131,9 +131,10 @@ watch(
 
                         <v-autocomplete
                             clearable
-                            :label="$t('carrera._tipo_')"
+                            :label="$t('carrera._tipo_') + ' *'"
                             :items="props.tiposCarrera"
                             v-model="formData.tipo_carrera_id"
+                            :rules="[(v) => !!v || $t('_campo_requerido_')]"
                             item-title="descripcion"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
