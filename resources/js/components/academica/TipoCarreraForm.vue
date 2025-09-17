@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, ref, toRef, watch } from 'vue';
+import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -84,21 +84,8 @@ onMounted(() => {
     reset();
     if (props.accion === 'edit') {
         formData.value = { ...props.item };
-        /*formData.id = props.item.id;
-        formData.codigo = props.item.codigo;
-        formData.descripcion = props.item.descripcion;
-        formData.grado_id = props.item.grado_id;*/
     }
 });
-
-watch(
-    () => props.accion,
-    (newValue) => {
-        if (newValue == 'new') {
-            reset();
-        }
-    },
-);
 </script>
 <template>
     <v-card :title="`${isEditing ? $t('tipoCarrera._editar_tipo_carrera_') : $t('tipoCarrera._crear_tipo_carrera_')} `">

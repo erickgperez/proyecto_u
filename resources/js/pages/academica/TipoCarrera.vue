@@ -76,6 +76,13 @@ interface Item {
     grado: Grado | null;
 }
 
+const itemVacio = ref<Item>({
+    id: null,
+    codigo: '',
+    descripcion: '',
+    grado: null,
+});
+
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_tipos_carreras');
 const fileName = ref('tipos_carrera');
@@ -226,6 +233,7 @@ watch(
                                 :title="$t('_crear_nuevo_registro_')"
                                 @click="
                                     selectAction('new');
+                                    selectedItem = itemVacio;
                                     step = 3;
                                 "
                             ></v-btn>
