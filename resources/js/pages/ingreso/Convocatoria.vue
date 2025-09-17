@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import ConvocatoriaCalendario from '@/components/ingreso/ConvocatoriaCalendario.vue';
+import Evento from '@/components/Evento.vue';
 import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
 import { usePermissions } from '@/composables/usePermissions';
@@ -75,6 +75,7 @@ interface Item {
     descripcion: string;
     cuerpo_mensaje: string;
     afiche: string | null;
+    calendarizacion_id: number | null;
 }
 const itemVacio = ref<Item>({
     id: null,
@@ -83,6 +84,7 @@ const itemVacio = ref<Item>({
     descripcion: '',
     cuerpo_mensaje: '',
     afiche: null,
+    calendarizacion_id: null,
 });
 
 const selectedItem = ref<Item>(itemVacio.value);
@@ -399,7 +401,7 @@ watch(
                         @form-saved="handleFormSave"
                     ></ConvocatoriaForm>
                     <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
-                    <ConvocatoriaCalendario v-if="selectedAction == 'calendarizar'"></ConvocatoriaCalendario>
+                    <Evento v-if="selectedAction == 'calendarizar'" :idCalendario="selectedItem.calendarizacion_id"></Evento>
                 </v-window-item>
             </v-window>
 

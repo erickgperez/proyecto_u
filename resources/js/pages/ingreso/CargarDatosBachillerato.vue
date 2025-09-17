@@ -73,7 +73,7 @@ const submitForm = async () => {
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-file-input
                     :label="$t('_subir_archivo_csv_')"
-                    accept=".csv"
+                    accept=".csv,.txt"
                     clearable
                     v-model="formData.archivo"
                     @input="formData.archivo = $event.target.files[0]"

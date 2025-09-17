@@ -1,6 +1,9 @@
 {
     "_acciones_": "Acciones",
     "_aceptar_": "Aceptar",
+    "actividad": {
+        "_actividad_": "Actividad"
+    },
     "_afiche_": "Afiche",
     "_administrar_convocatoria_": "Administrar convocatoria",
     "_afiche_formato_pdf_": "Afiche en formato PDF",
@@ -99,6 +102,8 @@
     "_exito_": "Éxito",
     "_exportar_": "Exportar",
     "_fecha_": "Fecha",
+    "_fecha_inicio_": "Fecha inicio",
+    "_fecha_fin_": "Fecha finalización",
     "_fecha_requerida_": "Fecha requerida",
     "_fila_": "Fila",
     "_filtros_": "Filtros",
@@ -120,6 +125,7 @@
     "_guardar_": "Guardar",
     "_hasta_": "Hasta",
     "_id_": "Id",
+    "_indicaciones_": "Indicaciones",
     "_informe_": "Informe",
     "_ingresar_": "Ingresar",
     "_ingrese_email_clave_para_conectarse_": "Ingrese su correo electrónico y contraseña para iniciar sesión",
