@@ -77,6 +77,14 @@ interface Item {
     cuerpo_mensaje: string;
     afiche: string | null;
 }
+const itemVacio = ref<Item>({
+    id: null,
+    fecha: null,
+    nombre: '',
+    descripcion: '',
+    cuerpo_mensaje: '',
+    afiche: null,
+});
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_convocatorias');
@@ -226,6 +234,7 @@ watch(
                                 :title="$t('_crear_nuevo_registro_')"
                                 @click="
                                     selectAction('new');
+                                    selectedItem = itemVacio;
                                     step = 3;
                                 "
                             ></v-btn>

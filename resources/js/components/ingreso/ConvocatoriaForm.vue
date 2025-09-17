@@ -1,9 +1,30 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, ref, toRef, watch } from 'vue';
+import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
+
+import {
+    Bold,
+    BulletList,
+    Color,
+    Document,
+    FormatClear,
+    //FontSize,
+    // necessary extensions
+    //Heading,
+    History,
+    Image,
+    Indent,
+    Italic,
+    OrderedList,
+    Paragraph,
+    Strike,
+    Text,
+    TextAlign,
+    Underline,
+} from 'element-tiptap';
 
 const { t } = useI18n();
 
@@ -28,6 +49,8 @@ interface FormData {
 }
 
 const props = defineProps(['item', 'accion']);
+
+const content = ref(props.item?.cuerpo_mensaje);
 
 const formData = ref<FormData>({
     id: null,
@@ -114,36 +137,6 @@ onMounted(() => {
     }
 });
 
-watch(
-    () => props.accion,
-    (newValue) => {
-        if (newValue == 'new') {
-            reset();
-        }
-    },
-);
-
-import {
-    Bold,
-    BulletList,
-    Color,
-    Document,
-    FormatClear,
-    //FontSize,
-    // necessary extensions
-    //Heading,
-    History,
-    Image,
-    Indent,
-    Italic,
-    OrderedList,
-    Paragraph,
-    Strike,
-    Text,
-    TextAlign,
-    Underline,
-} from 'element-tiptap';
-
 // editor extensions
 const extensions = [
     Document,
@@ -164,8 +157,6 @@ const extensions = [
     FormatClear,
     History,
 ];
-
-const content = ref(props.item.cuerpo_mensaje);
 </script>
 <template>
     <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_crear_convocatoria_')} `">
