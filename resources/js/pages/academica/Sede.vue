@@ -73,6 +73,14 @@ interface Item {
     departamento_id: number | null;
 }
 
+const itemVacio = ref<Item>({
+    id: null,
+    codigo: '',
+    nombre: '',
+    distrito: null,
+    municipio_id: null,
+    departamento_id: null,
+});
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_sedes');
 const fileName = ref('sedes');
@@ -234,6 +242,7 @@ watch(
                                 :title="$t('_crear_nuevo_registro_')"
                                 @click="
                                     selectAction('new');
+                                    selectedItem = itemVacio;
                                     step = 3;
                                 "
                             ></v-btn>
