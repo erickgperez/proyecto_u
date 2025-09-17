@@ -7,7 +7,8 @@ export function usePermissions() {
 
     const hasPermission = (permissionName: string): boolean => {
         //Verifica que tenga el permiso o que tenga el rol super-admin
-        return permissions.value.includes(permissionName) || isSuperAdmin.value;
+        const todo = permissionName.split('_').slice(-1)[0];
+        return permissions.value.includes(permissionName) || isSuperAdmin.value || todo === 'TODO';
     };
 
     const hasAnyPermission = (permissionsName: string[]): boolean => {

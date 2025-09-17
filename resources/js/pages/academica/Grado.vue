@@ -179,7 +179,7 @@ watch(
 <template>
     <Head :title="mensajes.titulo1"> </Head>
     <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-wrench-clock">
-        <v-sheet v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_GRADO')">
+        <v-sheet v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_GRADO')">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
@@ -200,7 +200,7 @@ watch(
                                 single-line
                             ></v-text-field>
                             <v-btn
-                                v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_CREAR')"
+                                v-if="hasPermission('ACADEMICA_PLAN-ESTUDIO_GRADO_CREAR')"
                                 icon="mdi-table-plus"
                                 color="success"
                                 class="ml-2"
@@ -212,7 +212,7 @@ watch(
                                 "
                             ></v-btn>
                             <v-btn
-                                v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_EXPORTAR')"
+                                v-if="hasPermission('ACADEMICA_PLAN-ESTUDIO_GRADO_EXPORTAR')"
                                 icon="mdi-file-export-outline"
                                 color="primary"
                                 variant="tonal"
@@ -255,9 +255,9 @@ watch(
                     <v-card
                         v-if="
                             hasAnyPermission([
-                                'ACADEMICA_PLAN_ESTUDIO_GRADO_EDITAR',
-                                'ACADEMICA_PLAN_ESTUDIO_GRADO_MOSTRAR',
-                                'ACADEMICA_PLAN_ESTUDIO_GRADO_BORRAR',
+                                'ACADEMICA_PLAN-ESTUDIO_GRADO_EDITAR',
+                                'ACADEMICA_PLAN-ESTUDIO_GRADO_MOSTRAR',
+                                'ACADEMICA_PLAN-ESTUDIO_GRADO_BORRAR',
                             ])
                         "
                         class="align-center justify-center"
@@ -272,7 +272,7 @@ watch(
                                     <span>{{ $t('_elija_accion_realizar_') }}</span>
                                 </span>
                             </v-col>
-                            <v-col v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_EDITAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_PLAN-ESTUDIO_GRADO_EDITAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_editar_datos_registro_seleccionado_')"
@@ -293,7 +293,7 @@ watch(
                                 </v-card>
                             </v-col>
 
-                            <v-col v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_MOSTRAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_PLAN-ESTUDIO_GRADO_MOSTRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_mostrar_datos_solo_lectura_')"
@@ -313,7 +313,7 @@ watch(
                                     </template>
                                 </v-card>
                             </v-col>
-                            <v-col v-if="hasPermission('ACADEMICA_PLAN_ESTUDIO_GRADO_BORRAR')" cols="12" md="6">
+                            <v-col v-if="hasPermission('ACADEMICA_PLAN-ESTUDIO_GRADO_BORRAR')" cols="12" md="6">
                                 <v-card
                                     class="mx-auto"
                                     :subtitle="$t('_borrar_registro_seleccionado_')"

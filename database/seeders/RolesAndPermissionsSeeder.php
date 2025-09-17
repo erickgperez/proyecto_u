@@ -18,23 +18,24 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'MODULOS']);
         Permission::create(['name' => 'MODULO_INGRESO']);
         Permission::create(['name' => 'MODULO_CALIFICACIONES']);
-        Permission::create(['name' => 'MODULO_GESTION_ACADEMICA']);
+        Permission::create(['name' => 'MODULO_GESTION-ACADEMICA']);
 
         //************ MENUS
         // INGRESO
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA']);
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_GESTIONAR']);
-        Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO']);
+        Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_CARGAR-ARCHIVO']);
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_CANDIDATOS']);
 
         // GESTION ACADEMICA
         Permission::create(['name' => 'MENU_ACADEMICA_SEDES']);
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN_ESTUDIO']);
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN_ESTUDIO_GRADO']);
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA']);
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN_ESTUDIO_CARRERA']);
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO']);
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_GRADO']);
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA']);
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA']);
 
         //********** GESTIONAR CONVOCATORIA
+        Permission::create(['name' => 'INGRESO_CONVOCATORIA_TODO']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CREAR']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_EXPORTAR']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_EDITAR']);
@@ -47,6 +48,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CANDIDATOS_INVITACIONES']);
 
         // ******** SEDES
+        Permission::create(['name' => 'ACADEMICA_SEDE_TODO']);
         Permission::create(['name' => 'ACADEMICA_SEDE_CREAR']);
         Permission::create(['name' => 'ACADEMICA_SEDE_EXPORTAR']);
         Permission::create(['name' => 'ACADEMICA_SEDE_EDITAR']);
@@ -54,25 +56,28 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_SEDE_BORRAR']);
 
         // ******** GRADO
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_GRADO_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_GRADO_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_GRADO_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_GRADO_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_GRADO_BORRAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_TODO']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_CREAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_EDITAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_BORRAR']);
 
         // ******** TIPO_CARRERA
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_BORRAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_TODO']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_CREAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EDITAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_BORRAR']);
 
         // ******** CARRERA
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_CARRERA_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_CARRERA_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_CARRERA_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_CARRERA_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN_ESTUDIO_CARRERA_BORRAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_TODO']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_CREAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EDITAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_BORRAR']);
 
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
@@ -82,9 +87,18 @@ class RolesAndPermissionsSeeder extends Seeder
         $role = Role::create(['name' => 'gestor-academico'])
             ->givePermissionTo([
                 'MODULOS',
-                'MODULO_GESTION_ACADEMICA',
-                'MENU_ACADEMICA_SEDES'
+                'MODULO_GESTION-ACADEMICA',
+                'MENU_ACADEMICA_SEDES',
+                'MENU_ACADEMICA_PLAN-ESTUDIO',
+                'MENU_ACADEMICA_PLAN-ESTUDIO_GRADO',
+                'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA',
+                'MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA',
+                'ACADEMICA_SEDE_TODO',
+                'ACADEMICA_PLAN-ESTUDIO_GRADO_TODO',
+                'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_TODO',
+                'ACADEMICA_PLAN-ESTUDIO_CARRERA_TODO',
             ]);
+
 
         $role = Role::create(['name' => 'gestor-ingreso'])
             ->givePermissionTo([
@@ -92,13 +106,9 @@ class RolesAndPermissionsSeeder extends Seeder
                 'MODULO_INGRESO',
                 'MENU_INGRESO_CONVOCATORIA',
                 'MENU_INGRESO_CONVOCATORIA_GESTIONAR',
-                'MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO',
+                'MENU_INGRESO_CONVOCATORIA_CARGAR-ARCHIVO',
                 'MENU_INGRESO_CONVOCATORIA_CANDIDATOS',
-                'INGRESO_CONVOCATORIA_CREAR',
-                'INGRESO_CONVOCATORIA_EXPORTAR',
-                'INGRESO_CONVOCATORIA_EDITAR',
-                'INGRESO_CONVOCATORIA_MOSTRAR',
-                'INGRESO_CONVOCATORIA_BORRAR',
+                'INGRESO_CONVOCATORIA_TODO',
                 'INGRESO_CONVOCATORIA_CANDIDATOS_LISTADO',
                 'INGRESO_CONVOCATORIA_CANDIDATOS_INVITACIONES'
             ]);

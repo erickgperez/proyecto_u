@@ -147,7 +147,7 @@ onMounted(() => {
                                 </Link>
                                 <Link
                                     :href="route('ingreso-bachillerato-cargar-archivo')"
-                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CARGAR_ARCHIVO')"
+                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CARGAR-ARCHIVO')"
                                 >
                                     <v-list-item
                                         link
@@ -170,7 +170,7 @@ onMounted(() => {
                         </v-menu>
                     </v-list-item>
 
-                    <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION_ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
+                    <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION-ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
                         <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede-index')">
                             <v-list-item
                                 link
@@ -181,7 +181,7 @@ onMounted(() => {
                             </v-list-item>
                         </Link>
                         <v-list-item
-                            v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO')"
+                            v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO')"
                             prepend-icon="mdi-collage"
                             append-icon="mdi-menu-right"
                             class="text-body-1 text-none text-left"
@@ -189,7 +189,7 @@ onMounted(() => {
                             {{ $t('_plan_estudio_') }}
                             <v-menu activator="parent">
                                 <v-list class="bg-blue-grey-darken-2">
-                                    <Link :href="route('plan_estudio-carrera-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_CARRERA')">
+                                    <Link :href="route('plan_estudio-carrera-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA')">
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-book-settings-outline"
@@ -200,7 +200,7 @@ onMounted(() => {
                                     </Link>
                                     <Link
                                         :href="route('plan_estudio-tipo_carrera-index')"
-                                        v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA')"
+                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO-TIPO_CARRERA')"
                                     >
                                         <v-list-item
                                             link
@@ -210,7 +210,7 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
-                                    <Link :href="route('plan_estudio-grado-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN_ESTUDIO_GRADO')">
+                                    <Link :href="route('plan_estudio-grado-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_GRADO')">
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-book-settings-outline"

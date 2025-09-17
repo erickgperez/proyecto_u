@@ -47,15 +47,15 @@ const mensajes = {
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_EDITAR',
-    mostrar: 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_MOSTRAR',
-    borrar: 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_BORRAR',
+    editar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EDITAR',
+    mostrar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_MOSTRAR',
+    borrar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_BORRAR',
 };
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA',
-    crear: 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_CREAR',
-    exportar: 'ACADEMICA_PLAN_ESTUDIO_TIPO_CARRERA_EXPORTAR',
+    listado: 'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA',
+    crear: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_CREAR',
+    exportar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
