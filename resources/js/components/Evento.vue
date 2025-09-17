@@ -17,7 +17,7 @@ import {
     Underline,
 } from 'element-tiptap';
 import Swal from 'sweetalert2';
-import { onMounted, ref, toRef } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
 import type { VForm } from 'vuetify/components';
@@ -75,7 +75,6 @@ const eventos = ref<Evento[]>([]);
 const dialog = ref(false);
 
 const formData = ref<Evento>(eventoVacio.value);
-const isEditing = toRef(() => !!formData.value.id);
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -120,6 +119,56 @@ async function submitForm() {
         }
     }
     loading.value = false;
+}
+
+function remove(item: Evento) {
+    const hasError = ref(false);
+    const message = ref('');
+    const messageLog = ref('');
+    Swal.fire({
+        title: t('_confirmar_borrar_registro_'),
+        text: item.nombre,
+        showCancelButton: true,
+        confirmButtonText: t('_borrar_'),
+        cancelButtonText: t('_cancelar_'),
+        confirmButtonColor: '#e5adac',
+        cancelButtonColor: '#D7E1EE',
+    }).then(async (result) => {
+        if (result.isConfirmed) {
+            try {
+                const resp = await axios.delete(route('general-actividad-delete', { id: item.id }));
+
+                if (resp.data.status == 'ok') {
+                    eventos.value = resp.data.items;
+                    /*Swal.fire({
+                        title: t('_exito_'),
+                        text: t('_registro_eliminado_correctamente_'),
+                        icon: 'success',
+                        position: 'top-end',
+                        showConfirmButton: false,
+                        timer: 2500,
+                        toast: true,
+                    });*/
+                } else {
+                    hasError.value = true;
+                    message.value = t(resp.data.message);
+                }
+            } catch (error: any) {
+                hasError.value = true;
+                messageLog.value = error.response.data.message;
+            }
+
+            if (hasError.value) {
+                console.log(messageLog.value);
+                Swal.fire({
+                    title: t('_error_'),
+                    text: t('_no_se_pudo_eliminar_') + '. ' + message.value,
+                    icon: 'error',
+                    confirmButtonColor: '#D7E1EE',
+                });
+            }
+        }
+    });
 }
 
 // editor extensions
@@ -185,6 +234,7 @@ onMounted(() => {
                                 <p v-html="item.indicaciones"></p>
                             </v-card-text>
                             <v-card-actions>
+                                <v-btn icon="mdi-delete-alert-outline" :title="$t('calendario._borrar_actividad_')" @click="remove(item)"></v-btn>
                                 <v-spacer></v-spacer>
                                 <v-btn
                                     icon="mdi-calendar-edit"

@@ -64,12 +64,17 @@ class EventoController extends Controller
 
     public function delete(int $id)
     {
-        $delete = Carrera::destroy($id);
+        $evento = Evento::find($id);
+        $calendario = $evento->calendario()->first();
+
+        $delete = Evento::destroy($id);
+
+        $eventos = $calendario->eventos()->orderBy('fecha_inicio', 'ASC')->get();
 
         if ($delete == 0) {
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);
         } else {
-            return response()->json(['status' => 'ok', 'message' => $id]);
+            return response()->json(['status' => 'ok', 'message' => '_evento_borrado_',  'items' => $eventos]);
         }
     }
 }

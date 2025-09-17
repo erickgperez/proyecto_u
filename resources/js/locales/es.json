@@ -19,7 +19,8 @@
     "_buscar_": "Buscar",
     "calendario": {
         "_agregar_actividad_": "Agregar nueva actividad",
-        "_editar_actividad_": "Editar actividad"
+        "_editar_actividad_": "Editar actividad",
+        "_borrar_actividad_": "Borrar actividad"
     },
     "_calificaciones_": "Calificaciones",
     "_cambiar_": "Cambiar",
