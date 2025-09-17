@@ -19,7 +19,6 @@ const step = ref(1);
 
 const { t } = useI18n();
 
-const selectedItem = ref<Item>();
 const selectedAction = ref('');
 
 const date = useDate();
@@ -85,6 +84,8 @@ const itemVacio = ref<Item>({
     cuerpo_mensaje: '',
     afiche: null,
 });
+
+const selectedItem = ref<Item>(itemVacio.value);
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_convocatorias');
