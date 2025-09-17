@@ -29,7 +29,6 @@
         "@regle/rules": "^1.6.3",
         "@tailwindcss/vite": "^4.1.1",
         "@vitejs/plugin-vue": "^5.2.1",
-        "@vueup/vue-quill": "^1.2.0",
         "@vueuse/core": "^12.8.2",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
@@ -48,6 +47,7 @@
         "vite": "^6.2.0",
         "vue": "^3.5.13",
         "vue-i18n": "^11.1.11",
+        "vue-router": "^4.5.1",
         "vuetify": "^3.9.2",
         "xlsx": "^0.18.5",
         "ziggy-js": "^2.4.2"
