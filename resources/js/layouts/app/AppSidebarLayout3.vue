@@ -302,7 +302,7 @@ onMounted(() => {
                         <v-menu v-model="menu" :close-on-content-click="false" location="bottom center">
                             <template v-slot:activator="{ props }">
                                 <v-list-item
-                                    prepend-avatar="https://randomuser.me/api/portraits/women/85.jpg"
+                                    prepend-icon="mdi-account-settings"
                                     :subtitle="user.email"
                                     :title="user.name"
                                     v-bind="props"
