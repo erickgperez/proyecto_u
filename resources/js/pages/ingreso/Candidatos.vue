@@ -115,7 +115,7 @@ watch(
                 <v-card>
                     <v-card-text class="bg-surface-light pt-4">
                         <v-autocomplete
-                            :label="$t('_convocatoria_')"
+                            :label="$t('convocatoria._convocatoria_')"
                             :items="props.convocatorias"
                             :hint="$t('convocatoria._convocatoria_a_utilizar_para_enviar_invitaciones_')"
                             persistent-hint

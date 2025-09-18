@@ -18,14 +18,8 @@ class EventoController extends Controller
 
         $eventos = $calendario->eventos()->orderBy('fecha_inicio', 'ASC')->get();
 
-        $_eventos = [];
-        $step = 1;
-        foreach ($eventos as $row) {
-            $evento = $row;
-            $evento['step'] = $step;
-            $evento['icon'] = $step <= 9 ? 'mdi-numeric-' . $step : 'mdi-numeric-9-plus';
-            $_eventos[] = $evento;
-        }
+        $_eventos = $this->eventosExtraInfo($eventos);
+
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'items' => $_eventos]);
     }
@@ -37,7 +31,7 @@ class EventoController extends Controller
             'nombre' => 'required|string|max:50',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date',
-            'indicaciones' => 'string',
+            'indicaciones' => 'nullable|string',
         ]);
 
         $calendario = Calendarizacion::find($id);
@@ -58,8 +52,9 @@ class EventoController extends Controller
 
         //Obtener todos los items del calendario para volver a dibujar la interfaz
         $eventos = $calendario->eventos()->orderBy('fecha_inicio', 'ASC')->get();
+        $_eventos = $this->eventosExtraInfo($eventos);
 
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'items' => $eventos]);
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'items' => $_eventos]);
     }
 
     public function delete(int $id)
@@ -76,5 +71,20 @@ class EventoController extends Controller
         } else {
             return response()->json(['status' => 'ok', 'message' => '_evento_borrado_',  'items' => $eventos]);
         }
+    }
+
+    protected function eventosExtraInfo($eventos): array
+    {
+        $_eventos = [];
+        $step = 1;
+        foreach ($eventos as $row) {
+            $evento = $row;
+            $evento['step'] = $step;
+            $evento['icon'] = $step <= 9 ? 'mdi-numeric-' . $step : 'mdi-numeric-9-plus';
+            $_eventos[] = $evento;
+            $step++;
+        }
+
+        return $_eventos;
     }
 }
