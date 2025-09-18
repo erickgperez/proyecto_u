@@ -23,7 +23,7 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase :title="$t('auth._crear_una_cuenta_')" :description="$t('auth._ingrese_datos_para_crear_cuenta_')">
+    <AuthBase :title="$t('auth._crear_una_cuenta_aspirante_')" :description="$t('auth._ingrese_datos_para_crear_cuenta_aspirante_')">
         <Head :title="$t('auth._registrar_')" />
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
