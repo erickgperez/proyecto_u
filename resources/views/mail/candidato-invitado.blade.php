@@ -1,12 +1,32 @@
-<div>
-    @if ($bachiller->sexo == 'Hombre')
-        estimado
-    @else
-        estimada
-    @endif
-    {{ $bachiller->primer_nombre }} {{ $bachiller->primer_apellido }}
-    <BR/>
-    {{ $convocatoria->cuerpo_mensaje }}
-    <BR/>
-    <A href="{{ url('register') }}" target="_blank">Regístrate</A>
-</div>
+<!DOCTYPE html>
+    <html>
+    <head>
+        <title>My HTML Email</title>
+        <style>
+            /* Your CSS styles here */
+            body { font-family: sans-serif; }
+            .container { padding: 20px; }
+            .header { background-color: #f0f0f0; padding: 10px; }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="header">
+                <h1>Welcome!</h1>
+            </div>
+            <div>
+                @if ($bachiller->sexo == 'Hombre')
+                    estimado
+                @else
+                    estimada
+                @endif
+                {{ $bachiller->primer_nombre }} {{ $bachiller->primer_apellido }}
+                <BR/>
+
+                {!! $convocatoria->cuerpo_mensaje !!}
+                <BR/>
+                <A href="{{ config('app.url') }}/register" target="_blank">Regístrate</A>
+            </div>
+        </div>
+    </body>
+    </html>

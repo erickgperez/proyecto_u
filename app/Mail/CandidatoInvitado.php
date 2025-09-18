@@ -6,7 +6,6 @@ use App\Models\Ingreso\Convocatoria;
 use App\Models\Secundaria\DataBachillerato;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailables\Address;
-use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Mail\Mailables\Attachment;
 use Illuminate\Mail\Mailables\Content;
