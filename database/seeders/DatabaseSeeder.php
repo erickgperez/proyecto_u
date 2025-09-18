@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             RolesAndPermissionsSeeder::class,
             DepartamentoSeeder::class,
+            DocumentoTipoSeeder::class,
             MunicipioSeeder::class,
             DistritoSeeder::class,
             SecundariaSectorSeeder::class,

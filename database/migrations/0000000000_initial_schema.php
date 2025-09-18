@@ -21,6 +21,9 @@ return new class extends Migration
 
         DB::statement('DROP SCHEMA IF EXISTS plan_estudio CASCADE');
         DB::statement('CREATE SCHEMA plan_estudio');
+
+        DB::statement('DROP SCHEMA IF EXISTS documento CASCADE');
+        DB::statement('CREATE SCHEMA documento');
     }
 
     /**

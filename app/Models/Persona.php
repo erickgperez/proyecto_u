@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use App\Models\Documento\Documento;
 use App\Models\Sexo;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Persona extends Model
 {
@@ -37,5 +39,10 @@ class Persona extends Model
     public function sexo()
     {
         return $this->belongsTo(Sexo::class);
+    }
+
+    public function documentos(): BelongsToMany
+    {
+        return $this->belongsToMany(Documento::class, 'documento.persona_documento', 'documento_id', 'persona_id');
     }
 }
