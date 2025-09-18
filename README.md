@@ -58,6 +58,14 @@ Definir el nombre de la aplicación en el archivo .env
 APP_NAME='Nombre Aplicación'
 ```
 
+En el archivo .env, adecuar las siguientes variables de entorno con su correspondiente valor
+
+```
+APP_URL=http://localhost
+APP_LOCALE=es
+
+```
+
 Configurar los parámetros para el envío de correos
 
 ```
