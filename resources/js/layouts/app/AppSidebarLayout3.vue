@@ -319,7 +319,7 @@ onMounted(() => {
 
                                     <v-list-item prepend-icon="mdi-logout">
                                         <Link class="block" method="post" :href="route('logout')" @click="handleLogout" as="button">
-                                            {{ $t('_cerrar_sesion_') }}
+                                            {{ $t('auth._cerrar_sesion_') }}
                                         </Link>
                                     </v-list-item>
                                     <v-list-item prepend-icon="mdi-translate">

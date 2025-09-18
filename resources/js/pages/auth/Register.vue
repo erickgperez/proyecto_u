@@ -23,8 +23,8 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase :title="$t('_crear_una_cuenta_')" :description="$t('_ingrese_datos_para_crear_cuenta_')">
-        <Head title="Register" />
+    <AuthBase :title="$t('auth._crear_una_cuenta_')" :description="$t('auth._ingrese_datos_para_crear_cuenta_')">
+        <Head :title="$t('auth._registrar_')" />
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
@@ -44,13 +44,13 @@ const submit = () => {
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="email">{{ $t('_direccion_email_') }}</Label>
+                    <Label for="email">{{ $t('auth._direccion_email_') }}</Label>
                     <Input id="email" type="email" required :tabindex="2" autocomplete="email" v-model="form.email" placeholder="email@example.com" />
                     <InputError :message="form.errors.email" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password">{{ $t('_clave_') }}</Label>
+                    <Label for="password">{{ $t('auth._clave_') }}</Label>
                     <Input
                         id="password"
                         type="password"
@@ -58,13 +58,13 @@ const submit = () => {
                         :tabindex="3"
                         autocomplete="new-password"
                         v-model="form.password"
-                        :placeholder="$t('_clave_')"
+                        :placeholder="$t('auth._clave_')"
                     />
                     <InputError :message="form.errors.password" />
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password_confirmation">{{ $t('_confirmar_clave_') }}</Label>
+                    <Label for="password_confirmation">{{ $t('auth._confirmar_clave_') }}</Label>
                     <Input
                         id="password_confirmation"
                         type="password"
@@ -72,19 +72,19 @@ const submit = () => {
                         :tabindex="4"
                         autocomplete="new-password"
                         v-model="form.password_confirmation"
-                        :placeholder="$t('_confirmar_clave_')"
+                        :placeholder="$t('auth._confirmar_clave_')"
                     />
                     <InputError :message="form.errors.password_confirmation" />
                 </div>
 
                 <Button type="submit" class="mt-2 w-full" tabindex="5" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                    {{ $t('_crear_cuenta_') }}
+                    {{ $t('auth._crear_cuenta_') }}
                 </Button>
             </div>
 
             <div class="text-center text-sm text-muted-foreground">
-                {{ $t('_tiene_una_cuenta_?_') }}
+                {{ $t('auth._tiene_una_cuenta_?_') }}
                 <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">{{ $t('_ingresar_') }}</TextLink>
             </div>
         </form>

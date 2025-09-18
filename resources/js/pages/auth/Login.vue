@@ -27,8 +27,8 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthBase :title="$t('_inicia_session_en_tu_cuenta_')" :description="$t('_ingrese_email_clave_para_conectarse_')">
-        <Head :title="$t('_ingresar_')" />
+    <AuthBase :title="$t('auth._inicia_session_en_tu_cuenta_')" :description="$t('auth._ingrese_email_clave_para_conectarse_')">
+        <Head :title="$t('auth._ingresar_')" />
 
         <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
             {{ status }}
@@ -37,7 +37,7 @@ const submit = () => {
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
                 <div class="grid gap-2">
-                    <Label for="email">{{ $t('_direccion_email_') }}</Label>
+                    <Label for="email">{{ $t('auth._direccion_email_') }}</Label>
                     <Input
                         id="email"
                         type="email"
@@ -53,9 +53,9 @@ const submit = () => {
 
                 <div class="grid gap-2">
                     <div class="flex items-center justify-between">
-                        <Label for="password">{{ $t('_clave_') }}</Label>
+                        <Label for="password">{{ $t('auth._clave_') }}</Label>
                         <TextLink v-if="canResetPassword" :href="route('password.request')" class="text-sm" :tabindex="5">
-                            {{ $t('_olvido_clave_') }}
+                            {{ $t('auth._olvido_clave_') }}
                         </TextLink>
                     </div>
                     <Input
@@ -65,7 +65,7 @@ const submit = () => {
                         :tabindex="2"
                         autocomplete="current-password"
                         v-model="form.password"
-                        :placeholder="$t('_clave_')"
+                        :placeholder="$t('auth._clave_')"
                     />
                     <InputError :message="form.errors.password" />
                 </div>
@@ -79,13 +79,13 @@ const submit = () => {
 
                 <Button type="submit" class="mt-4 w-full" :tabindex="4" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                    {{ $t('_ingresar_') }}
+                    {{ $t('auth._ingresar_') }}
                 </Button>
             </div>
 
             <div class="text-center text-sm text-muted-foreground">
-                {{ $t('_no_tiene_una_cuenta_') }}
-                <TextLink :href="route('register')" :tabindex="5">{{ $t('_registrarse_') }}</TextLink>
+                {{ $t('auth._no_tiene_una_cuenta_') }}
+                <TextLink :href="route('register')" :tabindex="5">{{ $t('auth._registrarse_') }}</TextLink>
             </div>
         </form>
     </AuthBase>
