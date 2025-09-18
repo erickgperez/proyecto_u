@@ -258,7 +258,7 @@ const extensions = [
     </v-card>
 </template>
 <style lang="css">
-.el-tiptap-editor__menu-bar {
+/*.el-tiptap-editor__menu-bar {
     position: fixed;
     background-color: #f0f0f0;
     border-bottom: 1px solid #ccc;
@@ -266,5 +266,5 @@ const extensions = [
 }
 .ProseMirror {
     padding-top: 40px;
-}
+}*/
 </style>

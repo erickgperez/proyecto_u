@@ -77,3 +77,5 @@ como `supervisor` para que verifique que siempre se estén leyendo las colas
 ```
 php artisan queue:work
 ```
+
+Verificar en la configuración de PHP php.ini, que los valores de upload_max_filesize y post_max_size no sean muy bajos. Se recomiendan valores de 20MB.

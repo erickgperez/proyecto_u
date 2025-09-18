@@ -1,6 +1,9 @@
 {
     "_acciones_": "Actions",
     "_aceptar_": "Agree",
+    "actividad": {
+        "_actividad_": "Activity"
+    },
     "_afiche_": "Poster",
     "_administrar_convocatoria_": "Manage application process",
     "_afiche_formato_pdf_": "Poster in PDF format",
@@ -16,7 +19,8 @@
     "_buscar_": "Search",
     "calendario": {
         "_agregar_actividad_": "Add new activity",
-        "_editar_actividad_": "Edit activity"
+        "_editar_actividad_": "Edit activity",
+        "_borrar_actividad_": "Delete activity"
     },
     "_calificaciones_": "Grades",
     "_cambiar_": "Change",
@@ -100,6 +104,8 @@
     "_exito_": "Success",
     "_exportar_": "Export",
     "_fecha_": "Date",
+    "_fecha_inicio_": "Start date",
+    "_fecha_fin_": "End date",
     "_fecha_requerida_": "Required date",
     "_fila_": "Row",
     "_filtros_": "Filters",
@@ -121,6 +127,7 @@
     "_guardar_": "Save",
     "_hasta_": "To",
     "_id_": "Id",
+    "_indicaciones_": "Indications",
     "_informe_": "Report",
     "_ingresar_": "Log in",
     "_ingrese_email_clave_para_conectarse_": "Enter your email and password below to log in",
