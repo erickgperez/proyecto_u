@@ -260,7 +260,7 @@ onMounted(() => {
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                 </template>
                 <template v-slot:append>
-                    <v-menu v-model="menuModulos" :close-on-content-click="false">
+                    <v-menu v-if="hasPermission('MODULOS')" v-model="menuModulos" :close-on-content-click="false">
                         <template v-slot:activator="{ props }">
                             <v-btn
                                 color="indigo"
