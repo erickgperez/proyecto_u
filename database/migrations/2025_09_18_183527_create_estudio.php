@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('estudio', function (Blueprint $table) {
             $table->id();
             $table->comment('Los estudios realizados por una persona');
-            $table->string('nombre_titulo', length: 255)->comment('Nombre del título obtenido');
-            $table->string('nombre_institucion', length: 255)->comment('Nombre de la institución donde se obtuvo (En el caso que no se tenga registrada en la base de datos)');
+            $table->string('nombre_titulo', length: 255)->nullable()->comment('Nombre del título obtenido');
+            $table->string('nombre_institucion', length: 255)->nullable()->comment('Nombre de la institución donde se obtuvo (En el caso que no se tenga registrada en la base de datos)');
             $table->timestamp('fecha_finalizacion')->nullable();
             $table->foreignId('grado_id')->nullable()->comment('Relación para determinar el grado obtenido');
             $table->foreign('grado_id')->references('id')->on('plan_estudio.grado')->onDelete('RESTRICT')->onUpdate('CASCADE');
