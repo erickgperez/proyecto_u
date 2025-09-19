@@ -124,6 +124,12 @@ const opcionesAccion = [
 </script>
 
 <template>
+    <!--********************************************************************************
+    ******** LA PLANTILLA GENERALMENTE NO SERÁ NECESARIO MODIFICAR
+    ******** Solo para agregar/cambiar un elemento en la sección de acciones, o modificar la
+    ******** presentación de un campo en el listado
+    ************************************************************************************
+    -->
     <Head :title="$t('convocatoria._convocatoria_')"> </Head>
     <AppLayout :titulo="$t('_administrar_convocatoria_')" :subtitulo="$t('_permite_gestionar_datos_convocatorias_')" icono="mdi-wrench-clock">
         <v-sheet v-if="hasPermission(permisos.listado)">

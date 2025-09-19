@@ -8,7 +8,7 @@ import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { Distrito, SortBy } from '@/types/crud';
+import type { Departamento, Distrito, Municipio, SortBy } from '@/types/crud';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -123,6 +123,12 @@ const opcionesAccion = [
 </script>
 
 <template>
+    <!--********************************************************************************
+    ******** LA PLANTILLA GENERALMENTE NO SERÁ NECESARIO MODIFICAR
+    ******** Solo para agregar/cambiar un elemento en la sección de acciones, o modificar la
+    ******** presentación de un campo en el listado
+    ************************************************************************************
+    -->
     <Head :title="mensajes.titulo1"> </Head>
     <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-wrench-clock">
         <v-sheet v-if="hasPermission(permisos.listado)">
