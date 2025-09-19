@@ -5,6 +5,7 @@ import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
+import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -12,18 +13,49 @@ import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { hasPermission, hasAnyPermission } = usePermissions();
-
 const { accionEditObject, accionShowObject, accionDeleteObject } = useAccionesObject();
-
-const step = ref(1);
-
 const { t } = useI18n();
-
-const selectedAction = ref('');
 
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
+interface Grado {
+    id: number | null;
+    descripcion_masculino: string;
+    descripcion_femenino: string;
+}
+
+interface Item {
+    id: number | null;
+    codigo: string;
+    descripcion: string;
+    grado: Grado | null;
+}
+
+const props = defineProps({
+    items: {
+        type: Array as PropType<Item[]>,
+        required: true,
+        default: () => [],
+    },
+    grados: {
+        type: Array as PropType<Grado[]>,
+        required: true,
+        default: () => [],
+    },
+});
+
+const itemVacio = ref<Item>({
+    id: null,
+    codigo: '',
+    descripcion: '',
+    grado: null,
+});
+
+const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
+    itemVacio,
+    props.items,
+);
 const rutaBorrar = ref('plan_estudio-tipo_carrera-delete');
 const mensajes = {
     titulo1: t('tipoCarrera._tipos_carrera_'),
@@ -49,36 +81,11 @@ const permisos = {
     borrar: acc.borrar,
 };
 
-interface Grado {
-    id: number | null;
-    descripcion_masculino: string;
-    descripcion_femenino: string;
-}
-
-interface Item {
-    id: number | null;
-    codigo: string;
-    descripcion: string;
-    grado: Grado | null;
-}
-
-const itemVacio = ref<Item>({
-    id: null,
-    codigo: '',
-    descripcion: '',
-    grado: null,
-});
-
-const selectedItem = ref<Item>(itemVacio.value);
-
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_tipos_carreras');
 const fileName = ref('tipos_carrera');
 
 const selectedItemLabel = computed(() => selectedItem.value?.descripcion ?? '');
-
-// Título del listado
-const titleList = ref(mensajes.tituloListado);
 
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
@@ -88,19 +95,6 @@ const headers = [
 ];
 
 const sortBy = [{ key: 'nombre', order: 'asc' }];
-
-const props = defineProps({
-    items: {
-        type: Array as PropType<Item[]>,
-        required: true,
-        default: () => [],
-    },
-    grados: {
-        type: Array as PropType<Grado[]>,
-        required: true,
-        default: () => [],
-    },
-});
 
 const opcionesAccion = [
     {
@@ -116,53 +110,6 @@ const opcionesAccion = [
         ...accionDeleteObject,
     },
 ];
-
-//************ lo demás puede permanecer igual, cambiar solo que sea necesario
-const handleAction = (action: string) => {
-    selectAction(action);
-    if (action === 'delete') {
-        remove();
-    } else if (action === 'new') {
-        selectItem(itemVacio.value);
-        step.value = 3;
-    } else {
-        step.value++;
-    }
-};
-
-const handleNextStep = (stepValue: number) => {
-    step.value = stepValue;
-};
-
-const localItems = ref([...props.items]);
-
-function remove() {
-    const index = localItems.value.findIndex((item) => item.id === selectedItem.value?.id);
-    localItems.value.splice(index, 1);
-
-    step.value = 1;
-}
-
-const selectItem = (item: any) => {
-    selectedItem.value = item;
-
-    step.value++;
-};
-
-const selectAction = (accion: string) => {
-    selectedAction.value = accion;
-};
-
-const handleFormSave = (data: Item) => {
-    if (selectedAction.value == 'edit') {
-        const index = localItems.value.findIndex((item) => item.id === data.id);
-
-        localItems.value[index] = data;
-    } else {
-        localItems.value.push(data);
-        step.value = 1;
-    }
-};
 </script>
 
 <template>
@@ -178,7 +125,7 @@ const handleFormSave = (data: Item) => {
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
-                        :titleList="titleList"
+                        :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"

@@ -5,6 +5,7 @@ import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
+import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -12,43 +13,12 @@ import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { hasPermission, hasAnyPermission } = usePermissions();
-
 const { accionEditObject, accionShowObject, accionDeleteObject } = useAccionesObject();
-
-const step = ref(1);
-
 const { t } = useI18n();
-
-const selectedAction = ref('');
 
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-const rutaBorrar = ref('plan_estudio-carrera-delete');
-const mensajes = {
-    titulo1: t('carrera._plural_'),
-    titulo2: t('carrera._administrar_'),
-    subtitulo: t('carrera._permite_gestionar_'),
-    tituloListado: t('carrera._listado_'),
-};
-
-//Acciones que se pueden realizar al seleccionar un registro
-const acc = {
-    editar: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EDITAR',
-    mostrar: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_MOSTRAR',
-    borrar: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_BORRAR',
-};
-// Permisos requeridos por la interfaz
-const permisos = {
-    listado: 'MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA',
-    crear: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_CREAR',
-    exportar: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EXPORTAR',
-    acciones: [acc.editar, acc.borrar, acc.mostrar],
-    editar: acc.editar,
-    mostrar: acc.mostrar,
-    borrar: acc.borrar,
-};
-
 interface Sede {
     id: number | null;
     codigo: string;
@@ -75,6 +45,24 @@ interface Item {
     tipoCarrera: TipoCarrera | null;
 }
 
+const props = defineProps({
+    items: {
+        type: Array as PropType<Item[]>,
+        required: true,
+        default: () => [],
+    },
+    tiposCarrera: {
+        type: Array as PropType<TipoCarrera[]>,
+        required: true,
+        default: () => [],
+    },
+    sedes: {
+        type: Array as PropType<Sede[]>,
+        required: true,
+        default: () => [],
+    },
+});
+
 const itemVacio = ref<Item>({
     id: null,
     codigo: '',
@@ -83,7 +71,34 @@ const itemVacio = ref<Item>({
     tipoCarrera: null,
 });
 
-const selectedItem = ref<Item>(itemVacio.value);
+const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
+    itemVacio,
+    props.items,
+);
+const rutaBorrar = ref('plan_estudio-carrera-delete');
+const mensajes = {
+    titulo1: t('carrera._plural_'),
+    titulo2: t('carrera._administrar_'),
+    subtitulo: t('carrera._permite_gestionar_'),
+    tituloListado: t('carrera._listado_'),
+};
+
+//Acciones que se pueden realizar al seleccionar un registro
+const acc = {
+    editar: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EDITAR',
+    mostrar: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_MOSTRAR',
+    borrar: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_BORRAR',
+};
+// Permisos requeridos por la interfaz
+const permisos = {
+    listado: 'MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA',
+    crear: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_CREAR',
+    exportar: 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EXPORTAR',
+    acciones: [acc.editar, acc.borrar, acc.mostrar],
+    editar: acc.editar,
+    mostrar: acc.mostrar,
+    borrar: acc.borrar,
+};
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_carreras');
@@ -108,24 +123,6 @@ const sortBy = [
     { key: 'nombre', order: 'asc' },
 ];
 
-const props = defineProps({
-    items: {
-        type: Array as PropType<Item[]>,
-        required: true,
-        default: () => [],
-    },
-    tiposCarrera: {
-        type: Array as PropType<TipoCarrera[]>,
-        required: true,
-        default: () => [],
-    },
-    sedes: {
-        type: Array as PropType<Sede[]>,
-        required: true,
-        default: () => [],
-    },
-});
-
 const opcionesAccion = [
     {
         permiso: acc.editar,
@@ -140,53 +137,6 @@ const opcionesAccion = [
         ...accionDeleteObject,
     },
 ];
-
-//************ lo demás puede permanecer igual, cambiar solo que sea necesario
-const handleAction = (action: string) => {
-    selectAction(action);
-    if (action === 'delete') {
-        remove();
-    } else if (action === 'new') {
-        selectItem(itemVacio.value);
-        step.value = 3;
-    } else {
-        step.value++;
-    }
-};
-
-const handleNextStep = (stepValue: number) => {
-    step.value = stepValue;
-};
-
-const localItems = ref([...props.items]);
-
-function remove() {
-    const index = localItems.value.findIndex((item) => item.id === selectedItem.value?.id);
-    localItems.value.splice(index, 1);
-
-    step.value = 1;
-}
-
-const selectItem = (item: any) => {
-    selectedItem.value = item;
-
-    step.value++;
-};
-
-const selectAction = (accion: string) => {
-    selectedAction.value = accion;
-};
-
-const handleFormSave = (data: Item) => {
-    if (selectedAction.value == 'edit') {
-        const index = localItems.value.findIndex((item) => item.id === data.id);
-
-        localItems.value[index] = data;
-    } else {
-        localItems.value.push(data);
-        step.value = 1;
-    }
-};
 </script>
 
 <template>

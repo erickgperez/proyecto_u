@@ -5,6 +5,7 @@ import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
+import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -12,43 +13,12 @@ import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { hasPermission, hasAnyPermission } = usePermissions();
-
 const { accionEditObject, accionShowObject, accionDeleteObject } = useAccionesObject();
-
-const step = ref(1);
-
 const { t } = useI18n();
-
-const selectedAction = ref('');
 
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-const rutaBorrar = ref('academica-sede-delete');
-const mensajes = {
-    titulo1: t('sede._sedes_'),
-    titulo2: t('sede._administrar_sedes_'),
-    subtitulo: t('sede._permite_gestionar_sedes_'),
-    tituloListado: t('sede._listado_sedes_'),
-};
-
-//Acciones que se pueden realizar al seleccionar un registro
-const acc = {
-    editar: 'ACADEMICA_SEDE_EDITAR',
-    mostrar: 'ACADEMICA_SEDE_MOSTRAR',
-    borrar: 'ACADEMICA_SEDE_BORRAR',
-};
-// Permisos requeridos por la interfaz
-const permisos = {
-    listado: 'MENU_ACADEMICA_SEDES',
-    crear: 'ACADEMICA_SEDE_CREAR',
-    exportar: 'ACADEMICA_SEDE_EXPORTAR',
-    acciones: [acc.editar, acc.borrar, acc.mostrar],
-    editar: acc.editar,
-    mostrar: acc.mostrar,
-    borrar: acc.borrar,
-};
-
 interface Distrito {
     id: number | null;
     descripcion: string;
@@ -75,35 +45,6 @@ interface Item {
     departamento_id: number | null;
 }
 
-const itemVacio = ref<Item>({
-    id: null,
-    codigo: '',
-    nombre: '',
-    distrito: null,
-    municipio_id: null,
-    departamento_id: null,
-});
-
-const selectedItem = ref<Item>(itemVacio.value);
-
-// Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_sedes');
-const fileName = ref('sedes');
-
-const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
-
-// Título del listado
-const titleList = ref(mensajes.tituloListado);
-
-const headers = [
-    { title: t('_codigo_'), key: 'codigo' },
-    { title: t('_nombre_'), key: 'nombre', align: 'start' },
-    { title: t('_distrito_'), key: 'distrito' },
-    { title: t('_acciones_'), key: 'actions', align: 'end' },
-];
-
-const sortBy = [{ key: 'nombre', order: 'asc' }];
-
 const props = defineProps({
     items: {
         type: Array as PropType<Item[]>,
@@ -127,6 +68,59 @@ const props = defineProps({
     },
 });
 
+const itemVacio = ref<Item>({
+    id: null,
+    codigo: '',
+    nombre: '',
+    distrito: null,
+    municipio_id: null,
+    departamento_id: null,
+});
+
+const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
+    itemVacio,
+    props.items,
+);
+const rutaBorrar = ref('academica-sede-delete');
+const mensajes = {
+    titulo1: t('sede._sedes_'),
+    titulo2: t('sede._administrar_sedes_'),
+    subtitulo: t('sede._permite_gestionar_sedes_'),
+    tituloListado: t('sede._listado_sedes_'),
+};
+
+//Acciones que se pueden realizar al seleccionar un registro
+const acc = {
+    editar: 'ACADEMICA_SEDE_EDITAR',
+    mostrar: 'ACADEMICA_SEDE_MOSTRAR',
+    borrar: 'ACADEMICA_SEDE_BORRAR',
+};
+// Permisos requeridos por la interfaz
+const permisos = {
+    listado: 'MENU_ACADEMICA_SEDES',
+    crear: 'ACADEMICA_SEDE_CREAR',
+    exportar: 'ACADEMICA_SEDE_EXPORTAR',
+    acciones: [acc.editar, acc.borrar, acc.mostrar],
+    editar: acc.editar,
+    mostrar: acc.mostrar,
+    borrar: acc.borrar,
+};
+
+// Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
+const sheetName = ref('Listado_sedes');
+const fileName = ref('sedes');
+
+const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
+
+const headers = [
+    { title: t('_codigo_'), key: 'codigo' },
+    { title: t('_nombre_'), key: 'nombre', align: 'start' },
+    { title: t('_distrito_'), key: 'distrito' },
+    { title: t('_acciones_'), key: 'actions', align: 'end' },
+];
+
+const sortBy = [{ key: 'nombre', order: 'asc' }];
+
 const opcionesAccion = [
     {
         permiso: acc.editar,
@@ -141,53 +135,6 @@ const opcionesAccion = [
         ...accionDeleteObject,
     },
 ];
-
-//************ lo demás puede permanecer igual, cambiar solo que sea necesario
-const handleAction = (action: string) => {
-    selectAction(action);
-    if (action === 'delete') {
-        remove();
-    } else if (action === 'new') {
-        selectItem(itemVacio.value);
-        step.value = 3;
-    } else {
-        step.value++;
-    }
-};
-
-const handleNextStep = (stepValue: number) => {
-    step.value = stepValue;
-};
-
-const localItems = ref([...props.items]);
-
-function remove() {
-    const index = localItems.value.findIndex((item) => item.id === selectedItem.value?.id);
-    localItems.value.splice(index, 1);
-
-    step.value = 1;
-}
-
-const selectItem = (item: any) => {
-    selectedItem.value = item;
-
-    step.value++;
-};
-
-const selectAction = (accion: string) => {
-    selectedAction.value = accion;
-};
-
-const handleFormSave = (data: Item) => {
-    if (selectedAction.value == 'edit') {
-        const index = localItems.value.findIndex((item) => item.id === data.id);
-
-        localItems.value[index] = data;
-    } else {
-        localItems.value.push(data);
-        step.value = 1;
-    }
-};
 </script>
 
 <template>
@@ -203,7 +150,7 @@ const handleFormSave = (data: Item) => {
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
-                        :titleList="titleList"
+                        :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
