@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import Acciones from '@/components/crud/Acciones.vue';
+import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Evento from '@/components/Evento.vue';
 import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import axios from 'axios';
 import { saveAs } from 'file-saver';
-import Swal from 'sweetalert2';
 import { computed, PropType, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
@@ -110,6 +110,54 @@ const sortBy = [
     { key: 'nombre', order: 'asc' },
 ];
 
+const opcionesAccion = [
+    {
+        permiso: acc.calendarizar,
+        title: t('convocatoria._calendarizar_'),
+        text: t('convocatoria._calendarizar_descripcion_'),
+        emitAction: 'calendarizar',
+        avatarColor: 'brown',
+        icon: 'mdi-calendar-month-outline',
+    },
+    {
+        permiso: acc.editar,
+        title: t('_editar_'),
+        text: t('_editar_datos_registro_seleccionado_'),
+        emitAction: 'edit',
+        avatarColor: 'blue-darken-2',
+        icon: 'mdi-text-box-edit',
+    },
+    {
+        permiso: acc.mostrar,
+        title: t('_ver_'),
+        text: t('_mostrar_datos_solo_lectura_'),
+        emitAction: 'show',
+        avatarColor: 'teal-lighten-4',
+        icon: 'mdi-eye-outline',
+    },
+    {
+        permiso: acc.borrar,
+        title: t('_eliminar_'),
+        text: t('_borrar_registro_seleccionado_'),
+        emitAction: 'delete',
+        avatarColor: 'red-lighten-1',
+        icon: 'mdi-delete-alert',
+    },
+];
+
+const handleAction = (action: string) => {
+    selectAction(action);
+    if (action === 'delete') {
+        remove();
+    } else {
+        step.value++;
+    }
+};
+
+const handleNextStep = (stepValue: number) => {
+    step.value = stepValue;
+};
+
 //************ lo demás puede permanecer igual, cambiar solo que sea necesario
 const props = defineProps({
     items: {
@@ -122,57 +170,10 @@ const props = defineProps({
 const localItems = ref([...props.items]);
 
 function remove() {
-    const hasError = ref(false);
-    const message = ref('');
-    const messageLog = ref('');
-    Swal.fire({
-        title: t('_confirmar_borrar_registro_'),
-        text: selectedItem.value?.nombre,
-        showCancelButton: true,
-        confirmButtonText: t('_borrar_'),
-        cancelButtonText: t('_cancelar_'),
-        confirmButtonColor: '#e5adac',
-        cancelButtonColor: '#D7E1EE',
-    }).then(async (result) => {
-        if (result.isConfirmed) {
-            try {
-                const resp = await axios.delete(route(rutaBorrar.value, { id: selectedItem.value?.id }));
+    const index = localItems.value.findIndex((item) => item.id === selectedItem.value?.id);
+    localItems.value.splice(index, 1);
 
-                if (resp.data.status == 'ok') {
-                    Swal.fire({
-                        title: t('_exito_'),
-                        text: t('_registro_eliminado_correctamente_'),
-                        icon: 'success',
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2500,
-                        toast: true,
-                    });
-
-                    const index = localItems.value.findIndex((item) => item.id === selectedItem.value?.id);
-                    localItems.value.splice(index, 1);
-
-                    step.value = 1;
-                } else {
-                    hasError.value = true;
-                    message.value = t(resp.data.message);
-                }
-            } catch (error: any) {
-                hasError.value = true;
-                messageLog.value = error.response.data.message;
-            }
-
-            if (hasError.value) {
-                console.log(messageLog.value);
-                Swal.fire({
-                    title: t('_error_'),
-                    text: t('_no_se_pudo_eliminar_') + '. ' + message.value,
-                    icon: 'error',
-                    confirmButtonColor: '#D7E1EE',
-                });
-            }
-        }
-    });
+    step.value = 1;
 }
 
 const selectItem = (item: any) => {
@@ -290,103 +291,15 @@ watch(
                 </v-window-item>
 
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
-                <v-window-item :value="2">
-                    <v-card v-if="hasAnyPermission(permisos.acciones)" class="align-center justify-center">
-                        <v-card-title>
-                            <h2 class="text-blue-darken-3">{{ selectedItemLabel }}</h2></v-card-title
-                        >
-                        <v-row dense>
-                            <v-col cols="12" md="12">
-                                <span class="text-h6">
-                                    <br />
-                                    <span>{{ $t('_elija_accion_realizar_') }}</span>
-                                </span>
-                            </v-col>
-
-                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_CALENDARIZAR')" cols="12" md="6">
-                                <v-card
-                                    class="mx-auto"
-                                    :title="$t('convocatoria._calendarizar_')"
-                                    :subtitle="$t('convocatoria._calendarizar_descripcion_')"
-                                    @click="
-                                        selectAction('calendarizar');
-                                        step++;
-                                    "
-                                >
-                                    <template v-slot:prepend>
-                                        <v-avatar color="brown">
-                                            <v-icon icon="mdi-calendar-month-outline" size="x-large"></v-icon>
-                                        </v-avatar>
-                                    </template>
-                                    <template v-slot:append>
-                                        <v-icon color="success" icon="mdi-check"></v-icon>
-                                    </template>
-                                </v-card>
-                            </v-col>
-
-                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_EDITAR')" cols="12" md="6">
-                                <v-card
-                                    class="mx-auto"
-                                    :subtitle="$t('_editar_datos_registro_seleccionado_')"
-                                    :title="$t('_editar_')"
-                                    @click="
-                                        selectAction('edit');
-                                        step++;
-                                    "
-                                >
-                                    <template v-slot:prepend>
-                                        <v-avatar color="blue-darken-2">
-                                            <v-icon icon="mdi-text-box-edit" size="x-large"></v-icon>
-                                        </v-avatar>
-                                    </template>
-                                    <template v-slot:append>
-                                        <v-icon color="success" icon="mdi-check"></v-icon>
-                                    </template>
-                                </v-card>
-                            </v-col>
-
-                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_MOSTRAR')" cols="12" md="6">
-                                <v-card
-                                    class="mx-auto"
-                                    :subtitle="$t('_mostrar_datos_solo_lectura_')"
-                                    :title="$t('_ver_')"
-                                    @click="
-                                        selectAction('show');
-                                        step++;
-                                    "
-                                >
-                                    <template v-slot:prepend>
-                                        <v-avatar color="teal-lighten-4">
-                                            <v-icon icon="mdi-eye-outline" size="x-large"></v-icon>
-                                        </v-avatar>
-                                    </template>
-                                    <template v-slot:append>
-                                        <v-icon color="success" icon="mdi-check"></v-icon>
-                                    </template>
-                                </v-card>
-                            </v-col>
-                            <v-col v-if="hasPermission('INGRESO_CONVOCATORIA_BORRAR')" cols="12" md="6">
-                                <v-card
-                                    class="mx-auto"
-                                    :subtitle="$t('_borrar_registro_seleccionado_')"
-                                    :title="$t('_eliminar_')"
-                                    @click="
-                                        selectAction('delete');
-                                        remove();
-                                    "
-                                >
-                                    <template v-slot:prepend>
-                                        <v-avatar color="red-lighten-1">
-                                            <v-icon icon="mdi-delete-alert" size="x-large"></v-icon>
-                                        </v-avatar>
-                                    </template>
-                                    <template v-slot:append>
-                                        <v-icon color="success" icon="mdi-check"></v-icon>
-                                    </template>
-                                </v-card>
-                            </v-col>
-                        </v-row>
-                    </v-card>
+                <v-window-item :value="2" class="pa-5">
+                    <Acciones
+                        @action="handleAction"
+                        v-if="hasAnyPermission(permisos.acciones) && selectedItem.id !== null"
+                        :acciones="opcionesAccion"
+                        :selectedItemLabel="selectedItemLabel"
+                        :rutaBorrar="rutaBorrar"
+                        :selectedItemId="selectedItem.id"
+                    ></Acciones>
                     <v-alert v-else border="top" type="warning" variant="outlined" prominent>
                         {{ $t('_no_tiene_permiso_para_realizar_ninguna_accion_') }}
                     </v-alert>
@@ -409,25 +322,7 @@ watch(
 
             <!-- ************************* NAVEGACIÓN ENTRE LAS PARTES DEL CRUD ****************************-->
             <v-card-actions>
-                <v-btn
-                    v-if="step > 1 && selectedAction != 'new'"
-                    prepend-icon="mdi-arrow-left-bold"
-                    rounded
-                    variant="tonal"
-                    color="blue-darken-4"
-                    @click="step--"
-                >
-                    <template v-slot:prepend>
-                        <v-icon color="success"></v-icon>
-                    </template>
-                    {{ $t('_atras_') }}
-                </v-btn>
-                <v-btn v-if="step == 3" prepend-icon="mdi-page-first" rounded variant="tonal" color="blue-darken-4" @click="step = 1">
-                    <template v-slot:prepend>
-                        <v-icon color="success"></v-icon>
-                    </template>
-                    {{ $t('_regresar_listado_') }}
-                </v-btn>
+                <BotonesNavegacion :selectedAction="selectedAction" :step="step" @nextStep="handleNextStep"> </BotonesNavegacion>
             </v-card-actions>
         </v-sheet>
         <v-alert v-else border="top" type="warning" variant="outlined" prominent>
