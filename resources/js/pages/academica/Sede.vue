@@ -8,7 +8,7 @@ import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { SortBy } from '@/types/crud';
+import type { Distrito, SortBy } from '@/types/crud';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -20,22 +20,6 @@ const { t } = useI18n();
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-interface Distrito {
-    id: number | null;
-    descripcion: string;
-    municipio_id: number | null;
-}
-
-interface Departamento {
-    id: number | null;
-    descripcion: string;
-}
-
-interface Municipio {
-    id: number | null;
-    descripcion: string;
-    departamento_id: number | null;
-}
 
 interface Item {
     id: number | null;

@@ -8,7 +8,7 @@ import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { SortBy } from '@/types/crud';
+import type { Grado, SortBy } from '@/types/crud';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -20,11 +20,6 @@ const { t } = useI18n();
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-interface Grado {
-    id: number | null;
-    descripcion_masculino: string;
-    descripcion_femenino: string;
-}
 
 interface Item {
     id: number | null;
