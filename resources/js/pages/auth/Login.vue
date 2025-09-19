@@ -29,10 +29,7 @@ const submit = () => {
 <template>
     <AuthBase :title="$t('auth._inicia_session_en_tu_cuenta_')" :description="$t('auth._ingrese_email_clave_para_conectarse_')">
         <Head :title="$t('auth._ingresar_')" />
-
-        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">
-            {{ status }}
-        </div>
+        <div v-if="status" class="mb-4 text-center text-sm font-medium text-green-600">{{ status }}****</div>
 
         <form @submit.prevent="submit" class="flex flex-col gap-6">
             <div class="grid gap-6">
