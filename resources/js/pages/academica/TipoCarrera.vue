@@ -117,6 +117,7 @@ const opcionesAccion = [
     },
 ];
 
+//************ lo demás puede permanecer igual, cambiar solo que sea necesario
 const handleAction = (action: string) => {
     selectAction(action);
     if (action === 'delete') {
@@ -129,7 +130,6 @@ const handleAction = (action: string) => {
     }
 };
 
-//************ lo demás puede permanecer igual, cambiar solo que sea necesario
 const handleNextStep = (stepValue: number) => {
     step.value = stepValue;
 };
