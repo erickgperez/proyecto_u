@@ -126,8 +126,8 @@ const opcionesAccion = [
 <template>
     <!--********************************************************************************
     ******** LA PLANTILLA GENERALMENTE NO SERÁ NECESARIO MODIFICAR
-    ******** Solo para agregar/cambiar un elemento en la sección 3: Ejecutar acciones, o modificar la
-    ******** presentación de un campo en el listado de la sección 1
+    ******** Solo para agregar/cambiar un elemento en la parte 3: Ejecutar acciones, o modificar la
+    ******** presentación de un campo en el listado de la parte 1
     ************************************************************************************
     -->
     <Head :title="$t('convocatoria._convocatoria_')"> </Head>
