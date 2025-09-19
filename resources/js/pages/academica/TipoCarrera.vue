@@ -3,15 +3,18 @@ import TipoCarreraForm from '@/components/academica/TipoCarreraForm.vue';
 import TipoCarreraShow from '@/components/academica/TipoCarreraShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
+import { useAccionesObject } from '@/composables/useAccionesObject';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import { saveAs } from 'file-saver';
-import { computed, PropType, ref, watch } from 'vue';
+import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import * as XLSX from 'xlsx';
 
 const { hasPermission, hasAnyPermission } = usePermissions();
+
+const { accionEditObject, accionShowObject, accionDeleteObject } = useAccionesObject();
 
 const step = ref(1);
 
@@ -118,27 +121,15 @@ const props = defineProps({
 const opcionesAccion = [
     {
         permiso: acc.editar,
-        title: t('_editar_'),
-        text: t('_editar_datos_registro_seleccionado_'),
-        emitAction: 'edit',
-        avatarColor: 'blue-darken-2',
-        icon: 'mdi-text-box-edit',
+        ...accionEditObject,
     },
     {
         permiso: acc.mostrar,
-        title: t('_ver_'),
-        text: t('_mostrar_datos_solo_lectura_'),
-        emitAction: 'show',
-        avatarColor: 'teal-lighten-4',
-        icon: 'mdi-eye-outline',
+        ...accionShowObject,
     },
     {
-        permiso: 'INGRESO_CONVOCATORIA_BORRAR',
-        title: t('_eliminar_'),
-        text: t('_borrar_registro_seleccionado_'),
-        emitAction: 'delete',
-        avatarColor: 'red-lighten-1',
-        icon: 'mdi-delete-alert',
+        permiso: acc.borrar,
+        ...accionDeleteObject,
     },
 ];
 
@@ -185,15 +176,6 @@ const handleFormSave = (data: Item) => {
         step.value = 1;
     }
 };
-
-watch(
-    () => step.value,
-    (newValue) => {
-        if (newValue < 3) {
-            selectedAction.value = '';
-        }
-    },
-);
 </script>
 
 <template>
