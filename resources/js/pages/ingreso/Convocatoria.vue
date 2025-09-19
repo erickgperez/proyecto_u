@@ -9,6 +9,7 @@ import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
+import type { SortBy } from '@/types/crud';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -93,7 +94,7 @@ const headers = [
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
-const sortBy = [
+const sortBy: SortBy[] = [
     { key: 'fecha', order: 'asc' },
     { key: 'nombre', order: 'asc' },
 ];

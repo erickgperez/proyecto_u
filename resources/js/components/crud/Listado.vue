@@ -1,20 +1,11 @@
 <script setup lang="ts">
 import { usePermissions } from '@/composables/usePermissions';
+import type { Header, SortBy } from '@/types/crud';
 import { saveAs } from 'file-saver';
 import { computed, PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
 const { hasPermission, hasAnyPermission } = usePermissions();
-
-interface Header {
-    title: string;
-    key: string;
-}
-
-interface SortBy {
-    order: boolean | 'asc' | 'desc' | undefined;
-    key: string;
-}
 
 const emit = defineEmits(['action', 'selectItem']);
 

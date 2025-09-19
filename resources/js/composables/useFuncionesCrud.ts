@@ -1,6 +1,6 @@
 import { ref } from 'vue';
 
-export function useFuncionesCrud(itemVacio, items) {
+export function useFuncionesCrud(itemVacio: any, items: any) {
     const step = ref(1);
     const selectedAction = ref('');
     const localItems = ref([...items]);
@@ -29,7 +29,7 @@ export function useFuncionesCrud(itemVacio, items) {
         step.value = 1;
     }
 
-    const selectItem = (item) => {
+    const selectItem = (item: any) => {
         selectedItem.value = item;
 
         step.value++;
@@ -39,7 +39,7 @@ export function useFuncionesCrud(itemVacio, items) {
         selectedAction.value = accion;
     };
 
-    const handleFormSave = (data) => {
+    const handleFormSave = (data: any) => {
         if (selectedAction.value == 'edit') {
             const index = localItems.value.findIndex((item) => item.id === data.id);
 
