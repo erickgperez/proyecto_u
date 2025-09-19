@@ -11,8 +11,8 @@ defineProps<{
 
 <template>
     <v-responsive class="rounded border">
-        <v-app>
-            <v-navigation-drawer :location="$vuetify.display.mobile ? 'bottom' : 'right'" permanent :image="backgroundImage">
+        <v-app class="bg-grey-lighten-3">
+            <v-navigation-drawer elevation="16" :location="$vuetify.display.mobile ? 'bottom' : 'right'" permanent :image="backgroundImage">
                 <v-container class="d-flex align-center fill-height">
                     <v-row justify="center">
                         <v-col cols="auto">
@@ -23,26 +23,35 @@ defineProps<{
                 </v-container>
             </v-navigation-drawer>
 
-            <v-main>
-                <div class="flex min-h-svh flex-col items-center justify-center gap-6 bg-background p-6 md:p-10">
-                    <div class="w-full max-w-sm">
-                        <div class="flex flex-col gap-8">
-                            <div class="flex flex-col items-center gap-4">
-                                <Link :href="route('home')" class="flex flex-col items-center gap-2 font-medium">
-                                    <div class="mb-1 flex h-9 w-9 items-center justify-center rounded-md">
-                                        <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" />
-                                    </div>
-                                    <span class="sr-only">{{ title }}</span>
-                                </Link>
-                                <div class="space-y-2 text-center">
-                                    <h1 class="text-xl font-medium">{{ title }}</h1>
-                                    <p class="text-center text-sm text-muted-foreground">{{ description }}</p>
+            <v-main class="d-flex align-center fill-height">
+                <v-card
+                    border="opacity-30 lg primary"
+                    rounded="xl"
+                    elevation="16"
+                    class="bg-blue-grey-darken-1 mx-auto text-white"
+                    prepend-icon="mdi-school"
+                    max-width="600"
+                >
+                    <template v-slot:title>
+                        <span class="font-weight-black">Sistema Informático TEC El Salvador</span>
+                    </template>
+
+                    <v-card-text class="bg-white">
+                        <div class="flex flex-col items-center">
+                            <Link :href="route('home')" class="flex flex-col items-center font-medium">
+                                <div class="flex h-9 w-9 items-center justify-center rounded-md">
+                                    <AppLogoIcon class="size-9 fill-current text-[var(--foreground)] dark:text-white" />
                                 </div>
+                                <span class="sr-only">{{ title }}</span>
+                            </Link>
+                            <div class="space-y-2 text-center">
+                                <h1 class="text-xl font-medium">{{ title }}</h1>
+                                <p class="text-center text-sm text-muted-foreground">{{ description }}</p>
                             </div>
-                            <slot />
                         </div>
-                    </div>
-                </div>
+                        <slot />
+                    </v-card-text>
+                </v-card>
             </v-main>
         </v-app>
     </v-responsive>
