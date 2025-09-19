@@ -13,7 +13,14 @@ defineProps<{
     <v-responsive class="rounded border">
         <v-app>
             <v-navigation-drawer :location="$vuetify.display.mobile ? 'bottom' : 'right'" permanent :image="backgroundImage">
-                <DIV class="text-h2 text-blue-darken-4 text-center"> SIGATEC</DIV>
+                <v-container class="d-flex align-center fill-height">
+                    <v-row justify="center">
+                        <v-col cols="auto">
+                            <!-- Your div content here -->
+                            <div class="text-h4 text-blue-darken-4 text-center">TEC <BR />EL SALVADOR</div>
+                        </v-col>
+                    </v-row>
+                </v-container>
             </v-navigation-drawer>
 
             <v-main>
