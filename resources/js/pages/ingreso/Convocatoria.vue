@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
+import Listado from '@/components/crud/Listado.vue';
 import Evento from '@/components/Evento.vue';
 import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
@@ -8,11 +9,9 @@ import { useAccionesObject } from '@/composables/useAccionesObject';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import { saveAs } from 'file-saver';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
-import * as XLSX from 'xlsx';
 
 const { hasPermission, hasAnyPermission } = usePermissions();
 
@@ -25,21 +24,6 @@ const { t } = useI18n();
 const selectedAction = ref('');
 
 const date = useDate();
-
-const search = ref('');
-
-const exportToExcel = () => {
-    const worksheet = XLSX.utils.json_to_sheet(props.items);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, sheetName.value);
-
-    // Generate a binary string
-    const excelBuffer = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-
-    // Create a Blob and save the file
-    const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
-    saveAs(data, fileName.value + '.xlsx');
-};
 
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
@@ -140,6 +124,9 @@ const handleAction = (action: string) => {
     selectAction(action);
     if (action === 'delete') {
         remove();
+    } else if (action === 'new') {
+        selectItem(itemVacio.value);
+        step.value = 3;
     } else {
         step.value++;
     }
@@ -196,82 +183,25 @@ const handleFormSave = (data: Item) => {
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
-                    <v-card>
-                        <v-card-title class="d-flex align-center pe-2">
-                            <v-icon icon="mdi-format-list-text"></v-icon> &nbsp; {{ titleList }}
-                            <v-spacer></v-spacer>
-
-                            <v-text-field
-                                v-model="search"
-                                density="compact"
-                                :label="$t('_buscar_')"
-                                prepend-inner-icon="mdi-magnify"
-                                variant="outlined"
-                                rounded="xl"
-                                flat
-                                hide-details
-                                single-line
-                            ></v-text-field>
-                            <v-btn
-                                v-if="hasPermission(permisos.crear)"
-                                icon="mdi-table-plus"
-                                color="success"
-                                class="ml-2"
-                                :title="$t('_crear_nuevo_registro_')"
-                                @click="
-                                    selectAction('new');
-                                    selectedItem = itemVacio;
-                                    step = 3;
-                                "
-                            ></v-btn>
-                            <v-btn
-                                v-if="hasPermission(permisos.exportar)"
-                                icon="mdi-file-export-outline"
-                                color="primary"
-                                variant="tonal"
-                                class="ma-2"
-                                :title="$t('_exportar_')"
-                                @click="exportToExcel"
-                            ></v-btn>
-                        </v-card-title>
-
-                        <v-data-table
-                            v-model:search="search"
-                            :headers="headers"
-                            :items="localItems"
-                            border="primary thin"
-                            class="w-100"
-                            :sort-by="sortBy"
-                            multi-sort
-                            hover
-                            striped="odd"
-                        >
-                            <template v-slot:item.fecha="{ item }">
-                                <div class="d-flex ga-2">
-                                    {{ date.format(item.fecha, 'keyboardDate') }}
-                                </div>
-                            </template>
-                            <template v-slot:item.actions="{ item }">
-                                <div class="d-flex ga-2 justify-end">
-                                    <!--<v-icon color="primary" icon="mdi-pencil" size="small" @click="edit(item.id)"></v-icon>
-
-                                    <v-icon color="error" icon="mdi-delete" size="small" @click="remove(item.id)"></v-icon>
-                                -->
-                                    <v-icon
-                                        color="green-darken-2"
-                                        icon="mdi-chevron-right-circle-outline"
-                                        size="large"
-                                        @click="
-                                            selectedAction = '';
-                                            selectItem(item);
-                                        "
-                                    ></v-icon>
-                                </div>
-                            </template>
-                        </v-data-table>
-                    </v-card>
+                    <Listado
+                        @action="handleAction"
+                        @selectItem="selectItem"
+                        :items="localItems"
+                        :headers="headers"
+                        :sortBy="sortBy"
+                        :titleList="titleList"
+                        :permisoCrear="permisos.crear"
+                        :permisoExportar="permisos.exportar"
+                        :sheetName="sheetName"
+                        :fileName="fileName"
+                    >
+                        <template v-slot:item.fecha="{ value }">
+                            <div class="d-flex ga-2">
+                                {{ date.format(value, 'keyboardDate') }}
+                            </div>
+                        </template>
+                    </Listado>
                 </v-window-item>
-
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
                 <v-window-item :value="2" class="pa-5">
                     <Acciones
