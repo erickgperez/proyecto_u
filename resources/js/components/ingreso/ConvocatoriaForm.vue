@@ -258,13 +258,16 @@ const extensions = [
     </v-card>
 </template>
 <style lang="css">
-/*.el-tiptap-editor__menu-bar {
-    position: fixed;
-    background-color: #f0f0f0;
+.el-tiptap-editor__menu-bar {
+    /*position: sticky;*/
+    /*background-color: #f0f0f0;
     border-bottom: 1px solid #ccc;
-    z-index: 10;
+    z-index: 10;*/
+    position: sticky;
+    top: 0; /* The element will stick to the top of the viewport when its top edge reaches 0 pixels from the viewport's top */
+    background-color: lightblue;
 }
-.ProseMirror {
+/*.ProseMirror {
     padding-top: 40px;
 }*/
 </style>
