@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TipoCarreraForm from '@/components/academica/TipoCarreraForm.vue';
 import TipoCarreraShow from '@/components/academica/TipoCarreraShow.vue';
+import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -116,6 +117,9 @@ const props = defineProps({
 });
 
 //************ lo demás puede permanecer igual, cambiar solo que sea necesario
+const handleNextStep = (stepValue: number) => {
+    step.value = stepValue;
+};
 
 const localItems = ref([...props.items]);
 
@@ -379,25 +383,7 @@ watch(
 
             <!-- ************************* NAVEGACIÓN ENTRE LAS PARTES DEL CRUD ****************************-->
             <v-card-actions>
-                <v-btn
-                    v-if="step > 1 && selectedAction != 'new'"
-                    prepend-icon="mdi-arrow-left-bold"
-                    rounded
-                    variant="tonal"
-                    color="blue-darken-4"
-                    @click="step--"
-                >
-                    <template v-slot:prepend>
-                        <v-icon color="success"></v-icon>
-                    </template>
-                    {{ $t('_atras_') }}
-                </v-btn>
-                <v-btn v-if="step == 3" prepend-icon="mdi-page-first" rounded variant="tonal" color="blue-darken-4" @click="step = 1">
-                    <template v-slot:prepend>
-                        <v-icon color="success"></v-icon>
-                    </template>
-                    {{ $t('_regresar_listado_') }}
-                </v-btn>
+                <BotonesNavegacion :selectedAction="selectedAction" :step="step" @nextStep="handleNextStep"> </BotonesNavegacion>
             </v-card-actions>
         </v-sheet>
         <v-alert v-else border="top" type="warning" variant="outlined" prominent>
