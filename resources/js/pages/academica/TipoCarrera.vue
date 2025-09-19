@@ -56,6 +56,8 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     itemVacio,
     props.items,
 );
+
+const selectedItemLabel = computed(() => selectedItem.value?.descripcion ?? '');
 const rutaBorrar = ref('plan_estudio-tipo_carrera-delete');
 const mensajes = {
     titulo1: t('tipoCarrera._tipos_carrera_'),
@@ -84,8 +86,6 @@ const permisos = {
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_tipos_carreras');
 const fileName = ref('tipos_carrera');
-
-const selectedItemLabel = computed(() => selectedItem.value?.descripcion ?? '');
 
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },

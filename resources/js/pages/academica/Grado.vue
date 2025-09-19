@@ -45,6 +45,7 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
+const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
 const rutaBorrar = ref('plan_estudio-grado-delete');
 const mensajes = {
     titulo1: t('grado._grados_'),
@@ -73,8 +74,6 @@ const permisos = {
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_grados');
 const fileName = ref('grados');
-
-const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
 
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },

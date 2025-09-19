@@ -75,7 +75,11 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     itemVacio,
     props.items,
 );
+
+const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
+
 const rutaBorrar = ref('plan_estudio-carrera-delete');
+
 const mensajes = {
     titulo1: t('carrera._plural_'),
     titulo2: t('carrera._administrar_'),
@@ -103,11 +107,6 @@ const permisos = {
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_carreras');
 const fileName = ref('carreras');
-
-const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
-
-// Título del listado
-const titleList = ref(mensajes.tituloListado);
 
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
@@ -152,7 +151,7 @@ const opcionesAccion = [
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
-                        :titleList="titleList"
+                        :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"

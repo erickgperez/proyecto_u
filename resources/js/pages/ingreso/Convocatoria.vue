@@ -53,6 +53,8 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     itemVacio,
     props.items,
 );
+
+const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 const rutaBorrar = ref('ingreso-convocatoria-delete');
 const mensajes = {
     titulo1: t('convocatoria._convocatoria_'),
@@ -83,8 +85,6 @@ const permisos = {
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
 const sheetName = ref('Listado_convocatorias');
 const fileName = ref('convocatorias');
-
-const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 
 const headers = [
     { title: t('_fecha_'), key: 'fecha' },
