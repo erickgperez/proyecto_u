@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('codigo', length: 15)->unique();
             $table->string('descripcion', length: 100)->nullable();
 
-            $table->timestamps();
+            //$table->timestamps();
         });
     }
 
