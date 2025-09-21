@@ -85,7 +85,7 @@ const submit = () => {
 
             <div class="text-center text-sm text-muted-foreground">
                 {{ $t('auth._tiene_una_cuenta_?_') }}
-                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">{{ $t('_ingresar_') }}</TextLink>
+                <TextLink :href="route('login')" class="underline underline-offset-4" :tabindex="6">{{ $t('auth._ingresar_') }}</TextLink>
             </div>
         </form>
     </AuthBase>
