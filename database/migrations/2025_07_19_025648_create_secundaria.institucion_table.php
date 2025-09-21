@@ -17,10 +17,15 @@ return new class extends Migration
             $table->string('codigo', length: 20)->unique();
             $table->string('nombre', length: 255);
             $table->string('direccion', length: 255)->nullable();
-            $table->foreignId('sector_id');
-            $table->foreignId('distrito_id');
+
             $table->foreign('sector_id')->references('id')->on('secundaria.sector')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->foreignId('sector_id');
+
+            $table->foreignId('distrito_id');
             $table->foreign('distrito_id')->references('id')->on('distrito')->onDelete('RESTRICT')->onUpdate('CASCADE');
+
+            $table->foreignId('pais_id');
+            $table->foreign('pais_id')->references('id')->on('distrito')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->timestamps();
         });

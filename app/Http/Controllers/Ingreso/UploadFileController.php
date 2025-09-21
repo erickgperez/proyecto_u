@@ -44,9 +44,11 @@ class UploadFileController extends Controller
 
         Excel::import(new BachilleratoImport, $path);
 
+        // Recuperar el pais por defecto
+        $pais = DB::table('pais')->where('iso3', 'SLV')->first();
         //Llenar la tabla de instituciones de secundaria
         $institucionesQuery = DB::table('secundaria.data_bachillerato', 'A')
-            ->select('codigo_ce', 'nombre_centro_educativo', 'direccion', 'B.id as id_sector', 'C.id as id_distrito')
+            ->select('codigo_ce', 'nombre_centro_educativo', 'direccion', 'B.id as id_sector', 'C.id as id_distrito', $pais->id + 'AS pais_id')
             ->join('secundaria.sector as B', function ($join) {
                 $join->on(DB::raw('LOWER("A".sector)'), '=', DB::raw('LOWER("B".descripcion)'));
             })
@@ -57,7 +59,7 @@ class UploadFileController extends Controller
             });
 
         DB::table('secundaria.institucion')
-            ->insertUsing(['codigo', 'nombre', 'direccion', 'sector_id', 'distrito_id'], $institucionesQuery);
+            ->insertUsing(['codigo', 'nombre', 'direccion', 'sector_id', 'distrito_id', 'pais_id'], $institucionesQuery);
 
         //Llenar la tabla de carreras de secundaria
         $carrerasQuery = DB::table('secundaria.data_bachillerato', 'A')
