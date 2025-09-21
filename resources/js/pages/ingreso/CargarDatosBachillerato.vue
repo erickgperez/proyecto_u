@@ -49,9 +49,7 @@ const submitForm = async () => {
                 text: t('_datos_subidos_correctamente_'),
                 icon: 'success',
                 position: 'top-end',
-                showConfirmButton: false,
-                timer: 2500,
-                toast: true,
+                confirmButtonColor: '#D7E1EE',
             });
         } catch (error) {
             Swal.fire({
