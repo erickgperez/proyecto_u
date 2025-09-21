@@ -13,7 +13,8 @@ class PlanEstudioGradoSeeder extends Seeder
     public function run(): void
     {
         DB::table('plan_estudio.grado')->insert([
-            ['codigo' => '01', 'descripcion_masculino' => 'Técnico', 'descripcion_femenino' => 'Técnica'],
+            ['codigo' => '01', 'descripcion_masculino' => 'Bachiller', 'descripcion_femenino' => 'Bachiller'],
+            ['codigo' => '02', 'descripcion_masculino' => 'Técnico', 'descripcion_femenino' => 'Técnica'],
         ]);
     }
 }
