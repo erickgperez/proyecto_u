@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('segundo_apellido', length: 100)->nullable();
             $table->string('tercer_apellido', length: 100)->nullable();
             $table->timestamp('fecha_nacimiento')->nullable();
-            $table->foreignId('sexo_id');
+            $table->foreignId('sexo_id')->nullable();
             $table->foreign('sexo_id')->references('id')->on('public.sexo')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');

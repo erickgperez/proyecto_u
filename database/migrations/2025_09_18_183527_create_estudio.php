@@ -30,11 +30,6 @@ return new class extends Migration
             $table->foreignId('pais_id')->nullable()->comment('País donde se realizó el estudio. Se usará cuando la institución donde realizó el estudio no esté registrada en la base de datos y solo se haya ingresado el nombre');
             $table->foreign('pais_id')->references('id')->on('pais')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
-            $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
-            $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
-            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
-            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
-
             // relación muchos a uno polimórfica (el registro padre puede ser de secundaria.carrera o plan_estudio.carrera)
             $table->unsignedBigInteger('carrera_id')->nullable()->comment('id de la carrera. Es una relación muchos a uno polimórfica (el registro padre puede ser de secundaria.carrera o plan_estudio.carrera)');
             $table->string('carrera_type', length: 255)->nullable()->comment('Nombre de la tabla con la que se relaciona (secundaria.carrera o plan_estudio.carrera)');
@@ -45,6 +40,10 @@ return new class extends Migration
             $table->string('institucion_type', length: 255)->nullable()->comment('Nombre de la tabla con la que se relaciona (secundaria.carrera o plan_estudio.carrera)');
             //$table->morphs('institucion');
 
+            $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
+            $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
         });
