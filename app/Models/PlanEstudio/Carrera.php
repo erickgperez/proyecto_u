@@ -3,6 +3,7 @@
 namespace App\Models\PlanEstudio;
 
 use App\Models\Academica\Sede;
+use App\Models\Estudio;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
@@ -53,5 +54,10 @@ class Carrera extends Model
     public function sedes(): BelongsToMany
     {
         return $this->belongsToMany(Sede::class, 'academico.carrera_sede', 'carrera_id', 'sede_id');
+    }
+
+    public function estudios()
+    {
+        return $this->morphMany(Estudio::class, 'carrera');
     }
 }

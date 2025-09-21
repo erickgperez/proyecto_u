@@ -36,12 +36,14 @@ return new class extends Migration
             $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
 
             // relación muchos a uno polimórfica (el registro padre puede ser de secundaria.carrera o plan_estudio.carrera)
-            $table->unsignedBigInteger('carreratable_id')->nullable()->comment('id de la carrera. Es una relación muchos a uno polimórfica (el registro padre puede ser de secundaria.carrera o plan_estudio.carrera)');
-            $table->string('carreratable_type', length: 255)->nullable()->comment('Nombre de la tabla con la que se relaciona (secundaria.carrera o plan_estudio.carrera)');
+            //$table->unsignedBigInteger('carrera_id')->nullable()->comment('id de la carrera. Es una relación muchos a uno polimórfica (el registro padre puede ser de secundaria.carrera o plan_estudio.carrera)');
+            //$table->string('carrera_type', length: 255)->nullable()->comment('Nombre de la tabla con la que se relaciona (secundaria.carrera o plan_estudio.carrera)');
+            $table->morphs('carrera');
 
             // relación muchos a uno polimórfica (el registro padre puede ser de secundaria.institucion o plan_estudio.institucion)
-            $table->unsignedBigInteger('instituciontable_id')->nullable()->comment('id de la institución donde realizó el estudio. Es una relación muchos a uno polimórfica (el registro padre puede ser de secundaria.carrera o plan_estudio.carrera)');
-            $table->string('instituciontable_type', length: 255)->nullable()->comment('Nombre de la tabla con la que se relaciona (secundaria.carrera o plan_estudio.carrera)');
+            //$table->unsignedBigInteger('institucion_id')->nullable()->comment('id de la institución donde realizó el estudio. Es una relación muchos a uno polimórfica (el registro padre puede ser de secundaria.carrera o plan_estudio.carrera)');
+            //$table->string('institucion_type', length: 255)->nullable()->comment('Nombre de la tabla con la que se relaciona (secundaria.carrera o plan_estudio.carrera)');
+            $table->morphs('institucion');
 
 
             $table->timestamps();

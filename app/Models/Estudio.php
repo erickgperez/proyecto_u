@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Estudio extends Model
 {
@@ -53,5 +54,15 @@ class Estudio extends Model
     public function documento(): BelongsTo
     {
         return $this->belongsTo(Documento::class);
+    }
+
+    public function carrera(): MorphTo
+    {
+        return $this->morphTo();
+    }
+
+    public function institucion(): MorphTo
+    {
+        return $this->morphTo();
     }
 }
