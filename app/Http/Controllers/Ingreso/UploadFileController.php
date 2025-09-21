@@ -48,7 +48,7 @@ class UploadFileController extends Controller
         $pais = DB::table('pais')->where('iso3', 'SLV')->first();
         //Llenar la tabla de instituciones de secundaria
         $institucionesQuery = DB::table('secundaria.data_bachillerato', 'A')
-            ->select('codigo_ce', 'nombre_centro_educativo', 'direccion', 'B.id as id_sector', 'C.id as id_distrito', $pais->id + 'AS pais_id')
+            ->select('codigo_ce', 'nombre_centro_educativo', 'direccion', 'B.id as id_sector', 'C.id as id_distrito', DB::raw($pais->id . ' as pais_id'))
             ->join('secundaria.sector as B', function ($join) {
                 $join->on(DB::raw('LOWER("A".sector)'), '=', DB::raw('LOWER("B".descripcion)'));
             })
