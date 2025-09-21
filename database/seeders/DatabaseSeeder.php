@@ -26,6 +26,7 @@ class DatabaseSeeder extends Seeder
             PlanEstudioTipoCarreraSeeder::class,
             PlanEstudioCarreraSeeder::class,
             PlanEstudioCarrera2Seeder::class,
+            SexoSeeder::class
         ]);
         User::factory()->create([
             'name' => 'Test User',
