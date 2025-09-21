@@ -48,4 +48,9 @@ class User extends Authenticatable implements MustVerifyEmail
             'password' => 'hashed',
         ];
     }
+
+    public function persona()
+    {
+        return $this->belongsTo(Persona::class);
+    }
 }

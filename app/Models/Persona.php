@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Persona extends Model
 {
@@ -44,5 +45,15 @@ class Persona extends Model
     public function documentos(): BelongsToMany
     {
         return $this->belongsToMany(Documento::class, 'documento.persona_documento', 'documento_id', 'persona_id');
+    }
+
+    public function estudios(): HasMany
+    {
+        return $this->hasMany(Estudio::class);
+    }
+
+    public function usuarios(): HasMany
+    {
+        return $this->hasMany(User::class);
     }
 }

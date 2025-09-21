@@ -17,6 +17,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->foreignId('persona_id')->nullable()->comment('Relación para identificar la persona a la que pertenece el usuario');
+            $table->foreign('persona_id')->references('id')->on('persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->rememberToken();
             $table->timestamps();
         });
@@ -42,8 +44,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('seguridad.users');
-        Schema::dropIfExists('seguridad.password_reset_tokens');
-        Schema::dropIfExists('seguridad.sessions');
+        Schema::dropIfExists('users');
+        Schema::dropIfExists('password_reset_tokens');
+        Schema::dropIfExists('sessions');
     }
 };
