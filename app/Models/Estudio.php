@@ -21,6 +21,7 @@ class Estudio extends Model
         'fecha_finalizacion',
         'persona_id',
         'grado_id',
+        'pais_id',
         'documento_id'
     ];
 
@@ -42,6 +43,11 @@ class Estudio extends Model
     public function grado(): BelongsTo
     {
         return $this->belongsTo(Grado::class);
+    }
+
+    public function pais(): BelongsTo
+    {
+        return $this->belongsTo(Pais::class);
     }
 
     public function documento(): BelongsTo
