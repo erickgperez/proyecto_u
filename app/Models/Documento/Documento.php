@@ -39,11 +39,11 @@ class Documento extends Model
 
     public function archivos(): BelongsToMany
     {
-        return $this->belongsToMany(Archivo::class, 'documento.documento_archivo', 'archivo_id', 'documento_id');
+        return $this->belongsToMany(Archivo::class, 'documento.documento_archivo', 'documento_id', 'archivo_id');
     }
 
     public function personas(): BelongsToMany
     {
-        return $this->belongsToMany(Persona::class, 'documento.persona_documento', 'persona_id', 'documento_id');
+        return $this->belongsToMany(Persona::class, 'documento.persona_documento', 'documento_id', 'persona_id');
     }
 }

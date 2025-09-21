@@ -44,7 +44,7 @@ class Persona extends Model
 
     public function documentos(): BelongsToMany
     {
-        return $this->belongsToMany(Documento::class, 'documento.persona_documento', 'documento_id', 'persona_id');
+        return $this->belongsToMany(Documento::class, 'documento.persona_documento', 'persona_id', 'documento_id');
     }
 
     public function estudios(): HasMany
@@ -54,6 +54,6 @@ class Persona extends Model
 
     public function usuarios(): BelongsToMany
     {
-        return $this->belongsToMany(User::class, 'persona_usuario', 'usuario_id', 'persona_id');
+        return $this->belongsToMany(User::class, 'persona_usuario', 'persona_id', 'usuario_id');
     }
 }
