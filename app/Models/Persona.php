@@ -52,8 +52,8 @@ class Persona extends Model
         return $this->hasMany(Estudio::class);
     }
 
-    public function usuarios(): HasMany
+    public function usuarios(): BelongsToMany
     {
-        return $this->hasMany(User::class);
+        return $this->belongsToMany(User::class, 'persona_usuario', 'usuario_id', 'persona_id');
     }
 }
