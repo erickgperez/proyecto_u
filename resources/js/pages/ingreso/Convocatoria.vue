@@ -132,7 +132,7 @@ const opcionesAccion = [
     -->
     <Head :title="$t('convocatoria._convocatoria_')"> </Head>
     <AppLayout :titulo="$t('_administrar_convocatoria_')" :subtitulo="$t('_permite_gestionar_datos_convocatorias_')" icono="mdi-wrench-clock">
-        <v-sheet v-if="hasPermission(permisos.listado)">
+        <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12 pa-2 rounded-xl">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">

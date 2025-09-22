@@ -48,7 +48,7 @@ watch(
     <Head :title="$t('_candidatos_')"></Head>
 
     <AppLayout :titulo="$t('_candidatos_')" :subtitulo="$t('_estudiantes_candidatos_carrera_universitaria_')" icono="mdi-email-fast-outline">
-        <div v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')">
+        <v-sheet v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')" class="elevation-12 pa-2 rounded-xl">
             <div class="d-flex flex-row">
                 <v-alert
                     v-if="convocatoria != null"
@@ -131,6 +131,6 @@ watch(
                     </template>
                 </v-card>
             </v-dialog>
-        </div>
+        </v-sheet>
     </AppLayout>
 </template>
