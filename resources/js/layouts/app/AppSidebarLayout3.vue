@@ -354,7 +354,7 @@ onMounted(() => {
                 </v-app-bar-title>
             </v-app-bar>
             <v-main class="mt-1">
-                <v-card class="bg-surface-light mx-auto">
+                <v-card class="bg-surface-light mx-auto h-100">
                     <v-card-text class="pt-4">
                         <slot />
                     </v-card-text>
