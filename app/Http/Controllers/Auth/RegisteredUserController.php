@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
     public function store(Request $request): RedirectResponse
     {
         $request->validate([
-            'nie' => ['required', 'string', 'max:255', Rule::exists('pgsql.secundaria.data_bachillerato', 'nie')],
+            'nie' => ['required', 'string', 'max:255', Rule::exists('pgsql.secundaria.data_bachillerato', 'nie'), 'unique:users,name'],
             'email' => 'required|string|lowercase|email|max:255|unique:' . User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
