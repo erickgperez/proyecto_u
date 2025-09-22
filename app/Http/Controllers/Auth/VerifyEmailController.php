@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use App\Models\Estudio;
 use App\Models\Persona;
 use App\Models\PlanEstudio\Grado;
+use App\Models\Secundaria\Carrera;
 use App\Models\Secundaria\DataBachillerato;
+use App\Models\Secundaria\Institucion;
 use App\Models\Sexo;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -43,9 +45,11 @@ class VerifyEmailController extends Controller
                 'segundo_apellido' => $dataBach->segundo_apellido,
                 'tercer_apellido' => $dataBach->tercer_apellido,
             ]);
+            $persona->save();
+
 
             $sexoCodigo = (in_array($dataBach->sexo, ['Hombre', 'Masculino', 'M', 'm', 'H', 'h'])) ? 'M' : 'F';
-            $sexo = Sexo::where('codigo', $sexoCodigo);
+            $sexo = Sexo::where('codigo', $sexoCodigo)->first();
 
             $persona->sexo()->associate($sexo);
 
@@ -60,7 +64,16 @@ class VerifyEmailController extends Controller
             ]);
             $estudio->grado()->associate($gradoBach);
 
+            //Buscar la opción de bachillerato y la institución
+            $carreraBach = Carrera::where('descripcion', $dataBach->opcion_bachillerato)->first();
+            $institucionBach = Institucion::where('codigo', $dataBach->codigo_ce)->first();
+
+            $estudio->carrera()->associate($carreraBach);
+            $estudio->institucion()->associate($institucionBach);
+            $estudio->save();
+
             $persona->estudios()->save($estudio);
+            $persona->save();
         }
 
         return redirect()->intended(route('dashboard', absolute: false) . '?verified=1');
