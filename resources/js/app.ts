@@ -24,6 +24,12 @@ import i18n from './plugins/i18n'; // Adjust path as needed
 
 // Register Vuetify as plugin
 const vuetify = createVuetify({
+    defaults: {
+        VTextField: {
+            baseColor: 'gray', // Default color
+            color: 'blue', // Color when focused
+        },
+    },
     components: {
         VDateInput,
     },
