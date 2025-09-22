@@ -54,7 +54,7 @@ return [
     'email' => 'El campo :attribute debe ser una dirección de correo electrónico válida.',
     'ends_with' => 'El campo :attribute debe terminar con uno de los siguientes: :values.',
     'enum' => 'El valor de :attribute ingresado no es válido.',
-    'exists' => 'El valor de :attribute ingresado no se encuentra registrado en la base de datos.',
+    'exists' => 'El :attribute ingresado no se encuentra registrado en la base de datos.',
     'extensions' => 'El campo :attribute debe tener una de las siguientes extensiones: :values.',
     'file' => 'El campo :attribute debe ser un archivo.',
     'filled' => 'El campo :attribute debe tener un valor.',
