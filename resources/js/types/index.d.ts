@@ -3,6 +3,7 @@ import type { Config } from 'ziggy-js';
 
 export interface Auth {
     user: User;
+    persona: Persona;
     permissions: string[];
     roles: string[];
 }
@@ -35,6 +36,18 @@ export interface User {
     email_verified_at: string | null;
     created_at: string;
     updated_at: string;
+}
+
+export interface Persona {
+    id: number;
+    primer_nombre: string;
+    segundo_nombre?: string;
+    tercer_nombre?: string;
+    primer_apellido: string;
+    segundo_apellido?: string;
+    tercer_apellido?: string;
+    sexo_id: boolean;
+    fecha_nacimiento?: Date;
 }
 
 export type BreadcrumbItemType = BreadcrumbItem;
