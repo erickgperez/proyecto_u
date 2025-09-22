@@ -84,6 +84,7 @@ const submitForm = async () => {
                     :rules="[(v) => !!v || $t('_elija_tipo_carga_')]"
                     :items="tipoCarga"
                     v-model="formData.tipoCarga"
+                    prepend-icon="mdi-form-dropdown"
                 ></v-select>
                 <v-btn :loading="loading" class="mt-2" type="submit" block rounded variant="tonal" color="blue-darken-4">{{ $t('_enviar_') }}</v-btn>
             </v-form>
