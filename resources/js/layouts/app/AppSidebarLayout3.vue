@@ -86,13 +86,15 @@ onMounted(() => {
         <v-app>
             <v-navigation-drawer v-model="drawer" :location="$vuetify.display.mobile ? 'bottom' : undefined" class="bg-blue-grey-darken-1">
                 <v-list class="text-white">
-                    <v-list-item prepend-icon="mdi-school" :title="page.props.name">
-                        <template v-slot:prepend>
-                            <v-avatar>
-                                <v-icon color="info" icon="mdi-school" size="x-large"></v-icon>
-                            </v-avatar>
-                        </template>
-                    </v-list-item>
+                    <Link :href="route('dashboard')">
+                        <v-list-item prepend-icon="mdi-school" :title="page.props.name">
+                            <template v-slot:prepend>
+                                <v-avatar>
+                                    <v-icon color="info" icon="mdi-school" size="x-large"></v-icon>
+                                </v-avatar>
+                            </template>
+                        </v-list-item>
+                    </Link>
                 </v-list>
                 <v-divider></v-divider>
 
