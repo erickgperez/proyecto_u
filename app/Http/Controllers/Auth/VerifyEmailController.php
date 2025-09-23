@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Models\Estudio;
+use App\Models\Ingreso\Aspirante;
 use App\Models\Persona;
 use App\Models\PlanEstudio\Grado;
 use App\Models\Secundaria\Carrera;
@@ -76,12 +77,20 @@ class VerifyEmailController extends Controller
             $persona->estudios()->save($estudio);
             $persona->save();
 
+            //Crear el aspirante
+            $aspirante = Aspirante::create();
+            $aspirante->persona()->associate($persona);
+
             //Buscar la invitación para ponerla como aceptada
-            $invitacion = Invitacion::where('nie', $user->name)->first();
+            $invitacion = Invitacion::where('nie', $user->name)->orderBy('created_at', 'desc')->first();
             if ($invitacion) {
                 $invitacion->fecha_aceptacion = new \DateTime();
                 $invitacion->save();
+
+                //Asignar el aspirante a la convocatoria a la que fue invitado
+                $aspirante->convocatorias()->syncWithoutDetaching([$invitacion->convocatoria_id]);
             }
+            $aspirante->save();
         }
 
         return redirect()->intended(route('dashboard', absolute: false) . '?verified=1');
