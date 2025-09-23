@@ -104,6 +104,7 @@ class CandidatosController extends Controller
 
         $bachiller = DataBachillerato::where('nie', $nie)->first();
         $convocatoria = Convocatoria::find($idConvocatoria);
+        $convocatoriaAct = null;
 
         if ($campo == 'invitado') {
             $invitado = $request->get('invitado');
@@ -127,6 +128,20 @@ class CandidatosController extends Controller
                 );
                 $invitacion->fecha_envio_correo = new \DateTime();
             }*/
+            // Mandar los datos actualizados
+            $convocatoriaAct = Convocatoria::select('id', 'nombre', 'descripcion')
+                ->where('id', $convocatoria->id)
+                ->orderBy('nombre', 'asc')
+                ->withCount([
+                    'invitaciones as invitaciones',
+                    'invitaciones as invitaciones_pendientes_envio' => function (Builder $query) {
+                        $query->whereNull('fecha_envio_correo');
+                    },
+                    'invitaciones as invitaciones_aceptadas' => function (Builder $query) {
+                        $query->whereNotNull('fecha_aceptacion');
+                    },
+                ])
+                ->first();
         } elseif ($campo == 'correo') {
             $correo = $request->get('correo');
             $bachiller->correo = $correo;
@@ -134,7 +149,7 @@ class CandidatosController extends Controller
             $bachiller->save();
         }
 
-        return response()->json(['message' => 'Cambio realizado']);
+        return response()->json(['message' => 'Cambio realizado', 'convocatoria' => $convocatoriaAct]);
     }
 
     public function invitaciones(Request $request)
@@ -176,7 +191,22 @@ class CandidatosController extends Controller
             $invitacion->save();
         }
 
+        // Mandar los datos actualizados
+        $convocatoriaAct = Convocatoria::select('id', 'nombre', 'descripcion')
+            ->where('id', $convocatoria->id)
+            ->orderBy('nombre', 'asc')
+            ->withCount([
+                'invitaciones as invitaciones',
+                'invitaciones as invitaciones_pendientes_envio' => function (Builder $query) {
+                    $query->whereNull('fecha_envio_correo');
+                },
+                'invitaciones as invitaciones_aceptadas' => function (Builder $query) {
+                    $query->whereNotNull('fecha_aceptacion');
+                },
+            ])
+            ->first();
 
-        return response()->json(['message' => 'Envios realizados']);
+
+        return response()->json(['message' => 'Envios realizados', 'convocatoria' => $convocatoriaAct]);
     }
 }

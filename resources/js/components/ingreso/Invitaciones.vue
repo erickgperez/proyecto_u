@@ -23,6 +23,8 @@ const form = reactive({
 });
 const loading = ref(false);
 
+const emit = defineEmits(['convocatoria']);
+
 const { t } = useI18n();
 
 const tipoEnvioRules: ((value: string) => true | string)[] = [(v) => !!v || 'Elija un tipo de envío'];
@@ -57,6 +59,7 @@ async function submitForm(): Promise<void> {
                     showConfirmButton: false,
                     timer: 1500,
                 });
+                emit('convocatoria', response.data.convocatoria);
             })
             .catch(function (error) {
                 console.log(error);
@@ -68,7 +71,7 @@ async function submitForm(): Promise<void> {
 }
 </script>
 <template>
-    <v-card class="mx-auto my-8" elevation="16">
+    <v-card class="mx-auto my-8">
         <v-card-item>
             <v-card-title> {{ $t('_enviar_invitaciones_bachilleres_') }} </v-card-title>
 

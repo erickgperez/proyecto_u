@@ -91,15 +91,21 @@ const nombreCompleto = (item: any) => {
         .join(' ');
 };
 
+const emit = defineEmits(['convocatoria']);
+
 const toggleSeleccion = (item: any) => {
     item.invitado = !item.invitado;
 
-    axios.patch(route('ingreso-bachillerato-candidato-save-field'), {
-        nie: item.nie,
-        invitado: item.invitado,
-        campo: 'invitado',
-        idConvocatoria: props.convocatoria.id,
-    });
+    axios
+        .patch(route('ingreso-bachillerato-candidato-save-field'), {
+            nie: item.nie,
+            invitado: item.invitado,
+            campo: 'invitado',
+            idConvocatoria: props.convocatoria.id,
+        })
+        .then((response) => {
+            emit('convocatoria', response.data.convocatoria);
+        });
 };
 
 const editedItem = ref(null);

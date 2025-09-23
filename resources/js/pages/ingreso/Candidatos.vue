@@ -80,9 +80,7 @@ function enviarInvitacionesPendientes() {
                             confirmButtonColor: '#D7E1EE',
                         });*/
 
-                        const index = localConvocatorias.value.findIndex((item) => item.id === convocatoria.value?.id);
-                        localConvocatorias.value[index] = resp.data.convocatoria;
-                        convocatoria.value = resp.data.convocatoria;
+                        handleConvocatoria(resp.data.convocatoria);
                     } else {
                         hasError.value = true;
                         message.value = t(resp.data.message);
@@ -104,6 +102,12 @@ function enviarInvitacionesPendientes() {
             }
         });
     }
+}
+
+function handleConvocatoria(newConvocatoria: Convocatoria) {
+    const index = localConvocatorias.value.findIndex((item) => item.id === newConvocatoria.value?.id);
+    localConvocatorias.value[index] = newConvocatoria;
+    convocatoria.value = newConvocatoria;
 }
 </script>
 
@@ -184,6 +188,7 @@ function enviarInvitacionesPendientes() {
                         <v-card flat>
                             <v-card-text v-if="convocatoria != null">
                                 <ListadoCandidatos
+                                    @convocatoria="handleConvocatoria"
                                     :convocatoria="convocatoria"
                                     :departamentos="departamentos"
                                     :opcionesBachillerato="opcionesBachillerato"
@@ -194,7 +199,7 @@ function enviarInvitacionesPendientes() {
                     <v-tabs-window-item v-if="hasPermission('INGRESO_CONVOCATORIA_CANDIDATOS_INVITACIONES')" value="option-3">
                         <v-card flat>
                             <v-card-text v-if="convocatoria != null">
-                                <Invitaciones :convocatoria="convocatoria" />
+                                <Invitaciones :convocatoria="convocatoria" @convocatoria="handleConvocatoria" />
                             </v-card-text>
                         </v-card>
                     </v-tabs-window-item>
