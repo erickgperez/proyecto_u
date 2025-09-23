@@ -46,7 +46,7 @@ class Convocatoria extends Model
         return $this->hasMany(Invitacion::class);
     }
 
-    public function convocatorias(): BelongsToMany
+    public function aspirantes(): BelongsToMany
     {
         return $this->belongsToMany(Aspirante::class, 'ingreso.convocatoria_aspirante', 'convocatoria_id', 'aspirante_id');
     }
