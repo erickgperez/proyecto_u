@@ -9,6 +9,7 @@ use App\Models\PlanEstudio\Grado;
 use App\Models\Secundaria\Carrera;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\Institucion;
+use App\Models\Secundaria\Invitacion;
 use App\Models\Sexo;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
@@ -74,6 +75,13 @@ class VerifyEmailController extends Controller
 
             $persona->estudios()->save($estudio);
             $persona->save();
+
+            //Buscar la invitación para ponerla como aceptada
+            $invitacion = Invitacion::where('nie', $user->name)->first();
+            if ($invitacion) {
+                $invitacion->fecha_aceptacion = new \DateTime();
+                $invitacion->save();
+            }
         }
 
         return redirect()->intended(route('dashboard', absolute: false) . '?verified=1');
