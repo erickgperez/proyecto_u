@@ -167,15 +167,15 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <SedeForm
-                        v-if="selectedAction == 'new' || selectedAction == 'edit'"
-                        :item="selectedItem"
+                        v-if="step === 3 && (selectedAction === 'new' || selectedAction === 'edit')"
+                        :item="selectedAction === 'new' ? itemVacio : selectedItem"
                         :distritos="props.distritos"
                         :departamentos="props.departamentos"
                         :municipios="props.municipios"
                         :accion="selectedAction"
                         @form-saved="handleFormSave"
                     ></SedeForm>
-                    <SedeShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SedeShow>
+                    <SedeShow v-if="step === 3 && selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SedeShow>
                 </v-window-item>
             </v-window>
 

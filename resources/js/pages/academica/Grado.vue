@@ -146,12 +146,12 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <GradoForm
-                        v-if="selectedAction == 'new' || selectedAction == 'edit'"
-                        :item="selectedItem"
+                        v-if="step === 3 && (selectedAction === 'new' || selectedAction === 'edit')"
+                        :item="selectedAction === 'new' ? itemVacio : selectedItem"
                         :accion="selectedAction"
                         @form-saved="handleFormSave"
                     ></GradoForm>
-                    <GradoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></GradoShow>
+                    <GradoShow v-if="step === 3 && selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></GradoShow>
                 </v-window-item>
             </v-window>
 

@@ -153,13 +153,13 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <TipoCarreraForm
-                        v-if="selectedAction == 'new' || selectedAction == 'edit'"
-                        :item="selectedItem"
+                        v-if="step === 3 && (selectedAction === 'new' || selectedAction === 'edit')"
+                        :item="selectedAction === 'new' ? itemVacio : selectedItem"
                         :grados="props.grados"
                         :accion="selectedAction"
                         @form-saved="handleFormSave"
                     ></TipoCarreraForm>
-                    <TipoCarreraShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></TipoCarreraShow>
+                    <TipoCarreraShow v-if="step === 3 && selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></TipoCarreraShow>
                 </v-window-item>
             </v-window>
 
