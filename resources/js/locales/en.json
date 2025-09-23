@@ -152,6 +152,14 @@
     "_indicaciones_": "Indications",
     "_informe_": "Report",
     "_ingreso_universitario_": "University admission",
+    "invitacion": {
+        "_creadas_": "Created",
+        "_pendientes_": "Pending",
+        "_aceptadas_": "Accepted",
+        "_invitaciones_creadas_": "Invitations created",
+        "_invitaciones_pendientes_": "Invitations pending delivery",
+        "_invitaciones_aceptadas_": "Invitations accepted"
+    },
     "_invitaciones_": "Invitations",
     "_invitaciones_enviadas_correctamente_": "Invitations sent successfully",
     "_invitar_": "Invite",

@@ -151,6 +151,14 @@
     "_indicaciones_": "Indicaciones",
     "_informe_": "Informe",
     "_ingreso_universitario_": "Ingreso universitario",
+    "invitacion": {
+        "_creadas_": "Creadas",
+        "_pendientes_": "Pendientes",
+        "_aceptadas_": "Aceptadas",
+        "_invitaciones_creadas_": "Invitaciones creadas.",
+        "_invitaciones_pendientes_": "Invitaciones pendientes de envío.",
+        "_invitaciones_aceptadas_": "Invitaciones aceptadas."
+    },
     "_invitaciones_": "Invitaciones",
     "_invitaciones_enviadas_correctamente_": "Invitaciones enviadas correctamente",
     "_invitar_": "Invitar",

@@ -33,6 +33,15 @@ class CandidatosController extends Controller
             ->get();
         $convocatorias = Convocatoria::select('id', 'nombre', 'descripcion')
             ->orderBy('nombre', 'asc')
+            ->withCount([
+                'invitaciones as invitaciones',
+                'invitaciones as invitaciones_pendientes_envio' => function (Builder $query) {
+                    $query->whereNull('fecha_envio_correo');
+                },
+                'invitaciones as invitaciones_aceptadas' => function (Builder $query) {
+                    $query->whereNotNull('fecha_aceptacion');
+                },
+            ])
             ->get();
 
         return Inertia::render('ingreso/Candidatos', [

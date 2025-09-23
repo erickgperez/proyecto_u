@@ -17,6 +17,9 @@ interface Convocatoria {
     id: number;
     nombre: string;
     descripcion: string;
+    invitaciones: number;
+    invitaciones_pendientes_envio: number;
+    invitaciones_aceptadas: number;
 }
 interface Props {
     departamentos?: Departamento[];
@@ -29,6 +32,8 @@ const convocatoria = ref<Convocatoria | null>(null);
 const dialog = ref(false);
 
 const props = defineProps<Props>();
+
+const localConvocatorias = ref([...props.convocatorias]);
 
 const tab = ref('option-1');
 
@@ -65,6 +70,32 @@ watch(
                     <v-btn size="x-small" variant="outlined" @click="dialog = true" :title="$t('_cambiar_convocatoria_')">{{
                         $t('_cambiar_')
                     }}</v-btn>
+                    <template v-slot:append>
+                        <v-btn stacked :title="$t('invitacion._invitaciones_creadas_')">
+                            <template v-slot:prepend>
+                                <v-badge :offset-x="-10" location="top right" color="primary" :content="convocatoria?.invitaciones">
+                                    <v-icon color="primary" icon="mdi-email-newsletter"></v-icon>
+                                </v-badge>
+                            </template>
+                            {{ $t('invitacion._creadas_') }}
+                        </v-btn>
+                        <v-btn stacked :title="$t('invitacion._invitaciones_pendientes_')">
+                            <template v-slot:prepend>
+                                <v-badge :offset-x="-10" location="top right" color="warning" :content="convocatoria?.invitaciones_pendientes_envio">
+                                    <v-icon color="warning" icon="mdi-email-alert-outline"></v-icon>
+                                </v-badge>
+                            </template>
+                            {{ $t('invitacion._pendientes_') }}...
+                        </v-btn>
+                        <v-btn stacked :title="$t('invitacion._invitaciones_aceptadas_')">
+                            <template v-slot:prepend>
+                                <v-badge :offset-x="-10" location="top right" color="success" :content="convocatoria?.invitaciones_aceptadas">
+                                    <v-icon color="success" icon="mdi-email-check-outline"></v-icon>
+                                </v-badge>
+                            </template>
+                            {{ $t('invitacion._aceptadas_') }}
+                        </v-btn>
+                    </template>
                 </v-alert>
             </div>
             <div class="d-flex flex-row">
@@ -116,7 +147,7 @@ watch(
                     <v-card-text class="bg-surface-light pt-4">
                         <v-autocomplete
                             :label="$t('convocatoria._convocatoria_')"
-                            :items="props.convocatorias"
+                            :items="localConvocatorias"
                             :hint="$t('convocatoria._convocatoria_a_utilizar_para_enviar_invitaciones_')"
                             persistent-hint
                             item-title="nombre"
