@@ -31,7 +31,7 @@ const formData = ref<FormData>({
     descripcion: '',
     grado_id: null,
 });
-const isEditing = toRef(() => !!formData.value.id);
+const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();

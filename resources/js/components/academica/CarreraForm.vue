@@ -35,7 +35,7 @@ const formData = ref<FormData>({
     tipo_carrera_id: null,
     sedes: [],
 });
-const isEditing = toRef(() => !!formData.value.id);
+const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();

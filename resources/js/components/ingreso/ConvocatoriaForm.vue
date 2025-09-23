@@ -61,7 +61,7 @@ const formData = ref<FormData>({
     afiche_file: null,
     afiche: '',
 });
-const isEditing = toRef(() => !!formData.value.id);
+const isEditing = toRef(() => props.accion === 'edit');
 
 async function deleteAfiche() {
     await axios.delete(route('ingreso-convocatoria-afiche-delete', { id: formData.value.id }));

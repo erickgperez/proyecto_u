@@ -35,7 +35,7 @@ const formData = ref<FormData>({
     municipio_id: null,
     departamento_id: null,
 });
-const isEditing = toRef(() => !!formData.value.id);
+const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
