@@ -19,6 +19,9 @@ return new class extends Migration
             $table->boolean('invitado')->default(true);
             $table->dateTime('fecha_envio_correo')->nullable()->comment('Fecha en que se envía el correo de invitación');
             $table->dateTime('fecha_aceptacion')->nullable()->comment('Fecha en que el estudiante acepta la invitación y realiza su registro como aspirante');
+            $table->foreignId('convocatoria_id')->comment('Convocatoria a la que se hace la invitación');
+            $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('CASCADE')->onUpdate('CASCADE');
+
             $table->timestamps();
         });
     }
