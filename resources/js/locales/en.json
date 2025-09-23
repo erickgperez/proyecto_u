@@ -153,15 +153,18 @@
     "_informe_": "Report",
     "_ingreso_universitario_": "University admission",
     "invitacion": {
-        "_creadas_": "Created",
-        "_pendientes_": "Pending",
         "_aceptadas_": "Accepted",
+        "_creadas_": "Created",
+        "_confirmar_enviar_pendientes_": "Confirm to mail pending invitations",
+        "_enviar_": "Send",
+        "_invitaciones_aceptadas_": "Invitations accepted",
         "_invitaciones_creadas_": "Invitations created",
+        "_invitaciones_enviadas_correctamente_": "Invitations sent successfully",
         "_invitaciones_pendientes_": "Invitations pending delivery",
-        "_invitaciones_aceptadas_": "Invitations accepted"
+        "_no_se_pudo_realizar_envio_": "The shipment could not be made",
+        "_pendientes_": "Pending"
     },
     "_invitaciones_": "Invitations",
-    "_invitaciones_enviadas_correctamente_": "Invitations sent successfully",
     "_invitar_": "Invite",
     "_invitaciones_se_enviaran_si_tiene_correo_": "Invitations will only be sent to high school students who have a registered email address",
     "_lineas_": "Lines",

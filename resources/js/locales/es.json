@@ -152,15 +152,18 @@
     "_informe_": "Informe",
     "_ingreso_universitario_": "Ingreso universitario",
     "invitacion": {
-        "_creadas_": "Creadas",
-        "_pendientes_": "Pendientes",
         "_aceptadas_": "Aceptadas",
+        "_confirmar_enviar_pendientes_": "Confirme para enviar por correo las invitaciones pendientes",
+        "_creadas_": "Creadas",
+        "_enviar_": "Enviar",
+        "_invitaciones_aceptadas_": "Invitaciones aceptadas.",
         "_invitaciones_creadas_": "Invitaciones creadas.",
+        "_invitaciones_enviadas_correctamente_": "Invitaciones enviadas correctamente",
         "_invitaciones_pendientes_": "Invitaciones pendientes de envío.",
-        "_invitaciones_aceptadas_": "Invitaciones aceptadas."
+        "_no_se_pudo_realizar_envio_": "No se pudo realizar el envío",
+        "_pendientes_": "Pendientes"
     },
     "_invitaciones_": "Invitaciones",
-    "_invitaciones_enviadas_correctamente_": "Invitaciones enviadas correctamente",
     "_invitar_": "Invitar",
     "_invitaciones_se_enviaran_si_tiene_correo_": "Las invitaciones solo se enviarán a estudiantes de bachillerato que tengan correo electrónico registrado",
     "_lineas_": "Líneas",

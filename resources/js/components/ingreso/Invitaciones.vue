@@ -52,7 +52,7 @@ async function submitForm(): Promise<void> {
                 Swal.fire({
                     title: t('_enviado_'),
                     position: 'top-end',
-                    text: t('_invitaciones_enviadas_correctamente_'),
+                    text: t('invitacion._invitaciones_enviadas_correctamente_'),
                     icon: 'success',
                     showConfirmButton: false,
                     timer: 1500,

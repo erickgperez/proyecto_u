@@ -3,11 +3,15 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
+use App\Mail\CandidatoInvitado;
 use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
+use App\Models\Secundaria\DataBachillerato;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -104,6 +108,42 @@ class ConvocatoriaController extends Controller
             return response()->json(['status' => 'ok', 'message' => $id]);
         }
     }
+
+    public function enviarInvitacionesPendientes(int $id)
+    {
+        $convocatoria = Convocatoria::find($id);
+
+        //invitaciones pendientes de envío
+        $invitaciones = $convocatoria->invitaciones()->whereNull('fecha_envio_correo')->get();
+
+        foreach ($invitaciones as $inv) {
+            $bachiller = DataBachillerato::where('nie', $inv->nie)->first();
+            Mail::to($bachiller->correo)->queue(
+                new CandidatoInvitado($bachiller, $convocatoria)
+            );
+            $inv->fecha_envio_correo = new \DateTime();
+
+            $inv->save();
+        }
+
+        // Mandar los datos actualizados
+        $convocatoriaAct = Convocatoria::select('id', 'nombre', 'descripcion')
+            ->where('id', $convocatoria->id)
+            ->orderBy('nombre', 'asc')
+            ->withCount([
+                'invitaciones as invitaciones',
+                'invitaciones as invitaciones_pendientes_envio' => function (Builder $query) {
+                    $query->whereNull('fecha_envio_correo');
+                },
+                'invitaciones as invitaciones_aceptadas' => function (Builder $query) {
+                    $query->whereNotNull('fecha_aceptacion');
+                },
+            ])
+            ->first();
+
+        return response()->json(['status' => 'ok', 'message' => '', 'convocatoria' => $convocatoriaAct]);
+    }
+
 
     public function aficheDownload(int $id)
     {
