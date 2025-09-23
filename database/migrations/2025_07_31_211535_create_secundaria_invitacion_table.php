@@ -22,6 +22,11 @@ return new class extends Migration
             $table->foreignId('convocatoria_id')->comment('Convocatoria a la que se hace la invitación');
             $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('CASCADE')->onUpdate('CASCADE');
 
+            $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
+            $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
+
             $table->timestamps();
         });
     }
