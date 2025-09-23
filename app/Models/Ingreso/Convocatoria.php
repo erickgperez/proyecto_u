@@ -3,9 +3,12 @@
 namespace App\Models\Ingreso;
 
 use App\Models\Calendarizacion;
+use App\Models\Secundaria\Invitacion;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Convocatoria extends Model
 {
@@ -35,5 +38,16 @@ class Convocatoria extends Model
     public function calendario()
     {
         return $this->belongsTo(Calendarizacion::class, 'calendarizacion_id');
+    }
+
+    public function invitaciones(): HasMany
+    {
+
+        return $this->hasMany(Invitacion::class);
+    }
+
+    public function convocatorias(): BelongsToMany
+    {
+        return $this->belongsToMany(Aspirante::class, 'ingreso.convocatoria_aspirante', 'convocatoria_id', 'aspirante_id');
     }
 }
