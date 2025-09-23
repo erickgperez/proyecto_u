@@ -6,6 +6,7 @@ use App\Models\Ingreso\Convocatoria;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Invitacion extends Model
 {
@@ -30,7 +31,7 @@ class Invitacion extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function convocatoria()
+    public function convocatoria(): BelongsTo
     {
         return $this->belongsTo(Convocatoria::class);
     }

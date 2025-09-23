@@ -7,6 +7,7 @@ use App\Mail\CandidatoInvitado;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\Invitacion;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
@@ -30,8 +31,7 @@ class CandidatosController extends Controller
             ->orderBy('opcion_bachillerato', 'asc')
             ->groupBy('opcion_bachillerato')
             ->get();
-        $convocatorias = DB::table('ingreso.convocatoria')
-            ->select('id', 'nombre', 'descripcion')
+        $convocatorias = Convocatoria::select('id', 'nombre', 'descripcion')
             ->orderBy('nombre', 'asc')
             ->get();
 
@@ -106,6 +106,10 @@ class CandidatosController extends Controller
                     'codigo' => chr(rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999),
                     'invitado' => true
                 ]);
+                $invitacion->convocatoria()->associate($convocatoria);
+                $invitacion->save();
+            } else {
+                $invitacion->delete();
             }
             /*if ($bachiller->correo) {
                 // Enviar correo
@@ -132,6 +136,7 @@ class CandidatosController extends Controller
 
         $convocatoria = Convocatoria::find($idConvocatoria);
 
+        //Recuperar los datos de los bachilleres que tengan correo registrado
         $query = DataBachillerato::from('secundaria.data_bachillerato as A')
             ->select('A.*', 'B.invitado', 'B.fecha_envio_correo', 'B.fecha_aceptacion', 'B.created_at as fecha_invitacion')
             ->leftJoin('secundaria.invitacion as B', 'A.nie', '=', 'B.nie')
@@ -152,6 +157,8 @@ class CandidatosController extends Controller
 
             $invitacion->codigo = (rand(65, 90)) . chr(rand(65, 90)) . random_int(1000, 9999);
             $invitacion->invitado = true;
+            $invitacion->convocatoria()->associate($convocatoria);
+
             Mail::to($bachiller->correo)->queue(
                 new CandidatoInvitado($bachiller, $convocatoria)
             );
