@@ -4,14 +4,14 @@ export function useFuncionesCrud(itemVacio: any, items: any) {
     const step = ref(1);
     const selectedAction = ref('');
     const localItems = ref([...items]);
-    const selectedItem = ref(itemVacio.value);
+    const selectedItem = ref(itemVacio);
 
     const handleAction = (action: string) => {
         selectAction(action);
         if (action === 'delete') {
             remove();
         } else if (action === 'new') {
-            selectItem(itemVacio.value);
+            selectedItem.value = itemVacio.value;
             step.value = 3;
         } else {
             step.value++;
@@ -20,6 +20,9 @@ export function useFuncionesCrud(itemVacio: any, items: any) {
 
     const handleNextStep = (stepValue: number) => {
         step.value = stepValue;
+        if (stepValue == 1) {
+            selectedItem.value = itemVacio.value;
+        }
     };
 
     function remove() {
