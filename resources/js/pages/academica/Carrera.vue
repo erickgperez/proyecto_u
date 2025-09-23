@@ -166,16 +166,18 @@ const opcionesAccion = [
 
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
-                    <CarreraForm
-                        v-if="step === 3 && (selectedAction === 'new' || selectedAction === 'edit')"
-                        :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                        :carreras="props.items"
-                        :tiposCarrera="props.tiposCarrera"
-                        :sedes="props.sedes"
-                        :accion="selectedAction"
-                        @form-saved="handleFormSave"
-                    ></CarreraForm>
-                    <CarreraShow v-if="step === 3 && selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></CarreraShow>
+                    <v-sheet v-if="step === 3">
+                        <CarreraForm
+                            v-if="selectedAction === 'new' || selectedAction === 'edit'"
+                            :item="selectedAction === 'new' ? itemVacio : selectedItem"
+                            :carreras="props.items"
+                            :tiposCarrera="props.tiposCarrera"
+                            :sedes="props.sedes"
+                            :accion="selectedAction"
+                            @form-saved="handleFormSave"
+                        ></CarreraForm>
+                        <CarreraShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></CarreraShow>
+                    </v-sheet>
                 </v-window-item>
             </v-window>
 

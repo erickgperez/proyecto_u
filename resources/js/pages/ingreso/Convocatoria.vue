@@ -172,14 +172,16 @@ const opcionesAccion = [
 
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
-                    <ConvocatoriaForm
-                        v-if="step === 3 && (selectedAction === 'new' || selectedAction === 'edit')"
-                        :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                        :accion="selectedAction"
-                        @form-saved="handleFormSave"
-                    ></ConvocatoriaForm>
-                    <ConvocatoriaShow v-if="step === 3 && selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
-                    <Evento v-if="selectedAction == 'calendarizar'" :idCalendario="selectedItem.calendarizacion_id"></Evento>
+                    <v-sheet v-if="step === 3">
+                        <ConvocatoriaForm
+                            v-if="selectedAction === 'new' || selectedAction === 'edit'"
+                            :item="selectedAction === 'new' ? itemVacio : selectedItem"
+                            :accion="selectedAction"
+                            @form-saved="handleFormSave"
+                        ></ConvocatoriaForm>
+                        <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
+                        <Evento v-if="selectedAction == 'calendarizar'" :idCalendario="selectedItem.calendarizacion_id"></Evento>
+                    </v-sheet>
                 </v-window-item>
             </v-window>
 
