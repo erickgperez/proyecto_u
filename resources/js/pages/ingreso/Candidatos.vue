@@ -147,7 +147,8 @@ function handleConvocatoria(newConvocatoria: Convocatoria) {
                                     <v-icon color="warning" icon="mdi-email-alert-outline"></v-icon>
                                 </v-badge>
                             </template>
-                            {{ $t('invitacion._pendientes_') }}...
+                            <span v-if="convocatoria?.invitaciones_pendientes_envio > 0">{{ $t('invitacion._pendientes_') }}...</span>
+                            <span v-else>{{ $t('invitacion._pendientes_') }}</span>
                         </v-btn>
                         <v-btn stacked :title="$t('invitacion._invitaciones_aceptadas_')">
                             <template v-slot:prepend>
