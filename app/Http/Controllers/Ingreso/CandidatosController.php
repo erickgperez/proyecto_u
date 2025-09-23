@@ -107,13 +107,13 @@ class CandidatosController extends Controller
                     'invitado' => true
                 ]);
             }
-            if ($bachiller->correo) {
+            /*if ($bachiller->correo) {
                 // Enviar correo
                 Mail::to($bachiller->correo)->queue(
                     new CandidatoInvitado($bachiller, $convocatoria)
                 );
                 $invitacion->fecha_envio_correo = new \DateTime();
-            }
+            }*/
         } elseif ($campo == 'correo') {
             $correo = $request->get('correo');
             $bachiller->correo = $correo;
