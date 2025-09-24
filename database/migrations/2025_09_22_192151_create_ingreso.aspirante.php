@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->comment('Tabla de aspirantes a una convocatoria de ingreso');
-            $table->foreignId('persona_id');
+            $table->foreignId('persona_id')->nullable();
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->timestamps();
