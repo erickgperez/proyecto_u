@@ -31,8 +31,8 @@ const submit = () => {
 </script>
 
 <template>
-    <AuthLayout :title="$t('_auth._restablecer_clave_')" :description="$t('auth._ingrese_nueva_clave_')">
-        <Head :title="$t('_auth._restablecer_clave_')" />
+    <AuthLayout :title="$t('auth._restablecer_clave_')" :description="$t('auth._ingrese_nueva_clave_')">
+        <Head :title="$t('auth._restablecer_clave_')" />
 
         <form @submit.prevent="submit">
             <div class="grid gap-6">
@@ -43,7 +43,7 @@ const submit = () => {
                 </div>
 
                 <div class="grid gap-2">
-                    <Label for="password">{{ $t('_clave_') }}</Label>
+                    <Label for="password">{{ $t('auth._clave_') }}</Label>
                     <Input
                         id="password"
                         type="password"
@@ -73,7 +73,7 @@ const submit = () => {
 
                 <Button type="submit" class="mt-4 w-full" :disabled="form.processing">
                     <LoaderCircle v-if="form.processing" class="h-4 w-4 animate-spin" />
-                    {{ $t('_auth._restablecer_clave_') }}
+                    {{ $t('auth._restablecer_clave_') }}
                 </Button>
             </div>
         </form>
