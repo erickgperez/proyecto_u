@@ -105,7 +105,7 @@ const opcionesAccion = [
         title: t('convocatoria._calendarizar_'),
         text: t('convocatoria._calendarizar_descripcion_'),
         emitAction: 'calendarizar',
-        avatarColor: 'brown',
+        color: 'brown',
         icon: 'mdi-calendar-month-outline',
     },
     {
@@ -156,7 +156,7 @@ const opcionesAccion = [
                     </Listado>
                 </v-window-item>
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
-                <v-window-item :value="2" class="pa-5">
+                <v-window-item :value="2">
                     <Acciones
                         @action="handleAction"
                         v-if="hasAnyPermission(permisos.acciones) && selectedItem.id !== null"
