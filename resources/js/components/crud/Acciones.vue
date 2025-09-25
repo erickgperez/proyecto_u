@@ -115,9 +115,8 @@ function remove() {
             <h2 class="text-blue-darken-3">{{ props.selectedItemLabel }}</h2>
         </v-card-title>
         <v-row dense>
-            <v-col cols="12" md="12">
+            <v-col cols="12" md="12" class="pt-6">
                 <span class="text-h6">
-                    <br />
                     <span>{{ $t('_elija_accion_realizar_') }}</span>
                 </span>
             </v-col>

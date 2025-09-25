@@ -17,7 +17,8 @@ defineProps<{
                     <v-row justify="center">
                         <v-col cols="auto">
                             <!-- Your div content here -->
-                            <div class="text-h4 text-blue-darken-4 text-center">TEC <BR />EL SALVADOR</div>
+                            <div class="text-h4 text-blue-darken-4 text-center">TEC</div>
+                            <div class="text-h4 text-blue-darken-4 text-center">EL SALVADOR</div>
                         </v-col>
                     </v-row>
                 </v-container>
