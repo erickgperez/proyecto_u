@@ -10,8 +10,15 @@ class Distrito extends Model
     //
     protected $table = 'distrito';
 
+    protected $appends = ['nombreCompleto'];
+
     public function municipio(): BelongsTo
     {
         return $this->belongsTo(Municipio::class);
+    }
+
+    public function getNombreCompletoAttribute(): string
+    {
+        return (string) "{$this->descripcion} ({$this->municipio->descripcion}/{$this->municipio->departamento->descripcion})";
     }
 }

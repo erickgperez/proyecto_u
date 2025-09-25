@@ -8,7 +8,7 @@ import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { Departamento, Distrito, Municipio, SortBy } from '@/types/crud';
+import type { Carrera, Departamento, Distrito, Municipio, SortBy } from '@/types/crud';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -28,6 +28,7 @@ interface Item {
     distrito: Distrito | null;
     municipio_id: number | null;
     departamento_id: number | null;
+    distrito_: string | null;
 }
 
 const props = defineProps({
@@ -48,6 +49,11 @@ const props = defineProps({
     },
     municipios: {
         type: Array as PropType<Municipio[]>,
+        required: true,
+        default: () => [],
+    },
+    carreras: {
+        type: Array as PropType<Carrera[]>,
         required: true,
         default: () => [],
     },
@@ -100,7 +106,7 @@ const fileName = ref('sedes');
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
-    { title: t('_distrito_'), key: 'distrito' },
+    { title: t('_distrito_'), key: 'distrito_' },
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
@@ -146,7 +152,8 @@ const opcionesAccion = [
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
                         :fileName="fileName"
-                    ></Listado>
+                    >
+                    </Listado>
                 </v-window-item>
 
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
@@ -173,6 +180,7 @@ const opcionesAccion = [
                             :distritos="props.distritos"
                             :departamentos="props.departamentos"
                             :municipios="props.municipios"
+                            :carreras="props.carreras"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
                         ></SedeForm>

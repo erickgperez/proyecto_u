@@ -9,4 +9,9 @@ class Municipio extends Model
 {
     //
     protected $table = 'municipio';
+
+    public function departamento(): BelongsTo
+    {
+        return $this->belongsTo(Departamento::class);
+    }
 }

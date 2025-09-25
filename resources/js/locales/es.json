@@ -195,6 +195,8 @@
     "_resumen_": "Resumen",
     "sede": {
         "_administrar_sedes_": "Administrar sedes",
+        "_carreras_": "Carreras",
+        "_carreras_ayuda_": "Carreras que se imparten en la sede",
         "_codigo_ya existe_": "El código de la sede ya existe en otro registro",
         "_sedes_": "Sedes",
         "_listado_sedes_": "Listado de sedes",

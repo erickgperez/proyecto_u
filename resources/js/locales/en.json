@@ -196,6 +196,8 @@
     "_resumen_": "Summary",
     "sede": {
         "_administrar_sedes_": "Manage locations",
+        "_carreras_": "Careers",
+        "_carreras_ayuda_": "Careers taught at the location",
         "_codigo_ya existe_": "The locations code already exists in another record",
         "_sedes_": "Locations",
         "_listado_sedes_": "Locations list",

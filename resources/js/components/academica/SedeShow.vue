@@ -37,7 +37,20 @@ const props = defineProps(['item', 'accion']);
                     {{ $t('_distrito_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.distrito }}
+                    {{ props.item.distrito.nombreCompleto }}
+                </v-col>
+            </v-row>
+
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('sede._carreras_') }}
+                </v-col>
+                <v-col cols="8">
+                    <v-list density="compact">
+                        <v-list-item v-for="carrera in props.item.carreras" :key="carrera.id" prepend-icon="mdi-circle-small">
+                            <v-list-item-title>{{ carrera.nombreCompleto }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
                 </v-col>
             </v-row>
 

@@ -7,6 +7,7 @@ use App\Models\Academica\Sede;
 use App\Models\Departamento;
 use App\Models\Distrito;
 use App\Models\Municipio;
+use App\Models\PlanEstudio\Carrera;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -20,24 +21,30 @@ class SedeController extends Controller
     public function index(Request $request): Response
     {
 
-        $sedes = Sede::orderBy('nombre')->get();
+        $sedes = Sede::with('distrito', 'creator', 'updater', 'carreras')->orderBy('nombre')->get();
+
         $distritos = Distrito::orderBy('descripcion')->get();
         $departamentos = Departamento::orderBy('descripcion')->get();
         $municipios = Municipio::orderBy('descripcion')->get();
+        $carreras = Carrera::orderBy('nombre')->get();
 
-        $resp = [];
+        $items = [];
         foreach ($sedes as $row) {
-            $items = $row->toArray();
-            $items['created_by'] = $row->creator;
-            $items['updated_by'] = $row->updater;
-            $items['distrito'] = $row->distrito->descripcion;
-            $items['departamento_id'] = $row->distrito->municipio->departamento_id;
-            $items['municipio_id'] = $row->distrito->municipio_id;
+            $item = $row->toArray();
+            $item['distrito_'] = $row->distrito->nombreCompleto;
+            $item['departamento_id'] = $row->distrito->municipio->departamento_id;
+            $item['municipio_id'] = $row->distrito->municipio_id;
 
-            $resp[] = $items;
+            $items[] = $item;
         }
 
-        return Inertia::render('academica/Sede', ['items' => $resp, 'distritos' => $distritos, 'departamentos' => $departamentos,  'municipios' => $municipios]);
+        return Inertia::render('academica/Sede', [
+            'items'         => $items,
+            'distritos'     => $distritos,
+            'departamentos' => $departamentos,
+            'municipios'    => $municipios,
+            'carreras'      =>  $carreras
+        ]);
     }
 
     public function save(Request $request)
@@ -75,13 +82,15 @@ class SedeController extends Controller
         $sede->codigo = $request->get('codigo');
         $sede->nombre = $request->get('nombre');
         $sede->distrito()->associate($distrito);
+        $sede->carreras()->sync($request->get('carreras') ?? []);
+
 
         $sede->save();
 
         $item = $sede->toArray();
-        $item['created_by'] = $sede->creator;
-        $item['updated_by'] = $sede->updater;
-        $item['distrito'] = $sede->distrito->descripcion;
+
+        $item = Sede::with('distrito', 'creator', 'updater', 'carreras')->find($sede->id);
+        $item['distrito_'] = $sede->distrito->nombreCompleto;
         $item['departamento_id'] = $sede->distrito->municipio->departamento_id;
         $item['municipio_id'] = $sede->distrito->municipio_id;
 

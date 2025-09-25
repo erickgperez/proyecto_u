@@ -46,5 +46,6 @@ export interface TipoCarrera {
 export interface Carrera {
     id: number | null;
     codigo: string;
-    descripcion: string;
+    nombre: string;
+    nombreCompleto: string;
 }

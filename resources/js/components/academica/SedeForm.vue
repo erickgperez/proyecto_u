@@ -23,9 +23,10 @@ interface FormData {
     distrito_id: number | null;
     municipio_id: number | null;
     departamento_id: number | null;
+    carreras: [];
 }
 
-const props = defineProps(['item', 'accion', 'distritos', 'departamentos', 'municipios']);
+const props = defineProps(['item', 'accion', 'distritos', 'departamentos', 'municipios', 'carreras']);
 
 const formData = ref<FormData>({
     id: null,
@@ -34,6 +35,7 @@ const formData = ref<FormData>({
     distrito_id: null,
     municipio_id: null,
     departamento_id: null,
+    carreras: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -167,6 +169,20 @@ onMounted(() => {
                             item-title="descripcion"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
+                        ></v-autocomplete>
+
+                        <v-autocomplete
+                            clearable
+                            :label="$t('sede._carreras_')"
+                            :items="props.carreras"
+                            v-model="formData.carreras"
+                            item-title="nombreCompleto"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                            multiple
+                            chips
+                            :hint="$t('sede._carreras_ayuda_')"
+                            persistent-hint
                         ></v-autocomplete>
                     </v-col>
 
