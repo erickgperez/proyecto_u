@@ -16,7 +16,6 @@ defineProps<{
                 <v-container class="d-flex align-center fill-height">
                     <v-row justify="center">
                         <v-col cols="auto">
-                            <!-- Your div content here -->
                             <div class="text-h4 text-blue-darken-4 text-center">TEC</div>
                             <div class="text-h4 text-blue-darken-4 text-center">EL SALVADOR</div>
                         </v-col>
