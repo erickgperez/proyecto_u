@@ -95,8 +95,8 @@ const fileName = ref('carreras');
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_nombre_'), key: 'nombre' },
-    { title: t('carrera._padre_'), key: 'padre.nombreCompleto' },
-    { title: t('carrera._tipo_'), key: 'tipo.descripcion' },
+    { title: t('carrera._padre_'), key: 'padre' },
+    { title: t('carrera._tipo_'), key: 'tipo' },
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
@@ -146,7 +146,18 @@ const opcionesAccion = [
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
                         :fileName="fileName"
-                    ></Listado>
+                    >
+                        <template v-slot:item.padre="{ value }">
+                            <div class="d-flex ga-2">
+                                {{ value?.nombreCompleto }}
+                            </div>
+                        </template>
+                        <template v-slot:item.tipo="{ value }">
+                            <div class="d-flex ga-2">
+                                {{ value?.descripcion }}
+                            </div>
+                        </template>
+                    </Listado>
                 </v-window-item>
 
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
