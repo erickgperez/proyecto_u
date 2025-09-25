@@ -20,9 +20,18 @@ class CarreraController extends Controller
     public function index(): Response
     {
 
-        $items = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes')->orderBy('nombre')->get();
+        $carreras = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes')->orderBy('nombre')->get();
         $tiposCarrera = TipoCarrera::orderBy('descripcion')->get();
         $sedes = Sede::orderBy('nombre')->get();
+
+        $items = [];
+        foreach ($carreras as $row) {
+            $item = $row->toArray();
+            $item['padre_'] = $row->padre?->nombreCompleto;
+            $item['tipo_'] = $row->tipo?->descripcion;
+
+            $items[] = $item;
+        }
 
         return Inertia::render('academica/Carrera', ['items' => $items, 'tiposCarrera' => $tiposCarrera, 'sedes' => $sedes]);
     }
@@ -72,6 +81,8 @@ class CarreraController extends Controller
 
         //Obtener la información de las relaciones del item recién creado/actualizado
         $item = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes')->find($carrera->id);
+        $item['padre_'] = $carrera->padre?->nombreCompleto;
+        $item['tipo_'] = $carrera->tipo?->descripcion;
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $item]);
     }

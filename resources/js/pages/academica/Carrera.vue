@@ -27,6 +27,8 @@ interface Item {
     nombre: string;
     padre: Carrera | null;
     tipoCarrera: TipoCarrera | null;
+    tipo_: string | null;
+    padre_: string | null;
 }
 
 const props = defineProps({
@@ -95,14 +97,14 @@ const fileName = ref('carreras');
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_nombre_'), key: 'nombre' },
-    { title: t('carrera._padre_'), key: 'padre' },
-    { title: t('carrera._tipo_'), key: 'tipo' },
+    { title: t('carrera._padre_'), key: 'padre_' },
+    { title: t('carrera._tipo_'), key: 'tipo_' },
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
 const sortBy: SortBy[] = [
-    { key: 'tipo.descripcion', order: 'desc' },
-    { key: 'padre.nombre', order: 'asc' },
+    { key: 'tipo_', order: 'desc' },
+    { key: 'padre_', order: 'asc' },
     { key: 'nombre', order: 'asc' },
 ];
 
@@ -147,16 +149,6 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.padre="{ value }">
-                            <div class="d-flex ga-2">
-                                {{ value?.nombreCompleto }}
-                            </div>
-                        </template>
-                        <template v-slot:item.tipo="{ value }">
-                            <div class="d-flex ga-2">
-                                {{ value?.descripcion }}
-                            </div>
-                        </template>
                     </Listado>
                 </v-window-item>
 
