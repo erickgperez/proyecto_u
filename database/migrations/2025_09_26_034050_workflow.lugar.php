@@ -11,13 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow.tipo_flujo', function (Blueprint $table) {
+        Schema::create('workflow.lugar', function (Blueprint $table) {
             $table->id();
 
-            $table->comment('Catálogo para tipos de flujo');
+            $table->comment('Identifica los lugares físicos donde se encuentra una etapa');
 
-            $table->string('codigo', length: 50)->unique();
-            $table->string('descripcion', length: 150)->nullable();
+            $table->string('codigo', length: 100)->unique();
+            $table->string('descripcion', length: 255)->nullable();
 
             $table->timestamps();
         });
@@ -28,6 +28,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow.tipo_flujo');
+        Schema::dropIfExists('workflow.lugar');
     }
 };
