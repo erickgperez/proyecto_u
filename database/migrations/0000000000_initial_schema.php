@@ -24,6 +24,9 @@ return new class extends Migration
 
         DB::statement('DROP SCHEMA IF EXISTS documento CASCADE');
         DB::statement('CREATE SCHEMA documento');
+
+        DB::statement('DROP SCHEMA IF EXISTS workflow CASCADE');
+        DB::statement('CREATE SCHEMA workflow');
     }
 
     /**
