@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\PlanEstudio;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class PlanEstudioGradoSeeder extends Seeder
+class GradoSeeder extends Seeder
 {
     /**
      * Run the database seeds.

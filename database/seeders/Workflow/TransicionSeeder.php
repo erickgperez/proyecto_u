@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Workflow;
 
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Etapa;

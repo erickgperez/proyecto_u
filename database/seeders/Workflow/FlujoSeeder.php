@@ -1,6 +1,6 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Workflow;
 
 use App\Models\Workflow\TipoFlujo;
 use Illuminate\Database\Seeder;

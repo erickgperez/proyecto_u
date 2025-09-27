@@ -1,12 +1,12 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\PlanEstudio;
 
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
 use Illuminate\Database\Seeder;
 
-class PlanEstudioCarrera2Seeder extends Seeder
+class Carrera2Seeder extends Seeder
 {
     /**
      * Run the database seeds.

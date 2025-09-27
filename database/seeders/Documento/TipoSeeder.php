@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Documento;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class DocumentoTipoSeeder extends Seeder
+class TipoSeeder extends Seeder
 {
     /**
      * Run the database seeds.

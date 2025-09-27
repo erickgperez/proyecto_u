@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Secundaria;
 
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
-class SecundariaSectorSeeder extends Seeder
+class SectorSeeder extends Seeder
 {
     /**
      * Run the database seeds.
