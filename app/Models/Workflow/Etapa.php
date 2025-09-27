@@ -11,9 +11,10 @@ class Etapa extends Model
 {
     use UserStamps;
 
-    protected $table = 'workflow.flujo';
+    protected $table = 'workflow.etapa';
 
     protected $fillable = [
+        'codigo',
         'nombre',
         'indicaciones',
         'flujo_id',

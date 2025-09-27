@@ -5,25 +5,17 @@ namespace App\Models\Workflow;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class Flujo extends Model
+class Estado extends Model
 {
     use UserStamps;
 
-    protected $table = 'workflow.flujo';
+    protected $table = 'workflow.estado';
 
     protected $fillable = [
         'codigo',
-        'nombre',
-        'activo',
-        'tipo_flujo_id'
+        'descripcion'
     ];
-
-    public function tipo(): BelongsTo
-    {
-        return $this->belongsTo(TipoFlujo::class, 'tipo_flujo_id');
-    }
 
     public function creator()
     {

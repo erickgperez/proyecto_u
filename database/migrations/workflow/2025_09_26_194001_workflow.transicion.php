@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->comment('Transiciones entre etapas');
 
+            $table->string('codigo', length: 100);
             $table->string('nombre', length: 255);
 
             $table->foreignId('flujo_id');
@@ -24,6 +25,8 @@ return new class extends Migration
             $table->foreign('etapa_origen_id')->references('id')->on('workflow.etapa')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('etapa_destino_id');
             $table->foreign('etapa_destino_id')->references('id')->on('workflow.etapa')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('estado_id')->comment('Estado que se tendrá la solicitud en la etapa destino');
+            $table->foreign('estado_id')->references('id')->on('workflow.estado')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

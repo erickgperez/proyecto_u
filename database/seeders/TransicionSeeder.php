@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Workflow\Estado;
 use App\Models\Workflow\Etapa;
 use App\Models\Workflow\Flujo;
 use Illuminate\Database\Seeder;
@@ -14,18 +15,22 @@ class TransicionSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('workflow.etapa')->insert([
+        DB::table('workflow.transicion')->insert([
             [
+                'codigo' => 'SELECCIONAR_CARRERA',
                 'nombre' => 'Seleccionar carrera',
-                'flujo_id' => Flujo::where('nombre', 'Proceso de ingreso universitario')->first()->id,
-                'etapa_origen_id' => Etapa::where('nombre', 'Selección de proceso y carrera')->first()->id,
-                'etapa_destino_id' => Etapa::where('nombre', 'Ingreso de datos de la solicitud')->first()->id,
+                'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id,
+                'etapa_destino_id' => Etapa::where('codigo', 'SOLICITUD')->first()->id,
+                'etapa_origen_id' => Etapa::where('codigo', 'SELECCION_PROCESO_CARRERA')->first()->id,
+                'estado_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
             ],
             [
+                'codigo' => 'COMPLETAR_SOLICITUD',
                 'nombre' => 'Completar solicitud',
-                'flujo_id' => Flujo::where('nombre', 'Proceso de ingreso universitario')->first()->id,
-                'etapa_origen_id' => Etapa::where('nombre', 'Ingreso de datos de la solicitud')->first()->id,
-                'etapa_destino_id' => Etapa::where('nombre', 'Documentación')->first()->id,
+                'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id,
+                'etapa_origen_id' => Etapa::where('codigo', 'SOLICITUD')->first()->id,
+                'etapa_destino_id' => Etapa::where('codigo', 'DOCUMENTACION')->first()->id,
+                'estado_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
             ],
         ]);
     }

@@ -11,17 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workflow.flujo', function (Blueprint $table) {
+        Schema::create('workflow.estado', function (Blueprint $table) {
             $table->id();
 
-            $table->comment('Para la creación de los procesos que se realizarán');
+            $table->comment('Catálogo de estados de la solicitud');
 
-            $table->string('codigo', length: 100);
-            $table->string('nombre', length: 255);
-            $table->boolean('activo')->default(true);
-
-            $table->foreignId('tipo_flujo_id');
-            $table->foreign('tipo_flujo_id')->references('id')->on('workflow.tipo_flujo')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->string('codigo', length: 100)->unique();
+            $table->string('descripcion', length: 200)->nullable();
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
@@ -37,6 +33,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('workflow.flujo');
+        Schema::dropIfExists('workflow.estado');
     }
 };

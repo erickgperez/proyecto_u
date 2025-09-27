@@ -14,7 +14,7 @@ class FlujoSeeder extends Seeder
     public function run(): void
     {
         DB::table('workflow.flujo')->insert([
-            ['nombre' => 'Proceso de ingreso universitario', 'activo' => true, 'tipo_flujo_id' => TipoFlujo::where('codigo', 'INGRESO')->first()->id],
+            ['codigo' => 'INGRESO_01', 'nombre' => 'Proceso de ingreso universitario', 'activo' => true, 'tipo_flujo_id' => TipoFlujo::where('codigo', 'INGRESO')->first()->id],
         ]);
     }
 }

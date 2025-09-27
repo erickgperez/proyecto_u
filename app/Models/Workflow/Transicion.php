@@ -14,10 +14,12 @@ class Transicion extends Model
     protected $table = 'workflow.flujo';
 
     protected $fillable = [
+        'codigo',
         'nombre',
         'flujo_id',
         'etapa_origen_id',
         'etapa_destino_id',
+        'estado_id'
     ];
 
     public function flujo(): BelongsTo
@@ -33,6 +35,11 @@ class Transicion extends Model
     public function etapaDestino(): BelongsTo
     {
         return $this->belongsTo(Etapa::class, 'etapa_destino_id');
+    }
+
+    public function estado(): BelongsTo
+    {
+        return $this->belongsTo(Estado::class, 'estado_id');
     }
 
     public function creator()

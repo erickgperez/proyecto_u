@@ -16,6 +16,7 @@ return new class extends Migration
 
             $table->comment('Las etapas por las que pasa un flujo');
 
+            $table->string('codigo', length: 100);
             $table->string('nombre', length: 255);
             $table->text('indicaciones')->nullable();
 

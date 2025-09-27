@@ -3,6 +3,12 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Seeders\EstadoSeeder;
+use Database\Seeders\EtapaSeeder;
+use Database\Seeders\FlujoSeeder;
+use Database\Seeders\TipoCarreraSedeSolicitudSeeder;
+use Database\Seeders\TipoFlujoSeeder;
+use Database\Seeders\TransicionSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
@@ -28,10 +34,11 @@ class DatabaseSeeder extends Seeder
             PlanEstudioCarrera2Seeder::class,
             SexoSeeder::class,
             PaisSeeder::class,
-            EtapaSeeder::class,
-            FlujoSeeder::class,
-            TipoCarreraSedeSolicitudSeeder::class,
             TipoFlujoSeeder::class,
+            TipoCarreraSedeSolicitudSeeder::class,
+            EstadoSeeder::class,
+            FlujoSeeder::class,
+            EtapaSeeder::class,
             TransicionSeeder::class
         ]);
         User::factory()->create([

@@ -30,6 +30,9 @@ return new class extends Migration
             $table->foreignId('rol_id')->comment('Rol con el cual la persona está realizando la solicitud');
             $table->foreign('rol_id')->references('id')->on('public.roles')->onDelete('CASCADE')->onUpdate('CASCADE');
 
+            $table->foreignId('estado_id')->comment('Estado de la solicitud');
+            $table->foreign('estado_id')->references('id')->on('workflow.estado')->onDelete('CASCADE')->onUpdate('CASCADE');
+
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
