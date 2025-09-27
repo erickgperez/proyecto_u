@@ -5,6 +5,7 @@ namespace App\Models\Ingreso;
 use App\Models\Calendarizacion;
 use App\Models\Secundaria\Invitacion;
 use App\Models\User;
+use App\Models\Workflow\FlujoModelo;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -49,5 +50,10 @@ class Convocatoria extends Model
     public function aspirantes(): BelongsToMany
     {
         return $this->belongsToMany(Aspirante::class, 'ingreso.convocatoria_aspirante', 'convocatoria_id', 'aspirante_id');
+    }
+
+    public function flujosmodelo()
+    {
+        return $this->morphMany(FlujoModelo::class, 'modelo');
     }
 }

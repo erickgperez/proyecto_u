@@ -17,12 +17,17 @@ return new class extends Migration
             $table->comment('Las etapas por las que pasa un flujo');
 
             $table->string('nombre', length: 255);
-            $table->text('indicaciones');
+            $table->text('indicaciones')->nullable();
 
             $table->foreignId('flujo_id');
             $table->foreign('flujo_id')->references('id')->on('workflow.flujo')->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->foreignId('lugar_id');
+            $table->foreignId('lugar_id')->nullable();
             $table->foreign('lugar_id')->references('id')->on('workflow.lugar')->onDelete('CASCADE')->onUpdate('CASCADE');
+
+            $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
+            $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
 
             $table->timestamps();
         });
