@@ -23,10 +23,12 @@ return new class extends Migration
             $table->foreign('flujo_id')->references('id')->on('workflow.etapa')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('etapa_origen_id');
             $table->foreign('etapa_origen_id')->references('id')->on('workflow.etapa')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('estado_origen_id')->comment('Estado que se tendrá la solicitud en la etapa destino');
+            $table->foreign('estado_origen_id')->references('id')->on('workflow.estado')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('etapa_destino_id');
             $table->foreign('etapa_destino_id')->references('id')->on('workflow.etapa')->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->foreignId('estado_id')->comment('Estado que se tendrá la solicitud en la etapa destino');
-            $table->foreign('estado_id')->references('id')->on('workflow.estado')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('estado_destino_id')->comment('Estado que se tendrá la solicitud en la etapa destino');
+            $table->foreign('estado_destino_id')->references('id')->on('workflow.estado')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

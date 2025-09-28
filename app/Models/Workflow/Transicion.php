@@ -18,8 +18,9 @@ class Transicion extends Model
         'nombre',
         'flujo_id',
         'etapa_origen_id',
+        'estado_origen_id',
         'etapa_destino_id',
-        'estado_id'
+        'estado_destino_id'
     ];
 
     public function flujo(): BelongsTo
@@ -32,14 +33,19 @@ class Transicion extends Model
         return $this->belongsTo(Etapa::class, 'etapa_origen_id');
     }
 
+    public function estadoOrigen(): BelongsTo
+    {
+        return $this->belongsTo(Estado::class, 'estado_origen_id');
+    }
+
     public function etapaDestino(): BelongsTo
     {
         return $this->belongsTo(Etapa::class, 'etapa_destino_id');
     }
 
-    public function estado(): BelongsTo
+    public function estadoDestino(): BelongsTo
     {
-        return $this->belongsTo(Estado::class, 'estado_id');
+        return $this->belongsTo(Estado::class, 'estado_destino_id');
     }
 
     public function creator()

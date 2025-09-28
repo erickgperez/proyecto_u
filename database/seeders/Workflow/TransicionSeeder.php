@@ -20,17 +20,20 @@ class TransicionSeeder extends Seeder
                 'codigo' => 'SELECCIONAR_CARRERA',
                 'nombre' => 'Seleccionar carrera',
                 'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id,
-                'etapa_destino_id' => Etapa::where('codigo', 'SOLICITUD')->first()->id,
                 'etapa_origen_id' => Etapa::where('codigo', 'SELECCION_PROCESO_CARRERA')->first()->id,
-                'estado_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
+                'estado_origen_id' => Estado::where('codigo', 'INICIO')->first()->id,
+                'etapa_destino_id' => Etapa::where('codigo', 'SOLICITUD')->first()->id,
+                'estado_destino_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
+
             ],
             [
                 'codigo' => 'COMPLETAR_SOLICITUD',
                 'nombre' => 'Completar solicitud',
                 'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id,
                 'etapa_origen_id' => Etapa::where('codigo', 'SOLICITUD')->first()->id,
+                'estado_origen_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
                 'etapa_destino_id' => Etapa::where('codigo', 'DOCUMENTACION')->first()->id,
-                'estado_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
+                'estado_destino_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
             ],
         ]);
     }
