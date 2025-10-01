@@ -3,8 +3,15 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academica\CarreraSede;
+use App\Models\Academica\Sede;
+use App\Models\Departamento;
+use App\Models\Distrito;
 use App\Models\Ingreso\Aspirante;
+use App\Models\Ingreso\Convocatoria;
+use App\Models\Municipio;
 use App\Models\Persona;
+use App\Models\PlanEstudio\Carrera;
 use App\Models\Rol;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
@@ -69,5 +76,30 @@ class AspiranteController extends Controller
         $etapasOrden = $flujo->etapasEnOrden();
 
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitudData, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
+    }
+
+    public function convocatoriaCarrera(int $id)
+    {
+        $aspirante = Aspirante::find($id);
+
+        $convocatorias = Convocatoria::all();
+        $sedes = Sede::orderBy('nombre')->get();
+        $distritos = Distrito::orderBy('descripcion')->get();
+        $departamentos = Departamento::orderBy('descripcion')->get();
+        $municipios = Municipio::orderBy('descripcion')->get();
+        $carreras = Carrera::orderBy('nombre')->get();
+        $carrerasSedes = CarreraSede::with('carrera', 'sede')->get();
+
+        return response()->json([
+            'status' => 'ok',
+            'message' => '',
+            'convocatorias' => $convocatorias,
+            'distritos' => $distritos,
+            'departamentos' => $departamentos,
+            'municipios' => $municipios,
+            'sedes' => $sedes,
+            'carreras' => $carreras,
+            'carrerasSedes' => $carrerasSedes
+        ]);
     }
 }

@@ -27,4 +27,5 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/ingreso/aspirante/{idPersona}/solicitud', [AspiranteController::class, 'solicitud'])->name('ingreso-aspirante-solicitud');
     Route::get('/ingreso/aspirante/{idPersona}/solicitud/crear', [AspiranteController::class, 'solicitudCrear'])->name('ingreso-aspirante-solicitud-crear');
+    Route::get('/ingreso/aspirante/{id}/convocatoria', [AspiranteController::class, 'convocatoriaCarrera'])->name('ingreso-aspirante-convocatoria-carrera');
 });

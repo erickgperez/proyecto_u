@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import SeleccionProcesoForm from '@/components/ingreso/SeleccionProcesoForm.vue';
 import { Etapa } from '@/types/tipos';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
@@ -8,6 +9,7 @@ const page = usePage();
 const persona = page.props.auth.persona;
 
 const solicitud = ref(null);
+const aspirante = ref(null);
 
 function crearSolicitud() {
     axios
@@ -36,6 +38,7 @@ onMounted(() => {
 function actualizar(data: any) {
     solicitud.value = data.solicitud;
     etapas.value = data.etapas;
+    aspirante.value = data.aspirante;
 
     const index = etapas.value.findIndex((item) => item.id === data.solicitud.etapa_id);
 
@@ -65,10 +68,12 @@ const etapas = ref<Etapa[]>([]);
         </v-btn>
     </v-alert>
     <v-stepper-vertical :items="etapas.map((s) => s.codigo)" v-if="solicitud != null" v-model="step">
-        <template v-for="(s, index) in etapas" v-slot:[`item.${index+1}`] :key="s.title">
+        <template v-for="(s, index) in etapas" v-slot:[`item.${index+1}`] :key="s.codigo">
             <h3>{{ s.nombre }}</h3>
 
             <p>{{ s.indicaciones }}</p>
+
+            <SeleccionProcesoForm :persona="persona" :aspirante="aspirante" v-if="s.codigo == 'SELECCION_PROCESO_CARRERA'"></SeleccionProcesoForm>
         </template>
     </v-stepper-vertical>
 </template>

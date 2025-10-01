@@ -9,49 +9,27 @@ const { t } = useI18n();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
-
-const emit = defineEmits(['form-saved']);
-
-function reset() {
-    formRef.value!.reset();
-    formData.value.afiche = null;
-}
+const convocatorias = ref([]);
+const carreras = ref([]);
+const sedes = ref([]);
 
 interface FormData {
-    id: number | null;
-    nombre: string;
-    descripcion: string;
-    fecha: Date | null;
-    cuerpo_mensaje: string;
-    afiche: string | null;
-    afiche_file: File | null;
+    convocatoria_id: number | null;
+    carrera_principal_id: number | null;
+    sede_principal_id: number | null;
+    carrera_secundaria_id: number | null;
+    sede_secundaria_id: number | null;
 }
 
 const props = defineProps(['persona', 'aspirante']);
 
 const formData = ref<FormData>({
-    id: null,
-    nombre: '',
-    descripcion: '',
-    fecha: null,
-    cuerpo_mensaje: '',
-    afiche_file: null,
-    afiche: '',
+    convocatoria_id: null,
+    carrera_principal_id: null,
+    sede_principal_id: null,
+    carrera_secundaria_id: null,
+    sede_secundaria_id: null,
 });
-
-async function deleteAfiche() {
-    await axios.delete(route('ingreso-convocatoria-afiche-delete', { id: formData.value.id }));
-
-    Swal.fire({
-        title: t('_exito_'),
-        text: t('_archivo_borrado_correctamente_'),
-        icon: 'success',
-        position: 'top-end',
-        showConfirmButton: false,
-        timer: 2500,
-        toast: true,
-    });
-}
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -69,11 +47,6 @@ async function submitForm() {
                 },
             });
             if (resp.data.status == 'ok') {
-                /*if (!isEditing.value) {
-                    reset();
-                }*/
-                emit('form-saved', resp.data.convocatoria);
-                formData.value.afiche = resp.data.convocatoria.afiche;
                 Swal.fire({
                     title: t('_exito_'),
                     text: t('_datos_subidos_correctamente_'),
@@ -106,108 +79,75 @@ async function submitForm() {
 }
 
 onMounted(() => {
-    reset();
-    if (props.accion === 'edit') {
-        formData.value = { ...props.item };
-    }
-});
+    axios
+        .get(route('ingreso-aspirante-convocatoria-carrera', { id: props.aspirante.id }))
+        .then(function (response) {
+            console.log(response.data);
 
-// editor extensions
-const extensions = [
-    Document,
-    Text,
-    Paragraph,
-    //Heading.configure({ levels: [1, 2, 3] }),
-    //FontSize,
-    Bold,
-    Underline,
-    Italic,
-    Strike,
-    TextAlign,
-    BulletList,
-    OrderedList,
-    Indent,
-    Color,
-    Image.configure({ allowBase64: true }),
-    FormatClear,
-    History,
-];
+            convocatorias.value = response.data.convocatorias;
+            carreras.value = response.data.carreras;
+            sedes.value = response.data.sedes;
+        })
+        .catch(function (error) {
+            // handle error
+            console.error('Error fetching data:', error);
+        });
+});
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_crear_convocatoria_')} `">
+    <v-card>
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
-                    <v-col cols="12">
-                        <v-locale-provider locale="es">
-                            <v-date-input
-                                clearable
-                                required
-                                v-model="formData.fecha"
-                                :rules="[(v) => !!v || $t('_fecha_requerida_')]"
-                                :label="$t('_fecha_') + ' *'"
-                            ></v-date-input>
-                        </v-locale-provider>
+                    <v-autocomplete
+                        clearable
+                        :label="$t('_convocatoria_')"
+                        :items="convocatorias"
+                        v-model="formData.convocatoria_id"
+                        item-title="nombre"
+                        item-value="id"
+                        prepend-icon="mdi-form-dropdown"
+                    ></v-autocomplete>
 
-                        <v-text-field
-                            required
-                            prepend-icon="mdi-form-textbox"
-                            v-model="formData.nombre"
-                            :rules="[
-                                (v) => !!v || $t('_nombre_requerido_'),
-                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima') + ': 100 ' + $t('_caracteres_'),
-                            ]"
-                            counter="100"
-                            :label="$t('_nombre_') + ' *'"
-                        ></v-text-field>
+                    <v-autocomplete
+                        clearable
+                        :label="$t('_carrera_principal_')"
+                        :items="carreras"
+                        v-model="formData.carrera_principal_id"
+                        item-title="nombreCompleto"
+                        item-value="id"
+                        prepend-icon="mdi-form-dropdown"
+                    ></v-autocomplete>
 
-                        <v-text-field
-                            prepend-icon="mdi-form-textbox"
-                            v-model="formData.descripcion"
-                            :rules="[(v) => !v || v.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
-                            counter="255"
-                            :label="$t('_descripcion_')"
-                        ></v-text-field>
-                    </v-col>
+                    <v-autocomplete
+                        clearable
+                        :label="$t('_sede_principal_')"
+                        :items="sedes"
+                        v-model="formData.sede_principal_id"
+                        item-title="nombreCompleto"
+                        item-value="id"
+                        prepend-icon="mdi-form-dropdown"
+                    ></v-autocomplete>
 
-                    <v-col cols="12">
-                        <v-file-input
-                            :label="$t('_afiche_formato_pdf_')"
-                            accept=".pdf"
-                            clearable
-                            v-model="formData.afiche_file"
-                            @input="formData.afiche_file = $event.target.files[0]"
-                            show-size
-                            counter
-                        ></v-file-input>
-                        <span v-if="props.accion == 'edit' && formData.afiche != null">
-                            <v-list-item color="primary" rounded="xl">
-                                <template v-slot:prepend>
-                                    <v-avatar color="blue">
-                                        <v-btn
-                                            :title="$t('_descargar_afiche_actual_')"
-                                            color="white"
-                                            icon="mdi-file-download-outline"
-                                            variant="text"
-                                            :href="`/ingreso/afiche/download/${props.item.id}`"
-                                        ></v-btn>
-                                    </v-avatar>
-                                </template>
+                    <v-autocomplete
+                        clearable
+                        :label="$t('_carrera_alternativa_')"
+                        :items="carreras"
+                        v-model="formData.carrera_alternativa_id"
+                        item-title="nombreCompleto"
+                        item-value="id"
+                        prepend-icon="mdi-form-dropdown"
+                    ></v-autocomplete>
 
-                                <v-list-item-title>afiche.pdf</v-list-item-title>
-                                <template v-slot:append>
-                                    <v-avatar color="orange-lighten-2">
-                                        <v-btn
-                                            :title="$t('_borrar_afiche_actual_')"
-                                            icon="mdi-file-document-remove-outline"
-                                            variant="text"
-                                            @click="deleteAfiche"
-                                        ></v-btn>
-                                    </v-avatar>
-                                </template>
-                            </v-list-item>
-                        </span>
-                    </v-col>
+                    <v-autocomplete
+                        clearable
+                        :label="$t('_sede_alternativa_')"
+                        :items="sedes"
+                        v-model="formData.sede_alternativa_id"
+                        item-title="nombreCompleto"
+                        item-value="id"
+                        prepend-icon="mdi-form-dropdown"
+                    ></v-autocomplete>
 
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
