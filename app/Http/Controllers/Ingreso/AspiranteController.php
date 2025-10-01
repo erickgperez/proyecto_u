@@ -3,112 +3,60 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
-use App\Models\Calendarizacion;
-use App\Models\Ingreso\Convocatoria;
+use App\Models\Ingreso\Aspirante;
+use App\Models\Persona;
+use App\Models\Rol;
+use App\Models\Workflow\Estado;
+use App\Models\Workflow\Flujo;
+use App\Models\Workflow\Solicitud;
+use App\Models\Workflow\TipoFlujo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Storage;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class AspiranteController extends Controller
 {
-    /**
-     *
-     */
-    public function index(Request $request): Response
-    {
 
-        $convocatorias = Convocatoria::all();
+    public function save(Request $request) {}
 
-        $resp = [];
-        foreach ($convocatorias as $row) {
-            $conv = $row->toArray();
-            $conv['created_by'] = $row->creator;
-            $conv['updated_by'] = $row->updater;
-
-            $resp[] = $conv;
-        }
-        return Inertia::render('ingreso/Convocatoria', ['items' => $resp]);
-    }
-
-    public function save(Request $request)
-    {
-        // Aunque se ha validado del lado del cliente, validar aquí también
-        $request->validate([
-            'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string|max:255',
-            'fecha' => 'required|date',
-            'cuerpo_mensaje' => 'nullable|string',
-            'afiche_file' => 'nullable|file|mimes:pdf',
-        ]);
-
-        if ($request->get('id') === null) {
-            $convocatoria = new Convocatoria();
-            //Crear el calendario de actividades
-            $calendarizacion = new Calendarizacion();
-            $calendarizacion->nombre = $request->get('nombre'); //llevará el mismo nombre que la convocatoria
-            $calendarizacion->save();
-
-            //Asociar el calendario a la convocatoria
-            $convocatoria->calendario()->associate($calendarizacion);
-        } else {
-            $convocatoria = Convocatoria::find($request->get('id'));
-        }
-
-        $convocatoria->nombre = $request->get('nombre');
-        $convocatoria->descripcion = $request->get('descripcion');
-        $convocatoria->fecha = $request->get('fecha');
-        $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
-
-        if ($request->hasFile('afiche_file')) {
-            $file = $request->file('afiche_file');
-
-            if ($request->get('id') != null) {
-                //Verificar si ya tenía un afiche cargado, en ese caso borrarlo para subir el nuevo
-                $filePath = $convocatoria->afiche;
-                if (Storage::exists($filePath)) {
-                    Storage::delete($filePath);
-                }
-            }
-
-            $path = $file->store('documents/convocatorias');
-
-            $convocatoria->afiche = $path;
-        }
-
-        $convocatoria->save();
-
-        $conv = $convocatoria->toArray();
-        $conv['created_by'] = $convocatoria->creator;
-        $conv['updated_by'] = $convocatoria->updater;
-
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $conv]);
-    }
-
-    public function delete(int $id)
-    {
-        $convocatoria = Convocatoria::find($id);
-
-        //Verificar si tiene un afiche cargado, borrarlo en ese caso
-        $filePath = $convocatoria->afiche;
-        if ($filePath != null && Storage::exists($filePath)) {
-            Storage::delete($filePath);
-        }
-        $delete = Convocatoria::destroy($id);
-
-        if ($delete == 0) {
-            return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);
-        } else {
-            return response()->json(['status' => 'ok', 'message' => $id]);
-        }
-    }
+    public function delete(int $id) {}
 
     public function datosPersonalesRestringido()
     {
         $user = Auth::user();
         $persona = $user->personas()->first();
-        dd($persona);
+
         return response()->json(['status' => 'ok', 'message' => '', 'persona' => $persona]);
+    }
+
+    public function solicitud(int $idPersona)
+    {
+        $rolAspirante = Rol::where('name', 'aspirante')->first();
+
+        $persona = Persona::find($idPersona);
+
+        //Buscar la solicitud más reciente con el rol de aspirante
+        $solicitud = $persona->solicitudes()
+            ->where('rol_id', $rolAspirante->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud]);
+    }
+
+    public function solicitudCrear(int $idPersona)
+    {
+        $rolAspirante = Rol::where('name', 'aspirante')->first();
+        $tipo_flujo = TipoFlujo::where('codigo', 'ingreso')->first();
+        $flujo = Flujo::where('tipo_flujo_id', $tipo_flujo->id)->first();
+        $estado = Estado::where('codigo', 'INICIO')->first();
+        $persona = Persona::find($idPersona);
+
+        //Buscar la solicitud más reciente con el rol de aspirante
+        $solicitud = $persona->solicitudes()
+            ->where('rol_id', $rolAspirante->id)
+            ->orderBy('created_at', 'desc')
+            ->first();
+
+        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud]);
     }
 }

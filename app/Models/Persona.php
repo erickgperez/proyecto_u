@@ -3,8 +3,10 @@
 namespace App\Models;
 
 use App\Models\Documento\Documento;
+use App\Models\Ingreso\Aspirante;
 use App\Models\Sexo;
 use App\Models\User;
+use App\Models\Workflow\Solicitud;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -55,5 +57,15 @@ class Persona extends Model
     public function usuarios(): BelongsToMany
     {
         return $this->belongsToMany(User::class, 'persona_usuario', 'persona_id', 'usuario_id');
+    }
+
+    public function aspirantes(): HasMany
+    {
+        return $this->hasMany(Aspirante::class)->chaperone();
+    }
+
+    public function solicitudes(): HasMany
+    {
+        return $this->hasMany(Solicitud::class);
     }
 }

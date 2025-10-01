@@ -18,6 +18,7 @@ class Solicitud extends Model
     protected $fillable = [
         'comentario',
         'flujo_modelo_id',
+        'flujo_id',
         'etapa_id',
         'persona_id',
         'rol_id',
@@ -27,6 +28,11 @@ class Solicitud extends Model
     public function flujoModelo(): BelongsTo
     {
         return $this->belongsTo(FlujoModelo::class, 'flujo_modelo_id');
+    }
+
+    public function flujo(): BelongsTo
+    {
+        return $this->belongsTo(Flujo::class, 'flujo_id');
     }
 
     public function etapa(): BelongsTo

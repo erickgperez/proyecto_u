@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Ingreso\AspiranteController;
 use App\Http\Controllers\Ingreso\CandidatosController;
 use App\Http\Controllers\Ingreso\ConvocatoriaController;
 use App\Http\Controllers\Ingreso\UploadFileController;
@@ -23,4 +24,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/ingreso/afiche/download/{id}', [ConvocatoriaController::class, 'aficheDownload'])->name('ingreso-convocatoria-afiche-download');
     Route::delete('/ingreso/afiche/{id}/delete', [ConvocatoriaController::class, 'aficheDelete'])->name('ingreso-convocatoria-afiche-delete');
+
+    Route::get('/ingreso/aspirante/{idPersona}/solicitud', [AspiranteController::class, 'solicitud'])->name('ingreso-aspirante-solicitud');
+    Route::get('/ingreso/aspirante/{idPersona}/solicitud/crear', [AspiranteController::class, 'solicitudCrear'])->name('ingreso-aspirante-solicitud-crear');
 });

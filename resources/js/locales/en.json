@@ -208,6 +208,11 @@
     "_sexo_": "Sex",
     "_siguiente_": "Next",
     "_si_no_elije_opcion_mostrara_todas_": "If you do not choose any option, candidates for all types of high school will be displayed.",
+    "solicitud": {
+        "_crear_solicitud_": "Create application form",
+        "_iniciar_solicitud_": "Start application",
+        "_mensaje_crear_solicitud_": "Please confirm that you wish to start the application process."
+    },
     "_solo_estudiantes_para_carreras_universitarias_": "Only for high school students who are required for university degrees",
     "_solo_invitaciones_no_enviadas_anteriormente_": "Only invitations that have not been sent previously",
     "_suba_archivo_datos_estudiantes_bachillerato_": "Upload a CSV file containing high school student data.",
