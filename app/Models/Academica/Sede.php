@@ -2,12 +2,10 @@
 
 namespace App\Models\Academica;
 
-use App\Models\Distrito;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Sede extends Model
@@ -19,14 +17,7 @@ class Sede extends Model
     protected $fillable = [
         'codigo',
         'nombre',
-        'distrito_id'
     ];
-
-
-    public function distrito(): BelongsTo
-    {
-        return $this->belongsTo(Distrito::class);
-    }
 
     public function creator()
     {

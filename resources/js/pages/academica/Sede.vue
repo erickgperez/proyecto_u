@@ -5,10 +5,11 @@ import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
+import { useFunciones } from '@/composables/useFunciones';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { Carrera, Departamento, Distrito, Municipio, SortBy } from '@/types/tipos';
+import type { Carrera, SortBy, TipoCarrera } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -25,10 +26,7 @@ interface Item {
     id: number | null;
     codigo: string;
     nombre: string;
-    distrito: Distrito | null;
-    municipio_id: number | null;
-    departamento_id: number | null;
-    distrito_: string | null;
+    carreras: [];
 }
 
 const props = defineProps({
@@ -37,23 +35,13 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    distritos: {
-        type: Array as PropType<Distrito[]>,
-        required: true,
-        default: () => [],
-    },
-    departamentos: {
-        type: Array as PropType<Departamento[]>,
-        required: true,
-        default: () => [],
-    },
-    municipios: {
-        type: Array as PropType<Municipio[]>,
-        required: true,
-        default: () => [],
-    },
     carreras: {
         type: Array as PropType<Carrera[]>,
+        required: true,
+        default: () => [],
+    },
+    tiposCarrera: {
+        type: Array as PropType<TipoCarrera[]>,
         required: true,
         default: () => [],
     },
@@ -63,15 +51,14 @@ const itemVacio = ref<Item>({
     id: null,
     codigo: '',
     nombre: '',
-    distrito: null,
-    municipio_id: null,
-    departamento_id: null,
+    carreras: [],
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
     itemVacio,
     props.items,
 );
+const { carrerasAgrupadasVList } = useFunciones();
 
 const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 const rutaBorrar = ref('academica-sede-delete');
@@ -106,7 +93,7 @@ const fileName = ref('sedes');
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
-    { title: t('_distrito_'), key: 'distrito_' },
+    { title: t('sede._carreras_'), key: 'carreras', align: 'start' },
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
@@ -153,6 +140,11 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
+                        <template v-slot:item.carreras="{ value }">
+                            <div class="d-flex ga-2">
+                                <v-list density="compact" class="transparent-list" :items="carrerasAgrupadasVList(tiposCarrera, value)"> </v-list>
+                            </div>
+                        </template>
                     </Listado>
                 </v-window-item>
 
@@ -177,14 +169,16 @@ const opcionesAccion = [
                         <SedeForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                            :distritos="props.distritos"
-                            :departamentos="props.departamentos"
-                            :municipios="props.municipios"
                             :carreras="props.carreras"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
                         ></SedeForm>
-                        <SedeShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SedeShow>
+                        <SedeShow
+                            v-if="selectedAction == 'show'"
+                            :item="selectedItem"
+                            :accion="selectedAction"
+                            :tiposCarrera="tiposCarrera"
+                        ></SedeShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>
@@ -201,3 +195,8 @@ const opcionesAccion = [
         </v-alert>
     </AppLayout>
 </template>
+<style scoped>
+.transparent-list {
+    background-color: transparent !important;
+}
+</style>

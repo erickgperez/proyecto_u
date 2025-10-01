@@ -49,5 +49,16 @@ export function useFuncionesCrud(itemVacio: any, items: any) {
         }
     };
 
-    return { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, remove, selectItem, selectAction, handleFormSave };
+    return {
+        step,
+        selectedAction,
+        localItems,
+        selectedItem,
+        handleAction,
+        handleNextStep,
+        remove,
+        selectItem,
+        selectAction,
+        handleFormSave,
+    };
 }

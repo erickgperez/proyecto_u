@@ -1,9 +1,12 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import { useDate } from 'vuetify';
 
 const date = useDate();
 
-const props = defineProps(['item', 'accion']);
+const { carrerasAgrupadasVList } = useFunciones();
+
+const props = defineProps(['item', 'accion', 'tiposCarrera']);
 </script>
 <template>
     <v-card :title="$t('_mostrar_convocatoria_')">
@@ -34,22 +37,12 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_distrito_') }}
-                </v-col>
-                <v-col cols="8">
-                    {{ props.item.distrito.nombreCompleto }}
-                </v-col>
-            </v-row>
-
-            <v-row>
-                <v-col cols="4">
                     {{ $t('sede._carreras_') }}
                 </v-col>
                 <v-col cols="8">
                     <v-list density="compact">
-                        <v-list-item v-for="carrera in props.item.carreras" :key="carrera.id" prepend-icon="mdi-circle-small">
-                            <v-list-item-title>{{ carrera.nombreCompleto }}</v-list-item-title>
-                        </v-list-item>
+                        <v-list density="compact" class="transparent-list" :items="carrerasAgrupadasVList(props.tiposCarrera, props.item.carreras)">
+                        </v-list>
                     </v-list>
                 </v-col>
             </v-row>
