@@ -39,6 +39,7 @@ onMounted(() => {
 
 <template>
     <v-alert
+        v-if="solicitud == null"
         :text="$t('solicitud._mensaje_crear_solicitud_')"
         :title="$t('solicitud._iniciar_solicitud_')"
         border="top"
