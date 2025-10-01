@@ -11,7 +11,7 @@ class Transicion extends Model
 {
     use UserStamps;
 
-    protected $table = 'workflow.flujo';
+    protected $table = 'workflow.transicion';
 
     protected $fillable = [
         'codigo',

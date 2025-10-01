@@ -33,14 +33,17 @@ class AspiranteController extends Controller
         $rolAspirante = Rol::where('name', 'aspirante')->first();
 
         $persona = Persona::find($idPersona);
+        $aspirante = $persona->aspirantes()->first();
 
         //Buscar la solicitud más reciente con el rol de aspirante
-        $solicitud = $persona->solicitudes()
+        $solicitud = $persona->solicitudes()->with('estado', 'etapa', 'persona')
             ->where('rol_id', $rolAspirante->id)
             ->orderBy('created_at', 'desc')
             ->first();
+        $flujo = $solicitud->flujo;
+        $etapasOrden = $flujo->etapasEnOrden();
 
-        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud]);
+        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
     }
 
     public function solicitudCrear(int $idPersona)
@@ -51,6 +54,7 @@ class AspiranteController extends Controller
         $estado = Estado::where('codigo', 'INICIO')->first();
         $etapa = $flujo->primeraEtapa();
         $persona = Persona::find($idPersona);
+        $aspirante = $persona->aspirantes()->first();
 
         // Crear la solicitud
         $solicitud = new Solicitud;
@@ -61,6 +65,9 @@ class AspiranteController extends Controller
         $solicitud->persona()->associate($persona);
         $solicitud->save();
 
-        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud]);
+        $solicitudData = Solicitud::with('estado', 'etapa', 'persona')->find($solicitud->id);
+        $etapasOrden = $flujo->etapasEnOrden();
+
+        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitudData, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
     }
 }

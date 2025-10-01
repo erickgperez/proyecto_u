@@ -1,12 +1,11 @@
 <script setup lang="ts">
+import { Etapa } from '@/types/tipos';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
-import { onMounted, ref, shallowRef } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const page = usePage();
 const persona = page.props.auth.persona;
-
-const finished = shallowRef(false);
 
 const solicitud = ref(null);
 
@@ -14,8 +13,7 @@ function crearSolicitud() {
     axios
         .get(route('ingreso-aspirante-solicitud-crear', { idPersona: persona.id }))
         .then(function (response) {
-            solicitud.value = response.data.solicitud;
-            console.log(response.data);
+            actualizar(response.data);
         })
         .catch(function (error) {
             // handle error
@@ -27,14 +25,26 @@ onMounted(() => {
     axios
         .get(route('ingreso-aspirante-solicitud', { idPersona: persona.id }))
         .then(function (response) {
-            solicitud.value = response.data.solicitud;
-            console.log(response.data);
+            actualizar(response.data);
         })
         .catch(function (error) {
             // handle error
             console.error('Error fetching data:', error);
         });
 });
+
+function actualizar(data: any) {
+    solicitud.value = data.solicitud;
+    etapas.value = data.etapas;
+
+    const index = etapas.value.findIndex((item) => item.id === data.solicitud.etapa_id);
+
+    step.value = index + 1;
+}
+
+const step = ref(1);
+
+const etapas = ref<Etapa[]>([]);
 </script>
 
 <template>
@@ -54,15 +64,11 @@ onMounted(() => {
             {{ $t('solicitud._crear_solicitud_') }}
         </v-btn>
     </v-alert>
-    <v-stepper-vertical :items="['Paso 1', 'Paso 2', 'Paso 3']" v-if="solicitud != null">
-        <template v-slot:item.1="{ step }"> Hola </template>
-        <template v-slot:next="{ next }">
-            <v-btn color="primary" @click="next"></v-btn>
-        </template>
-        <template v-slot:prev="{ prev }">
-            <v-btn v-if="!finished" variant="plain" @click="prev"></v-btn>
+    <v-stepper-vertical :items="etapas.map((s) => s.codigo)" v-if="solicitud != null" v-model="step">
+        <template v-for="(s, index) in etapas" v-slot:[`item.${index+1}`] :key="s.title">
+            <h3>{{ s.nombre }}</h3>
 
-            <v-btn v-else text="Reset" variant="plain" @click="finished = false"></v-btn>
+            <p>{{ s.indicaciones }}</p>
         </template>
     </v-stepper-vertical>
 </template>

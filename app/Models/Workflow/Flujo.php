@@ -45,6 +45,14 @@ class Flujo extends Model
     }
 
     /**
+     * Obtiene las transiciones del flujo.
+     */
+    public function transiciones(): HasMany
+    {
+        return $this->hasMany(Transicion::class);
+    }
+
+    /**
      * Obtiene la primera etapa del flujo.
      *
      * @return Etapa|null La primera etapa o null si no hay etapas.
@@ -56,5 +64,24 @@ class Flujo extends Model
             $query->select('etapa_destino_id')
                 ->from('workflow.transicion');
         })->first();
+    }
+
+    /**
+     * Obtiene todas las etapas del flujo en orden de ejecución
+     */
+    public function etapasEnOrden(): array
+    {
+        $etapas = [];
+
+        $etapa = $this->primeraEtapa();
+
+        while ($etapa !== null) {
+            $etapas[] = $etapa;
+            $transicion = $this->transiciones()->where('etapa_origen_id', $etapa->id)->first();
+
+            $etapa = $transicion?->etapaDestino;
+        }
+
+        return $etapas;
     }
 }
