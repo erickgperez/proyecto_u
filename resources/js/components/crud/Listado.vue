@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { usePermissions } from '@/composables/usePermissions';
-import type { Header, SortBy } from '@/types/crud';
+import type { Header, SortBy } from '@/types/tipos';
 import { saveAs } from 'file-saver';
 import { computed, PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';

@@ -5,27 +5,6 @@ import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
-import {
-    Bold,
-    BulletList,
-    Color,
-    Document,
-    FormatClear,
-    //FontSize,
-    // necessary extensions
-    //Heading,
-    History,
-    Image,
-    Indent,
-    Italic,
-    OrderedList,
-    Paragraph,
-    Strike,
-    Text,
-    TextAlign,
-    Underline,
-} from 'element-tiptap';
-
 const { t } = useI18n();
 
 const loading = ref(false);
@@ -48,9 +27,7 @@ interface FormData {
     afiche_file: File | null;
 }
 
-const props = defineProps(['item']);
-
-const content = ref(props.item?.cuerpo_mensaje);
+const props = defineProps(['persona', 'aspirante']);
 
 const formData = ref<FormData>({
     id: null,
@@ -74,7 +51,6 @@ async function deleteAfiche() {
         timer: 2500,
         toast: true,
     });
-    formData.value.afiche_file = null;
 }
 
 async function submitForm() {
@@ -85,7 +61,7 @@ async function submitForm() {
     const message = ref('');
 
     if (valid) {
-        formData.value.cuerpo_mensaje = content.value;
+        //formData.value.cuerpo_mensaje = content.value;
         try {
             const resp = await axios.postForm(route('ingreso-convocatoria-save'), formData.value, {
                 headers: {
@@ -232,19 +208,6 @@ const extensions = [
                             </v-list-item>
                         </span>
                     </v-col>
-                    <v-col cols="12" class="pl-15">
-                        <!--<v-textarea
-                            prepend-icon="mdi-form-textarea"
-                            :label="$t('_cuerpo_mensaje_')"
-                            v-model="formData.cuerpo_mensaje"
-                            :hint="$t('_consejo_cuerpo_mensaje_')"
-                            persistent-hint
-                        ></v-textarea>-->
-                        {{ $t('_cuerpo_mensaje_') }}
-                        <el-tiptap v-model:content="content" :extensions="extensions" />
-
-                        {{ $t('_consejo_cuerpo_mensaje_') }}
-                    </v-col>
 
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
@@ -256,17 +219,3 @@ const extensions = [
         </template>
     </v-card>
 </template>
-<style lang="css">
-.el-tiptap-editor__menu-bar {
-    /*position: sticky;*/
-    /*background-color: #f0f0f0;
-    border-bottom: 1px solid #ccc;
-    z-index: 10;*/
-    position: sticky;
-    top: 0; /* The element will stick to the top of the viewport when its top edge reaches 0 pixels from the viewport's top */
-    background-color: lightblue;
-}
-/*.ProseMirror {
-    padding-top: 40px;
-}*/
-</style>

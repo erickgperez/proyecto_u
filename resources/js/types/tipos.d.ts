@@ -49,3 +49,10 @@ export interface Carrera {
     nombre: string;
     nombreCompleto: string;
 }
+
+export interface Etapa {
+    id: number | null;
+    codigo: string;
+    nombre: string;
+    indicaciones: string;
+}
