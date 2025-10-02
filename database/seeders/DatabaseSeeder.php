@@ -8,6 +8,7 @@ use Database\Seeders\Academico\SedeSeeder;
 use Database\Seeders\Documento\TipoSeeder;
 use Database\Seeders\PlanEstudio\Carrera2Seeder;
 use Database\Seeders\PlanEstudio\CarreraSeeder;
+use Database\Seeders\Ingreso\ConvocatoriaSeeder;
 use Database\Seeders\PlanEstudio\GradoSeeder;
 use Database\Seeders\PlanEstudio\TipoCarreraSeeder;
 use Database\Seeders\Secundaria\SectorSeeder;
@@ -50,6 +51,7 @@ class DatabaseSeeder extends Seeder
             TransicionSeeder::class,
             SedeSeeder::class,
             CarreraSedeSeeder::class,
+            ConvocatoriaSeeder::class,
         ]);
         User::factory()->create([
             'name' => 'Test User',
