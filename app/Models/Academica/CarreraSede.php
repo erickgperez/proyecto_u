@@ -2,17 +2,21 @@
 
 namespace App\Models\Academica;
 
+use App\Models\Ingreso\Convocatoria;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class CarreraSede extends Model
 {
     use UserStamps;
 
     protected $table = "academico.carrera_sede";
+
+    protected $appends = ['titulo'];
 
     protected $fillable = [
         'carrera_id',
@@ -37,5 +41,15 @@ class CarreraSede extends Model
     public function sede(): BelongsTo
     {
         return $this->belongsTo(Sede::class);
+    }
+
+    public function convocatorias(): BelongsToMany
+    {
+        return $this->belongsToMany(Convocatoria::class, 'academico.convocatoria_carrera_sede', 'carrera_sede_id', 'convocatoria_id');
+    }
+
+    public function getTituloAttribute(): string
+    {
+        return (string) "{$this->sede->nombre} -- {$this->carrera->nombreCompleto}";
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CandidatoInvitado;
+use App\Models\Academica\CarreraSede;
 use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Secundaria\DataBachillerato;
@@ -24,17 +25,10 @@ class ConvocatoriaController extends Controller
     public function index(Request $request): Response
     {
 
-        $convocatorias = Convocatoria::all();
+        $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater')->get();
+        $carrerasSedes = CarreraSede::orderBy('sede_id')->get();
 
-        $resp = [];
-        foreach ($convocatorias as $row) {
-            $conv = $row->toArray();
-            $conv['created_by'] = $row->creator;
-            $conv['updated_by'] = $row->updater;
-
-            $resp[] = $conv;
-        }
-        return Inertia::render('ingreso/Convocatoria', ['items' => $resp]);
+        return Inertia::render('ingreso/Convocatoria', ['items' => $convocatorias, 'carrerasSedes' => $carrerasSedes]);
     }
 
     public function save(Request $request)
@@ -46,6 +40,8 @@ class ConvocatoriaController extends Controller
             'fecha' => 'required|date',
             'cuerpo_mensaje' => 'nullable|string',
             'afiche_file' => 'nullable|file|mimes:pdf',
+            'afiche_file' => 'nullable|file|mimes:pdf',
+            'carrerasSedes' => 'nullable',
         ]);
 
         if ($request->get('id') === null) {
@@ -65,6 +61,7 @@ class ConvocatoriaController extends Controller
         $convocatoria->descripcion = $request->get('descripcion');
         $convocatoria->fecha = $request->get('fecha');
         $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
+        $convocatoria->carrerasSedes()->sync($request->get('carreras_sedes') ?? []);
 
         if ($request->hasFile('afiche_file')) {
             $file = $request->file('afiche_file');
@@ -84,11 +81,9 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        $conv = $convocatoria->toArray();
-        $conv['created_by'] = $convocatoria->creator;
-        $conv['updated_by'] = $convocatoria->updater;
+        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater')->find($convocatoria->id);
 
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $conv]);
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
 
     public function delete(int $id)

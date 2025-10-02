@@ -94,7 +94,8 @@
         "_convocatoria_": "Convocatoria",
         "_convocatoria_a_utilizar_para_enviar_invitaciones_": "Convocatoria a utilizar para el envio de invitaciones",
         "_convocatoria_seleccionada_": "Convocatoria seleccionada",
-        "_listado_actividades_": "Listado de actividades de la convocatoria"
+        "_listado_actividades_": "Listado de actividades de la convocatoria",
+        "_oferta_": "Oferta de carreras"
     },
     "_correo_": "Correo",
     "_consejo_cuerpo_mensaje_": "Mensaje que se enviará por correo electrónico cuando se hagan invitaciones a la convocatoria",

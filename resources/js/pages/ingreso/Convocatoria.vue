@@ -31,6 +31,7 @@ interface Item {
     cuerpo_mensaje: string;
     afiche: string | null;
     calendarizacion_id: number | null;
+    carreras_sedes: [];
 }
 
 const props = defineProps({
@@ -39,6 +40,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    carrerasSedes: [],
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -48,6 +50,7 @@ const itemVacio = ref<Item>({
     cuerpo_mensaje: '',
     afiche: null,
     calendarizacion_id: null,
+    carreras_sedes: [],
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -177,6 +180,7 @@ const opcionesAccion = [
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
+                            :carrerasSedes="props.carrerasSedes"
                             @form-saved="handleFormSave"
                         ></ConvocatoriaForm>
                         <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>

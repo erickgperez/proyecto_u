@@ -2,6 +2,7 @@
 
 namespace App\Models\Ingreso;
 
+use App\Models\Academica\CarreraSede;
 use App\Models\Calendarizacion;
 use App\Models\Secundaria\Invitacion;
 use App\Models\User;
@@ -55,5 +56,10 @@ class Convocatoria extends Model
     public function flujosmodelo()
     {
         return $this->morphMany(FlujoModelo::class, 'modelo');
+    }
+
+    public function carrerasSedes(): BelongsToMany
+    {
+        return $this->belongsToMany(CarreraSede::class, 'ingreso.convocatoria_carrera_sede', 'convocatoria_id', 'carrera_sede_id');
     }
 }

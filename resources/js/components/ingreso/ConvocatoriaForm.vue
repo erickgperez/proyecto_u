@@ -46,9 +46,10 @@ interface FormData {
     cuerpo_mensaje: string;
     afiche: string | null;
     afiche_file: File | null;
+    carreras_sedes: [];
 }
 
-const props = defineProps(['item', 'accion']);
+const props = defineProps(['item', 'accion', 'carrerasSedes']);
 
 const content = ref(props.item?.cuerpo_mensaje);
 
@@ -60,6 +61,7 @@ const formData = ref<FormData>({
     cuerpo_mensaje: '',
     afiche_file: null,
     afiche: '',
+    carreras_sedes: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -247,6 +249,19 @@ const extensions = [
                         {{ $t('_consejo_cuerpo_mensaje_') }}
                     </v-col>
 
+                    <v-col cols="12">
+                        <v-autocomplete
+                            clearable
+                            :label="$t('convocatoria._oferta_') + ' *'"
+                            v-model="formData.carreras_sedes"
+                            :items="props.carrerasSedes"
+                            :rules="[(v) => !!v || $t('_campo_requerido_')]"
+                            item-title="titulo"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                            multiple
+                        ></v-autocomplete>
+                    </v-col>
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
                             {{ $t('_guardar_') }}
