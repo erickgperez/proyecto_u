@@ -8,6 +8,7 @@ import type { VForm } from 'vuetify/components';
 const { t } = useI18n();
 
 const loading = ref(false);
+const step = ref(1);
 const formRef = ref<VForm | null>(null);
 const convocatorias = ref([]);
 const carreras = ref([]);
@@ -82,7 +83,7 @@ onMounted(() => {
     axios
         .get(route('ingreso-aspirante-convocatoria-carrera', { id: props.aspirante.id }))
         .then(function (response) {
-            console.log(response.data);
+            //console.log(response.data);
 
             convocatorias.value = response.data.convocatorias;
             carreras.value = response.data.carreras;
@@ -93,69 +94,128 @@ onMounted(() => {
             console.error('Error fetching data:', error);
         });
 });
+
+const form1 = ref(null);
+const form2 = ref(null);
+const form3 = ref(null);
+
+const forms = [form1, form2, form3];
+
+async function nextStep() {
+    const currentFormRef = forms[step.value - 1];
+    if (currentFormRef.value) {
+        const { valid } = await currentFormRef.value.validate();
+        if (valid) {
+            step.value++;
+        }
+    }
+}
+
+function prevStep() {
+    step.value--;
+}
 </script>
 <template>
     <v-card>
         <template v-slot:text>
-            <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
-                <v-row>
-                    <v-autocomplete
-                        clearable
-                        :label="$t('_convocatoria_')"
-                        :items="convocatorias"
-                        v-model="formData.convocatoria_id"
-                        item-title="nombre"
-                        item-value="id"
-                        prepend-icon="mdi-form-dropdown"
-                    ></v-autocomplete>
+            <v-stepper
+                alt-labels
+                hide-actions
+                v-model="step"
+                :items="['Selección convocatoria', 'Carrera principal', 'Carrera alternativa 1', 'Carrera alternativa 2']"
+            >
+                <template v-slot:item.1>
+                    <v-card title="Seleccione la convocatoria en la que participará" flat>
+                        <v-form fast-fail ref="form1">
+                            <v-autocomplete
+                                clearable
+                                :label="$t('_convocatoria_')"
+                                :items="convocatorias"
+                                v-model="formData.convocatoria_id"
+                                item-title="nombre"
+                                item-value="id"
+                                prepend-icon="mdi-form-dropdown"
+                            ></v-autocomplete>
+                        </v-form>
+                    </v-card>
+                    <v-btn @click="nextStep" rounded variant="tonal" color="primary" append-icon="mdi-chevron-right">{{ $t('_siguiente_') }}</v-btn>
+                </template>
 
-                    <v-autocomplete
-                        clearable
-                        :label="$t('_carrera_principal_')"
-                        :items="carreras"
-                        v-model="formData.carrera_principal_id"
-                        item-title="nombreCompleto"
-                        item-value="id"
-                        prepend-icon="mdi-form-dropdown"
-                    ></v-autocomplete>
+                <template v-slot:item.2>
+                    <v-card title="Carrera en la que desea ser seleccionado como primera opción" flat>
+                        <v-form fast-fail ref="form2">
+                            <v-autocomplete
+                                clearable
+                                :label="$t('_carrera_principal_')"
+                                :items="carreras"
+                                v-model="formData.carrera_principal_id"
+                                item-title="nombreCompleto"
+                                item-value="id"
+                                prepend-icon="mdi-form-dropdown"
+                            ></v-autocomplete>
 
-                    <v-autocomplete
-                        clearable
-                        :label="$t('_sede_principal_')"
-                        :items="sedes"
-                        v-model="formData.sede_principal_id"
-                        item-title="nombreCompleto"
-                        item-value="id"
-                        prepend-icon="mdi-form-dropdown"
-                    ></v-autocomplete>
-
-                    <v-autocomplete
-                        clearable
-                        :label="$t('_carrera_alternativa_')"
-                        :items="carreras"
-                        v-model="formData.carrera_alternativa_id"
-                        item-title="nombreCompleto"
-                        item-value="id"
-                        prepend-icon="mdi-form-dropdown"
-                    ></v-autocomplete>
-
-                    <v-autocomplete
-                        clearable
-                        :label="$t('_sede_alternativa_')"
-                        :items="sedes"
-                        v-model="formData.sede_alternativa_id"
-                        item-title="nombreCompleto"
-                        item-value="id"
-                        prepend-icon="mdi-form-dropdown"
-                    ></v-autocomplete>
-
-                    <v-col cols="12" align="right">
-                        <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
-                            {{ $t('_guardar_') }}
+                            <v-autocomplete
+                                clearable
+                                :label="$t('_sede_principal_')"
+                                :items="sedes"
+                                v-model="formData.sede_principal_id"
+                                item-title="nombreCompleto"
+                                item-value="id"
+                                prepend-icon="mdi-form-dropdown"
+                            ></v-autocomplete>
+                        </v-form>
+                        <v-btn class="me-4" rounded variant="tonal" color="secundary" prepend-icon="mdi-chevron-left" @click="prevStep">
+                            {{ $t('_atras_') }}
                         </v-btn>
-                    </v-col>
-                </v-row>
-            </v-form>
+                        <v-btn @click="nextStep" rounded variant="tonal" color="primary" append-icon="mdi-chevron-right">
+                            {{ $t('_siguiente_') }}
+                        </v-btn>
+                    </v-card>
+                </template>
+
+                <template v-slot:item.3>
+                    <v-card title="Carrera alternativa, en caso de no ser seleccionado en la carrera principal" flat>
+                        <v-form fast-fail ref="form3">
+                            <v-autocomplete
+                                clearable
+                                :label="$t('_carrera_alternativa_')"
+                                :items="carreras"
+                                v-model="formData.carrera_alternativa_id"
+                                item-title="nombreCompleto"
+                                item-value="id"
+                                prepend-icon="mdi-form-dropdown"
+                            ></v-autocomplete>
+
+                            <v-autocomplete
+                                clearable
+                                :label="$t('_sede_alternativa_')"
+                                :items="sedes"
+                                v-model="formData.sede_alternativa_id"
+                                item-title="nombreCompleto"
+                                item-value="id"
+                                prepend-icon="mdi-form-dropdown"
+                            ></v-autocomplete>
+                        </v-form>
+                        <v-btn class="me-4" @click="prevStep">Back</v-btn>
+                        <v-btn @click="nextStep" rounded variant="tonal" color="primary" append-icon="mdi-chevron-right">{{
+                            $t('_siguiente_')
+                        }}</v-btn>
+                    </v-card>
+                </template>
+                <template v-slot:item.4>
+                    <v-card title="Segunda alternativa, en caso de no ser seleccionado en ninguna de las carreras anteriores" flat>
+                        <v-form fast-fail ref="form4"></v-form>
+                        <v-btn class="me-4" @click="prevStep">Back</v-btn>
+                        <v-col cols="12" align="right">
+                            <v-btn :loading="loading" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
+                                {{ $t('_guardar_') }}
+                            </v-btn>
+                        </v-col>
+
+                        <!-- <v-btn color="primary" @click="nextStep">Next</v-btn> -->
+                    </v-card>
+                </template>
+            </v-stepper>
         </template>
     </v-card>
 </template>
