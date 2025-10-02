@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, ref, toRef } from 'vue';
+import { onMounted, ref, shallowRef, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -49,7 +49,7 @@ interface FormData {
     carreras_sedes: [];
 }
 
-const props = defineProps(['item', 'accion', 'carrerasSedes']);
+const props = defineProps(['item', 'accion', 'carrerasSedes', 'sedesCarreras']);
 
 const content = ref(props.item?.cuerpo_mensaje);
 
@@ -159,6 +159,19 @@ const extensions = [
     FormatClear,
     History,
 ];
+const model = shallowRef([]);
+
+function selectionsInfo(path) {
+    const node = path.reduce((current, i) => current.children[i], { children: props.sedesCarreras });
+
+    const allLeafsIds = (function flatten(n) {
+        return n.children?.flatMap(flatten) ?? [n.id];
+    })(node);
+
+    const selectedCount = allLeafsIds.filter((id) => model.value.includes(id)).length;
+
+    return `${selectedCount}/${allLeafsIds.length}`;
+}
 </script>
 <template>
     <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_crear_convocatoria_')} `">
@@ -250,17 +263,21 @@ const extensions = [
                     </v-col>
 
                     <v-col cols="12">
-                        <v-autocomplete
-                            clearable
-                            :label="$t('convocatoria._oferta_') + ' *'"
-                            v-model="formData.carreras_sedes"
-                            :items="props.carrerasSedes"
-                            :rules="[(v) => !!v || $t('_campo_requerido_')]"
-                            item-title="titulo"
-                            item-value="id"
-                            prepend-icon="mdi-form-dropdown"
-                            multiple
-                        ></v-autocomplete>
+                        <v-treeview v-model:selected="model" :items="props.sedesCarreras" item-value="id" select-strategy="classic" selectable>
+                            <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate, path, item }">
+                                <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
+                                    <template v-slot:badge>
+                                        <v-icon v-if="isSelected" icon="$complete" v-tooltip="`All elements in ${item.title} are selected`"></v-icon>
+                                        <span v-if="isIndeterminate">{{ selectionsInfo(path) }}</span>
+                                    </template>
+                                    <v-btn
+                                        v-bind="toggleProps"
+                                        :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
+                                        :variant="isOpen ? 'outlined' : 'tonal'"
+                                    ></v-btn>
+                                </v-badge>
+                            </template>
+                        </v-treeview>
                     </v-col>
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">

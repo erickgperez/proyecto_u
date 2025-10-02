@@ -11,6 +11,7 @@ use App\Models\Secundaria\DataBachillerato;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\App;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
@@ -26,9 +27,49 @@ class ConvocatoriaController extends Controller
     {
 
         $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater')->get();
-        $carrerasSedes = CarreraSede::orderBy('sede_id')->get();
+        $carrerasSedes = CarreraSede::with('carrera', 'sede')
+            ->orderBy('sede_id')
+            ->get();
+        $carrerasSedes = DB::table('academico.carrera_sede as cs')
+            ->select(
+                's.id as sede_id',
+                's.nombre as sede_nombre',
+                'tc.id as tipo_carrera_id',
+                'tc.descripcion as tipo_carrera',
+                'cs.id as id',
+                'c.nombre as nombre_carrera',
+                'c.codigo as codigo_carrera'
+            )
+            ->join('plan_estudio.carrera as c', 'cs.carrera_id', '=', 'c.id')
+            ->join('academico.sede as s', 'cs.sede_id', '=', 's.id')
+            ->join('plan_estudio.tipo_carrera as tc', 'c.tipo_carrera_id', '=', 'tc.id')
+            ->orderBy('s.nombre')
+            ->orderBy('tc.descripcion')
+            ->orderBy('c.nombre')
+            ->limit(10)
+            ->get();
+        $sedesCarreras = [];
+        foreach ($carrerasSedes as $cs) {
+            $sedesCarreras[$cs->sede_id]['id'] = $cs->sede_id;
+            $sedesCarreras[$cs->sede_id]['title'] = $cs->sede_nombre;
+            $sedesCarreras[$cs->sede_id]['type'] = 'sede';
+            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['id'] = $cs->tipo_carrera_id;
+            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['title'] = $cs->tipo_carrera;
+            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['type'] = 'tipo-carrera';
+            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['children'][] = ['id' => $cs->id, 'title' => '(' . $cs->codigo_carrera . ') ' . $cs->nombre_carrera, 'type' => 'carrera-sede'];
+        }
 
-        return Inertia::render('ingreso/Convocatoria', ['items' => $convocatorias, 'carrerasSedes' => $carrerasSedes]);
+        $items = [];
+        foreach ($sedesCarreras as $sc) {
+            $sc_ = $sc;
+            foreach ($sc['childrenn'] as $c) {
+                $sc_['children'][] = $c;
+            }
+
+            $items[] = $sc_;
+        }
+
+        return Inertia::render('ingreso/Convocatoria', ['items' => $convocatorias, 'carrerasSedes' => $carrerasSedes, 'sedesCarreras' => $items]);
     }
 
     public function save(Request $request)

@@ -41,6 +41,7 @@ const props = defineProps({
         default: () => [],
     },
     carrerasSedes: [],
+    sedesCarreras: [],
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -181,6 +182,7 @@ const opcionesAccion = [
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
                             :carrerasSedes="props.carrerasSedes"
+                            :sedesCarreras="props.sedesCarreras"
                             @form-saved="handleFormSave"
                         ></ConvocatoriaForm>
                         <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
