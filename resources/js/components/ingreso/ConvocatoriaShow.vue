@@ -50,6 +50,22 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
+                    {{ $t('convocatoria._oferta_') }}
+                </v-col>
+                <v-col cols="8">
+                    <v-list density="compact">
+                        <v-list-item v-for="(item, i) in props.item.carreras_sedes" :key="i">
+                            <template v-slot:prepend>
+                                <v-icon icon="mdi-circle-small"></v-icon>
+                            </template>
+
+                            <v-list-item-title> {{ item.sede.nombre }} -- {{ item.carrera.nombreCompleto }} </v-list-item-title>
+                        </v-list-item>
+                    </v-list>
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
                     {{ $t('_afiche_') }}
                 </v-col>
                 <v-col cols="8">
@@ -80,7 +96,7 @@ const props = defineProps(['item', 'accion']);
                     {{ $t('_created_by_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.created_by.name + ' ' + props.item.created_by.email }}
+                    {{ (props.item.created_by?.name ?? '') + ' ' + (props.item.created_by?.email ?? '') }}
                 </v-col>
             </v-row>
             <v-row>
@@ -96,7 +112,7 @@ const props = defineProps(['item', 'accion']);
                     {{ $t('_updated_by_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.updated_by.name + ' ' + props.item.updated_by.email }}
+                    {{ (props.item.updated_by?.name ?? '') + ' ' + (props.item.updated_by?.email ?? '') }}
                 </v-col>
             </v-row>
         </template>
