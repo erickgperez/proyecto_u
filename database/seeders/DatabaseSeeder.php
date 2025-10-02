@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use Database\Seeders\Academico\CarreraSedeSeeder;
+use Database\Seeders\Academico\SedeSeeder;
 use Database\Seeders\Documento\TipoSeeder;
 use Database\Seeders\PlanEstudio\Carrera2Seeder;
 use Database\Seeders\PlanEstudio\CarreraSeeder;
@@ -45,7 +47,9 @@ class DatabaseSeeder extends Seeder
             EstadoSeeder::class,
             FlujoSeeder::class,
             EtapaSeeder::class,
-            TransicionSeeder::class
+            TransicionSeeder::class,
+            SedeSeeder::class,
+            CarreraSedeSeeder::class,
         ]);
         User::factory()->create([
             'name' => 'Test User',
