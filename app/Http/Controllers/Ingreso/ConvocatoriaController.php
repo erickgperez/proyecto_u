@@ -27,9 +27,7 @@ class ConvocatoriaController extends Controller
     {
 
         $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater')->get();
-        $carrerasSedes = CarreraSede::with('carrera', 'sede')
-            ->orderBy('sede_id')
-            ->get();
+
         $carrerasSedes = DB::table('academico.carrera_sede as cs')
             ->select(
                 's.id as sede_id',
@@ -46,17 +44,14 @@ class ConvocatoriaController extends Controller
             ->orderBy('s.nombre')
             ->orderBy('tc.descripcion')
             ->orderBy('c.nombre')
-            ->limit(10)
             ->get();
         $sedesCarreras = [];
         foreach ($carrerasSedes as $cs) {
             $sedesCarreras[$cs->sede_id]['id'] = $cs->sede_id;
             $sedesCarreras[$cs->sede_id]['title'] = $cs->sede_nombre;
-            $sedesCarreras[$cs->sede_id]['type'] = 'sede';
-            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['id'] = $cs->tipo_carrera_id;
+            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['id'] = $cs->sede_id . '-' . $cs->tipo_carrera_id;
             $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['title'] = $cs->tipo_carrera;
-            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['type'] = 'tipo-carrera';
-            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['children'][] = ['id' => $cs->id, 'title' => '(' . $cs->codigo_carrera . ') ' . $cs->nombre_carrera, 'type' => 'carrera-sede'];
+            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['children'][] = ['id' => $cs->id, 'title' => '(' . $cs->codigo_carrera . ') ' . $cs->nombre_carrera];
         }
 
         $items = [];
@@ -65,11 +60,11 @@ class ConvocatoriaController extends Controller
             foreach ($sc['childrenn'] as $c) {
                 $sc_['children'][] = $c;
             }
-
+            unset($sc_['childrenn']);
             $items[] = $sc_;
         }
 
-        return Inertia::render('ingreso/Convocatoria', ['items' => $convocatorias, 'carrerasSedes' => $carrerasSedes, 'sedesCarreras' => $items]);
+        return Inertia::render('ingreso/Convocatoria', ['items' => $convocatorias, 'sedesCarreras' => $items]);
     }
 
     public function save(Request $request)

@@ -40,8 +40,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    carrerasSedes: [],
-    sedesCarreras: [],
+    sedesCarreras: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -181,7 +180,6 @@ const opcionesAccion = [
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
-                            :carrerasSedes="props.carrerasSedes"
                             :sedesCarreras="props.sedesCarreras"
                             @form-saved="handleFormSave"
                         ></ConvocatoriaForm>
