@@ -7,6 +7,8 @@ import CarrerasSeleccionadas from './CarrerasSeleccionadas.vue';
 
 const { t } = useI18n();
 
+const emit = defineEmits(['form-saved']);
+
 const loading = ref(false);
 const step = ref(1);
 const convocatorias = ref([]);
@@ -28,7 +30,7 @@ interface FormData {
     carrera_sede: [];
 }
 
-const props = defineProps(['persona', 'aspirante']);
+const props = defineProps(['solicitud', 'aspirante']);
 
 const formData = ref<FormData>({
     convocatoria_id: null,
@@ -44,7 +46,7 @@ async function submitForm() {
     formData.value.convocatoria_id = convocatoria.value.id;
     formData.value.carrera_sede = carrerasSeleccionadas.value.map((carr) => carr.id);
     try {
-        const resp = await axios.post(route('ingreso-aspirante-seleccion-carrera', { id: props.aspirante.id }), formData.value);
+        const resp = await axios.post(route('ingreso-solicitud-seleccion-carrera', { id: props.solicitud.id }), formData.value);
         if (resp.data.status == 'ok') {
             Swal.fire({
                 title: t('_exito_'),
@@ -55,6 +57,7 @@ async function submitForm() {
                 timer: 2500,
                 toast: true,
             });
+            emit('form-saved', resp.data);
         } else {
             hasError.value = true;
             message.value = t(resp.data.message);
@@ -160,13 +163,21 @@ watch(sede, (newSede) => {
 <template>
     <v-stepper alt-labels hide-actions v-model="step">
         <v-stepper-header>
-            <v-stepper-item :value="1" :title="$t('ingreso._seleccion_convocatoria_')" :bg-color="step === 1 ? 'primary' : ''"></v-stepper-item>
+            <v-stepper-item :value="1" :color="step === 1 ? 'pink' : ''">
+                <span :class="step === 1 ? 'text-pink' : ''">{{ $t('ingreso._seleccion_convocatoria_') }}</span>
+            </v-stepper-item>
             <v-divider></v-divider>
-            <v-stepper-item :value="2" :title="$t('sede._sede_')"></v-stepper-item>
+            <v-stepper-item :color="step === 2 ? 'pink' : ''" :value="2">
+                <span :class="step === 2 ? 'text-pink' : ''">{{ $t('sede._sede_') }}</span>
+            </v-stepper-item>
             <v-divider></v-divider>
-            <v-stepper-item :value="3" :title="$t('ingreso._seleccion_carreras_')"></v-stepper-item>
+            <v-stepper-item :color="step === 3 ? 'pink' : ''" :value="3">
+                <span :class="step === 3 ? 'text-pink' : ''">{{ $t('ingreso._seleccion_carreras_') }}</span>
+            </v-stepper-item>
             <v-divider></v-divider>
-            <v-stepper-item :value="4" :title="$t('ingreso._resumen_')"></v-stepper-item>
+            <v-stepper-item :color="step === 4 ? 'pink' : ''" :value="4">
+                <span :class="step === 4 ? 'text-pink' : ''">{{ $t('ingreso._resumen_') }}</span>
+            </v-stepper-item>
         </v-stepper-header>
         <v-stepper-window>
             <v-stepper-window-item :value="1">
@@ -237,7 +248,7 @@ watch(sede, (newSede) => {
                                         item-value="id"
                                         selectable
                                         return-object
-                                        selected-color="green"
+                                        selected-color="pink-darken-3"
                                         :indent-lines="true"
                                     >
                                         <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">

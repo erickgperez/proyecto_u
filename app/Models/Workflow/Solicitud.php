@@ -2,12 +2,14 @@
 
 namespace App\Models\Workflow;
 
+use App\Models\Academica\CarreraSede;
 use App\Models\Persona;
 use App\Models\Rol;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Solicitud extends Model
 {
@@ -63,5 +65,36 @@ class Solicitud extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function solicitudCarrerasSede(): HasMany
+    {
+        return $this->hasMany(SolicitudCarreraSede::class);
+    }
+
+    public function historial(): HasMany
+    {
+        return $this->hasMany(Historial::class);
+    }
+
+
+    public function guardarHistorial()
+    {
+
+        $this->historial()->create([
+            'comentario' => $this->comentario,
+            'estado_id' => $this->estado_id,
+            'etapa_id' => $this->etapa_id
+        ]);
+    }
+
+    public function pasarSiguienteEtapa(): void
+    {
+        $transicion = $this->flujo->getTransicion($this->etapa);
+
+        if ($transicion) {
+            $this->etapa()->associate($transicion->etapaDestino);
+            $this->estado()->associate($transicion->estadoDestino);
+        }
     }
 }

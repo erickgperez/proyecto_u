@@ -4,6 +4,7 @@ namespace App\Models\Ingreso;
 
 use App\Models\Persona;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Aspirante extends Model
@@ -15,7 +16,7 @@ class Aspirante extends Model
         'persona_id'
     ];
 
-    public function persona()
+    public function persona(): BelongsTo
     {
         return $this->belongsTo(Persona::class);
     }

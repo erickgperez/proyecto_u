@@ -15,8 +15,9 @@ use App\Models\PlanEstudio\Carrera;
 use App\Models\Rol;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
-use App\Models\Workflow\Historial;
 use App\Models\Workflow\Solicitud;
+use App\Models\Workflow\SolicitudCarreraSede;
+use App\Models\Workflow\TipoCarreraSedeSolicitud;
 use App\Models\Workflow\TipoFlujo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,7 +42,7 @@ class AspiranteController extends Controller
         $rolAspirante = Rol::where('name', 'aspirante')->first();
 
         $persona = Persona::find($idPersona);
-        $aspirante = $persona->aspirantes()->first();
+        $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
 
         //Buscar la solicitud más reciente con el rol de aspirante
         $solicitud = $persona->solicitudes()->with('estado', 'etapa', 'persona')
@@ -74,11 +75,7 @@ class AspiranteController extends Controller
         $solicitud->save();
 
         //Guardarla en el historial de la solicitud
-        $historial = new Historial;
-        $historial->solicitud()->associate($solicitud);
-        $historial->estado()->associate($estado);
-        $historial->etapa()->associate($etapa);
-        $historial->save();
+        $solicitud->guardarHistorial();
 
         $solicitudData = Solicitud::with('estado', 'etapa', 'persona')->find($solicitud->id);
         $etapasOrden = $flujo->etapasEnOrden();
@@ -113,27 +110,60 @@ class AspiranteController extends Controller
 
     public function seleccionCarrera(int $id, Request $request)
     {
-        $aspirante = Aspirante::find($id);
+        $solicitud = Solicitud::find($id);
 
         $convocatoria = Convocatoria::find($request->get('convocatoria_id'));
-        $rolAspirante = Rol::where('name', 'aspirante')->first();
-        $tipo_flujo = TipoFlujo::where('codigo', 'INGRESO')->first();
-        $flujo = Flujo::where('tipo_flujo_id', $tipo_flujo->id)->first();
+        $persona = $solicitud->persona;
+        $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
 
-        $persona = $aspirante->persona;
-
-        $solicitud = Solicitud::where([
-            'rol_id' => $rolAspirante->id,
-            'flujo_id' => $flujo->id,
-            'persona_id' => $persona->id
-        ])->first();
+        $flujo = $solicitud->flujo;
 
         //Guardar convocatoria_aspirante
-        //Guardar solicitud_carrera_sede
-        //Pasar la solicitud a la siguiente etapa
-        //Guardar en el historial de solicitud
-        //Regresar la solicitud
+        //Verificar si ya existe
+        $convocatoriaAspirante = $aspirante->convocatorias()->where('convocatoria_id', $convocatoria->id)->first();
 
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'solicitud' => $solicitud]);
+        if (!$convocatoriaAspirante) {
+            //No existe, agregarla
+            $aspirante->convocatorias()->syncWithoutDetaching([$convocatoria->id]);
+            //*****$aspirante->save();
+        }
+        //Guardar solicitud_carrera_sede
+        //Borrar las que ya tenga asociadas
+        $solicitud->solicitudCarrerasSede()->delete();
+        //Ingresar las nuevas
+        $carrerasSede = $request->get('carrera_sede');
+
+        foreach ($carrerasSede as $i => $cs) {
+            switch ($i) {
+                case '1':
+                    $tipoCarreraSedeSolicitud = TipoCarreraSedeSolicitud::where('codigo', 'SEGUNDA_OPCION')->first();
+                    break;
+                case '2':
+                    $tipoCarreraSedeSolicitud = TipoCarreraSedeSolicitud::where('codigo', 'TERCERA_OPCION')->first();
+                    break;
+                default:
+                    $tipoCarreraSedeSolicitud = TipoCarreraSedeSolicitud::where('codigo', 'PRIMERA_OPCION')->first();
+                    break;
+            }
+
+            $carreraSede = CarreraSede::find($cs);
+            $solicitudCarreraSede = new SolicitudCarreraSede();
+            $solicitudCarreraSede->solicitud()->associate($solicitud);
+            $solicitudCarreraSede->tipoCarreraSedeSolicitud()->associate($tipoCarreraSedeSolicitud);
+            $solicitudCarreraSede->carreraSede()->associate($carreraSede);
+
+            $solicitudCarreraSede->save();
+        }
+
+        //Pasar la solicitud a la siguiente etapa
+        $solicitud->pasarSiguienteEtapa();
+        $solicitud->save();
+
+        //Guardar en el historial de solicitud
+        $solicitud->guardarHistorial();
+
+        //Regresar la solicitud
+        $etapasOrden = $flujo->etapasEnOrden();
+        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
     }
 }

@@ -73,7 +73,12 @@ const etapas = ref<Etapa[]>([]);
 
             <p>{{ s.indicaciones }}</p>
 
-            <SeleccionProcesoForm :persona="persona" :aspirante="aspirante" v-if="s.codigo == 'SELECCION_PROCESO_CARRERA'"></SeleccionProcesoForm>
+            <SeleccionProcesoForm
+                :solicitud="solicitud"
+                @form-saved="actualizar"
+                :aspirante="aspirante"
+                v-if="s.codigo == 'SELECCION_PROCESO_CARRERA'"
+            ></SeleccionProcesoForm>
         </template>
     </v-stepper-vertical>
 </template>

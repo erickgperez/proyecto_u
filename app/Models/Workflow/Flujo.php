@@ -59,7 +59,6 @@ class Flujo extends Model
      */
     public function primeraEtapa(): ?Etapa
     {
-        // Usamos 'first()' para obtener la primera instancia, o null si no hay ninguna
         return $this->etapas()->whereNotIn('id', function ($query) {
             $query->select('etapa_destino_id')
                 ->from('workflow.transicion');
@@ -83,5 +82,10 @@ class Flujo extends Model
         }
 
         return $etapas;
+    }
+
+    public function getTransicion(Etapa $etapaActual): ?Transicion
+    {
+        return $this->transiciones()->where('etapa_origen_id', $etapaActual->id)->first();
     }
 }
