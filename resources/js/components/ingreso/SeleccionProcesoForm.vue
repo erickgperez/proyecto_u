@@ -25,7 +25,6 @@ const carrerasSeleccionadas = ref([]);
 
 interface FormData {
     convocatoria_id: number | null;
-    sede_id: number | null;
     carrera_sede: [];
 }
 
@@ -33,7 +32,6 @@ const props = defineProps(['persona', 'aspirante']);
 
 const formData = ref<FormData>({
     convocatoria_id: null,
-    sede_id: null,
     carrera_sede: [],
 });
 
@@ -43,15 +41,14 @@ async function submitForm() {
     const hasError = ref(false);
     const message = ref('');
 
-    console.log(carrerasSeleccionadas.value);
+    formData.value.convocatoria_id = convocatoria.value.id;
     formData.value.carrera_sede = carrerasSeleccionadas.value.map((carr) => carr.id);
-    console.log(formData.value);
-    /*try {
-        const resp = await axios.post(route('ingreso-convocatoria-save'), formData.value);
+    try {
+        const resp = await axios.post(route('ingreso-aspirante-seleccion-carrera', { id: props.aspirante.id }), formData.value);
         if (resp.data.status == 'ok') {
             Swal.fire({
                 title: t('_exito_'),
-                text: t('_datos_subidos_correctamente_'),
+                text: t('_datos_guardados_correctamente_'),
                 icon: 'success',
                 position: 'top-end',
                 showConfirmButton: false,
@@ -75,7 +72,7 @@ async function submitForm() {
             icon: 'error',
             confirmButtonColor: '#D7E1EE',
         });
-    }*/
+    }
 
     loading.value = false;
 }

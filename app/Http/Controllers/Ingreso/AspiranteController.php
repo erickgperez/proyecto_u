@@ -72,6 +72,8 @@ class AspiranteController extends Controller
         $solicitud->persona()->associate($persona);
         $solicitud->save();
 
+        //Guardarla en el historial de la solicitud
+
         $solicitudData = Solicitud::with('estado', 'etapa', 'persona')->find($solicitud->id);
         $etapasOrden = $flujo->etapasEnOrden();
 
@@ -101,5 +103,31 @@ class AspiranteController extends Controller
             'carreras' => $carreras,
             'carrerasSedes' => $carrerasSedes
         ]);
+    }
+
+    public function seleccionCarrera(int $id, Request $request)
+    {
+        $aspirante = Aspirante::find($id);
+
+        $convocatoria = Convocatoria::find($request->get('convocatoria_id'));
+        $rolAspirante = Rol::where('name', 'aspirante')->first();
+        $tipo_flujo = TipoFlujo::where('codigo', 'INGRESO')->first();
+        $flujo = Flujo::where('tipo_flujo_id', $tipo_flujo->id)->first();
+
+        $persona = $aspirante->persona;
+
+        $solicitud = Solicitud::where([
+            'rol_id' => $rolAspirante->id,
+            'flujo_id' => $flujo->id,
+            'persona_id' => $persona->id
+        ])->first();
+
+        //Guardar convocatoria_aspirante
+        //Guardar solicitud_carrera_sede
+        //Pasar la solicitud a la siguiente etapa
+        //Guardar en el historial de solicitud
+        //Regresar la solicitud
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'solicitud' => $solicitud]);
     }
 }
