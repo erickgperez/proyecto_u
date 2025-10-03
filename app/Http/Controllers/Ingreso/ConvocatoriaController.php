@@ -47,7 +47,7 @@ class ConvocatoriaController extends Controller
             ->get();
         $sedesCarreras = [];
         foreach ($carrerasSedes as $cs) {
-            $sedesCarreras[$cs->sede_id]['id'] = $cs->sede_id;
+            $sedesCarreras[$cs->sede_id]['id'] = 's-' . $cs->sede_id;
             $sedesCarreras[$cs->sede_id]['title'] = $cs->sede_nombre;
             $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['id'] = $cs->sede_id . '-' . $cs->tipo_carrera_id;
             $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['title'] = $cs->tipo_carrera;
