@@ -154,7 +154,12 @@
     "_indicaciones_": "Indications",
     "_informe_": "Report",
     "ingreso": {
+        "_carreras_incompletas_": "Incomplete career choice",
+        "_debe_seleccionar_al_menos_una_carrera_": "You must select at least one career",
+        "_no_eleccion_carreras_alternativas_": "You haven't selected both alternative career paths. Do you wish to continue without completing your alternative career path selection?",
         "_primera_opcion_": "First option",
+        "_resumen_": "Summary",
+        "_revise_informacion_": "Review the selected data and, if it is correct, click the save button. Once saved, you will not be able to edit it.",
         "_segunda_opcion_": "Second option",
         "_tercera_opcion_": "Third option",
         "_seleccion_carreras_": "Career selection",

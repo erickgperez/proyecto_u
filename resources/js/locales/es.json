@@ -153,7 +153,12 @@
     "_indicaciones_": "Indicaciones",
     "_informe_": "Informe",
     "ingreso": {
+        "_carreras_incompletas_": "Elección de carreras incompleta",
+        "_debe_seleccionar_al_menos_una_carrera_": "Debe seleccionar al menos una carrera",
+        "_no_eleccion_carreras_alternativas_": "No ha seleccionado las DOS carreras alternativas. ¿Desea continuar sin completar la elección de las carreras alternativas?",
         "_primera_opcion_": "Primera opción",
+        "_resumen_": "Resumen",
+        "_revise_informacion_": "Revise los datos seleccionados y en caso de estar correctos, de clic en el botón guardar. Una vez guardados no podrá modificarlos",
         "_segunda_opcion_": "Segunda opción",
         "_tercera_opcion_": "Tercera opción",
         "_seleccion_carreras_": "Selección carreras",
