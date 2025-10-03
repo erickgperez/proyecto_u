@@ -31,11 +31,6 @@ class Historial extends Model
         return $this->belongsTo(Etapa::class, 'etapa_id');
     }
 
-    public function persona(): BelongsTo
-    {
-        return $this->belongsTo(Persona::class, 'persona_id');
-    }
-
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

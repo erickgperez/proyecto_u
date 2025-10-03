@@ -15,6 +15,7 @@ use App\Models\PlanEstudio\Carrera;
 use App\Models\Rol;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
+use App\Models\Workflow\Historial;
 use App\Models\Workflow\Solicitud;
 use App\Models\Workflow\TipoFlujo;
 use Illuminate\Http\Request;
@@ -73,6 +74,11 @@ class AspiranteController extends Controller
         $solicitud->save();
 
         //Guardarla en el historial de la solicitud
+        $historial = new Historial;
+        $historial->solicitud()->associate($solicitud);
+        $historial->estado()->associate($estado);
+        $historial->etapa()->associate($etapa);
+        $historial->save();
 
         $solicitudData = Solicitud::with('estado', 'etapa', 'persona')->find($solicitud->id);
         $etapasOrden = $flujo->etapasEnOrden();
