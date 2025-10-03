@@ -152,6 +152,17 @@
     "_id_": "Id",
     "_indicaciones_": "Indicaciones",
     "_informe_": "Informe",
+    "ingreso": {
+        "_primera_opcion_": "Primera opción",
+        "_segunda_opcion_": "Segunda opción",
+        "_tercera_opcion_": "Tercera opción",
+        "_seleccion_carreras_": "Selección carreras",
+        "_seleccion_carreras_indicacion_": "Seleccione la carrera que desea estudiar, puede marcar tres carreras en orden de preferencia. La primer carrera será la                         carrera principal, y las otras dos se utilizarán en caso de no ser seleccionado en la primera",
+        "_seleccion_convocatoria_": "Selección convocatoria",
+        "_seleccion_convocatoria_indicacion_": "Seleccione la convocatoria en la que participará",
+        "_seleccion_sede_indicacion_": "Seleccione la sede donde quiere estudiar",
+        "_solo_tres_opciones_": "Solo puede elegir 3 opciones"
+    },
     "_ingreso_universitario_": "Ingreso universitario",
     "invitacion": {
         "_aceptadas_": "Aceptadas",
@@ -200,6 +211,7 @@
         "_carreras_": "Carreras",
         "_carreras_ayuda_": "Carreras que se imparten en la sede",
         "_codigo_ya existe_": "El código de la sede ya existe en otro registro",
+        "_sede_": "Sede",
         "_sedes_": "Sedes",
         "_listado_sedes_": "Listado de sedes",
         "_permite_gestionar_sedes_": "Permite gestionar los datos de las sedes universitarias"

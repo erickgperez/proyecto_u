@@ -153,6 +153,17 @@
     "_id_": "Id",
     "_indicaciones_": "Indications",
     "_informe_": "Report",
+    "ingreso": {
+        "_primera_opcion_": "First option",
+        "_segunda_opcion_": "Second option",
+        "_tercera_opcion_": "Third option",
+        "_seleccion_carreras_": "Career selection",
+        "_seleccion_carreras_indicacion_": "Select the degree you wish to study. You can select three degrees in order of preference. The first degree will be your main degree, and the other two will be used if you are not selected for the first degree.",
+        "_seleccion_convocatoria_": "Selection application process",
+        "_seleccion_convocatoria_indicacion_": "Select the application process in which you will participate",
+        "_seleccion_sede_indicacion_": "Select the location where you want to study",
+        "_solo_tres_opciones_": "You can only choose 3 options"
+    },
     "_ingreso_universitario_": "University admission",
     "invitacion": {
         "_aceptadas_": "Accepted",
@@ -201,6 +212,7 @@
         "_carreras_": "Careers",
         "_carreras_ayuda_": "Careers taught at the location",
         "_codigo_ya existe_": "The locations code already exists in another record",
+        "_sede_": "Location",
         "_sedes_": "Locations",
         "_listado_sedes_": "Locations list",
         "_permite_gestionar_sedes_": "Allows you to manage data from university locations"
