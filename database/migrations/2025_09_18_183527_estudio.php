@@ -19,7 +19,7 @@ return new class extends Migration
             $table->timestamp('fecha_finalizacion')->nullable();
 
             $table->foreignId('persona_id')->nullable()->comment('Relación para identificar la persona a la que pertenece el estudio');
-            $table->foreign('persona_id')->references('id')->on('persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->foreign('persona_id')->references('id')->on('persona')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->foreignId('grado_id')->nullable()->comment('Relación para determinar el grado obtenido');
             $table->foreign('grado_id')->references('id')->on('plan_estudio.grado')->onDelete('RESTRICT')->onUpdate('CASCADE');

@@ -23,7 +23,7 @@ return new class extends Migration
             $table->foreignId('flujo_id');
             $table->foreign('flujo_id')->references('id')->on('workflow.flujo')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('lugar_id')->nullable();
-            $table->foreign('lugar_id')->references('id')->on('workflow.lugar')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('lugar_id')->references('id')->on('workflow.lugar')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

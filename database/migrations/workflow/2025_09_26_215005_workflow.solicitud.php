@@ -19,22 +19,22 @@ return new class extends Migration
             $table->text('comentario')->nullable()->comment('Comentario de la etapa de la solicitud');
 
             $table->foreignId('flujo_modelo_id')->nullable()->comment('Para identificar el proceso y el flujo que se ejecutará');
-            $table->foreign('flujo_modelo_id')->references('id')->on('workflow.flujo_modelo')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('flujo_modelo_id')->references('id')->on('workflow.flujo_modelo')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('etapa_id')->comment('Etapa actual en que se encuentra la solicitud');
-            $table->foreign('etapa_id')->references('id')->on('workflow.etapa')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('etapa_id')->references('id')->on('workflow.etapa')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('persona_id')->comment('Persona que está realizando la solicitud');
-            $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('rol_id')->comment('Rol con el cual la persona está realizando la solicitud');
-            $table->foreign('rol_id')->references('id')->on('public.roles')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('rol_id')->references('id')->on('public.roles')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('flujo_id')->comment('Flujo de proceso de la solicitud');
-            $table->foreign('flujo_id')->references('id')->on('workflow.flujo')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('flujo_id')->references('id')->on('workflow.flujo')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('estado_id')->comment('Estado de la solicitud');
-            $table->foreign('estado_id')->references('id')->on('workflow.estado')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('estado_id')->references('id')->on('workflow.estado')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

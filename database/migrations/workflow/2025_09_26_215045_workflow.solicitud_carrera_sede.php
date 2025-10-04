@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreign('solicitud_id')->references('id')->on('workflow.solicitud')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->foreignId('tipo_carrera_sede_solicitud_id')->comment('Carrera sede en que se realiza la solicitud');
-            $table->foreign('tipo_carrera_sede_solicitud_id')->references('id')->on('workflow.tipo_carrera_sede_solicitud')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('tipo_carrera_sede_solicitud_id')->references('id')->on('workflow.tipo_carrera_sede_solicitud')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('carrera_sede_id')->comment('Carrera sede en que se realiza la solicitud');
             $table->foreign('carrera_sede_id')->references('id')->on('academico.carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');
