@@ -29,6 +29,42 @@ class Persona extends Model
         'sexo_id'
     ];
 
+    protected $appends = ['nombre', 'apellidos', 'edad', 'nombreCompleto'];
+
+    public function getNombreAttribute(): string
+    {
+        $unido = "{$this->primer_nombre} {$this->segundo_nombre} {$this->tercer_nombre}";
+        return (string) trim(preg_replace('/\s+/', ' ', $unido));
+    }
+
+    public function getApellidosAttribute(): string
+    {
+        $unido = "{$this->primer_apellido} {$this->segundo_apellido} {$this->tercer_apellido}";
+        return (string) trim(preg_replace('/\s+/', ' ', $unido));
+    }
+
+    public function getNombreCompletoAttribute(): string
+    {
+        $unido = "{$this->primer_nombre} {$this->segundo_nombre} {$this->tercer_nombre} {$this->primer_apellido} {$this->segundo_apellido} {$this->tercer_apellido}";
+        return (string) trim(preg_replace('/\s+/', ' ', $unido));
+    }
+
+    public function getEdadAttribute(): string
+    {
+        $edad = '';
+        if ($this->fecha_nacimiento !== null) {
+            $hoy = new \DateTime();
+            $fecha_nacimiento = new \DateTime($this->fecha_nacimiento);
+
+            $intervalo = $hoy->diff($fecha_nacimiento);
+
+            // Extrae el número de años de la diferencia
+            $edad = $intervalo->y;
+        }
+
+        return $edad;
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

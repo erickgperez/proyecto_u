@@ -26,4 +26,5 @@ require __DIR__ . '/settings.php';
 require __DIR__ . '/public.php';
 require __DIR__ . '/ingreso.php';
 require __DIR__ . '/academica.php';
+require __DIR__ . '/administracion.php';
 require __DIR__ . '/auth.php';

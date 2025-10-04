@@ -30,18 +30,23 @@ const menu = ref(false);
 const menuModulos = ref(false);
 const modulos = [
     {
+        codigo: 'administracion',
+        nombre: 'modulo._administracion_',
+        icono: 'mdi-office-building-cog-outline',
+    },
+    {
         codigo: 'ingreso-universitario',
-        nombre: '_ingreso_universitario_',
+        nombre: 'modulo._ingreso_universitario_',
         icono: 'mdi-account-plus-outline',
     },
     {
         codigo: 'gestion-academica',
-        nombre: '_gestion_academica_',
+        nombre: 'modulo._gestion_academica_',
         icono: 'mdi-file-document-edit-outline',
     },
     {
         codigo: 'calificaciones',
-        nombre: '_calificaciones_',
+        nombre: 'modulo._calificaciones_',
         icono: 'mdi-book-education-outline',
     },
 ];
@@ -171,7 +176,17 @@ onMounted(() => {
                             </v-list>
                         </v-menu>
                     </v-list-item>
-
+                    <v-sheet color="transparent" v-if="hasPermission('MODULO_ADMINISTRACION') && moduloActual?.codigo == 'administracion'">
+                        <Link v-if="hasPermission('MENU_ADMINISTRACION_PERSONA')" :href="route('administracion-persona-index')">
+                            <v-list-item
+                                link
+                                prepend-icon="mdi-account-group-outline"
+                                :class="$page.url === '/administracion/persona' ? 'bg-blue-lighten-4' : ''"
+                            >
+                                {{ $t('persona._plural_') }}
+                            </v-list-item>
+                        </Link>
+                    </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION-ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
                         <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede-index')">
                             <v-list-item
@@ -268,10 +283,10 @@ onMounted(() => {
                                 color="indigo"
                                 v-bind="props"
                                 stacked
-                                :title="moduloActual?.codigo === '' ? $t('_modulos_') : $t('_modulo_actual_')"
+                                :title="moduloActual?.codigo === '' ? $t('modulo._modulos_') : $t('modulo._modulo_actual_')"
                                 :prepend-icon="moduloActual?.codigo === '' ? 'mdi-view-module' : moduloActual?.icono"
                             >
-                                {{ moduloActual?.codigo === '' ? $t('_modulos_') : $t(moduloActual?.nombre || '') }}
+                                {{ moduloActual?.codigo === '' ? $t('modulo._modulos_') : $t(moduloActual?.nombre || '') }}
                             </v-btn>
                         </template>
 

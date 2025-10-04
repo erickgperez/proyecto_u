@@ -25,13 +25,11 @@ const date = useDate();
 // *************************************************************************************************************
 interface Item {
     id: number | null;
-    fecha: Date | null;
     nombre: string;
-    descripcion: string;
-    cuerpo_mensaje: string;
-    afiche: string | null;
-    calendarizacion_id: number | null;
-    carreras_sedes: [];
+    apellidos: string;
+    sexo: string | null;
+    fecha_nacimiento: Date | null;
+    edad: string;
 }
 
 const props = defineProps({
@@ -40,17 +38,14 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    sedesCarreras: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
-    fecha: null,
     nombre: '',
-    descripcion: '',
-    cuerpo_mensaje: '',
-    afiche: null,
-    calendarizacion_id: null,
-    carreras_sedes: [],
+    apellidos: '',
+    sexo: '',
+    fecha_nacimiento: null,
+    edad: '',
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -58,28 +53,27 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
-const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
-const rutaBorrar = ref('ingreso-convocatoria-delete');
+const selectedItemLabel = computed(() => selectedItem.value?.nombreCompleto ?? '');
+const rutaBorrar = ref('administracion-persona-delete');
 const mensajes = {
-    titulo1: t('convocatoria._convocatoria_'),
-    titulo2: t('_administrar_convocatoria_'),
-    subtitulo: t('_permite_gestionar_datos_convocatorias_'),
-    tituloListado: t('_listado_convocatorias_'),
+    titulo1: t('persona._singular_'),
+    titulo2: t('persona._administrar_'),
+    subtitulo: t('persona._permite_gestionar_datos_'),
+    tituloListado: t('persona._listado_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'INGRESO_CONVOCATORIA_EDITAR',
-    mostrar: 'INGRESO_CONVOCATORIA_MOSTRAR',
-    borrar: 'INGRESO_CONVOCATORIA_BORRAR',
-    calendarizar: 'INGRESO_CONVOCATORIA_CALENDARIZAR',
+    editar: 'ADMINISTRACION_PERSONA_EDITAR',
+    mostrar: 'ADMINISTRACION_PERSONA_MOSTRAR',
+    borrar: 'ADMINISTRACION_PERSONA_BORRAR',
 };
 
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_INGRESO_CONVOCATORIA_GESTIONAR',
-    crear: 'INGRESO_CONVOCATORIA_CREAR',
-    exportar: 'INGRESO_CONVOCATORIA_EXPORTAR',
+    listado: 'MENU_ADMINISTRACION_PERSONA',
+    crear: 'ADMINISTRACION_PERSONA_CREAR',
+    exportar: 'ADMINISTRACION_PERSONA_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -87,30 +81,25 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_convocatorias');
-const fileName = ref('convocatorias');
+const sheetName = ref('Listado_personas');
+const fileName = ref('personas');
 
 const headers = [
-    { title: t('_fecha_'), key: 'fecha' },
-    { title: t('_nombre_'), key: 'nombre', align: 'start' },
-    { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('_id_'), key: 'id' },
+    { title: t('persona._nombre_'), key: 'nombre', align: 'start' },
+    { title: t('persona._apellidos_'), key: 'apellidos', align: 'start' },
+    { title: t('persona._sexo_'), key: 'sexo' },
+    { title: t('persona._fecha_nacimiento_'), key: 'fecha_nacimiento' },
+    { title: t('persona._edad_'), key: 'edad' },
     { title: t('_acciones_'), key: 'actions', align: 'end' },
 ];
 
 const sortBy: SortBy[] = [
-    { key: 'fecha', order: 'asc' },
+    { key: 'apellidos', order: 'asc' },
     { key: 'nombre', order: 'asc' },
 ];
 
 const opcionesAccion = [
-    {
-        permiso: acc.calendarizar,
-        title: t('convocatoria._calendarizar_'),
-        text: t('convocatoria._calendarizar_descripcion_'),
-        emitAction: 'calendarizar',
-        color: 'brown',
-        icon: 'mdi-calendar-month-outline',
-    },
     {
         permiso: acc.editar,
         ...accionEditObject,
@@ -151,9 +140,14 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.fecha="{ value }">
+                        <template v-slot:item.fecha_nacimiento="{ value }">
                             <div class="d-flex ga-2">
-                                {{ date.format(value, 'keyboardDate') }}
+                                {{ value !== null ? date.format(value, 'keyboardDate') : '' }}
+                            </div>
+                        </template>
+                        <template v-slot:item.sexo="{ value }">
+                            <div class="d-flex ga-2">
+                                {{ value.descripcion }}
                             </div>
                         </template>
                     </Listado>

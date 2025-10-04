@@ -50,7 +50,6 @@
         "_editar_actividad_": "Editar actividad",
         "_borrar_actividad_": "Borrar actividad"
     },
-    "_calificaciones_": "Calificaciones",
     "_cambiar_": "Cambiar",
     "_cambiar_convocatoria_": "Cambiar convocatoria",
     "_campo_requerido_": "Este campo es requerido",
@@ -145,7 +144,7 @@
         "_mostrar_": "Mostrar grado",
         "_permite_gestionar_grados_": "Permite gestionar los datos del grado otorgado por una carrera"
     },
-    "_gestion_academica_": "Gestión académica",
+
     "_gestionar_convocatoria_": "Gestionar convocatoria",
     "_guardar_": "Guardar",
     "_hasta_": "Hasta",
@@ -168,7 +167,6 @@
         "_seleccion_sede_indicacion_": "Seleccione la sede donde quiere estudiar",
         "_solo_tres_opciones_": "Solo puede elegir 3 opciones"
     },
-    "_ingreso_universitario_": "Ingreso universitario",
     "invitacion": {
         "_aceptadas_": "Aceptadas",
         "_confirmar_enviar_pendientes_": "Confirme para enviar por correo las invitaciones pendientes",
@@ -189,8 +187,15 @@
     "_listado_candidatos_": "Listado de candidatos",
     "_listado_convocatorias_": "Listado de convocatorias",
     "_longitud_maxima_": "Longitud máxima",
-    "_modulo_actual_": "Módulo actual",
-    "_modulos_": "Módulos",
+    "modulo": {
+        "_administracion_": "Administración",
+        "_calificaciones_": "Calificaciones",
+        "_gestion_academica_": "Gestión académica",
+        "_ingreso_universitario_": "Ingreso universitario",
+        "_modulo_actual_": "Módulo actual",
+        "_modulos_": "Módulos"
+    },
+
     "_mostrar_convocatoria_": "Mostrar convocatoria",
     "_mostrar_datos_solo_lectura_": "Mostrar los datos solo de lectura",
     "_municipio_": "Municipio",
@@ -206,6 +211,18 @@
     "_opciones_bachillerato_": "Opciones de bachillerato",
     "_parametros_agrupación_": "Parámetros de agrupación",
     "_permite_gestionar_datos_convocatorias_": "Permite gestionar los datos de las convocatoria",
+    "persona": {
+        "_administrar_": "Administrar personas",
+        "_apellidos_": "Apellidos",
+        "_edad_": "Edad",
+        "_fecha_nacimiento_": "Fecha nacimiento",
+        "_listado_": "Listado de personas",
+        "_nombre_": "Nombre",
+        "_permite_gestionar_datos_": "Gestionar los datos de las personas",
+        "_plural_": "Personas",
+        "_sexo_": "Sexo",
+        "_singular_": "Persona"
+    },
     "_plan_estudio_": "Plan de estudio",
     "_reenviar_invitacion_": "Reenviar invitación",
     "_registro_eliminado_correctamente_": "Registro eliminado correctamente",
