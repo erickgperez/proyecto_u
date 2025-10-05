@@ -129,8 +129,8 @@ const headersFiltered = computed(() => {
                 </slot>
             </template>
             <template v-slot:item.actions="{ item }">
-                <div class="d-flex ga-2 justify-end">
-                    <v-icon color="green-darken-2" icon="mdi-chevron-right-circle-outline" size="large" @click="emit('selectItem', item)"></v-icon>
+                <div class="d-flex ga-2 justify-center">
+                    <v-icon color="green-darken-2" icon="mdi-chevron-right-circle-outline" size="x-large" @click="emit('selectItem', item)"></v-icon>
                 </div>
             </template>
         </v-data-table>

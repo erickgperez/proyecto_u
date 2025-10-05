@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Persona;
+use App\Models\Sexo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Inertia\Inertia;
@@ -20,9 +21,9 @@ class PersonaController extends Controller
     {
 
         $personas = Persona::with('sexo')->get();
+        $sexos = Sexo::all();
 
-
-        return Inertia::render('administracion/Persona', ['items' => $personas]);
+        return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos]);
     }
 
     public function save(Request $request)
