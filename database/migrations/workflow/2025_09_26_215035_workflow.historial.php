@@ -22,10 +22,10 @@ return new class extends Migration
             $table->foreign('solicitud_id')->references('id')->on('workflow.solicitud')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->foreignId('etapa_id')->comment('Etapa actual en que se encuentra la solicitud');
-            $table->foreign('etapa_id')->references('id')->on('workflow.etapa')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('etapa_id')->references('id')->on('workflow.etapa')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('estado_id')->comment('Estado de la solicitud');
-            $table->foreign('estado_id')->references('id')->on('workflow.estado')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('estado_id')->references('id')->on('workflow.estado')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

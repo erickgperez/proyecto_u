@@ -17,7 +17,7 @@ return new class extends Migration
             $table->comment('Relación de muchos a muchos entre convocatoria y aspirante');
 
             $table->foreignId('convocatoria_id');
-            $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('aspirante_id');
             $table->foreign('aspirante_id')->references('id')->on('ingreso.aspirante')->onDelete('CASCADE')->onUpdate('CASCADE');
