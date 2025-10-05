@@ -27,8 +27,21 @@ import i18n from './plugins/i18n'; // Adjust path as needed
 const vuetify = createVuetify({
     defaults: {
         VTextField: {
-            baseColor: 'gray', // Default color
+            baseColor: 'black',
             color: 'blue', // Color when focused
+            variant: 'outlined',
+        },
+        VAutocomplete: {
+            color: 'blue', // Color when focused
+            variant: 'outlined',
+        },
+        VSelect: {
+            color: 'blue', // Color when focused
+            variant: 'outlined',
+        },
+        VDateInput: {
+            color: 'blue', // Color when focused
+            variant: 'outlined',
         },
     },
     components: {
