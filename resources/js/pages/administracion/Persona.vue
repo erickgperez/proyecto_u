@@ -1,9 +1,8 @@
 <script setup lang="ts">
+import PersonaForm from '@/components/administracion/PersonaForm.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
-import Evento from '@/components/Evento.vue';
-import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
@@ -38,6 +37,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    sexos: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -90,8 +90,8 @@ const headers = [
     { title: t('persona._apellidos_'), key: 'apellidos', align: 'start' },
     { title: t('persona._sexo_'), key: 'sexo' },
     { title: t('persona._fecha_nacimiento_'), key: 'fecha_nacimiento' },
-    { title: t('persona._edad_'), key: 'edad' },
-    { title: t('_acciones_'), key: 'actions', align: 'end' },
+    { title: t('persona._edad_'), key: 'edad', align: 'end' },
+    { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
 const sortBy: SortBy[] = [
@@ -170,15 +170,14 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <ConvocatoriaForm
+                        <PersonaForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
-                            :sedesCarreras="props.sedesCarreras"
+                            :sexos="props.sexos"
                             @form-saved="handleFormSave"
-                        ></ConvocatoriaForm>
+                        ></PersonaForm>
                         <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
-                        <Evento v-if="selectedAction == 'calendarizar'" :idCalendario="selectedItem.calendarizacion_id"></Evento>
                     </v-sheet>
                 </v-window-item>
             </v-window>

@@ -94,7 +94,7 @@ const headers = [
     { title: t('_fecha_'), key: 'fecha' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
     { title: t('_descripcion_'), key: 'descripcion' },
-    { title: t('_acciones_'), key: 'actions', align: 'end' },
+    { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
 const sortBy: SortBy[] = [

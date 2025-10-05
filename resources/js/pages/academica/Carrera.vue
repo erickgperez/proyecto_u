@@ -101,7 +101,7 @@ const headers = [
     { title: t('_nombre_'), key: 'nombre' },
     { title: t('carrera._padre_'), key: 'padre_' },
     { title: t('carrera._tipo_'), key: 'tipo_' },
-    { title: t('_acciones_'), key: 'actions', align: 'end' },
+    { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
 const sortBy: SortBy[] = [
