@@ -3,6 +3,7 @@
 use App\Http\Controllers\Administracion\PermisosController;
 use App\Http\Controllers\Administracion\PersonaController;
 use App\Http\Controllers\Administracion\RolesController;
+use App\Http\Controllers\Administracion\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -18,4 +19,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/seguridad/roles', [RolesController::class, 'index'])->name('seguridad-roles-index');
     Route::post('/seguridad/roles/save', [RolesController::class, 'save'])->name('seguridad-roles-save');
     Route::delete('/seguridad/roles/{id}/delete', [RolesController::class, 'delete'])->name('seguridad-roles-delete');
+
+    Route::get('/seguridad/usuario', [UsuarioController::class, 'index'])->name('seguridad-usuario-index');
+    Route::post('/seguridad/usuario/save', [UsuarioController::class, 'save'])->name('seguridad-usuario-save');
+    Route::delete('/seguridad/usuario/{id}/delete', [UsuarioController::class, 'delete'])->name('seguridad-usuario-delete');
 });

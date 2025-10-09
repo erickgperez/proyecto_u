@@ -195,12 +195,12 @@ onMounted(() => {
                             {{ $t('_seguridad_') }}
                             <v-menu activator="parent">
                                 <v-list class="bg-blue-grey-darken-2">
-                                    <Link :href="route('seguridad-permisos-index')" v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD_PERMISOS')">
+                                    <Link :href="route('seguridad-usuario-index')" v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD_USUARIO')">
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-list-status"
-                                            :title="$t('permiso._plural_')"
-                                            :class="$page.url === '/seguridad/permisos' ? 'bg-blue-lighten-4' : ''"
+                                            prepend-icon="mdi-card-account-details-outline"
+                                            :title="$t('usuario._plural_')"
+                                            :class="$page.url === '/seguridad/usuario' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>
@@ -210,6 +210,15 @@ onMounted(() => {
                                             prepend-icon="mdi-account-box"
                                             :title="$t('rol._plural_')"
                                             :class="$page.url === '/seguridad/roles' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link :href="route('seguridad-permisos-index')" v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD_PERMISOS')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-list-status"
+                                            :title="$t('permiso._plural_')"
+                                            :class="$page.url === '/seguridad/permisos' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

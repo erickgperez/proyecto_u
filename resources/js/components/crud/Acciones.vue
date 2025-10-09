@@ -122,21 +122,6 @@ function remove() {
             </v-col>
 
             <v-col cols="12" md="6" v-for="accion in accionesCheckPermisos" :key="accion.emitAction">
-                <!-- <v-card
-                    class="ma-2"
-                    variant="outlined"
-                    color="indigo"
-                    hover
-                    @click="emitirAccion(accion.emitAction)"
-                    :title="accion.title"
-                    :text="accion.text"
-                >
-                    <template v-slot:prepend>
-                        <v-avatar :color="accion.avatarColor">
-                            <v-icon :icon="accion.icon" size="x-large"></v-icon>
-                        </v-avatar>
-                    </template>
-                </v-card>-->
                 <v-hover v-slot="{ isHovering, props }">
                     <v-alert
                         border="start"

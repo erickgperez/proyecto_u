@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Academica;
 use App\Http\Controllers\Controller;
 use App\Models\Academica\Sede;
 use App\Models\PlanEstudio\Carrera;
-use App\Models\PlanEstudio\Grado;
 use App\Models\PlanEstudio\TipoCarrera;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
