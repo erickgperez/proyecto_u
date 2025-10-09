@@ -186,6 +186,27 @@ onMounted(() => {
                                 {{ $t('persona._plural_') }}
                             </v-list-item>
                         </Link>
+                        <v-list-item
+                            v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD')"
+                            prepend-icon="mdi-security"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('_seguridad_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link :href="route('seguridad-permisos-index')" v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD_PERMISOS')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-list-status"
+                                            :title="$t('permiso._plural_')"
+                                            :class="$page.url === '/seguridad/permisos' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
                     </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION-ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
                         <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede-index')">

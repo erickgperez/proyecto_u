@@ -212,6 +212,9 @@
     "_opcion_": "Option",
     "_opciones_bachillerato_": "High school options",
     "_parametros_agrupación_": "Grouping parameters",
+    "permiso": {
+        "_singular_": "Permiso"
+    },
     "_permite_gestionar_datos_convocatorias_": "Allows you to manage application process data",
     "persona": {
         "_administrar_": "Manage people",
@@ -250,6 +253,7 @@
         "_permite_gestionar_sedes_": "Allows you to manage data from university locations"
     },
     "_sector_": "Sector",
+    "_seguridad_": "Security",
     "_seleccion_candidatos_": "Candidate Selection",
     "_sexo_": "Sex",
     "_siguiente_": "Next",

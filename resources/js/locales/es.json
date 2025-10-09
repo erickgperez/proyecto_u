@@ -210,6 +210,17 @@
     "_opcion_": "Opción",
     "_opciones_bachillerato_": "Opciones de bachillerato",
     "_parametros_agrupación_": "Parámetros de agrupación",
+    "permiso": {
+        "_singular_": "Permiso",
+        "_administrar_": "Administrar permisos",
+        "_crear_": "Crear un nuevo permiso",
+        "_editar_": "Editar permiso",
+        "_listado_": "Listado de permisos",
+        "_permite_gestionar_datos_": "Permite gestionar los permisos de la aplicación",
+        "_plural_": "Permisos",
+
+        "_nombre_": "Nombre"
+    },
     "_permite_gestionar_datos_convocatorias_": "Permite gestionar los datos de las convocatoria",
     "persona": {
         "_administrar_": "Administrar personas",
@@ -248,6 +259,7 @@
         "_permite_gestionar_sedes_": "Permite gestionar los datos de las sedes universitarias"
     },
     "_sector_": "Sector",
+    "_seguridad_": "Seguridad",
     "_seleccion_candidatos_": "Selección de candidatos",
     "_sexo_": "Sexo",
     "_siguiente_": "Siguiente",
