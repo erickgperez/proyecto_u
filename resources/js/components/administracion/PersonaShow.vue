@@ -6,7 +6,7 @@ const date = useDate();
 const props = defineProps(['item', 'accion']);
 </script>
 <template>
-    <v-card :title="$t('_mostrar_convocatoria_')">
+    <v-card :title="$t('persona._mostrar_')">
         <template v-slot:text>
             <v-row>
                 <v-col cols="4">
@@ -18,68 +18,74 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_fecha_') }}
+                    {{ $t('persona._primer_nombre_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ date.format(props.item.fecha, 'keyboardDate') }}
+                    {{ props.item.primer_nombre }}
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_nombre_') }}
+                    {{ $t('persona._segundo_nombre_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.nombre }}
+                    {{ props.item.segundo_nombre }}
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_descripcion_') }}
+                    {{ $t('persona._tercer_nombre_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ props.item.descripcion }}
+                    {{ props.item.tercer_nombre }}
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_cuerpo_mensaje_') }}
+                    {{ $t('persona._primer_apellido_') }}
                 </v-col>
                 <v-col cols="8">
-                    <div v-html="props.item.cuerpo_mensaje"></div>
+                    {{ props.item.primer_apellido }}
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('convocatoria._oferta_') }}
+                    {{ $t('persona._segundo_apellido_') }}
                 </v-col>
                 <v-col cols="8">
-                    <v-list density="compact">
-                        <v-list-item v-for="(item, i) in props.item.carreras_sedes" :key="i">
-                            <template v-slot:prepend>
-                                <v-icon icon="mdi-circle-small"></v-icon>
-                            </template>
-
-                            <v-list-item-title> {{ item.sede.nombre }} -- {{ item.carrera.nombreCompleto }} </v-list-item-title>
-                        </v-list-item>
-                    </v-list>
+                    {{ props.item.segundo_apellido }}
                 </v-col>
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('_afiche_') }}
+                    {{ $t('persona._tercer_apellido_') }}
                 </v-col>
                 <v-col cols="8">
-                    <span v-if="props.item.afiche != null">
-                        <v-avatar color="blue">
-                            <v-btn
-                                :title="$t('_descargar_afiche_actual_')"
-                                color="white"
-                                icon="mdi-file-download-outline"
-                                variant="text"
-                                :href="`/ingreso/afiche/download/${props.item.id}`"
-                            ></v-btn>
-                        </v-avatar>
-                    </span>
+                    {{ props.item.tercer_apellido }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('persona._fecha_nacimiento_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ date.format(props.item.fecha_nacimiento, 'keyboardDate') }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('persona._edad_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.edad }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('persona._sexo_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.sexo.descripcion }}
                 </v-col>
             </v-row>
 

@@ -83,14 +83,9 @@ class PersonaController extends Controller
 
     public function delete(int $id)
     {
-        $convocatoria = Convocatoria::find($id);
+        $convocatoria = Persona::find($id);
 
-        //Verificar si tiene un afiche cargado, borrarlo en ese caso
-        $filePath = $convocatoria->afiche;
-        if ($filePath != null && Storage::exists($filePath)) {
-            Storage::delete($filePath);
-        }
-        $delete = Convocatoria::destroy($id);
+        $delete = Persona::destroy($id);
 
         if ($delete == 0) {
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);

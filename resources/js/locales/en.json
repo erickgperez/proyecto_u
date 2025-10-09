@@ -221,6 +221,7 @@
         "_edad_": "Age",
         "_fecha_nacimiento_": "birthdate",
         "_listado_": "List of people",
+        "_mostrar_": "Show person data",
         "_nombre_": "Name",
         "_permite_gestionar_datos_": "Manage people's data",
         "_plural_": "People",

@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import PersonaForm from '@/components/administracion/PersonaForm.vue';
+import PersonaShow from '@/components/administracion/PersonaShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
-import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
@@ -177,7 +177,7 @@ const opcionesAccion = [
                             :sexos="props.sexos"
                             @form-saved="handleFormSave"
                         ></PersonaForm>
-                        <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
+                        <PersonaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></PersonaShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>
