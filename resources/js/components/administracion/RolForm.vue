@@ -102,7 +102,7 @@ onMounted(() => {
                             :label="$t('rol._nombre_') + ' *'"
                         ></v-text-field>
                     </v-col>
-                    <v-autocomplete
+                    <!--<v-autocomplete
                         clearable
                         :label="$t('rol._permisos_')"
                         :items="props.permisos"
@@ -113,7 +113,29 @@ onMounted(() => {
                         multiple
                         chips
                         persistent-hint
-                    ></v-autocomplete>
+                    ></v-autocomplete>-->
+
+                    <v-treeview
+                        v-model:selected="formData.permisos"
+                        :items="props.permisos"
+                        item-value="id"
+                        select-strategy="classic"
+                        selectable
+                        :indent-lines="true"
+                    >
+                        <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
+                            <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
+                                <template v-slot:badge>
+                                    <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                </template>
+                                <v-btn
+                                    v-bind="toggleProps"
+                                    :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
+                                    :variant="isOpen ? 'outlined' : 'tonal'"
+                                ></v-btn>
+                            </v-badge>
+                        </template>
+                    </v-treeview>
 
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">

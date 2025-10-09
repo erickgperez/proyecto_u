@@ -4,13 +4,9 @@ namespace App\Http\Controllers\Academica;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academica\Sede;
-use App\Models\Departamento;
-use App\Models\Distrito;
-use App\Models\Municipio;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
