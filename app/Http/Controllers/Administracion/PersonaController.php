@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Administracion;
 
 use App\Http\Controllers\Controller;
-use App\Models\Calendarizacion;
-use App\Models\Ingreso\Convocatoria;
 use App\Models\Persona;
 use App\Models\Sexo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -30,55 +28,36 @@ class PersonaController extends Controller
     {
         // Aunque se ha validado del lado del cliente, validar aquí también
         $request->validate([
-            'nombre' => 'required|string|max:100',
-            'descripcion' => 'nullable|string|max:255',
-            'fecha' => 'required|date',
-            'cuerpo_mensaje' => 'nullable|string',
-            'afiche_file' => 'nullable|file|mimes:pdf',
-            'afiche_file' => 'nullable|file|mimes:pdf',
-            'carrerasSedes' => 'nullable',
+            'primer_nombre' => 'required|string|max:100',
+            'segundo_nombre' => 'nullable|string|max:100',
+            'tercer_nombre' => 'nullable|string|max:100',
+            'primer_apellido' => 'required|string|max:100',
+            'segundo_apellido' => 'nullable|string|max:100',
+            'tercer_apellido' => 'nullable|string|max:100',
+            'fecha_nacimiento' => 'nullable|date',
+            'sexo_id' => ['required', 'integer', Rule::exists('persona', 'id')],
         ]);
 
         if ($request->get('id') === null) {
-            $convocatoria = new Convocatoria();
-            //Crear el calendario de actividades
-            $calendarizacion = new Calendarizacion();
-            $calendarizacion->nombre = $request->get('nombre'); //llevará el mismo nombre que la convocatoria
-            $calendarizacion->save();
-
-            //Asociar el calendario a la convocatoria
-            $convocatoria->calendario()->associate($calendarizacion);
+            $persona = new Persona();
         } else {
-            $convocatoria = Convocatoria::find($request->get('id'));
+            $persona = Persona::find($request->get('id'));
         }
 
-        $convocatoria->nombre = $request->get('nombre');
-        $convocatoria->descripcion = $request->get('descripcion');
-        $convocatoria->fecha = $request->get('fecha');
-        $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
-        $convocatoria->carrerasSedes()->sync($request->get('carreras_sedes') ?? []);
+        $persona->primer_nombre = $request->get('primer_nombre');
+        $persona->segundo_nombre = $request->get('segundo_nombre');
+        $persona->tercer_nombre = $request->get('tercer_nombre');
+        $persona->primer_apellido = $request->get('primer_apellido');
+        $persona->segundo_apellido = $request->get('segundo_apellido');
+        $persona->tercer_apellido = $request->get('tercer_apellido');
+        $persona->fecha_nacimiento = $request->get('fecha_nacimiento');
+        $persona->sexo_id = $request->get('sexo_id');
 
-        if ($request->hasFile('afiche_file')) {
-            $file = $request->file('afiche_file');
+        $persona->save();
 
-            if ($request->get('id') != null) {
-                //Verificar si ya tenía un afiche cargado, en ese caso borrarlo para subir el nuevo
-                $filePath = $convocatoria->afiche;
-                if (Storage::exists($filePath)) {
-                    Storage::delete($filePath);
-                }
-            }
+        $personaData = Persona::with('sexo')->find($persona->id);
 
-            $path = $file->store('documents/convocatorias');
-
-            $convocatoria->afiche = $path;
-        }
-
-        $convocatoria->save();
-
-        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater')->find($convocatoria->id);
-
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }
 
     public function delete(int $id)
