@@ -18,10 +18,22 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('permiso._nombre_') }}
+                    {{ $t('rol._nombre_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.name }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('rol._permisos_') }}
+                </v-col>
+                <v-col cols="8">
+                    <v-list density="compact">
+                        <v-list-item v-for="permiso in props.item.permisos" :key="permiso.id" prepend-icon="mdi-circle-small">
+                            <v-list-item-title>{{ permiso.name }}</v-list-item-title>
+                        </v-list-item>
+                    </v-list>
                 </v-col>
             </v-row>
 

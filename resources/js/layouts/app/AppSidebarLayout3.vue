@@ -204,6 +204,15 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
+                                    <Link :href="route('seguridad-roles-index')" v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD_ROLES')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-box"
+                                            :title="$t('rol._plural_')"
+                                            :class="$page.url === '/seguridad/roles' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
                                 </v-list>
                             </v-menu>
                         </v-list-item>

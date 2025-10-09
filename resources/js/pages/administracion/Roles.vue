@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import PermisoForm from '@/components/administracion/PermisosForm.vue';
-import PermisoShow from '@/components/administracion/PermisosShow.vue';
+import RolForm from '@/components/administracion/RolForm.vue';
+import RolShow from '@/components/administracion/RolShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -31,6 +31,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    permisos_: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -43,26 +44,26 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
 );
 
 const selectedItemLabel = computed(() => selectedItem.value?.name ?? '');
-const rutaBorrar = ref('seguridad-permisos-delete');
+const rutaBorrar = ref('seguridad-roles-delete');
 const mensajes = {
-    titulo1: t('permiso._singular_'),
-    titulo2: t('permiso._administrar_'),
-    subtitulo: t('permiso._permite_gestionar_datos_'),
-    tituloListado: t('permiso._listado_'),
+    titulo1: t('rol._singular_'),
+    titulo2: t('rol._administrar_'),
+    subtitulo: t('rol._permite_gestionar_datos_'),
+    tituloListado: t('rol._listado_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ADMINISTRACION_SEGURIDAD_PERMISOS_EDITAR',
-    mostrar: 'ADMINISTRACION_SEGURIDAD_PERMISOS_MOSTRAR',
-    borrar: 'ADMINISTRACION_SEGURIDAD_PERMISOS_BORRAR',
+    editar: 'ADMINISTRACION_SEGURIDAD_ROLES_EDITAR',
+    mostrar: 'ADMINISTRACION_SEGURIDAD_ROLES_MOSTRAR',
+    borrar: 'ADMINISTRACION_SEGURIDAD_ROLES_BORRAR',
 };
 
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ADMINISTRACION_SEGURIDAD_PERMISOS',
-    crear: 'ADMINISTRACION_SEGURIDAD_PERMISOS_CREAR',
-    exportar: 'ADMINISTRACION_SEGURIDAD_PERMISOS_EXPORTAR',
+    listado: 'MENU_ADMINISTRACION_SEGURIDAD_ROLES',
+    crear: 'ADMINISTRACION_SEGURIDAD_ROLES_CREAR',
+    exportar: 'ADMINISTRACION_SEGURIDAD_ROLES_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -70,12 +71,12 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_permisos');
-const fileName = ref('permisos');
+const sheetName = ref('Listado_roles');
+const fileName = ref('roles');
 
 const headers = [
     { title: t('_id_'), key: 'id' },
-    { title: t('permiso._nombre_'), key: 'name', align: 'start' },
+    { title: t('rol._nombre_'), key: 'name', align: 'start' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -142,13 +143,14 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <PermisoForm
+                        <RolForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
+                            :permisos="permisos_"
                             @form-saved="handleFormSave"
-                        ></PermisoForm>
-                        <PermisoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></PermisoShow>
+                        ></RolForm>
+                        <RolShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></RolShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>

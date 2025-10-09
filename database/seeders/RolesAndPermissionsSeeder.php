@@ -34,6 +34,15 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_PERMISOS_MOSTRAR']);
         Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_PERMISOS_BORRAR']);
 
+        //Roles
+        Permission::create(['name' => 'MENU_ADMINISTRACION_SEGURIDAD_ROLES']);
+        Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_ROLES_TODO']);
+        Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_ROLES_CREAR']);
+        Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_ROLES_EXPORTAR']);
+        Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_ROLES_EDITAR']);
+        Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_ROLES_MOSTRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_ROLES_BORRAR']);
+
         // PERSONA
         Permission::create(['name' => 'MENU_ADMINISTRACION_PERSONA']);
         Permission::create(['name' => 'ADMINISTRACION_PERSONA_TODO']);

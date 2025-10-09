@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Permisos extends Model
 {
 
-    protected $table = "permissions";
+    protected $table = "public.permissions";
 
     protected $attributes = [
         'guard_name' => 'web',

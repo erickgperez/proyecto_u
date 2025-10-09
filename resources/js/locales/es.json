@@ -215,6 +215,7 @@
         "_administrar_": "Administrar permisos",
         "_crear_": "Crear un nuevo permiso",
         "_editar_": "Editar permiso",
+        "_mostrar_": "Mostrar permiso",
         "_listado_": "Listado de permisos",
         "_permite_gestionar_datos_": "Permite gestionar los permisos de la aplicación",
         "_plural_": "Permisos",
@@ -248,6 +249,19 @@
     "_registro_eliminado_correctamente_": "Registro eliminado correctamente",
     "_regresar_listado_": "Regresar al listado",
     "_resumen_": "Resumen",
+    "rol": {
+        "_singular_": "Rol",
+        "_administrar_": "Administrar roles",
+        "_crear_": "Crear un nuevo rol",
+        "_editar_": "Editar rol",
+        "_mostrar_": "Mostrar rol",
+        "_listado_": "Listado de roles",
+        "_permite_gestionar_datos_": "Permite gestionar los roles",
+        "_plural_": "Roles",
+
+        "_nombre_": "Nombre",
+        "_permisos_": "Permisos"
+    },
     "sede": {
         "_administrar_sedes_": "Administrar sedes",
         "_carreras_": "Carreras",
