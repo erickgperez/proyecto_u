@@ -31,9 +31,6 @@ const formData = ref<FormData>({
     permisos: [],
 });
 const tab = ref(null);
-const openApp = ref([]);
-const openMenu = ref([]);
-const search = ref('');
 const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
@@ -87,8 +84,6 @@ onMounted(() => {
     if (props.accion === 'edit') {
         formData.value = { ...props.item };
         formData.value.permisos = props.item.permisos.map((p: any) => p.id + '');
-        openApp.value = props.permisosApp.map((item) => item.id);
-        openMenu.value = props.permisosMenu.map((item) => item.id);
     }
 });
 </script>
@@ -112,6 +107,7 @@ onMounted(() => {
                     </v-col>
                     <v-col cols="12">
                         <v-card>
+                            {{ formData.permisos }}
                             <v-tabs v-model="tab" align-tabs="center" color="basil" grow>
                                 <v-tab value="one">{{ $t('auth._permisos_modulos_') }}</v-tab>
                                 <v-tab value="two">{{ $t('auth._permisos_menus_') }}</v-tab>

@@ -62,6 +62,7 @@ class RolesController extends Controller
                     $current[$part] = [
                         'id' => $part . $id,
                         'title' => $part,
+                        'name' => $clave,
                         'children' => []
                     ];
                 }
@@ -69,7 +70,7 @@ class RolesController extends Controller
                 // Si estamos en el último nivel, no creamos más "children"
                 if ($i === count($parts) - 1) {
                     unset($current[$part]['children']);
-                    $current[$part] = ['id' => $id, 'title' => $part];
+                    $current[$part] = ['id' => "$id", 'title' => $part, 'name' => $clave];
                 } else {
                     $current = &$current[$part]['children']; // bajar un nivel
                 }
@@ -88,6 +89,23 @@ class RolesController extends Controller
         $normalize($tree);
 
         return array_values($tree);
+    }
+
+    protected function obtenerNodosRecursivo($array, &$nodos = [])
+    {
+        // Itera sobre cada elemento del array
+        foreach ($array as $elemento) {
+            // Verifica si el elemento es un array
+            if (is_array($elemento)) {
+                // Si es un array, llama recursivamente a la función
+                $this->obtenerNodosRecursivo($elemento, $nodos);
+            } else {
+                // Si no es un array, añádelo al array de nodos
+                $nodos[] = $elemento;
+            }
+        }
+        // Devuelve el array de nodos con todos los elementos
+        return $nodos;
     }
 
     public function save(Request $request)
