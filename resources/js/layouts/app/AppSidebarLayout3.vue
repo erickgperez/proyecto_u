@@ -6,7 +6,7 @@ import { Link, router, usePage } from '@inertiajs/vue3';
 import { onMounted, ref, watch } from 'vue';
 import { useLocale } from 'vuetify';
 
-const { hasPermission, hasRole } = usePermissions();
+const { hasPermission, hasAnyPermission } = usePermissions();
 
 const page = usePage();
 const user = page.props.auth.user as User;
@@ -143,7 +143,10 @@ onMounted(() => {
                         {{ $t('convocatoria._convocatoria_') }}
                         <v-menu activator="parent" v-if="hasPermission('MENU_INGRESO_CONVOCATORIA')">
                             <v-list class="bg-blue-grey-darken-2">
-                                <Link :href="route('ingreso-convocatoria-index')" v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR')">
+                                <Link
+                                    :href="route('ingreso-convocatoria-index')"
+                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR-CONVOCATORIA')"
+                                >
                                     <v-list-item
                                         link
                                         prepend-icon="mdi-book-settings-outline"
@@ -316,7 +319,19 @@ onMounted(() => {
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                 </template>
                 <template v-slot:append>
-                    <v-menu v-if="hasPermission('MODULOS')" v-model="menuModulos" :close-on-content-click="false">
+                    <v-menu
+                        v-if="
+                            hasAnyPermission([
+                                'MODULO_INGRESO',
+                                'MODULO_CALIFICACIONES',
+                                'MODULO_GESTION-ACADEMICA',
+                                'MODULO_ADMINISTRACION',
+                                'MODULO_INGRESO',
+                            ])
+                        "
+                        v-model="menuModulos"
+                        :close-on-content-click="false"
+                    >
                         <template v-slot:activator="{ props }">
                             <v-btn
                                 color="indigo"

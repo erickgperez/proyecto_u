@@ -15,7 +15,6 @@ class RolesAndPermissionsSeeder extends Seeder
 
         // Crear permisos
         // ************** MODULOS
-        Permission::create(['name' => 'MODULOS']);
         Permission::create(['name' => 'MODULO_INGRESO']);
         Permission::create(['name' => 'MODULO_CALIFICACIONES']);
         Permission::create(['name' => 'MODULO_GESTION-ACADEMICA']);
@@ -66,7 +65,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA']);
 
         // CONVOCATORIA_GESTIONAR
-        Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_GESTIONAR']);
+        Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_GESTIONAR-CONVOCATORIA']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_TODO']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CREAR']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_EXPORTAR']);
@@ -127,7 +126,6 @@ class RolesAndPermissionsSeeder extends Seeder
         // Crear roles y asignar los permisos
         $role = Role::create(['name' => 'gestor-academico'])
             ->givePermissionTo([
-                'MODULOS',
                 'MODULO_GESTION-ACADEMICA',
                 'MENU_ACADEMICA_SEDES',
                 'MENU_ACADEMICA_PLAN-ESTUDIO',
@@ -143,10 +141,9 @@ class RolesAndPermissionsSeeder extends Seeder
 
         $role = Role::create(['name' => 'gestor-ingreso'])
             ->givePermissionTo([
-                'MODULOS',
                 'MODULO_INGRESO',
                 'MENU_INGRESO_CONVOCATORIA',
-                'MENU_INGRESO_CONVOCATORIA_GESTIONAR',
+                'MENU_INGRESO_CONVOCATORIA_GESTIONAR-CONVOCATORIA',
                 'MENU_INGRESO_CONVOCATORIA_CARGAR-ARCHIVO',
                 'MENU_INGRESO_CONVOCATORIA_CANDIDATOS',
                 'INGRESO_CONVOCATORIA_TODO',

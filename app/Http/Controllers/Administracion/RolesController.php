@@ -22,22 +22,28 @@ class RolesController extends Controller
         }])->orderBy('name')->get();
 
         $permisos = Permisos::orderBy('name')->get();
-
-        $rolesA = [];
-
         $per = [];
         foreach ($permisos as $r) {
             $per[] = $r->name . '***' . $r->id;
         }
-        //$rolesA = array_values($rolesA);
 
-        $rolesA = $this->buildMenuTree($per);
+        $permisosA_ = $this->buildMenuTree($per);
+        $permisosMenu = [];
+        $permisosModulo = [];
+        $permisosApp = [];
+        foreach ($permisosA_ as $a) {
+            if ($a['title'] === 'MENU') {
+                $permisosMenu[] = $a;
+            } elseif ($a['title'] === 'MODULO') {
+                $permisosModulo[] = $a;
+            } else {
+                $permisosApp[] = $a;
+            }
+        }
 
-        //foreach ($rolesA as $)
 
 
-
-        return Inertia::render('administracion/Roles', ['items' => $roles, 'permisos_' => $rolesA]);
+        return Inertia::render('administracion/Roles', ['items' => $roles, 'permisosMenu' => $permisosMenu, 'permisosModulo' => $permisosModulo, 'permisosApp' => $permisosApp]);
     }
 
     function buildMenuTree(array $keys)
@@ -54,8 +60,8 @@ class RolesController extends Controller
                 // Si no existe el nodo actual, lo creamos
                 if (!isset($current[$part])) {
                     $current[$part] = [
-                        'id' => $clave,
-                        'title' => $clave,
+                        'id' => $part . $id,
+                        'title' => $part,
                         'children' => []
                     ];
                 }
@@ -63,6 +69,7 @@ class RolesController extends Controller
                 // Si estamos en el último nivel, no creamos más "children"
                 if ($i === count($parts) - 1) {
                     unset($current[$part]['children']);
+                    $current[$part] = ['id' => $id, 'title' => $part];
                 } else {
                     $current = &$current[$part]['children']; // bajar un nivel
                 }

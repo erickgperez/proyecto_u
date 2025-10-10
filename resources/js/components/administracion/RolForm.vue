@@ -22,13 +22,16 @@ interface FormData {
     permisos: [];
 }
 
-const props = defineProps(['item', 'accion', 'permisos']);
+const props = defineProps(['item', 'accion', 'permisosMenu', 'permisosModulo', 'permisosApp']);
 
 const formData = ref<FormData>({
     id: null,
     name: '',
     permisos: [],
 });
+const tab = ref(null);
+const openApp = ref([]);
+const openMenu = ref([]);
 const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
@@ -81,6 +84,9 @@ onMounted(() => {
     reset();
     if (props.accion === 'edit') {
         formData.value = { ...props.item };
+        formData.value.permisos = props.item.permisos.map((p: any) => p.id + '');
+        openApp.value = props.permisosApp.map((item) => item.id);
+        openMenu.value = props.permisosMenu.map((item) => item.id);
     }
 });
 </script>
@@ -102,6 +108,94 @@ onMounted(() => {
                             :label="$t('rol._nombre_') + ' *'"
                         ></v-text-field>
                     </v-col>
+                    <v-col cols="12">
+                        <v-card>
+                            <v-tabs v-model="tab" align-tabs="center" color="basil" grow>
+                                <v-tab value="one">{{ $t('auth._permisos_modulos_') }}</v-tab>
+                                <v-tab value="two">{{ $t('auth._permisos_menus_') }}</v-tab>
+                                <v-tab value="three">{{ $t('auth._permisos_aplicaciones_') }}</v-tab>
+                            </v-tabs>
+
+                            <v-card-text class="overflow-y-auto" style="max-height: 500px">
+                                <v-tabs-window v-model="tab">
+                                    <v-tabs-window-item value="one">
+                                        <v-treeview
+                                            v-model:selected="formData.permisos"
+                                            :items="props.permisosModulo"
+                                            item-value="id"
+                                            select-strategy="classic"
+                                            selectable
+                                            :indent-lines="true"
+                                            open-all
+                                        >
+                                            <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
+                                                <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
+                                                    <template v-slot:badge>
+                                                        <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                                    </template>
+                                                    <v-btn
+                                                        v-bind="toggleProps"
+                                                        :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
+                                                        :variant="isOpen ? 'outlined' : 'tonal'"
+                                                    ></v-btn>
+                                                </v-badge>
+                                            </template>
+                                        </v-treeview>
+                                    </v-tabs-window-item>
+
+                                    <v-tabs-window-item value="two">
+                                        <v-treeview
+                                            v-model:selected="formData.permisos"
+                                            :items="props.permisosMenu"
+                                            item-value="id"
+                                            select-strategy="classic"
+                                            selectable
+                                            :indent-lines="true"
+                                            v-model:opened="openMenu"
+                                        >
+                                            <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
+                                                <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
+                                                    <template v-slot:badge>
+                                                        <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                                    </template>
+                                                    <v-btn
+                                                        v-bind="toggleProps"
+                                                        :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
+                                                        :variant="isOpen ? 'outlined' : 'tonal'"
+                                                    ></v-btn>
+                                                </v-badge>
+                                            </template>
+                                        </v-treeview>
+                                    </v-tabs-window-item>
+
+                                    <v-tabs-window-item value="three">
+                                        <v-treeview
+                                            v-model:selected="formData.permisos"
+                                            :items="props.permisosApp"
+                                            item-value="id"
+                                            select-strategy="classic"
+                                            selectable
+                                            :indent-lines="true"
+                                            v-model:opened="openApp"
+                                        >
+                                            <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
+                                                <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
+                                                    <template v-slot:badge>
+                                                        <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                                    </template>
+                                                    <v-btn
+                                                        v-bind="toggleProps"
+                                                        :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
+                                                        :variant="isOpen ? 'outlined' : 'tonal'"
+                                                    ></v-btn>
+                                                </v-badge>
+                                            </template>
+                                        </v-treeview>
+                                    </v-tabs-window-item>
+                                </v-tabs-window>
+                            </v-card-text>
+                        </v-card>
+                    </v-col>
                     <!--<v-autocomplete
                         clearable
                         :label="$t('rol._permisos_')"
@@ -114,28 +208,6 @@ onMounted(() => {
                         chips
                         persistent-hint
                     ></v-autocomplete>-->
-
-                    <v-treeview
-                        v-model:selected="formData.permisos"
-                        :items="props.permisos"
-                        item-value="id"
-                        select-strategy="classic"
-                        selectable
-                        :indent-lines="true"
-                    >
-                        <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
-                            <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
-                                <template v-slot:badge>
-                                    <v-icon v-if="isSelected" icon="$complete"></v-icon>
-                                </template>
-                                <v-btn
-                                    v-bind="toggleProps"
-                                    :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
-                                    :variant="isOpen ? 'outlined' : 'tonal'"
-                                ></v-btn>
-                            </v-badge>
-                        </template>
-                    </v-treeview>
 
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">

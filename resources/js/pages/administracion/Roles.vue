@@ -31,7 +31,9 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    permisos_: Array,
+    permisosMenu: Array,
+    permisosModulo: Array,
+    permisosApp: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -147,7 +149,9 @@ const opcionesAccion = [
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
-                            :permisos="permisos_"
+                            :permisosMenu="permisosMenu"
+                            :permisosModulo="permisosModulo"
+                            :permisosApp="permisosApp"
                             @form-saved="handleFormSave"
                         ></RolForm>
                         <RolShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></RolShow>
