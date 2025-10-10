@@ -75,6 +75,7 @@ const acc = {
     mostrar: 'ACADEMICA_SEDE_MOSTRAR',
     borrar: 'ACADEMICA_SEDE_BORRAR',
 };
+const permisoAny = 'ACADEMICA_SEDE_';
 // Permisos requeridos por la interfaz
 const permisos = {
     listado: 'MENU_ACADEMICA_SEDES',
@@ -152,7 +153,7 @@ const opcionesAccion = [
                 <v-window-item :value="2">
                     <Acciones
                         @action="handleAction"
-                        v-if="hasAnyPermission(permisos.acciones) && selectedItem.id !== null"
+                        v-if="hasPermission(permisoAny) && selectedItem.id !== null"
                         :acciones="opcionesAccion"
                         :selectedItemLabel="selectedItemLabel"
                         :rutaBorrar="rutaBorrar"

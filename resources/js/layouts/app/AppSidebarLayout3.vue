@@ -319,19 +319,7 @@ onMounted(() => {
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                 </template>
                 <template v-slot:append>
-                    <v-menu
-                        v-if="
-                            hasAnyPermission([
-                                'MODULO_INGRESO',
-                                'MODULO_CALIFICACIONES',
-                                'MODULO_GESTION-ACADEMICA',
-                                'MODULO_ADMINISTRACION',
-                                'MODULO_INGRESO',
-                            ])
-                        "
-                        v-model="menuModulos"
-                        :close-on-content-click="false"
-                    >
+                    <v-menu v-if="hasPermission('MODULO_')" v-model="menuModulos" :close-on-content-click="false">
                         <template v-slot:activator="{ props }">
                             <v-btn
                                 color="indigo"

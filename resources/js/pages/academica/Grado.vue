@@ -61,6 +61,7 @@ const acc = {
     mostrar: 'ACADEMICA_PLAN-ESTUDIO_GRADO_MOSTRAR',
     borrar: 'ACADEMICA_PLAN-ESTUDIO_GRADO_BORRAR',
 };
+const permisoAny = 'ACADEMICA_PLAN-ESTUDIO_GRADO_';
 // Permisos requeridos por la interfaz
 const permisos = {
     listado: 'MENU_ACADEMICA_PLAN-ESTUDIO_GRADO',
@@ -132,7 +133,7 @@ const opcionesAccion = [
                 <v-window-item :value="2">
                     <Acciones
                         @action="handleAction"
-                        v-if="hasAnyPermission(permisos.acciones) && selectedItem.id !== null"
+                        v-if="hasPermission(permisoAny) && selectedItem.id !== null"
                         :acciones="opcionesAccion"
                         :selectedItemLabel="selectedItemLabel"
                         :rutaBorrar="rutaBorrar"

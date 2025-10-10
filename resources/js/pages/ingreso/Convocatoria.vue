@@ -74,7 +74,7 @@ const acc = {
     borrar: 'INGRESO_CONVOCATORIA_BORRAR',
     calendarizar: 'INGRESO_CONVOCATORIA_CALENDARIZAR',
 };
-
+const permisoAny = 'INGRESO_CONVOCATORIA_';
 // Permisos requeridos por la interfaz
 const permisos = {
     listado: 'MENU_INGRESO_CONVOCATORIA_GESTIONAR',
@@ -162,7 +162,7 @@ const opcionesAccion = [
                 <v-window-item :value="2">
                     <Acciones
                         @action="handleAction"
-                        v-if="hasAnyPermission(permisos.acciones) && selectedItem.id !== null"
+                        v-if="hasPermission(permisoAny) && selectedItem.id !== null"
                         :acciones="opcionesAccion"
                         :selectedItemLabel="selectedItemLabel"
                         :rutaBorrar="rutaBorrar"

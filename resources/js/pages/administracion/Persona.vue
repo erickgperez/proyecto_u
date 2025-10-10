@@ -68,7 +68,7 @@ const acc = {
     mostrar: 'ADMINISTRACION_PERSONA_MOSTRAR',
     borrar: 'ADMINISTRACION_PERSONA_BORRAR',
 };
-
+const permisoAny = 'ADMINISTRACION_PERSONA_';
 // Permisos requeridos por la interfaz
 const permisos = {
     listado: 'MENU_ADMINISTRACION_PERSONA',
@@ -156,7 +156,7 @@ const opcionesAccion = [
                 <v-window-item :value="2">
                     <Acciones
                         @action="handleAction"
-                        v-if="hasAnyPermission(permisos.acciones) && selectedItem.id !== null"
+                        v-if="hasPermission(permisoAny) && selectedItem.id !== null"
                         :acciones="opcionesAccion"
                         :selectedItemLabel="selectedItemLabel"
                         :rutaBorrar="rutaBorrar"
