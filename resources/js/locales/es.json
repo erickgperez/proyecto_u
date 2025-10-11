@@ -122,6 +122,19 @@
     "_eliminar_": "Eliminar",
     "_enviado_": "Enviado",
     "_enviar_": "Enviar",
+    "estado": {
+        "_singular_": "Estado",
+        "_administrar_": "Administrar estados",
+        "_crear_": "Crear un nuevo estado",
+        "_editar_": "Editar estado",
+        "_mostrar_": "Mostrar estado",
+        "_listado_": "Listado de estados",
+        "_permite_gestionar_datos_": "Permite gestionar los estados de las etapas de los procesos y solicitudes",
+        "_plural_": "Estados",
+
+        "_codigo_": "Código",
+        "_descripcion_": "Descripción"
+    },
     "_estudiante_": "Estudiante",
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
     "_error_": "Error",
@@ -249,6 +262,7 @@
         "_singular_": "Persona"
     },
     "_plan_estudio_": "Plan de estudio",
+    "_procesos_": "Procesos",
     "_reenviar_invitacion_": "Reenviar invitación",
     "_registro_eliminado_correctamente_": "Registro eliminado correctamente",
     "_regresar_listado_": "Regresar al listado",

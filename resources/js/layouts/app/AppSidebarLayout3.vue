@@ -190,7 +190,7 @@ onMounted(() => {
                             </v-list-item>
                         </Link>
                         <v-list-item
-                            v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD')"
+                            v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD_')"
                             prepend-icon="mdi-security"
                             append-icon="mdi-menu-right"
                             class="text-body-1 text-none text-left"
@@ -222,6 +222,27 @@ onMounted(() => {
                                             prepend-icon="mdi-list-status"
                                             :title="$t('permiso._plural_')"
                                             :class="$page.url === '/seguridad/permisos' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
+                        <v-list-item
+                            v-if="hasPermission('MENU_ADMINISTRACION_PROCESO_')"
+                            prepend-icon="mdi-archive-cog-outline"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('_procesos_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link :href="route('proceso-estado-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESO_ESTADO')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-alert-circle-check-outline"
+                                            :title="$t('estado._plural_')"
+                                            :class="$page.url === '/proceso/estado' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

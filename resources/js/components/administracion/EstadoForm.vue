@@ -4,7 +4,6 @@ import Swal from 'sweetalert2';
 import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
-import TreeView from '../common/TreeView.vue';
 
 const { t } = useI18n();
 
@@ -19,18 +18,17 @@ function reset() {
 
 interface FormData {
     id: number | null;
-    name: string;
-    permisos: [];
+    codigo: string;
+    descripcion: string;
 }
 
-const props = defineProps(['item', 'accion', 'permisosMenu', 'permisosModulo', 'permisosApp']);
+const props = defineProps(['item', 'accion']);
 
 const formData = ref<FormData>({
     id: null,
-    name: '',
-    permisos: [],
+    codigo: '',
+    descripcion: '',
 });
-const tab = ref(null);
 const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
@@ -42,7 +40,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.post(route('seguridad-roles-save'), formData.value);
+            const resp = await axios.post(route('proceso-estado-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();
@@ -83,7 +81,6 @@ onMounted(() => {
     reset();
     if (props.accion === 'edit') {
         formData.value = { ...props.item };
-        formData.value.permisos = props.item.permisos.map((p: any) => p.id + '');
     }
 });
 </script>
@@ -95,52 +92,24 @@ onMounted(() => {
                     <v-col cols="12">
                         <v-text-field
                             required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
-                            v-model="formData.name"
+                            v-model="formData.codigo"
                             :rules="[
                                 (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 255) || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_'),
+                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_'),
                             ]"
-                            counter="255"
-                            :label="$t('rol._nombre_') + ' *'"
+                            counter="100"
+                            :label="$t('estado._codigo_') + ' *'"
                         ></v-text-field>
-                    </v-col>
-                    <v-col cols="12">
-                        <v-card>
-                            <v-tabs v-model="tab" align-tabs="center" color="basil" grow>
-                                <v-tab value="one">{{ $t('auth._permisos_modulos_') }}</v-tab>
-                                <v-tab value="two">{{ $t('auth._permisos_menus_') }}</v-tab>
-                                <v-tab value="three">{{ $t('auth._permisos_aplicaciones_') }}</v-tab>
-                            </v-tabs>
 
-                            <v-card-text>
-                                <v-tabs-window v-model="tab">
-                                    <v-tabs-window-item value="one">
-                                        <TreeView
-                                            :items="props.permisosModulo"
-                                            v-model="formData.permisos"
-                                            :seleccionados="formData.permisos"
-                                        ></TreeView>
-                                    </v-tabs-window-item>
-
-                                    <v-tabs-window-item value="two">
-                                        <TreeView
-                                            :items="props.permisosMenu"
-                                            v-model="formData.permisos"
-                                            :seleccionados="formData.permisos"
-                                        ></TreeView>
-                                    </v-tabs-window-item>
-
-                                    <v-tabs-window-item value="three">
-                                        <TreeView
-                                            :items="props.permisosApp"
-                                            v-model="formData.permisos"
-                                            :seleccionados="formData.permisos"
-                                        ></TreeView>
-                                    </v-tabs-window-item>
-                                </v-tabs-window>
-                            </v-card-text>
-                        </v-card>
+                        <v-text-field
+                            prepend-icon="mdi-form-textbox"
+                            v-model="formData.descripcion"
+                            :rules="[(v) => !v || v.length <= 200 || $t('_longitud_maxima_') + ': 200 ' + $t('_caracteres_')]"
+                            counter="200"
+                            :label="$t('estado._descripcion_')"
+                        ></v-text-field>
                     </v-col>
 
                     <v-col cols="12" align="right">

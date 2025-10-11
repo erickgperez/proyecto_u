@@ -124,6 +124,19 @@
     "_eliminar_": "Delete",
     "_enviado_": "Sent",
     "_enviar_": "Send",
+    "estado": {
+        "_singular_": "Status",
+        "_administrar_": "Manage status",
+        "_crear_": "Create a new status",
+        "_editar_": "Edit status",
+        "_mostrar_": "Show status",
+        "_listado_": "List of status",
+        "_permite_gestionar_datos_": "Allows you to manage the status of the stages of processes and requests",
+        "_plural_": "Statuses",
+
+        "_codigo_": "Code",
+        "_descripcion_": "Description"
+    },
     "_estudiante_": "Student",
     "_estudiantes_candidatos_carrera_universitaria_": "Students who are candidates to study in university courses",
     "_error_": "Error",
@@ -242,6 +255,7 @@
         "_singular_": "Person"
     },
     "_plan_estudio_": "Syllabus",
+    "_procesos_": "processes",
     "_reenviar_invitacion_": "Resend invitation",
     "_registro_eliminado_correctamente_": "Record successfully deleted",
     "_regresar_listado_": "Return to list",
