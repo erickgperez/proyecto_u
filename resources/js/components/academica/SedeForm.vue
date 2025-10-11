@@ -94,6 +94,8 @@ onMounted(() => {
                 <v-row>
                     <v-col cols="12">
                         <v-text-field
+                            required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.codigo"
                             :rules="[
@@ -106,6 +108,7 @@ onMounted(() => {
 
                         <v-text-field
                             required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
                             :rules="[

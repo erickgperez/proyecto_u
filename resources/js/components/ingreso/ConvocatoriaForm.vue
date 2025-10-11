@@ -171,6 +171,7 @@ const extensions = [
                             <v-date-input
                                 clearable
                                 required
+                                icon-color="deep-orange"
                                 v-model="formData.fecha"
                                 :rules="[(v) => !!v || $t('_fecha_requerida_')]"
                                 :label="$t('_fecha_') + ' *'"
@@ -179,6 +180,7 @@ const extensions = [
 
                         <v-text-field
                             required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
                             :rules="[

@@ -97,6 +97,7 @@ onMounted(() => {
                     <v-col cols="12">
                         <v-text-field
                             required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.name"
                             :rules="[
@@ -110,6 +111,7 @@ onMounted(() => {
                     <v-col cols="12">
                         <v-text-field
                             required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.email"
                             :rules="[

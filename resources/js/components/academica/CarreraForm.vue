@@ -111,6 +111,8 @@ watch(
                 <v-row>
                     <v-col cols="12">
                         <v-text-field
+                            required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.codigo"
                             :rules="[
@@ -123,6 +125,7 @@ watch(
 
                         <v-text-field
                             required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
                             :rules="[(v) => !!v || $t('_campo_requerido_')]"
@@ -135,6 +138,7 @@ watch(
                             :items="props.tiposCarrera"
                             v-model="formData.tipo_carrera_id"
                             :rules="[(v) => !!v || $t('_campo_requerido_')]"
+                            icon-color="deep-orange"
                             item-title="descripcion"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"

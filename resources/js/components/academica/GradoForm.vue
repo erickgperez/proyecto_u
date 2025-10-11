@@ -94,7 +94,9 @@ onMounted(() => {
                 <v-row>
                     <v-col cols="12">
                         <v-text-field
+                            required
                             prepend-icon="mdi-form-textbox"
+                            icon-color="deep-orange"
                             v-model="formData.codigo"
                             :rules="[
                                 (v) => !!v || $t('_campo_requerido_'),
@@ -106,6 +108,7 @@ onMounted(() => {
 
                         <v-text-field
                             required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion_masculino"
                             :rules="[
@@ -118,6 +121,7 @@ onMounted(() => {
 
                         <v-text-field
                             required
+                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion_femenino"
                             :rules="[
