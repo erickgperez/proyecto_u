@@ -107,7 +107,6 @@ onMounted(() => {
                     </v-col>
                     <v-col cols="12">
                         <v-card>
-                            {{ formData.permisos }}
                             <v-tabs v-model="tab" align-tabs="center" color="basil" grow>
                                 <v-tab value="one">{{ $t('auth._permisos_modulos_') }}</v-tab>
                                 <v-tab value="two">{{ $t('auth._permisos_menus_') }}</v-tab>
