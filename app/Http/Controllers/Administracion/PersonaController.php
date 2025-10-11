@@ -35,7 +35,7 @@ class PersonaController extends Controller
             'segundo_apellido' => 'nullable|string|max:100',
             'tercer_apellido' => 'nullable|string|max:100',
             'fecha_nacimiento' => 'nullable|date',
-            'sexo_id' => ['required', 'integer', Rule::exists('persona', 'id')],
+            'sexo_id' => ['required', 'integer', Rule::exists('sexo', 'id')],
         ]);
 
         if ($request->get('id') === null) {
