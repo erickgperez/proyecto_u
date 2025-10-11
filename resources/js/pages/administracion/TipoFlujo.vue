@@ -47,7 +47,7 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
 const selectedItemLabel = computed(() => selectedItem.value?.name ?? '');
 const rutaBorrar = ref('proceso-tipo-delete');
 const mensajes = {
-    titulo1: t('tipo._singular_'),
+    titulo1: t('tipoFlujo._singular_'),
     titulo2: t('tipoFlujo._administrar_'),
     subtitulo: t('tipoFlujo._permite_gestionar_datos_'),
     tituloListado: t('tipoFlujo._listado_'),
@@ -77,8 +77,8 @@ const fileName = ref('tipos_proceso');
 
 const headers = [
     { title: t('_id_'), key: 'id' },
-    { title: t('estado._codigo_'), key: 'codigo', align: 'start' },
-    { title: t('estado._descripcion_'), key: 'descripcion', align: 'start' },
+    { title: t('tipoFlujo._codigo_'), key: 'codigo', align: 'start' },
+    { title: t('tipoFlujo._descripcion_'), key: 'descripcion', align: 'start' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
