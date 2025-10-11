@@ -317,6 +317,19 @@
         "_mostrar_": "Mostrar tipo carrera",
         "_permite_gestionar_tipos_carrera_": "Permite gestionar los datos del tipo de carrera"
     },
+    "tipoFlujo": {
+        "_singular_": "Tipo proceso",
+        "_administrar_": "Administrar tipos de procesos",
+        "_crear_": "Crear un nuevo tipo de proceso",
+        "_editar_": "Editar tipo de proceso",
+        "_mostrar_": "Mostrar tipo de proceso",
+        "_listado_": "Listado de tipos de proceso",
+        "_permite_gestionar_datos_": "Permite gestionar los tipos de procesos",
+        "_plural_": "Tipos de proceso",
+
+        "_codigo_": "Código",
+        "_descripcion_": "Descripción"
+    },
     "_tipo_carga_": "Tipo de carga",
     "_tipo_invitacion_": "Tipo invitación",
     "_tipo_visualizacion_": "Tipo de visualización",

@@ -62,7 +62,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Permission::create(['name' => 'MENU_ADMINISTRACION_PROCESO']);
 
-        //Permisos
+        //Estado
         Permission::create(['name' => 'MENU_ADMINISTRACION_PROCESO_ESTADO']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESO_ESTADO_TODO']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESO_ESTADO_CREAR']);
@@ -70,6 +70,15 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_PROCESO_ESTADO_EDITAR']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESO_ESTADO_MOSTRAR']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESO_ESTADO_BORRAR']);
+
+        //Tipo flujo
+        Permission::create(['name' => 'MENU_ADMINISTRACION_PROCESO_TIPO-PROCESO']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESO_TIPO-PROCESO_TODO']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESO_TIPO-PROCESO_CREAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESO_TIPO-PROCESO_EXPORTAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESO_TIPO-PROCESO_EDITAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESO_TIPO-PROCESO_MOSTRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESO_TIPO-PROCESO_BORRAR']);
 
 
         //*****  INGRESO

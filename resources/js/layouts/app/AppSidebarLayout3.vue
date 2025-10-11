@@ -237,6 +237,15 @@ onMounted(() => {
                             {{ $t('_procesos_') }}
                             <v-menu activator="parent">
                                 <v-list class="bg-blue-grey-darken-2">
+                                    <Link :href="route('proceso-tipo-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESO_TIPO-PROCESO')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-label-multiple-outline"
+                                            :title="$t('tipoFlujo._plural_')"
+                                            :class="$page.url === '/proceso/tipo' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
                                     <Link :href="route('proceso-estado-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESO_ESTADO')">
                                         <v-list-item
                                             link

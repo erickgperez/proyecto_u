@@ -40,7 +40,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.post(route('proceso-estado-save'), formData.value);
+            const resp = await axios.post(route('proceso-tipo-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();
@@ -85,7 +85,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('estado._editar_') : $t('estado._crear_')} `">
+    <v-card :title="`${isEditing ? $t('tipoFlujo._editar_') : $t('tipoFlujo._crear_')} `">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
@@ -97,18 +97,18 @@ onMounted(() => {
                             v-model="formData.codigo"
                             :rules="[
                                 (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_'),
+                                (v) => (!!v && v.length <= 50) || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_'),
                             ]"
-                            counter="100"
-                            :label="$t('estado._codigo_') + ' *'"
+                            counter="50"
+                            :label="$t('tipoFlujo._codigo_') + ' *'"
                         ></v-text-field>
 
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion"
-                            :rules="[(v) => !v || v.length <= 200 || $t('_longitud_maxima_') + ': 200 ' + $t('_caracteres_')]"
-                            counter="200"
-                            :label="$t('estado._descripcion_')"
+                            :rules="[(v) => !v || v.length <= 150 || $t('_longitud_maxima_') + ': 150 ' + $t('_caracteres_')]"
+                            counter="150"
+                            :label="$t('tipoFlujo._descripcion_')"
                         ></v-text-field>
                     </v-col>
 

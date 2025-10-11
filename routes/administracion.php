@@ -5,6 +5,7 @@ use App\Http\Controllers\Administracion\PermisosController;
 use App\Http\Controllers\Administracion\PersonaController;
 use App\Http\Controllers\Administracion\ProcesoController;
 use App\Http\Controllers\Administracion\RolesController;
+use App\Http\Controllers\Administracion\TipoFlujoController;
 use App\Http\Controllers\Administracion\UsuarioController;
 use Illuminate\Support\Facades\Route;
 
@@ -29,4 +30,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/proceso/estado', [EstadoController::class, 'index'])->name('proceso-estado-index');
     Route::post('/proceso/estado/save', [EstadoController::class, 'save'])->name('proceso-estado-save');
     Route::delete('/proceso/estado/{id}/delete', [EstadoController::class, 'delete'])->name('proceso-estado-delete');
+
+    Route::get('/proceso/tipo', [TipoFlujoController::class, 'index'])->name('proceso-tipo-index');
+    Route::post('/proceso/tipo/save', [TipoFlujoController::class, 'save'])->name('proceso-tipo-save');
+    Route::delete('/proceso/tipo/{id}/delete', [TipoFlujoController::class, 'delete'])->name('proceso-tipo-delete');
 });
