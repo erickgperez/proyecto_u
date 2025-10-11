@@ -91,23 +91,6 @@ class RolesController extends Controller
         return array_values($tree);
     }
 
-    protected function obtenerNodosRecursivo($array, &$nodos = [])
-    {
-        // Itera sobre cada elemento del array
-        foreach ($array as $elemento) {
-            // Verifica si el elemento es un array
-            if (is_array($elemento)) {
-                // Si es un array, llama recursivamente a la función
-                $this->obtenerNodosRecursivo($elemento, $nodos);
-            } else {
-                // Si no es un array, añádelo al array de nodos
-                $nodos[] = $elemento;
-            }
-        }
-        // Devuelve el array de nodos con todos los elementos
-        return $nodos;
-    }
-
     public function save(Request $request)
     {
         // Aunque se ha validado del lado del cliente, validar aquí también
