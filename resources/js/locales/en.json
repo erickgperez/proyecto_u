@@ -297,6 +297,19 @@
         "_mostrar_": "Show career type",
         "_permite_gestionar_tipos_carrera_": "Allows you to manage data on the type of career"
     },
+    "tipoFlujo": {
+        "_singular_": "Process type",
+        "_administrar_": "Manage process types",
+        "_crear_": "Create a new process type",
+        "_editar_": "Edit process type",
+        "_mostrar_": "Show process type",
+        "_listado_": "List of process types",
+        "_permite_gestionar_datos_": "Allows you to manage the types of processes",
+        "_plural_": "Types of process",
+
+        "_codigo_": "Código",
+        "_descripcion_": "Descripción"
+    },
     "_tipo_carga_": "Type of load",
     "_tipo_invitacion_": "Invitation type",
     "_tipo_grafico_": "Display type",
