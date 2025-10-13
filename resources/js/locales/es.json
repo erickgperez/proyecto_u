@@ -122,6 +122,7 @@
     "_eliminar_": "Eliminar",
     "_enviado_": "Enviado",
     "_enviar_": "Enviar",
+    "_error_": "Error",
     "estado": {
         "_singular_": "Estado",
         "_administrar_": "Administrar estados",
@@ -137,7 +138,20 @@
     },
     "_estudiante_": "Estudiante",
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
-    "_error_": "Error",
+    "etapa": {
+        "_singular_": "Etapa",
+        "_administrar_": "Administrar etapas de procesos",
+        "_crear_": "Crear una nueva etapa",
+        "_editar_": "Editar etapa",
+        "_mostrar_": "Mostrar etapa",
+        "_listado_": "Listado de etapas",
+        "_permite_gestionar_datos_": "Permite administrar las etapas de los procesos",
+        "_plural_": "Etapas",
+
+        "_codigo_": "Código",
+        "_nombre_": "Nombre",
+        "_indicaciones_": "Indicaciones"
+    },
     "_enviar_invitaciones_a_": "Enviar invitaciones a",
     "_enviar_invitaciones_bachilleres_": "Enviar invitaciones a bachilleres",
     "_exito_": "Éxito",

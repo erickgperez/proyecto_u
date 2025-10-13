@@ -239,13 +239,6 @@ const extensions = [
                         </span>
                     </v-col>
                     <v-col cols="12" class="pl-15">
-                        <!--<v-textarea
-                            prepend-icon="mdi-form-textarea"
-                            :label="$t('_cuerpo_mensaje_')"
-                            v-model="formData.cuerpo_mensaje"
-                            :hint="$t('_consejo_cuerpo_mensaje_')"
-                            persistent-hint
-                        ></v-textarea>-->
                         {{ $t('_cuerpo_mensaje_') }}
                         <el-tiptap v-model:content="content" :extensions="extensions" />
 

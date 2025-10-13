@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administracion\EstadoController;
+use App\Http\Controllers\Administracion\EtapaController;
 use App\Http\Controllers\Administracion\FlujoController;
 use App\Http\Controllers\Administracion\PermisosController;
 use App\Http\Controllers\Administracion\PersonaController;
@@ -8,6 +9,7 @@ use App\Http\Controllers\Administracion\ProcesoController;
 use App\Http\Controllers\Administracion\RolesController;
 use App\Http\Controllers\Administracion\TipoFlujoController;
 use App\Http\Controllers\Administracion\UsuarioController;
+use App\Models\Workflow\Etapa;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -39,4 +41,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/procesos/proceso', [FlujoController::class, 'index'])->name('procesos-proceso-index');
     Route::post('/procesos/proceso/save', [FlujoController::class, 'save'])->name('procesos-proceso-save');
     Route::delete('/procesos/proceso/{id}/delete', [FlujoController::class, 'delete'])->name('procesos-proceso-delete');
+
+    Route::get('/proceso/etapa', [EtapaController::class, 'index'])->name('proceso-etapa-index');
+    Route::post('/proceso/etapa/save', [EtapaController::class, 'save'])->name('proceso-etapa-save');
+    Route::delete('/proceso/eteapa/{id}/delete', [EtapaController::class, 'delete'])->name('proceso-etapa-delete');
 });

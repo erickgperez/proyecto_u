@@ -246,6 +246,15 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
+                                    <Link :href="route('proceso-etapa-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESOS_ETAPA')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-transit-connection-horizontal"
+                                            :title="$t('etapa._singular_')"
+                                            :class="$page.url === '/proceso/etapa' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
                                     <Link :href="route('proceso-tipo-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESOS_TIPO-PROCESO')">
                                         <v-list-item
                                             link

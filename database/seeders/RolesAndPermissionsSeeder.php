@@ -89,6 +89,15 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_PROCESO_MOSTRAR']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_PROCESO_BORRAR']);
 
+        //Flujo
+        Permission::create(['name' => 'MENU_ADMINISTRACION_PROCESOS_ETAPA']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_TODO']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_CREAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_EXPORTAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_EDITAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_MOSTRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_BORRAR']);
+
 
         //*****  INGRESO
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA']);
