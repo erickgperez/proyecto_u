@@ -161,7 +161,21 @@
         "_mostrar_": "Mostrar grado",
         "_permite_gestionar_grados_": "Permite gestionar los datos del grado otorgado por una carrera"
     },
+    "flujo": {
+        "_singular_": "Proceso",
+        "_administrar_": "Administrar procesos",
+        "_crear_": "Crear un nuevo proceso",
+        "_editar_": "Editar proceso",
+        "_mostrar_": "Mostrar proceso",
+        "_listado_": "Listado de procesos",
+        "_permite_gestionar_datos_": "Permite gestionar los procesos",
+        "_plural_": "Procesos",
 
+        "_codigo_": "Código",
+        "_nombre_": "Nombre",
+        "_activo_": "Activo",
+        "_tipo_": "Tipo"
+    },
     "_gestionar_convocatoria_": "Gestionar convocatoria",
     "_guardar_": "Guardar",
     "_hasta_": "Hasta",

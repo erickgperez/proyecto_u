@@ -229,7 +229,7 @@ onMounted(() => {
                             </v-menu>
                         </v-list-item>
                         <v-list-item
-                            v-if="hasPermission('MENU_ADMINISTRACION_PROCESO_')"
+                            v-if="hasPermission('MENU_ADMINISTRACION_PROCESOS_')"
                             prepend-icon="mdi-archive-cog-outline"
                             append-icon="mdi-menu-right"
                             class="text-body-1 text-none text-left"
@@ -237,7 +237,16 @@ onMounted(() => {
                             {{ $t('_procesos_') }}
                             <v-menu activator="parent">
                                 <v-list class="bg-blue-grey-darken-2">
-                                    <Link :href="route('proceso-tipo-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESO_TIPO-PROCESO')">
+                                    <Link :href="route('procesos-proceso-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESOS_PROCESO')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-state-machine"
+                                            :title="$t('flujo._singular_')"
+                                            :class="$page.url === '/procesos/proceso' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link :href="route('proceso-tipo-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESOS_TIPO-PROCESO')">
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-label-multiple-outline"
@@ -246,7 +255,7 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
-                                    <Link :href="route('proceso-estado-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESO_ESTADO')">
+                                    <Link :href="route('proceso-estado-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESOS_ESTADO')">
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-alert-circle-check-outline"

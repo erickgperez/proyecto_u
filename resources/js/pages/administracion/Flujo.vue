@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import EstadoForm from '@/components/administracion/EstadoForm.vue';
-import EstadoShow from '@/components/administracion/EstadoShow.vue';
+import FlujoForm from '@/components/administracion/FlujoForm.vue';
+import FlujoShow from '@/components/administracion/FlujoShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -23,7 +23,9 @@ const { t } = useI18n();
 interface Item {
     id: number | null;
     codigo: string;
-    descripcion: string;
+    nombre: string;
+    activo: boolean;
+    tipo_flujo_id: number | null;
 }
 
 const props = defineProps({
@@ -32,11 +34,14 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    tipos: [],
 });
 const itemVacio = ref<Item>({
     id: null,
     codigo: '',
-    descripcion: '',
+    nombre: '',
+    activo: false,
+    tipo_flujo_id: null,
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -44,27 +49,27 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
-const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
-const rutaBorrar = ref('proceso-estado-delete');
+const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
+const rutaBorrar = ref('procesos-proceso-delete');
 const mensajes = {
-    titulo1: t('estado._singular_'),
-    titulo2: t('estado._administrar_'),
-    subtitulo: t('estado._permite_gestionar_datos_'),
-    tituloListado: t('estado._listado_'),
+    titulo1: t('flujo._singular_'),
+    titulo2: t('flujo._administrar_'),
+    subtitulo: t('flujo._permite_gestionar_datos_'),
+    tituloListado: t('flujo._listado_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ADMINISTRACION_PROCESOS_ESTADO_EDITAR',
-    mostrar: 'ADMINISTRACION_PROCESOS_ESTADO_MOSTRAR',
-    borrar: 'ADMINISTRACION_PROCESOS_ESTADO_BORRAR',
+    editar: 'ADMINISTRACION_PROCESOS_PROCESO_EDITAR',
+    mostrar: 'ADMINISTRACION_PROCESOS_PROCESO_MOSTRAR',
+    borrar: 'ADMINISTRACION_PROCESOS_PROCESO_BORRAR',
 };
-const permisoAny = 'ADMINISTRACION_PROCESOS_ESTADO_';
+const permisoAny = 'ADMINISTRACION_PROCESOS_PROCESO_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ADMINISTRACION_PROCESOS_ESTADO',
-    crear: 'ADMINISTRACION_PROCESOS_ESTADO_CREAR',
-    exportar: 'ADMINISTRACION_PROCESOS_ESTADO_EXPORTAR',
+    listado: 'MENU_ADMINISTRACION_PROCESOS_PROCESO',
+    crear: 'ADMINISTRACION_PROCESOS_PROCESO_CREAR',
+    exportar: 'ADMINISTRACION_PROCESOS_PROCESO_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -72,13 +77,15 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_estados');
-const fileName = ref('estados');
+const sheetName = ref('Listado_procesos');
+const fileName = ref('procesos');
 
 const headers = [
     { title: t('_id_'), key: 'id' },
-    { title: t('estado._codigo_'), key: 'codigo', align: 'start' },
-    { title: t('estado._descripcion_'), key: 'descripcion', align: 'start' },
+    { title: t('flujo._codigo_'), key: 'codigo' },
+    { title: t('flujo._nombre_'), key: 'nombre' },
+    { title: t('flujo._activo_'), key: 'activo' },
+    { title: t('flujo._tipo_'), key: 'tipo' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -125,6 +132,16 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
+                        <template v-slot:item.tipo="{ value }">
+                            <div class="d-flex ga-2">
+                                {{ value.codigo }}
+                            </div>
+                        </template>
+                        <template v-slot:item.activo="{ value }">
+                            <div class="d-flex ga-2">
+                                <v-checkbox :model-value="value" readonly color="primary"></v-checkbox>
+                            </div>
+                        </template>
                     </Listado>
                 </v-window-item>
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
@@ -145,13 +162,14 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <EstadoForm
+                        <FlujoForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
+                            :tipos="tipos"
                             @form-saved="handleFormSave"
-                        ></EstadoForm>
-                        <EstadoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></EstadoShow>
+                        ></FlujoForm>
+                        <FlujoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></FlujoShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Administracion\EstadoController;
+use App\Http\Controllers\Administracion\FlujoController;
 use App\Http\Controllers\Administracion\PermisosController;
 use App\Http\Controllers\Administracion\PersonaController;
 use App\Http\Controllers\Administracion\ProcesoController;
@@ -34,4 +35,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/proceso/tipo', [TipoFlujoController::class, 'index'])->name('proceso-tipo-index');
     Route::post('/proceso/tipo/save', [TipoFlujoController::class, 'save'])->name('proceso-tipo-save');
     Route::delete('/proceso/tipo/{id}/delete', [TipoFlujoController::class, 'delete'])->name('proceso-tipo-delete');
+
+    Route::get('/procesos/proceso', [FlujoController::class, 'index'])->name('procesos-proceso-index');
+    Route::post('/procesos/proceso/save', [FlujoController::class, 'save'])->name('procesos-proceso-save');
+    Route::delete('/procesos/proceso/{id}/delete', [FlujoController::class, 'delete'])->name('procesos-proceso-delete');
 });

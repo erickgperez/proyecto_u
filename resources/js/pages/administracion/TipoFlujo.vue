@@ -44,7 +44,7 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
-const selectedItemLabel = computed(() => selectedItem.value?.name ?? '');
+const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
 const rutaBorrar = ref('proceso-tipo-delete');
 const mensajes = {
     titulo1: t('tipoFlujo._singular_'),
@@ -55,16 +55,16 @@ const mensajes = {
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ADMINISTRACION_PROCESO_TIPO-PROCESO_EDITAR',
-    mostrar: 'ADMINISTRACION_PROCESO_TIPO-PROCESO_MOSTRAR',
-    borrar: 'ADMINISTRACION_PROCESO_TIPO-PROCESO_BORRAR',
+    editar: 'ADMINISTRACION_PROCESOS_TIPO-PROCESO_EDITAR',
+    mostrar: 'ADMINISTRACION_PROCESOS_TIPO-PROCESO_MOSTRAR',
+    borrar: 'ADMINISTRACION_PROCESOS_TIPO-PROCESO_BORRAR',
 };
-const permisoAny = 'ADMINISTRACION_PROCESO_TIPO-PROCESO_';
+const permisoAny = 'ADMINISTRACION_PROCESOS_TIPO-PROCESO_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ADMINISTRACION_PROCESO_TIPO-PROCESO',
-    crear: 'ADMINISTRACION_PROCESO_TIPO-PROCESO_CREAR',
-    exportar: 'ADMINISTRACION_PROCESO_TIPO-PROCESO_EXPORTAR',
+    listado: 'MENU_ADMINISTRACION_PROCESOS_TIPO-PROCESO',
+    crear: 'ADMINISTRACION_PROCESOS_TIPO-PROCESO_CREAR',
+    exportar: 'ADMINISTRACION_PROCESOS_TIPO-PROCESO_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
