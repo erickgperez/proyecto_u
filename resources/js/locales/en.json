@@ -124,6 +124,7 @@
     "_eliminar_": "Delete",
     "_enviado_": "Sent",
     "_enviar_": "Send",
+    "_error_": "Error",
     "estado": {
         "_singular_": "Status",
         "_administrar_": "Manage status",
@@ -139,7 +140,20 @@
     },
     "_estudiante_": "Student",
     "_estudiantes_candidatos_carrera_universitaria_": "Students who are candidates to study in university courses",
-    "_error_": "Error",
+    "etapa": {
+        "_singular_": "Stage",
+        "_administrar_": "Manage process stages",
+        "_crear_": "Create a new stage",
+        "_editar_": "Edit stage",
+        "_mostrar_": "Show stage",
+        "_listado_": "List of stages",
+        "_permite_gestionar_datos_": "Allows you to manage the stages of the processes",
+        "_plural_": "Stages",
+
+        "_codigo_": "Code",
+        "_nombre_": "Name",
+        "_indicaciones_": "Indications"
+    },
     "_enviar_invitaciones_a_": "Send invitations to",
     "_enviar_invitaciones_bachilleres_": "Send invitations to high school students",
     "_exito_": "Success",
@@ -314,6 +328,23 @@
     "_tipo_invitacion_": "Invitation type",
     "_tipo_grafico_": "Display type",
     "_todos_estudiantes_en_base_datos_": "All students in the database",
+    "transicion": {
+        "_singular_": "Transition",
+        "_administrar_": "Manage stage transitions",
+        "_crear_": "Create a new transition",
+        "_editar_": "Edit transition",
+        "_mostrar_": "Show transition",
+        "_listado_": "List of transitions",
+        "_permite_gestionar_datos_": "Allows you to manage transitions between process stages",
+        "_plural_": "Transitions",
+
+        "_codigo_": "Code",
+        "_nombre_": "Name",
+        "_etapa_origen_": "Origin stage",
+        "_etapa_destino_": "Destination stage",
+        "_estado_origen_": "State of origin",
+        "_estado_destino_": "Destination state"
+    },
     "_updated_at_": "Updated at",
     "_updated_by_": "Actualizado por",
     "_ver_": "Show",

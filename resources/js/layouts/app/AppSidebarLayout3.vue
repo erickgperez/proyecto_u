@@ -255,6 +255,15 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
+                                    <Link :href="route('proceso-transicion-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESOS_TRANSICION')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-transit-detour"
+                                            :title="$t('transicion._singular_')"
+                                            :class="$page.url === '/proceso/transicion' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
                                     <Link :href="route('proceso-tipo-index')" v-if="hasPermission('MENU_ADMINISTRACION_PROCESOS_TIPO-PROCESO')">
                                         <v-list-item
                                             link

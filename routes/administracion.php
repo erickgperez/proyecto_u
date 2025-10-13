@@ -8,6 +8,7 @@ use App\Http\Controllers\Administracion\PersonaController;
 use App\Http\Controllers\Administracion\ProcesoController;
 use App\Http\Controllers\Administracion\RolesController;
 use App\Http\Controllers\Administracion\TipoFlujoController;
+use App\Http\Controllers\Administracion\TransicionController;
 use App\Http\Controllers\Administracion\UsuarioController;
 use App\Models\Workflow\Etapa;
 use Illuminate\Support\Facades\Route;
@@ -45,4 +46,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/proceso/etapa', [EtapaController::class, 'index'])->name('proceso-etapa-index');
     Route::post('/proceso/etapa/save', [EtapaController::class, 'save'])->name('proceso-etapa-save');
     Route::delete('/proceso/eteapa/{id}/delete', [EtapaController::class, 'delete'])->name('proceso-etapa-delete');
+
+    Route::get('/proceso/transicion', [TransicionController::class, 'index'])->name('proceso-transicion-index');
+    Route::post('/proceso/transicion/save', [TransicionController::class, 'save'])->name('proceso-transicion-save');
+    Route::delete('/proceso/transicion/{id}/delete', [TransicionController::class, 'delete'])->name('proceso-transicion-delete');
 });

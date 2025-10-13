@@ -89,7 +89,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_PROCESO_MOSTRAR']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_PROCESO_BORRAR']);
 
-        //Flujo
+        //etapa
         Permission::create(['name' => 'MENU_ADMINISTRACION_PROCESOS_ETAPA']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_TODO']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_CREAR']);
@@ -97,6 +97,15 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_EDITAR']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_MOSTRAR']);
         Permission::create(['name' => 'ADMINISTRACION_PROCESOS_ETAPA_BORRAR']);
+
+        //transicion
+        Permission::create(['name' => 'MENU_ADMINISTRACION_PROCESOS_TRANSICION']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_TRANSICION_TODO']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_TRANSICION_CREAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_TRANSICION_EXPORTAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_TRANSICION_EDITAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_TRANSICION_MOSTRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PROCESOS_TRANSICION_BORRAR']);
 
 
         //*****  INGRESO

@@ -362,6 +362,23 @@
     "_tipo_invitacion_": "Tipo invitación",
     "_tipo_visualizacion_": "Tipo de visualización",
     "_todos_estudiantes_en_base_datos_": "Todos los estudiantes en la base de datos",
+    "transicion": {
+        "_singular_": "Transición",
+        "_administrar_": "Administrar transiciones de etapas",
+        "_crear_": "Crear una nueva transición",
+        "_editar_": "Editar transición",
+        "_mostrar_": "Mostrar transición",
+        "_listado_": "Listado de transiciones",
+        "_permite_gestionar_datos_": "Permite administrar las transiciones entre las etapas de los procesos",
+        "_plural_": "Transiciones",
+
+        "_codigo_": "Código",
+        "_nombre_": "Nombre",
+        "_etapa_origen_": "Etapa origen",
+        "_etapa_destino_": "Etapa destino",
+        "_estado_origen_": "Estado origen",
+        "_estado_destino_": "Estado destino"
+    },
     "_updated_at_": "Actualizado en",
     "_updated_by_": "Actualizado por",
     "usuario": {
