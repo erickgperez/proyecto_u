@@ -81,6 +81,7 @@ class VerifyEmailController extends Controller
             $aspirante = Aspirante::create();
             $aspirante->nie = $dataBach->nie;
             $aspirante->persona()->associate($persona);
+            $aspirante->save();
 
             //Buscar la invitación para ponerla como aceptada
             $invitacion = Invitacion::where('nie', $user->name)->orderBy('created_at', 'desc')->first();
@@ -90,8 +91,8 @@ class VerifyEmailController extends Controller
 
                 //Asignar el aspirante a la convocatoria a la que fue invitado
                 $aspirante->convocatorias()->syncWithoutDetaching([$invitacion->convocatoria_id]);
+                $aspirante->save();
             }
-            $aspirante->save();
         }
 
         return redirect()->intended(route('dashboard', absolute: false) . '?verified=1');
