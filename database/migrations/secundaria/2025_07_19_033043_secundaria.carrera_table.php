@@ -16,8 +16,6 @@ return new class extends Migration
             $table->comment('Las diferentes opciones de bachillerato');
             $table->string('codigo', length: 10)->nullable()->unique();
             $table->string('descripcion', length: 255)->nullable();
-            $table->foreignId('grupo_ranking_id')->nullable();
-            $table->foreign('grupo_ranking_id')->references('id')->on('secundaria.grupo_ranking')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->timestamps();
         });
