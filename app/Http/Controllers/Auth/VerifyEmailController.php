@@ -79,6 +79,7 @@ class VerifyEmailController extends Controller
 
             //Crear el aspirante
             $aspirante = Aspirante::create();
+            $aspirante->nie = $dataBach->nie;
             $aspirante->persona()->associate($persona);
 
             //Buscar la invitación para ponerla como aceptada
