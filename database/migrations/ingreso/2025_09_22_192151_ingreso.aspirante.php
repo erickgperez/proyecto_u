@@ -15,6 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->comment('Tabla de aspirantes a una convocatoria de ingreso');
+            $table->string('nie', length: 30)->nullable()->comment('Número de identificación de estudiante');
+            $table->float('calificacion_bachillerato', 5, 2)->nullable()->comment('Calificación obtenida en la prueba que se realiza en educación media');
             $table->foreignId('persona_id')->nullable();
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
