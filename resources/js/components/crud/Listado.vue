@@ -124,7 +124,7 @@ const headersFiltered = computed(() => {
             striped="odd"
         >
             <template v-for="header in headersFiltered" v-slot:[`item.${header.key}`]="{ item }">
-                <slot :name="`item.${header.key}`" :value="item[header.key]">
+                <slot :name="`item.${header.key}`" :value="item[header.key]" :item="item">
                     {{ item[header.key] }}
                 </slot>
             </template>
