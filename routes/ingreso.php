@@ -31,4 +31,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/ingreso/aspirante/{id}/convocatoria', [AspiranteController::class, 'convocatoriaCarrera'])->name('ingreso-aspirante-convocatoria-carrera');
 
     Route::post('/ingreso/solicitud/{id}/seleccion-carrera', [AspiranteController::class, 'seleccionCarrera'])->name('ingreso-solicitud-seleccion-carrera');
+
+    Route::get('/ingreso/bachillerato/cargar-calificacion', [UploadFileController::class, 'cargarCalificacion'])->name('ingreso-bachillerato-cargar-calificacion');
+    Route::post('/ingreso/bachillerato/import-calificacion', [UploadFileController::class, 'importCalificacion'])->name('ingreso-import-calificacion-bachillerato');
 });

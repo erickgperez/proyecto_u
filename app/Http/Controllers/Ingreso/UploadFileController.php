@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
 use App\Imports\BachilleratoImport;
+use App\Imports\BachilleratoImportCalificacion;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
@@ -20,6 +21,11 @@ class UploadFileController extends Controller
         return Inertia::render('ingreso/CargarDatosBachillerato', [
             'status' => $request->session()->get('status'),
         ]);
+    }
+
+    public function cargarCalificacion(Request $request): Response
+    {
+        return Inertia::render('ingreso/CargarCalificacionBachillerato');
     }
 
     /**
@@ -71,6 +77,25 @@ class UploadFileController extends Controller
 
         DB::table('secundaria.carrera')
             ->insertUsing(['descripcion'], $carrerasQuery);
+
+        return back()->with('success', 'Excel file imported successfully!');
+    }
+
+    public function importCalificacion(Request $request)
+    {
+
+        ini_set('max_execution_time', 300);
+
+        //phpinfo();
+        //exit;
+        $request->validate([
+            'archivo' => 'required|file|mimes:csv,txt',
+        ]);
+
+        $path = $request->file('archivo')->store('imports');
+
+
+        Excel::import(new BachilleratoImportCalificacion, $path);
 
         return back()->with('success', 'Excel file imported successfully!');
     }
