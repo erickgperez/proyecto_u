@@ -374,6 +374,8 @@
 
         "_codigo_": "Código",
         "_nombre_": "Nombre",
+        "_origen_": "Origen",
+        "_destino_": "Destino",
         "_etapa_origen_": "Etapa origen",
         "_etapa_destino_": "Etapa destino",
         "_estado_origen_": "Estado origen",

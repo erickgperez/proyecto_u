@@ -37,9 +37,9 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    flujos: [],
-    etapas: [],
-    estados: [],
+    flujos: Array,
+    etapas: Array,
+    estados: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -93,10 +93,8 @@ const headers = [
     { title: t('transicion._codigo_'), key: 'codigo' },
     { title: t('transicion._nombre_'), key: 'nombre' },
     { title: t('flujo._singular_'), key: 'flujo' },
-    { title: t('transicion._etapa_origen_'), key: 'etapa_origen' },
-    { title: t('transicion._estado_origen_'), key: 'estado_origen' },
-    { title: t('transicion._etapa_destino_'), key: 'etapa_destino' },
-    { title: t('transicion._estado_destino_'), key: 'estado_destino' },
+    { title: t('transicion._origen_'), key: 'etapa_origen' },
+    { title: t('transicion._destino_'), key: 'etapa_destino' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -151,18 +149,12 @@ const opcionesAccion = [
                                 {{ value.codigo }}
                             </div>
                         </template>
-                        <template v-slot:item.etapa_origen="{ value }">
-                            <div class="d-flex ga-2">{{ value.codigo }}</div>
-                        </template>
-                        <template v-slot:item.estado_origen="{ value }">
-                            <div class="d-flex ga-2">{{ value.codigo }}</div>
+                        <template v-slot:item.etapa_origen="{ value, item }">
+                            <div class="d-flex ga-2">{{ value.codigo }} ({{ item.estado_origen.codigo }})</div>
                         </template>
 
-                        <template v-slot:item.etapa_destino="{ value }">
-                            <div class="d-flex ga-2">{{ value.codigo }}</div>
-                        </template>
-                        <template v-slot:item.estado_destino="{ value }">
-                            <div class="d-flex ga-2">{{ value.codigo }}</div>
+                        <template v-slot:item.etapa_destino="{ value, item }">
+                            <div class="d-flex ga-2">{{ value.codigo }} ({{ item.estado_destino.codigo }})</div>
                         </template>
                     </Listado>
                 </v-window-item>
@@ -189,6 +181,8 @@ const opcionesAccion = [
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
                             :flujos="flujos"
+                            :etapas="etapas"
+                            :estados="estados"
                             @form-saved="handleFormSave"
                         ></TransicionForm>
                         <TransicionShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></TransicionShow>

@@ -6,7 +6,7 @@ const date = useDate();
 const props = defineProps(['item', 'accion']);
 </script>
 <template>
-    <v-card :title="$t('etapa._mostrar_')">
+    <v-card :title="$t('transicion._mostrar_')">
         <template v-slot:text>
             <v-row>
                 <v-col cols="4">
@@ -18,7 +18,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('etapa._codigo_') }}
+                    {{ $t('transicion._codigo_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.codigo }}
@@ -26,7 +26,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('etapa._nombre_') }}
+                    {{ $t('transicion._nombre_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.nombre }}
@@ -42,10 +42,34 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('etapa._indicaciones_') }}
+                    {{ $t('transicion._etapa_origen_') }}
                 </v-col>
                 <v-col cols="8">
-                    <div v-html="props.item.indicaciones"></div>
+                    {{ props.item.etapa_origen.codigo }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('transicion._estado_origen_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.estado_origen.codigo }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('transicion._etapa_destino_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.etapa_destino.codigo }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('transicion._estado_destino_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.estado_destino.codigo }}
                 </v-col>
             </v-row>
 

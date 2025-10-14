@@ -34,7 +34,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    tipos: [],
+    tipos: Array,
 });
 const itemVacio = ref<Item>({
     id: null,

@@ -42,9 +42,9 @@ class TransicionController extends Controller
         ]);
 
         if ($request->get('id') === null) {
-            $transicion = new Etapa();
+            $transicion = new Transicion();
         } else {
-            $transicion = Etapa::find($request->get('id'));
+            $transicion = Transicion::find($request->get('id'));
         }
 
         $transicion->codigo = $request->get('codigo');

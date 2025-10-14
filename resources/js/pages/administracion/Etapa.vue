@@ -34,7 +34,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    flujos: [],
+    flujos: Array,
 });
 const itemVacio = ref<Item>({
     id: null,

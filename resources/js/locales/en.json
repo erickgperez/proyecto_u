@@ -340,6 +340,8 @@
 
         "_codigo_": "Code",
         "_nombre_": "Name",
+        "_origen_": "Origin",
+        "_destino_": "Destination",
         "_etapa_origen_": "Origin stage",
         "_etapa_destino_": "Destination stage",
         "_estado_origen_": "State of origin",
