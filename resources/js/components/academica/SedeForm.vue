@@ -24,7 +24,7 @@ interface FormData {
     carrerasIds: [];
 }
 
-const props = defineProps(['item', 'accion', 'distritos', 'departamentos', 'municipios', 'carreras']);
+const props = defineProps(['item', 'accion', 'tipos', 'carrerasCupo']);
 
 const formData = ref<FormData>({
     id: null,
@@ -37,7 +37,7 @@ const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
-    formData.value.carreras = props.carreras.filter((c: any) => formData.value.carrerasIds.includes(c.id));
+    formData.value.carreras = props.carrerasCupo.filter((c: any) => formData.value.carrerasIds.includes(c.id));
     loading.value = true;
 
     const hasError = ref(false);
@@ -136,11 +136,11 @@ onMounted(() => {
                             :hint="$t('sede._carreras_ayuda_')"
                             persistent-hint
                         ></v-autocomplete>-->
-
-                        <v-list v-model:selected="formData.carrerasIds" select-strategy="leaf">
-                            <v-list-subheader>{{ $t('sede._carreras_ayuda_') }}</v-list-subheader>
+                        {{ $t('sede._carreras_ayuda_') }}
+                        <v-list v-model:selected="formData.carrerasIds" select-strategy="leaf" v-for="tipo in props.tipos" :key="tipo">
+                            <v-list-subheader>{{ tipo }}</v-list-subheader>
                             <v-list-item
-                                v-for="item in props.carreras"
+                                v-for="item in props.carrerasCupo.filter((c) => c.tipo.codigo == tipo)"
                                 :key="item.id"
                                 :title="item.nombreCompleto"
                                 :value="item.id"

@@ -5,11 +5,10 @@ import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
-import { useFunciones } from '@/composables/useFunciones';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { Carrera, SortBy, TipoCarrera } from '@/types/tipos';
+import type { SortBy, TipoCarrera } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -35,16 +34,13 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    carreras: {
-        type: Array as PropType<Carrera[]>,
-        required: true,
-        default: () => [],
-    },
     tiposCarrera: {
         type: Array as PropType<TipoCarrera[]>,
         required: true,
         default: () => [],
     },
+    tipos: Array,
+    carrerasCupo: Array,
 });
 
 const itemVacio = ref<Item>({
@@ -58,7 +54,6 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     itemVacio,
     props.items,
 );
-const { carrerasAgrupadasVList } = useFunciones();
 
 const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 const rutaBorrar = ref('academica-sede-delete');
@@ -170,7 +165,8 @@ const opcionesAccion = [
                         <SedeForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                            :carreras="props.carreras"
+                            :tipos="props.tipos"
+                            :carrerasCupo="props.carrerasCupo"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
                         ></SedeForm>

@@ -22,16 +22,20 @@ class SedeController extends Controller
 
         $tiposCarrera = TipoCarrera::all();
 
-        $carreras = Carrera::orderBy('certificacion_de', 'DESC')->orderBy('nombre', 'ASC')->get();
+        $carreras_ = Carrera::with('tipo')->orderBy('tipo_carrera_id')->orderBy('nombre', 'ASC')->get();
         $carrerasCupo = [];
-        foreach ($carreras as $c) {
-            $c->cupo = 1;
+        $tipos = [];
+        foreach ($carreras_ as $c) {
+            $c->cupo =  1;
+            $tipos[$c->tipo->codigo] = $c->tipo->codigo;
             $carrerasCupo[] = $c;
         }
+        $tipos = array_values($tipos);
 
         return Inertia::render('academica/Sede', [
             'items'         => $sedes,
-            'carreras'      => $carrerasCupo,
+            'tipos'         => $tipos,
+            'carrerasCupo'  => $carrerasCupo,
             'tiposCarrera'  => $tiposCarrera
         ]);
     }
