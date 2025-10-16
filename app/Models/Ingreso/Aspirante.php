@@ -13,6 +13,7 @@ class Aspirante extends Model
     protected $table = "ingreso.aspirante";
 
     protected $fillable = [
+        'nie',
         'persona_id'
     ];
 

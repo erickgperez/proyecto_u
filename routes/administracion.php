@@ -7,6 +7,7 @@ use App\Http\Controllers\Administracion\PermisosController;
 use App\Http\Controllers\Administracion\PersonaController;
 use App\Http\Controllers\Administracion\ProcesoController;
 use App\Http\Controllers\Administracion\RolesController;
+use App\Http\Controllers\Administracion\SimulacionController;
 use App\Http\Controllers\Administracion\TipoFlujoController;
 use App\Http\Controllers\Administracion\TransicionController;
 use App\Http\Controllers\Administracion\UsuarioController;
@@ -50,4 +51,6 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/proceso/transicion', [TransicionController::class, 'index'])->name('proceso-transicion-index');
     Route::post('/proceso/transicion/save', [TransicionController::class, 'save'])->name('proceso-transicion-save');
     Route::delete('/proceso/transicion/{id}/delete', [TransicionController::class, 'delete'])->name('proceso-transicion-delete');
+
+    Route::get('/administracion/simulacion', [SimulacionController::class, 'index'])->name('administracion-simulacion-index');
 });
