@@ -34,10 +34,11 @@ const formData = ref<FormData>({
     carrerasIds: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
+const carrerasCupo_ = ref(props.carrerasCupo);
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
-    formData.value.carreras = props.carrerasCupo.filter((c: any) => formData.value.carrerasIds.includes(c.id));
+    formData.value.carreras = carrerasCupo_.value.filter((c: any) => formData.value.carrerasIds.includes(c.id));
     loading.value = true;
 
     const hasError = ref(false);
@@ -88,6 +89,18 @@ onMounted(() => {
     if (props.accion === 'edit') {
         formData.value = { ...props.item };
         formData.value.carrerasIds = props.item.carreras.map((cs: any) => cs.id);
+
+        //Actualizar el cupo de las carreras según la sede seleccionada
+        carrerasCupo_.value = props.carrerasCupo.map((item: any) => {
+            //Buscar la carrera en la sede
+            const matchingUpdate = props.item.carreras.find((newItemCupo: any) => newItemCupo.id === item.id);
+            if (matchingUpdate) {
+                //Retornar el item con el campo cupo actualizado
+                return { ...item, cupo: matchingUpdate.pivot.cupo ?? 1 };
+            }
+            //retornar el item original
+            return item;
+        });
     }
 });
 </script>
@@ -140,7 +153,7 @@ onMounted(() => {
                         <v-list v-model:selected="formData.carrerasIds" select-strategy="leaf" v-for="tipo in props.tipos" :key="tipo">
                             <v-list-subheader>{{ tipo }}</v-list-subheader>
                             <v-list-item
-                                v-for="item in props.carrerasCupo.filter((c) => c.tipo.codigo == tipo)"
+                                v-for="item in carrerasCupo_.filter((c) => c.tipo.codigo === tipo)"
                                 :key="item.id"
                                 :title="item.nombreCompleto"
                                 :value="item.id"
