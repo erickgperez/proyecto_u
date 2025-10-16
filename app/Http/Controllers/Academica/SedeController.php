@@ -22,11 +22,16 @@ class SedeController extends Controller
 
         $tiposCarrera = TipoCarrera::all();
 
-        $carreras = Carrera::orderBy('nombre')->get();
+        $carreras = Carrera::orderBy('certificacion_de', 'DESC')->orderBy('nombre', 'ASC')->get();
+        $carrerasCupo = [];
+        foreach ($carreras as $c) {
+            $c->cupo = 1;
+            $carrerasCupo[] = $c;
+        }
 
         return Inertia::render('academica/Sede', [
             'items'         => $sedes,
-            'carreras'      => $carreras,
+            'carreras'      => $carrerasCupo,
             'tiposCarrera'  => $tiposCarrera
         ]);
     }
@@ -65,9 +70,12 @@ class SedeController extends Controller
         $sede->nombre = $request->get('nombre');
         $sede->save();
 
-        $sede->carreras()->sync($request->get('carreras') ?? []);
-
-        $item = $sede->toArray();
+        //Quitar todas las relaciones entre carrera sede
+        $sede->carreras()->sync([]);
+        //Agregar los que vienen en el formulario
+        foreach ($request->get('carreras') as $c) {
+            $sede->carreras()->attach($c['id'], ['cupo' => $c['cupo']]);
+        }
 
         $item = Sede::with('creator', 'updater', 'carreras')->find($sede->id);
 

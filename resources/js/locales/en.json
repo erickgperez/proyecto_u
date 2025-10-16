@@ -106,6 +106,7 @@
     "_correo_": "email",
     "_consejo_cuerpo_mensaje_": "Message that will be sent by email when invitations to the call are made",
     "_cuerpo_mensaje_": "Body of the message",
+    "_cupo_": "Quota",
     "_datos_subidos_correctamente_": "Data uploaded successfully",
     "_debe_elegir_archivo_": "You must choose a file",
     "_departamento_": "Department",

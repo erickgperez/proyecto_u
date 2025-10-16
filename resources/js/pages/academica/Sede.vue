@@ -94,7 +94,7 @@ const fileName = ref('sedes');
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
-    { title: t('sede._carreras_'), key: 'carreras', align: 'start' },
+    //{ title: t('sede._carreras_'), key: 'carreras', align: 'start' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -141,11 +141,11 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.carreras="{ value }">
+                        <!--<template v-slot:item.carreras="{ value }">
                             <div class="d-flex ga-2">
                                 <v-list density="compact" class="transparent-list" :items="carrerasAgrupadasVList(tiposCarrera, value)"> </v-list>
                             </div>
-                        </template>
+                        </template>-->
                     </Listado>
                 </v-window-item>
 

@@ -21,6 +21,7 @@ interface FormData {
     codigo: string;
     nombre: string;
     carreras: [];
+    carrerasIds: [];
 }
 
 const props = defineProps(['item', 'accion', 'distritos', 'departamentos', 'municipios', 'carreras']);
@@ -30,11 +31,13 @@ const formData = ref<FormData>({
     codigo: '',
     nombre: '',
     carreras: [],
+    carrerasIds: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
+    formData.value.carreras = props.carreras.filter((c: any) => formData.value.carrerasIds.includes(c.id));
     loading.value = true;
 
     const hasError = ref(false);
@@ -84,6 +87,7 @@ onMounted(() => {
     reset();
     if (props.accion === 'edit') {
         formData.value = { ...props.item };
+        formData.value.carrerasIds = props.item.carreras.map((cs: any) => cs.id);
     }
 });
 </script>
@@ -119,11 +123,11 @@ onMounted(() => {
                             :label="$t('_nombre_') + ' *'"
                         ></v-text-field>
 
-                        <v-autocomplete
+                        <!--<v-autocomplete
                             clearable
                             :label="$t('sede._carreras_')"
                             :items="props.carreras"
-                            v-model="formData.carreras"
+                            v-model="formData.carrerasIds"
                             item-title="nombreCompleto"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
@@ -131,7 +135,30 @@ onMounted(() => {
                             chips
                             :hint="$t('sede._carreras_ayuda_')"
                             persistent-hint
-                        ></v-autocomplete>
+                        ></v-autocomplete>-->
+
+                        <v-list v-model:selected="formData.carrerasIds" select-strategy="leaf">
+                            <v-list-subheader>{{ $t('sede._carreras_ayuda_') }}</v-list-subheader>
+                            <v-list-item
+                                v-for="item in props.carreras"
+                                :key="item.id"
+                                :title="item.nombreCompleto"
+                                :value="item.id"
+                                active-class="text-primary"
+                            >
+                                <template v-slot:prepend="{ isSelected, select }">
+                                    <v-list-item-action start>
+                                        <v-checkbox-btn :model-value="isSelected" @update:model-value="select"></v-checkbox-btn>
+                                    </v-list-item-action>
+                                </template>
+                                <template v-slot:append="{ isSelected }">
+                                    <v-list-item-action class="flex-column" v-if="isSelected">
+                                        <small class="text-high-emphasis">{{ $t('_cupo_') }}</small>
+                                        <v-number-input :min="1" control-variant="split" inset v-model="item.cupo"></v-number-input>
+                                    </v-list-item-action>
+                                </template>
+                            </v-list-item>
+                        </v-list>
                     </v-col>
 
                     <v-col cols="12" align="right">
