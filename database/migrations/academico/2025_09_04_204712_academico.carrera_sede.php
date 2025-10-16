@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('academico.carrera_sede', function (Blueprint $table) {
             $table->id();
             $table->comment('Relación para definir las carreras que se imparten en una sede');
+            $table->integer('cupo')->nullable()->comment('El cupo que tiene asignado la carrera en la sede');
 
             $table->foreignId('carrera_id');
             $table->foreign('carrera_id')->references('id')->on('plan_estudio.carrera')->onDelete('CASCADE')->onUpdate('CASCADE');
