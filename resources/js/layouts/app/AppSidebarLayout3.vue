@@ -134,51 +134,68 @@ onMounted(() => {
                             {{ $t('_configuracion_') }}
                         </v-list-item>
                     </Link> -->
-                    <v-list-item
-                        v-if="hasPermission('MODULO_INGRESO') && moduloActual?.codigo == 'ingreso-universitario'"
-                        prepend-icon="mdi-book-outline"
-                        append-icon="mdi-menu-right"
-                        class="text-body-1 text-none text-left"
-                    >
-                        {{ $t('convocatoria._convocatoria_') }}
-                        <v-menu activator="parent" v-if="hasPermission('MENU_INGRESO_CONVOCATORIA')">
-                            <v-list class="bg-blue-grey-darken-2">
-                                <Link
-                                    :href="route('ingreso-convocatoria-index')"
-                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR-CONVOCATORIA')"
-                                >
-                                    <v-list-item
-                                        link
-                                        prepend-icon="mdi-book-settings-outline"
-                                        :title="$t('_gestionar_convocatoria_')"
-                                        :class="$page.url === '/ingreso/convocatoria' ? 'bg-blue-lighten-4' : ''"
+                    <v-sheet color="transparent" v-if="hasPermission('MODULO_INGRESO') && moduloActual?.codigo == 'ingreso-universitario'">
+                        <v-list-item
+                            v-if="hasPermission('MENU_INGRESO_CONVOCATORIA')"
+                            prepend-icon="mdi-book-outline"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('convocatoria._convocatoria_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link
+                                        :href="route('ingreso-convocatoria-index')"
+                                        v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_GESTIONAR-CONVOCATORIA')"
                                     >
-                                    </v-list-item>
-                                </Link>
-                                <Link
-                                    :href="route('ingreso-bachillerato-cargar-archivo')"
-                                    v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CARGAR-ARCHIVO')"
-                                >
-                                    <v-list-item
-                                        link
-                                        prepend-icon="mdi-upload-circle-outline"
-                                        :title="$t('_cargar_archivo_')"
-                                        :class="$page.url === '/ingreso/bachillerato/cargar-archivo' ? 'bg-blue-lighten-4' : ''"
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-book-settings-outline"
+                                            :title="$t('_gestionar_convocatoria_')"
+                                            :class="$page.url === '/ingreso/convocatoria' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link
+                                        :href="route('ingreso-bachillerato-cargar-archivo')"
+                                        v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CARGAR-ARCHIVO')"
                                     >
-                                    </v-list-item>
-                                </Link>
-                                <Link v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')" :href="route('ingreso-bachillerato-candidatos')">
-                                    <v-list-item
-                                        link
-                                        prepend-icon="mdi-account-star-outline"
-                                        :title="$t('_candidatos_')"
-                                        :class="$page.url === '/ingreso/bachillerato/candidatos' ? 'bg-blue-lighten-4' : ''"
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-upload-circle-outline"
+                                            :title="$t('_cargar_archivo_')"
+                                            :class="$page.url === '/ingreso/bachillerato/cargar-archivo' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link
+                                        v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')"
+                                        :href="route('ingreso-bachillerato-candidatos')"
                                     >
-                                    </v-list-item>
-                                </Link>
-                            </v-list>
-                        </v-menu>
-                    </v-list-item>
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-star-outline"
+                                            :title="$t('_candidatos_')"
+                                            :class="$page.url === '/ingreso/bachillerato/candidatos' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
+                        <Link
+                            v-if="hasPermission('MENU_INGRESO_CALIFICACION-BACHILLERATO')"
+                            :href="route('ingreso-bachillerato-cargar-calificacion')"
+                        >
+                            <v-list-item
+                                link
+                                prepend-icon="mdi-card-account-details-star-outline"
+                                :class="$page.url === '/ingreso/bachillerato/cargar-calificacion' ? 'bg-blue-lighten-4' : ''"
+                            >
+                                {{ $t('ingreso._nota_bachillerato_') }}
+                            </v-list-item>
+                        </Link>
+                    </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_ADMINISTRACION') && moduloActual?.codigo == 'administracion'">
                         <Link v-if="hasPermission('MENU_ADMINISTRACION_PERSONA')" :href="route('administracion-persona-index')">
                             <v-list-item
