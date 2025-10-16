@@ -50,7 +50,7 @@ async function submitForm() {
         if (resp.data.status == 'ok') {
             Swal.fire({
                 title: t('_exito_'),
-                text: t('_datos_guardados_correctamente_'),
+                text: t('_datos_subidos_correctamente_'),
                 icon: 'success',
                 position: 'top-end',
                 showConfirmButton: false,
