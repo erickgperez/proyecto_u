@@ -56,8 +56,12 @@ class AspiranteController extends Controller
             ->where('rol_id', $rolAspirante->id)
             ->orderBy('created_at', 'desc')
             ->first();
-        $flujo = $solicitud->flujo;
-        $etapasOrden = $flujo->etapasEnOrden();
+        $flujo = null;
+        $etapasOrden = [];
+        if ($solicitud) {
+            $flujo = $solicitud->flujo;
+            $etapasOrden = $flujo->etapasEnOrden();
+        }
 
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
     }
