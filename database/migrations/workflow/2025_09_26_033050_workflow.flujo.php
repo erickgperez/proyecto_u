@@ -16,7 +16,7 @@ return new class extends Migration
 
             $table->comment('Para la creación de los procesos que se realizarán');
 
-            $table->string('codigo', length: 100);
+            $table->string('codigo', length: 100)->unique();
             $table->string('nombre', length: 255);
             $table->boolean('activo')->default(true);
 
