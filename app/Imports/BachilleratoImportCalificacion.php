@@ -20,7 +20,9 @@ class BachilleratoImportCalificacion implements ToCollection, WithHeadingRow, Wi
         foreach ($rows as $row) {
             $aspirante = Aspirante::where('nie', $row['nie'])->first();
             if ($aspirante) {
+
                 $aspirante->calificacion_bachillerato = $row['calificacion'] ?? $row['nota'];
+                $aspirante->save();
             }
         }
     }
