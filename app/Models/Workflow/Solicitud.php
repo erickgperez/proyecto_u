@@ -10,6 +10,7 @@ use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Solicitud extends Model
 {
@@ -19,7 +20,6 @@ class Solicitud extends Model
 
     protected $fillable = [
         'comentario',
-        'flujo_modelo_id',
         'flujo_id',
         'etapa_id',
         'persona_id',
@@ -27,10 +27,6 @@ class Solicitud extends Model
         'estado_id',
     ];
 
-    public function flujoModelo(): BelongsTo
-    {
-        return $this->belongsTo(FlujoModelo::class, 'flujo_modelo_id');
-    }
 
     public function flujo(): BelongsTo
     {
@@ -75,6 +71,11 @@ class Solicitud extends Model
     public function historial(): HasMany
     {
         return $this->hasMany(Historial::class);
+    }
+
+    public function modelo(): MorphTo
+    {
+        return $this->morphTo();
     }
 
 

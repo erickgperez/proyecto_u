@@ -91,7 +91,6 @@ class AspiranteController extends Controller
 
     public function convocatoriaCarrera(int $id)
     {
-        $aspirante = Aspirante::find($id);
 
         $convocatorias = Convocatoria::all();
         $sedes = Sede::orderBy('nombre')->get();
@@ -119,6 +118,7 @@ class AspiranteController extends Controller
         $solicitud = Solicitud::find($id);
 
         $convocatoria = Convocatoria::find($request->get('convocatoria_id'));
+        $solicitud->modelo()->associate($convocatoria);
         $persona = $solicitud->persona;
         $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
 
@@ -131,7 +131,6 @@ class AspiranteController extends Controller
         if (!$convocatoriaAspirante) {
             //No existe, agregarla
             $aspirante->convocatorias()->syncWithoutDetaching([$convocatoria->id]);
-            //*****$aspirante->save();
         }
         //Guardar solicitud_carrera_sede
         //Borrar las que ya tenga asociadas

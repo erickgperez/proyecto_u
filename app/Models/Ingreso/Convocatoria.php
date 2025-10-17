@@ -7,10 +7,12 @@ use App\Models\Calendarizacion;
 use App\Models\Secundaria\Invitacion;
 use App\Models\User;
 use App\Models\Workflow\FlujoModelo;
+use App\Models\Workflow\Solicitud;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Convocatoria extends Model
 {
@@ -53,9 +55,9 @@ class Convocatoria extends Model
         return $this->belongsToMany(Aspirante::class, 'ingreso.convocatoria_aspirante', 'convocatoria_id', 'aspirante_id');
     }
 
-    public function flujosmodelo()
+    public function solicitudes(): MorphMany
     {
-        return $this->morphMany(FlujoModelo::class, 'modelo');
+        return $this->morphMany(Solicitud::class, 'modelo');
     }
 
     public function carrerasSedes(): BelongsToMany
