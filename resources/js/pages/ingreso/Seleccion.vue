@@ -1,12 +1,8 @@
 <script setup lang="ts">
 import GraficoCandidatos from '@/components/ingreso/GraficoCandidatos.vue';
-import Invitaciones from '@/components/ingreso/Invitaciones.vue';
-import ListadoCandidatos from '@/components/ingreso/ListadoCandidatos.vue';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
-import axios from 'axios';
-import Swal from 'sweetalert2';
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -46,63 +42,6 @@ watch(
         }
     },
 );
-
-function enviarInvitacionesPendientes() {
-    if (convocatoria.value?.invitaciones_pendientes_envio > 0) {
-        const hasError = ref(false);
-        const message = ref('');
-        const messageLog = ref('');
-        Swal.fire({
-            title: t('invitacion._confirmar_enviar_pendientes_'),
-            text: props.selectedItemLabel,
-            showCancelButton: true,
-            confirmButtonText: t('invitacion._enviar_'),
-            cancelButtonText: t('_cancelar_'),
-            confirmButtonColor: '#e5adac',
-            cancelButtonColor: '#D7E1EE',
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                try {
-                    const resp = await axios.get(route('ingreso-convocatoria-invitaciones-pendientes', { id: convocatoria.value?.id }));
-
-                    if (resp.data.status == 'ok') {
-                        /*Swal.fire({
-                            title: t('_exito_'),
-                            text: t('invitacion._invitaciones_enviadas_correctamente_'),
-                            icon: 'success',
-                            position: 'top-end',
-                            confirmButtonColor: '#D7E1EE',
-                        });*/
-
-                        handleConvocatoria(resp.data.convocatoria);
-                    } else {
-                        hasError.value = true;
-                        message.value = t(resp.data.message);
-                    }
-                } catch (error: any) {
-                    hasError.value = true;
-                    messageLog.value = error.response.data.message;
-                }
-
-                if (hasError.value) {
-                    console.log(messageLog.value);
-                    Swal.fire({
-                        title: t('_error_'),
-                        text: t('invitacion._no_se_pudo_realizar_envio_') + '. ' + message.value,
-                        icon: 'error',
-                        confirmButtonColor: '#D7E1EE',
-                    });
-                }
-            }
-        });
-    }
-}
-
-function handleConvocatoria(newConvocatoria: Convocatoria) {
-    const index = localConvocatorias.value.findIndex((item) => item.id === newConvocatoria.value?.id);
-    localConvocatorias.value[index] = newConvocatoria;
-    convocatoria.value = newConvocatoria;
-}
 </script>
 
 <template>
@@ -134,15 +73,6 @@ function handleConvocatoria(newConvocatoria: Convocatoria) {
                                 </v-badge>
                             </template>
                             {{ $t('invitacion._creadas_') }}
-                        </v-btn>
-                        <v-btn stacked :title="$t('invitacion._invitaciones_pendientes_')" @click="enviarInvitacionesPendientes">
-                            <template v-slot:prepend>
-                                <v-badge :offset-x="-10" location="top right" color="warning" :content="convocatoria?.invitaciones_pendientes_envio">
-                                    <v-icon color="warning" icon="mdi-email-alert-outline"></v-icon>
-                                </v-badge>
-                            </template>
-                            <span v-if="convocatoria?.invitaciones_pendientes_envio > 0">{{ $t('invitacion._pendientes_') }}...</span>
-                            <span v-else>{{ $t('invitacion._pendientes_') }}</span>
                         </v-btn>
                         <v-btn stacked :title="$t('invitacion._invitaciones_aceptadas_')">
                             <template v-slot:prepend>
@@ -181,21 +111,12 @@ function handleConvocatoria(newConvocatoria: Convocatoria) {
 
                     <v-tabs-window-item v-if="hasPermission('INGRESO_CONVOCATORIA_CANDIDATOS_LISTADO')" value="option-2">
                         <v-card flat>
-                            <v-card-text v-if="convocatoria != null">
-                                <ListadoCandidatos
-                                    @convocatoria="handleConvocatoria"
-                                    :convocatoria="convocatoria"
-                                    :departamentos="departamentos"
-                                    :opcionesBachillerato="opcionesBachillerato"
-                                ></ListadoCandidatos>
-                            </v-card-text>
+                            <v-card-text v-if="convocatoria != null"> </v-card-text>
                         </v-card>
                     </v-tabs-window-item>
                     <v-tabs-window-item v-if="hasPermission('INGRESO_CONVOCATORIA_CANDIDATOS_INVITACIONES')" value="option-3">
                         <v-card flat>
-                            <v-card-text v-if="convocatoria != null">
-                                <Invitaciones :convocatoria="convocatoria" @convocatoria="handleConvocatoria" />
-                            </v-card-text>
+                            <v-card-text v-if="convocatoria != null"> </v-card-text>
                         </v-card>
                     </v-tabs-window-item>
                 </v-tabs-window>
