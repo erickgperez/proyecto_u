@@ -52,5 +52,5 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/proceso/transicion/save', [TransicionController::class, 'save'])->name('proceso-transicion-save');
     Route::delete('/proceso/transicion/{id}/delete', [TransicionController::class, 'delete'])->name('proceso-transicion-delete');
 
-    Route::get('/administracion/simulacion', [SimulacionController::class, 'index'])->name('administracion-simulacion-index');
+    Route::get('/administracion/simulacion/{cantidad}', [SimulacionController::class, 'index'])->name('administracion-simulacion-index');
 });
