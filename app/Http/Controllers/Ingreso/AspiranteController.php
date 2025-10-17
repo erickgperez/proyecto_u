@@ -21,6 +21,8 @@ use App\Models\Workflow\TipoCarreraSedeSolicitud;
 use App\Models\Workflow\TipoFlujo;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class AspiranteController extends Controller
 {
@@ -169,5 +171,15 @@ class AspiranteController extends Controller
         //Regresar la solicitud
         $etapasOrden = $flujo->etapasEnOrden();
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
+    }
+
+    public function seleccion(Request $request): Response
+    {
+
+        $convocatorias = Convocatoria::with('carrerasSedes')
+            ->orderBy('nombre', 'asc')
+            ->get();
+
+        return Inertia::render('ingreso/Seleccion', ['convocatorias' => $convocatorias]);
     }
 }

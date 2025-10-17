@@ -11,6 +11,10 @@
     "_anterior_": "Previous",
     "_archivo_actual_": "Current file",
     "_archivo_borrado_correctamente_": "File successfully deleted",
+    "aspirante": {
+        "_plural_": "Applicants",
+        "_seleccion_": "Selection"
+    },
     "auth": {
         "_cerrar_sesion_": "Logout",
         "_clave_": "Password",

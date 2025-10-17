@@ -11,6 +11,10 @@
     "_anterior_": "Anterior",
     "_archivo_actual_": "Archivo actual",
     "_archivo_borrado_correctamente_": "Archivo borrado correctamente",
+    "aspirante": {
+        "_plural_": "Aspirantes",
+        "_seleccion_": "Selección"
+    },
     "auth": {
         "_cerrar_sesion_": "Cerrar sesión",
         "_clave_": "Contraseña",

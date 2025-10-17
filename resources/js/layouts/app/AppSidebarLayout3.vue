@@ -195,6 +195,27 @@ onMounted(() => {
                                 {{ $t('ingreso._nota_bachillerato_') }}
                             </v-list-item>
                         </Link>
+                        <v-list-item
+                            v-if="hasPermission('MENU_INGRESO_ASPIRANTES')"
+                            prepend-icon="mdi-account-convert"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('aspirante._plural_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link :href="route('ingreso-aspirante-seleccion')" v-if="hasPermission('MENU_INGRESO_ASPIRANTES_SELECCION')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-plus-outline"
+                                            :title="$t('aspirante._seleccion_')"
+                                            :class="$page.url === '/ingreso/aspirante/seleccion' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
                     </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_ADMINISTRACION') && moduloActual?.codigo == 'administracion'">
                         <Link v-if="hasPermission('MENU_ADMINISTRACION_PERSONA')" :href="route('administracion-persona-index')">
