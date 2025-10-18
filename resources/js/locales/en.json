@@ -13,7 +13,9 @@
     "_archivo_borrado_correctamente_": "File successfully deleted",
     "aspirante": {
         "_plural_": "Applicants",
-        "_seleccion_": "Selection"
+        "_seleccion_": "Selection",
+        "_seleccion_aspirantes_": "Selection of applicants",
+        "_seleccion_descripcion_": "Select the applicants who will be accepted as students"
     },
     "auth": {
         "_cerrar_sesion_": "Logout",

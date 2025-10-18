@@ -45,9 +45,13 @@ watch(
 </script>
 
 <template>
-    <Head :title="$t('_candidatos_')"></Head>
+    <Head :title="$t('aspirante._seleccion_')"></Head>
 
-    <AppLayout :titulo="$t('_candidatos_')" :subtitulo="$t('_estudiantes_candidatos_carrera_universitaria_')" icono="mdi-email-fast-outline">
+    <AppLayout
+        :titulo="$t('aspirante._seleccion_aspirantes_')"
+        :subtitulo="$t('aspirante._seleccion_descripcion_')"
+        icono="mdi-account-filter-outline"
+    >
         <v-sheet v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')" class="elevation-12 pa-2 rounded-xl">
             <div class="d-flex flex-row">
                 <v-alert

@@ -207,7 +207,7 @@ onMounted(() => {
                                     <Link :href="route('ingreso-aspirante-seleccion')" v-if="hasPermission('MENU_INGRESO_ASPIRANTES_SELECCION')">
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-account-plus-outline"
+                                            prepend-icon="mdi-account-filter-outline"
                                             :title="$t('aspirante._seleccion_')"
                                             :class="$page.url === '/ingreso/aspirante/seleccion' ? 'bg-blue-lighten-4' : ''"
                                         >
