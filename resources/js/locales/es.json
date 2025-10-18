@@ -92,6 +92,7 @@
     "_carga_completa_borrar_anteriores_": "Carga completa, borrar datos existentes de cargas anteriores",
     "_cargar_solo_datos_nuevos_": "Cargar solo datos nuevos",
     "_centro_educativo_": "Centro educativo",
+    "_cerrar_parametros_": "Cerrar parámetros",
     "_codigo_": "Código",
     "_columna_": "Columna",
     "_configuracion_": "Configuración",
@@ -265,6 +266,7 @@
     "_numero_identificacion_estudiante_": "Número de Identificación de Estudiante",
     "_opcion_": "Opción",
     "_opciones_bachillerato_": "Opciones de bachillerato",
+    "_parametros_": "Parámetros",
     "_parametros_agrupación_": "Parámetros de agrupación",
     "permiso": {
         "_singular_": "Permiso",

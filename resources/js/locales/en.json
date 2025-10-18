@@ -93,6 +93,7 @@
     "_carga_completa_borrar_anteriores_": "Full load, delete existing data from previous loads",
     "_cargar_solo_datos_nuevos_": "Load new data only",
     "_centro_educativo_": "Educational center",
+    "_cerrar_parametros_": "Close parameters",
     "_codigo_": "Code",
     "_columna_": "Column",
     "_configuracion_": "Setting",
@@ -253,6 +254,7 @@
     "_numero_identificacion_estudiante_": "Student ID Number",
     "_opcion_": "Option",
     "_opciones_bachillerato_": "High school options",
+    "_parametros_": "Parameters",
     "_parametros_agrupación_": "Grouping parameters",
     "permiso": {
         "_singular_": "Permiso"
