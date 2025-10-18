@@ -452,7 +452,7 @@ onMounted(() => {
                             </v-item-group>
                         </v-card>
                     </v-menu>
-                    <v-list rounded="b-xl">
+                    <v-list>
                         <v-menu v-model="menu" :close-on-content-click="false" location="bottom center">
                             <template v-slot:activator="{ props }">
                                 <v-list-item
@@ -463,7 +463,7 @@ onMounted(() => {
                                 ></v-list-item>
                             </template>
 
-                            <v-card>
+                            <v-card rounded="xl">
                                 <v-list>
                                     <v-list-item prepend-icon="mdi-cog">
                                         <Link :href="route('profile.edit')" prefetch as="button" :only="['tabContent']">
