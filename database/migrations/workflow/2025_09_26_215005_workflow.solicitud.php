@@ -18,9 +18,6 @@ return new class extends Migration
 
             $table->text('comentario')->nullable()->comment('Comentario de la etapa de la solicitud');
 
-            $table->foreignId('flujo_modelo_id')->nullable()->comment('Para identificar el proceso y el flujo que se ejecutará');
-            $table->foreign('flujo_modelo_id')->references('id')->on('workflow.flujo_modelo')->onDelete('RESTRICT')->onUpdate('CASCADE');
-
             $table->foreignId('etapa_id')->comment('Etapa actual en que se encuentra la solicitud');
             $table->foreign('etapa_id')->references('id')->on('workflow.etapa')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
