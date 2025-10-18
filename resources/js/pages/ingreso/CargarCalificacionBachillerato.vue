@@ -69,7 +69,7 @@ const submitForm = async () => {
     <AppLayout
         :titulo="$t('ingreso._cargar_calificaciones_')"
         :subtitulo="$t('ingreso._suba_archivo_calificaciones_estudiantes_bachillerato_')"
-        icono="mdi-email-fast-outline"
+        icono="mdi-card-account-details-star-outline"
     >
         <v-sheet v-if="hasPermission('MENU_INGRESO_CALIFICACION-BACHILLERATO')" class="elevation-12 pa-2 mx-auto rounded-xl" max-width="600">
             <h6 class="pa-3">{{ $t('ingreso._cargar_calificaciones_indicaciones_') }}</h6>

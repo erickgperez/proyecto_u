@@ -346,7 +346,7 @@ onMounted(() => {
                                     <Link :href="route('plan_estudio-carrera-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA')">
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-book-settings-outline"
+                                            prepend-icon="mdi-certificate-outline"
                                             :title="$t('carrera._singular_')"
                                             :class="$page.url === '/plan_estudio/carrera' ? 'bg-blue-lighten-4' : ''"
                                         >
@@ -367,7 +367,7 @@ onMounted(() => {
                                     <Link :href="route('plan_estudio-grado-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_GRADO')">
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-book-settings-outline"
+                                            prepend-icon="mdi-checkbook"
                                             :title="$t('grado._grado_')"
                                             :class="$page.url === '/plan_estudio/grado' ? 'bg-blue-lighten-4' : ''"
                                         >

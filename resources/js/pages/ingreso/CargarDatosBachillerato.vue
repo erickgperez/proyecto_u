@@ -66,7 +66,11 @@ const submitForm = async () => {
 
 <template>
     <Head :title="$t('_cargar_datos_')"></Head>
-    <AppLayout :titulo="$t('_carga_archivo_datos_')" :subtitulo="$t('_suba_archivo_datos_estudiantes_bachillerato_')" icono="mdi-email-fast-outline">
+    <AppLayout
+        :titulo="$t('_carga_archivo_datos_')"
+        :subtitulo="$t('_suba_archivo_datos_estudiantes_bachillerato_')"
+        icono="mdi-upload-circle-outline"
+    >
         <v-sheet v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CARGAR-ARCHIVO')" class="elevation-12 pa-2 mx-auto rounded-xl" max-width="600">
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-file-input
