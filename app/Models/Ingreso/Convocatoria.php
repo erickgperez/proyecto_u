@@ -6,7 +6,6 @@ use App\Models\Academica\CarreraSede;
 use App\Models\Calendarizacion;
 use App\Models\Secundaria\Invitacion;
 use App\Models\User;
-use App\Models\Workflow\FlujoModelo;
 use App\Models\Workflow\Solicitud;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;

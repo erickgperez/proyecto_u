@@ -2,7 +2,6 @@
 
 namespace App\Models\Workflow;
 
-use App\Models\Academica\CarreraSede;
 use App\Models\Persona;
 use App\Models\Rol;
 use App\Models\User;

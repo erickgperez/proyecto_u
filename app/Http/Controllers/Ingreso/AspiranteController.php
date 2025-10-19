@@ -175,9 +175,14 @@ class AspiranteController extends Controller
     public function seleccion(Request $request): Response
     {
 
-        $convocatorias = Convocatoria::with('carrerasSedes')
-            ->orderBy('nombre', 'asc')
+        $convocatorias = Convocatoria::with([
+            'carrerasSedes' => [
+                'carrera',
+                'sede'
+            ],
+        ])->orderBy('nombre', 'asc')
             ->get();
+
 
         return Inertia::render('ingreso/Seleccion', ['convocatorias' => $convocatorias]);
     }
