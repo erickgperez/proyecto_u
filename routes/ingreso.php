@@ -21,7 +21,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/ingreso/convocatoria/{id}/delete', [ConvocatoriaController::class, 'delete'])->name('ingreso-convocatoria-delete');
     Route::get('/ingreso/convocatoria/{id}/invitaciones-pendientes', [ConvocatoriaController::class, 'enviarInvitacionesPendientes'])->name('ingreso-convocatoria-invitaciones-pendientes');
     Route::get('/ingreso/convocatoria/{id}/oferta', [ConvocatoriaController::class, 'ofertaCarreras'])->name('ingreso-convocatoria-oferta');
-    Route::get('/ingreso/convocatoria/{id}/solicitudes', [ConvocatoriaController::class, 'solicitudes'])->name('ingreso-convocatoria-solicitudes');
+    Route::get('/ingreso/convocatoria/{id}/sede/{idSede}/solicitudes', [ConvocatoriaController::class, 'solicitudes'])->name('ingreso-convocatoria-solicitudes');
 
 
     Route::get('/ingreso/afiche/download/{id}', [ConvocatoriaController::class, 'aficheDownload'])->name('ingreso-convocatoria-afiche-download');

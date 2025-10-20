@@ -44,16 +44,20 @@ function itemProps(item: Convocatoria) {
 }
 
 function cargarSolicitudes() {
-    axios
-        .get(route('ingreso-convocatoria-solicitudes', { id: convocatoria.value?.id }))
-        .then(function (response) {
-            //eventos.value = response.data.items;
-        })
-        .catch(function (error) {
-            // handle error
-            console.error('Error fetching data:', error);
-        });
+    if (convocatoria.value != null && sede.value != null) {
+        axios
+            .get(route('ingreso-convocatoria-solicitudes', { id: convocatoria.value.id, idSede: sede.value.id }))
+            .then(function (response) {
+                //eventos.value = response.data.items;
+            })
+            .catch(function (error) {
+                // handle error
+                console.error('Error fetching data:', error);
+            });
+    }
 }
+
+const review = '30%';
 
 watch(convocatoria, () => {
     sede.value = null;
@@ -98,7 +102,15 @@ watch(convocatoria, () => {
                         :items="props.convocatorias"
                         :item-props="itemProps"
                     ></v-select>
-                    <v-select clearable v-model="sede" :label="$t('sede._sede_')" :items="sedes" item-title="nombre"></v-select>
+                    <v-select
+                        clearable
+                        v-model="sede"
+                        :label="$t('sede._sede_')"
+                        :items="sedes"
+                        item-title="nombre"
+                        item-id="id"
+                        return-object
+                    ></v-select>
                     <v-row justify="center">
                         <v-btn
                             color="primary"
@@ -110,6 +122,7 @@ watch(convocatoria, () => {
                         >
                     </v-row>
                 </v-navigation-drawer>
+
                 <v-navigation-drawer location="right" permanent class="rounded-r-xl" width="350">
                     <v-fab
                         :active="!drawer"
@@ -125,9 +138,35 @@ watch(convocatoria, () => {
                     <v-divider></v-divider>
 
                     <v-list density="compact" nav>
-                        <v-list-item prepend-icon="mdi-home-city" title="Home" value="home"></v-list-item>
-                        <v-list-item prepend-icon="mdi-account" title="My Account" value="account"></v-list-item>
-                        <v-list-item prepend-icon="mdi-account-group-outline" title="Users" value="users"></v-list-item>
+                        <v-card>
+                            <v-card-text>
+                                <div :style="`right: calc(${review} - 32px)`" class="text-caption text-green-darken-3">
+                                    Tecnologías de la información
+                                </div>
+                                <div class="text-center">
+                                    <v-progress-circular :model-value="10" :rotate="360" :size="100" :width="15" color="teal">
+                                        <template v-slot:default> 10 % <BR />Cupo</template>
+                                    </v-progress-circular>
+                                    <v-progress-circular :model-value="10" :rotate="360" :size="100" :width="15" color="primary">
+                                        <template v-slot:default> 10 % <Br /> Público</template>
+                                    </v-progress-circular>
+                                    <v-progress-circular :model-value="10" :rotate="360" :size="100" :width="15" color="secundary">
+                                        <template v-slot:default> 10 % <BR /> Privado</template>
+                                    </v-progress-circular>
+                                </div>
+
+                                <!--<div class="d-flex justify-space-between py-3">
+                                    <span class="text-green-darken-3 font-weight-medium"> $26,442.00 remitted </span>
+
+                                    <span class="text-medium-emphasis"> $29,380.00 total </span>
+                                </div>-->
+                            </v-card-text>
+
+                            <!--<v-divider></v-divider>
+
+                            <v-list-item append-icon="mdi-chevron-right" lines="two" subtitle="Details and agreement" link></v-list-item>
+                        -->
+                        </v-card>
                     </v-list>
                 </v-navigation-drawer>
                 <v-main class="overflow-y-scroll text-4xl" style="height: 90dvh">

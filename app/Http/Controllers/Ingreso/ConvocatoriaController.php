@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CandidatoInvitado;
+use App\Models\Academica\CarreraSede;
 use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Secundaria\DataBachillerato;
@@ -218,10 +219,30 @@ class ConvocatoriaController extends Controller
         return $items;
     }
 
-    public function solicitudes(int $id)
+    public function solicitudes(int $id, int $idSede)
     {
         $convocatoria = Convocatoria::find($id);
-        $oferta = $this->getSedesCarreras($convocatoria);
-        return response()->json(['status' => 'ok', 'oferta' => $oferta]);
+
+        $ofertaSede = DB::table('academico.carrera_sede')
+            ->addSelect([
+                'seleccionados' => function ($query) {
+                    $query->selectRaw('count(ca.id) as seleccionados')
+                        ->from('workflow.solicitud_carrera_sede as scs')
+                        ->join('ingreso.convocatoria_aspirante as ca', 'scs.id', '=', 'ca.solicitud_carrera_sede_id')
+                        ->whereColumn('scs.carrera_sede_id', 'cs.id')
+                        ->groupBy('scs.carrera_sede_id')
+                    ;
+                }
+            ])
+            ->from('academico.carrera_sede as  cs')
+            /*->selectRaw('(SELECT COUNT(*)
+                            FROM workflow.solicitud_carrera_sede as scs
+                            JOIN ingreso.convocatoria_aspirante as ca ON (scs.id = ca.solicitud_carrera_sede_id)
+                            WHERE category_id = p.category_id AND score < 50) as seleccionados
+                            ')*/
+            ->where('cs.sede_id', $idSede)
+            ->get();
+
+        return response()->json(['status' => 'ok', 'ofertaSede' => $ofertaSede]);
     }
 }
