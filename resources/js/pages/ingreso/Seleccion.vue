@@ -2,6 +2,7 @@
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import axios from 'axios';
 import { computed, PropType, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -40,6 +41,18 @@ function itemProps(item: Convocatoria) {
         title: item.nombre,
         subtitle: item.descripcion,
     };
+}
+
+function cargarSolicitudes() {
+    axios
+        .get(route('ingreso-convocatoria-solicitudes', { id: convocatoria.value?.id }))
+        .then(function (response) {
+            //eventos.value = response.data.items;
+        })
+        .catch(function (error) {
+            // handle error
+            console.error('Error fetching data:', error);
+        });
 }
 
 watch(convocatoria, () => {
@@ -86,6 +99,16 @@ watch(convocatoria, () => {
                         :item-props="itemProps"
                     ></v-select>
                     <v-select clearable v-model="sede" :label="$t('sede._sede_')" :items="sedes" item-title="nombre"></v-select>
+                    <v-row justify="center">
+                        <v-btn
+                            color="primary"
+                            rounded="xl"
+                            variant="elevated"
+                            @click="cargarSolicitudes"
+                            :disabled="convocatoria == null || sede == null"
+                            >{{ $t('_cargar_') }}</v-btn
+                        >
+                    </v-row>
                 </v-navigation-drawer>
                 <v-navigation-drawer location="right" permanent class="rounded-r-xl" width="350">
                     <v-fab
@@ -98,14 +121,6 @@ watch(convocatoria, () => {
                         @click.stop="drawer = !drawer"
                         :title="$t('_parametros_')"
                     ></v-fab>
-                    <template v-slot:prepend>
-                        <v-list-item
-                            lines="two"
-                            prepend-avatar="https://randomuser.me/api/portraits/women/81.jpg"
-                            subtitle="Logged in"
-                            title="Jane Smith"
-                        ></v-list-item>
-                    </template>
 
                     <v-divider></v-divider>
 

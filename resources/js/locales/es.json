@@ -65,6 +65,7 @@
     "_campo_requerido_": "Este campo es requerido",
     "_cancelar_": "Cancelar",
     "_caracteres_": "Caracteres",
+    "_cargar_": "Cargar",
     "carrera": {
         "_administrar_": "Administrar carrera",
         "_codigo_ya existe_": "El código de la carrera ya existe en otro registro",

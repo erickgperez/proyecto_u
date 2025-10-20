@@ -66,6 +66,7 @@
     "_campo_requerido_": "This field is required",
     "_cancelar_": "Cancel",
     "_caracteres_": "Characters",
+    "_cargar_": "Cargar",
     "carrera": {
         "_administrar_": "Career management",
         "_codigo_ya existe_": "The career code already exists in another registry",

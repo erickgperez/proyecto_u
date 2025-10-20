@@ -217,4 +217,11 @@ class ConvocatoriaController extends Controller
 
         return $items;
     }
+
+    public function solicitudes(int $id)
+    {
+        $convocatoria = Convocatoria::find($id);
+        $oferta = $this->getSedesCarreras($convocatoria);
+        return response()->json(['status' => 'ok', 'oferta' => $oferta]);
+    }
 }
