@@ -22,8 +22,8 @@ return new class extends Migration
             $table->foreignId('aspirante_id');
             $table->foreign('aspirante_id')->references('id')->on('ingreso.aspirante')->onDelete('CASCADE')->onUpdate('CASCADE');
 
-            $table->foreignId('solicitud_carrera_sede_id')->comment('Carrera sede en que fue seleccionado')->nullable();
-            $table->foreign('solicitud_carrera_sede_id')->references('id')->on('wordkflow.solicitud_carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('carrera_sede_id')->comment('Carrera sede en que fue seleccionado')->nullable();
+            $table->foreign('carrera_sede_id')->references('id')->on('wordkflow.solicitud_carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->timestamps();
         });
