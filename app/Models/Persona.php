@@ -99,9 +99,4 @@ class Persona extends Model
     {
         return $this->hasMany(Aspirante::class)->chaperone();
     }
-
-    public function solicitudes(): HasMany
-    {
-        return $this->hasMany(Solicitud::class);
-    }
 }

@@ -37,15 +37,6 @@ class Solicitud extends Model
         return $this->belongsTo(Etapa::class, 'etapa_id');
     }
 
-    public function persona(): BelongsTo
-    {
-        return $this->belongsTo(Persona::class, 'persona_id');
-    }
-
-    public function rol(): BelongsTo
-    {
-        return $this->belongsTo(Rol::class, 'rol_id');
-    }
 
     public function estado(): BelongsTo
     {
@@ -77,6 +68,10 @@ class Solicitud extends Model
         return $this->morphTo();
     }
 
+    public function solicitante(): MorphTo
+    {
+        return $this->morphTo();
+    }
 
     public function guardarHistorial()
     {

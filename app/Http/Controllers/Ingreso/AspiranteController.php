@@ -47,8 +47,7 @@ class AspiranteController extends Controller
         $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
 
         //Buscar la solicitud más reciente con el rol de aspirante
-        $solicitud = $persona->solicitudes()->with('estado', 'etapa', 'persona')
-            ->where('rol_id', $rolAspirante->id)
+        $solicitud = $aspirante->solicitudes()->with('estado', 'etapa')
             ->orderBy('created_at', 'desc')
             ->first();
         $flujo = null;
@@ -61,29 +60,26 @@ class AspiranteController extends Controller
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
     }
 
-    public function solicitudCrear(int $idPersona)
+    public function solicitudCrear(int $id)
     {
-        $rolAspirante = Rol::where('name', 'aspirante')->first();
         $tipo_flujo = TipoFlujo::where('codigo', 'INGRESO')->first();
         $flujo = Flujo::where('tipo_flujo_id', $tipo_flujo->id)->first();
         $estado = Estado::where('codigo', 'INICIO')->first();
         $etapa = $flujo->primeraEtapa();
-        $persona = Persona::find($idPersona);
-        $aspirante = $persona->aspirantes()->first();
+        $aspirante = Aspirante::find($id)->with('persona');
 
         // Crear la solicitud
         $solicitud = new Solicitud;
-        $solicitud->rol()->associate($rolAspirante);
         $solicitud->flujo()->associate($flujo);
         $solicitud->estado()->associate($estado);
         $solicitud->etapa()->associate($etapa);
-        $solicitud->persona()->associate($persona);
+        $solicitud->solicitante()->associate($aspirante);
         $solicitud->save();
 
         //Guardarla en el historial de la solicitud
         $solicitud->guardarHistorial();
 
-        $solicitudData = Solicitud::with('estado', 'etapa', 'persona')->find($solicitud->id);
+        $solicitudData = Solicitud::with('estado', 'etapa')->find($solicitud->id);
         $etapasOrden = $flujo->etapasEnOrden();
 
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitudData, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
@@ -119,9 +115,7 @@ class AspiranteController extends Controller
 
         $convocatoria = Convocatoria::find($request->get('convocatoria_id'));
         $solicitud->modelo()->associate($convocatoria);
-        $persona = $solicitud->persona;
-        $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
-
+        $aspirante = $solicitud->solicitante;
         $flujo = $solicitud->flujo;
 
         //Guardar convocatoria_aspirante

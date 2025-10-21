@@ -223,6 +223,32 @@ class ConvocatoriaController extends Controller
     {
         $convocatoria = Convocatoria::find($id);
 
+        $solicitudes_ = $convocatoria->solicitudes()
+            ->with([
+                'persona',
+                'etapa',
+                'estado',
+                'solicitudCarrerasSede' => function ($query) use ($idSede) {
+                    $query->join('academico.carrera_sede as cs', 'workflow.solicitud_carrera_sede.carrera_sede_id', '=', 'cs.id')
+                        ->where('cs.sede_id', '=', $idSede)
+                    ;
+                }
+            ])
+            ->withCount(['solicitudCarrerasSede as solicitudes_carrera_sede' => function ($query) use ($idSede) {
+                $query->join('academico.carrera_sede as cs', 'workflow.solicitud_carrera_sede.carrera_sede_id', '=', 'cs.id')
+                    ->where('cs.sede_id', '=', $idSede)
+                ;
+            }])
+            ->get();
+
+        $solitudes = [];
+        foreach ($solicitudes_ as $sol) {
+            if ($sol->solicitudes_carrera_sede > 0) {
+                $solitudes[] = $sol;
+            }
+        }
+        dd($solitudes);
+
         $ofertaSede_ = CarreraSede::with([
             'carrera' => ['tipo'],
             'sede'

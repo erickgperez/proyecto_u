@@ -13,7 +13,7 @@ const aspirante = ref(null);
 
 function crearSolicitud() {
     axios
-        .get(route('ingreso-aspirante-solicitud-crear', { idPersona: persona.id }))
+        .get(route('ingreso-aspirante-solicitud-crear', { id: aspirante.value?.id }))
         .then(function (response) {
             actualizar(response.data);
         })
