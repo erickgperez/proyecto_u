@@ -77,5 +77,7 @@ class AspiranteService
             $aspirante->convocatorias()->syncWithoutDetaching([$invitacion->convocatoria_id]);
             $aspirante->save();
         }
+
+        return $aspirante;
     }
 }

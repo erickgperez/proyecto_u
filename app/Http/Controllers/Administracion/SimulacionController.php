@@ -67,27 +67,27 @@ class SimulacionController extends Controller
                         //Crear los datos de aspirante
                         if (!$user->hasVerifiedEmail()) {
                             $user->markEmailAsVerified();
-                            $this->aspiranteService->createFromUser($user);
+                            $aspirante = $this->aspiranteService->createFromUser($user);
+                        } else {
+                            $persona = $user->personas()->first();
+                            $aspirante = $persona->aspirantes()->first();
                         }
 
                         // Recargar los datos de usuario, por los cambios que se hayan podido hacer
                         // al crear las cuentas
                         $user->fresh();
 
-                        $persona = $user->personas()->first();
-
                         //Crear la solicitud de ingreso
                         $aspiranteC = new AspiranteController();
                         //Verificar si ya tiene una
-                        $solicitud = $persona->solicitudes()->with('estado', 'etapa', 'persona')
-                            ->where('rol_id', $rolAspirante->id)
+                        $solicitud = $aspirante->solicitudes()->with('estado', 'etapa')
                             ->orderBy('created_at', 'desc')
                             ->first();
                         if (!$solicitud) {
-                            $resp = $aspiranteC->solicitudCrear($persona->id);
+                            $resp = $aspiranteC->solicitudCrear($aspirante->id);
                             $data = json_decode($resp->getContent(), true);
 
-                            $solicitud = Solicitud::with('estado', 'etapa', 'persona')->find($data['solicitud']['id']);
+                            $solicitud = Solicitud::with('estado', 'etapa')->find($data['solicitud']['id']);
                         }
 
                         //Recuperar la convocatoria de prueba
