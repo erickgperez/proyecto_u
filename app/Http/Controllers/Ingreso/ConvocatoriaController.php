@@ -225,7 +225,7 @@ class ConvocatoriaController extends Controller
 
         $solicitudes_ = $convocatoria->solicitudes()
             ->with([
-                'persona',
+                'solicitante',
                 'etapa',
                 'estado',
                 'solicitudCarrerasSede' => function ($query) use ($idSede) {
@@ -244,10 +244,29 @@ class ConvocatoriaController extends Controller
         $solitudes = [];
         foreach ($solicitudes_ as $sol) {
             if ($sol->solicitudes_carrera_sede > 0) {
-                $solitudes[] = $sol;
+                $arreglo = [
+                    'nie' => $sol->solicitante->nie,
+                    'nombre' => $sol->solicitante->persona->nombreCompleto,
+                    'nota' => $sol->solicitante->calificacion_bachillerato
+                ];
+                foreach ($sol->solicitudCarrerasSede as $scs) {
+                    $arreglo[$scs->tipoCarreraSedeSolicitud->codigo] = [
+                        'carrera_sede_id' => $scs->carreraSede->id,
+                        'carrera' => $scs->carreraSede->carrera->nombreCompleto,
+                        'opcion' => $scs->tipoCarreraSedeSolicitud->codigo
+                    ];
+                }
+                $solitudes[] = $arreglo;
             }
         }
-        dd($solitudes);
+
+        array_multisort(
+            array_column($solitudes, 'nota'),
+            SORT_DESC,
+            array_column($solitudes, 'nombre'),
+            SORT_ASC,
+            $solitudes
+        );
 
         $ofertaSede_ = CarreraSede::with([
             'carrera' => ['tipo'],
@@ -289,6 +308,6 @@ class ConvocatoriaController extends Controller
             $ofertaSede
         );
 
-        return response()->json(['status' => 'ok', 'ofertaSede' => $ofertaSede]);
+        return response()->json(['status' => 'ok', 'ofertaSede' => $ofertaSede, 'solicitudes' => $solitudes]);
     }
 }

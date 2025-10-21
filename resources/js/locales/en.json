@@ -12,6 +12,8 @@
     "_archivo_actual_": "Current file",
     "_archivo_borrado_correctamente_": "File successfully deleted",
     "aspirante": {
+        "_nie_": "NIE",
+        "_nota_": "Grade",
         "_plural_": "Applicants",
         "_seleccion_": "Selection",
         "_seleccion_aspirantes_": "Selection of applicants",

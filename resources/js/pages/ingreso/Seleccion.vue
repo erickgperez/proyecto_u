@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
+import { SortBy } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { computed, PropType, ref, watch } from 'vue';
@@ -28,6 +29,20 @@ const props = defineProps({
 const convocatoria = ref<Convocatoria | null>(null);
 const sede = ref(null);
 const carrerasSede = ref(null);
+const solicitudes = ref([]);
+
+const headers = [
+    { title: t('aspirante._nie_'), key: 'nie' },
+    { title: t('_nombre_'), key: 'nombre' },
+    { title: t('aspirante._nota_'), key: 'nota' },
+    { title: t('aspirante._opciones_'), key: 'opciones' },
+];
+const search = ref('');
+
+const sortBy: SortBy[] = [
+    { key: 'fecha', order: 'asc' },
+    { key: 'nombre', order: 'asc' },
+];
 
 const drawer = ref(true);
 
@@ -50,6 +65,7 @@ function cargarSolicitudes() {
             .get(route('ingreso-convocatoria-solicitudes', { id: convocatoria.value.id, idSede: sede.value.id }))
             .then(function (response) {
                 carrerasSede.value = response.data.ofertaSede;
+                solicitudes.value = response.data.solicitudes;
             })
             .catch(function (error) {
                 // handle error
@@ -183,7 +199,45 @@ watch(convocatoria, () => {
                     </v-list>
                 </v-navigation-drawer>
                 <v-main class="overflow-y-scroll text-4xl" style="height: 90dvh">
-                    <v-container> Uno dos tres cuatro cinco seis siete ocho nueve diez once doce trece cator ce quince dieciseis </v-container>
+                    <v-container>
+                        <v-data-table
+                            :headers="headers"
+                            :items="solicitudes"
+                            density="compact"
+                            border="primary thin"
+                            class="w-100"
+                            multi-sort
+                            hover
+                            fixed-header
+                            striped="odd"
+                        >
+                            <template v-slot:item.opciones="{ value, item }">
+                                <v-list density="compact" bg-color="transparent">
+                                    <v-list-item>
+                                        <template v-slot:prepend>
+                                            <v-icon icon="mdi-numeric-1"></v-icon>
+                                        </template>
+
+                                        <v-list-item-title v-text="item.PRIMERA_OPCION.carrera"></v-list-item-title>
+                                    </v-list-item>
+                                    <v-list-item>
+                                        <template v-slot:prepend>
+                                            <v-icon icon="mdi-numeric-2"></v-icon>
+                                        </template>
+
+                                        <v-list-item-title v-text="item.SEGUNDA_OPCION.carrera"></v-list-item-title>
+                                    </v-list-item>
+                                    <v-list-item>
+                                        <template v-slot:prepend>
+                                            <v-icon icon="mdi-numeric-3"></v-icon>
+                                        </template>
+
+                                        <v-list-item-title v-text="item.TERCERA_OPCION.carrera"></v-list-item-title>
+                                    </v-list-item>
+                                </v-list>
+                            </template>
+                        </v-data-table>
+                    </v-container>
                 </v-main>
             </v-layout>
         </v-sheet>

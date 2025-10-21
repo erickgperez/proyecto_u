@@ -119,6 +119,8 @@ const headersFiltered = computed(() => {
             border="primary thin"
             class="w-100"
             :sort-by="sortBy"
+            density="compact"
+            fixed-header
             multi-sort
             hover
             striped="odd"
