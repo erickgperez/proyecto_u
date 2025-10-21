@@ -37,11 +37,6 @@ class SimulacionController extends Controller
         if (Auth::user()->hasRole('super-admin')) {
 
             $rolAspirante = Rol::where('name', 'aspirante')->first();
-            //Elegir una sede al azar
-            $sede = Sede::inRandomOrder()->first();
-
-            //Elegir al azar 3 carreras de esa sede
-            $carreras = CarreraSede::inRandomOrder()->where('sede_id', $sede->id)->take(3)->get();
 
             echo 'Simulacion de datos pre-seleccion';
 
@@ -52,6 +47,12 @@ class SimulacionController extends Controller
                 echo '<BR><BR>No se ha cargado la base de bachilleres, primero suba el archivo en Ingreso->convocatoria->cargar archivo';
             } else {
                 foreach ($bachilleres as $row) {
+                    //Elegir una sede al azar
+                    $sede = Sede::inRandomOrder()->first();
+
+                    //Elegir al azar 3 carreras de esa sede
+                    $carreras = CarreraSede::inRandomOrder()->where('sede_id', $sede->id)->take(3)->get();
+
                     try {
 
                         //Crear la cuenta de usuario
