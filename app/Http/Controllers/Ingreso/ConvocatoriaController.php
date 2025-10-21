@@ -223,25 +223,45 @@ class ConvocatoriaController extends Controller
     {
         $convocatoria = Convocatoria::find($id);
 
-        $ofertaSede = DB::table('academico.carrera_sede')
-            ->addSelect([
-                'seleccionados' => function ($query) {
-                    $query->selectRaw('count(ca.id) as seleccionados')
-                        ->from('workflow.solicitud_carrera_sede as scs')
-                        ->join('ingreso.convocatoria_aspirante as ca', 'scs.id', '=', 'ca.solicitud_carrera_sede_id')
-                        ->whereColumn('scs.carrera_sede_id', 'cs.id')
-                        ->groupBy('scs.carrera_sede_id')
-                    ;
+        $ofertaSede_ = CarreraSede::with([
+            'carrera' => ['tipo'],
+            'sede'
+        ])
+            ->withCount([
+                'seleccionados as seleccionados',
+                'seleccionados as seleccionados_publico' => function (Builder $query) {
+                    $query
+                        ->join('public.persona as p', 'ingreso.aspirante.persona_id', '=', 'p.id')
+                        ->join('public.estudio as e', 'p.id', 'e.persona_id')
+                        ->join('secundaria.institucion as i', 'e.institucion_id', 'i.id')
+                        ->join('secundaria.sector as s', 'i.sector_id', 's.id')
+                        ->where('e.institucion_type', 'App\Models\Secundaria\Institucion')
+                        ->where('s.codigo', '01');
                 }
             ])
-            ->from('academico.carrera_sede as  cs')
-            /*->selectRaw('(SELECT COUNT(*)
-                            FROM workflow.solicitud_carrera_sede as scs
-                            JOIN ingreso.convocatoria_aspirante as ca ON (scs.id = ca.solicitud_carrera_sede_id)
-                            WHERE category_id = p.category_id AND score < 50) as seleccionados
-                            ')*/
-            ->where('cs.sede_id', $idSede)
+            ->where('sede_id', $idSede)
             ->get();
+        $ofertaSede = [];
+        foreach ($ofertaSede_ as $cs) {
+            $ofertaSede[] = [
+                'carrera_sede_id'   => $cs->id,
+                'cupo'              => $cs->cupo,
+                'carrera_id'        => $cs->carrera_id,
+                'carrera'           => $cs->carrera->nombreCompleto,
+                'carrera_nombre'    => $cs->carrera->nombre,
+                'carrera_tipo'      => $cs->carrera->tipo->descripcion,
+                'seleccionados'     => $cs->seleccionados,
+                'seleccionados_publico' => $cs->seleccionados_publico,
+                'seleccionados_privado' => $cs->seleccionados - $cs->seleccionados_publico
+            ];
+        }
+        array_multisort(
+            array_column($ofertaSede, 'carrera_tipo'),
+            SORT_ASC,
+            array_column($ofertaSede, 'carrera_nombre'),
+            SORT_ASC,
+            $ofertaSede
+        );
 
         return response()->json(['status' => 'ok', 'ofertaSede' => $ofertaSede]);
     }

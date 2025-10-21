@@ -27,6 +27,7 @@ const props = defineProps({
 
 const convocatoria = ref<Convocatoria | null>(null);
 const sede = ref(null);
+const carrerasSede = ref(null);
 
 const drawer = ref(true);
 
@@ -48,7 +49,7 @@ function cargarSolicitudes() {
         axios
             .get(route('ingreso-convocatoria-solicitudes', { id: convocatoria.value.id, idSede: sede.value.id }))
             .then(function (response) {
-                //eventos.value = response.data.items;
+                carrerasSede.value = response.data.ofertaSede;
             })
             .catch(function (error) {
                 // handle error
@@ -56,8 +57,6 @@ function cargarSolicitudes() {
             });
     }
 }
-
-const review = '30%';
 
 watch(convocatoria, () => {
     sede.value = null;
@@ -138,20 +137,34 @@ watch(convocatoria, () => {
                     <v-divider></v-divider>
 
                     <v-list density="compact" nav>
-                        <v-card>
+                        <v-card v-for="cs in carrerasSede" :key="id">
                             <v-card-text>
-                                <div :style="`right: calc(${review} - 32px)`" class="text-caption text-green-darken-3">
-                                    Tecnologías de la información
-                                </div>
+                                <div class="text-caption text-green-darken-3">{{ cs.carrera }}</div>
                                 <div class="text-center">
-                                    <v-progress-circular :model-value="10" :rotate="360" :size="100" :width="15" color="teal">
-                                        <template v-slot:default> 10 % <BR />Cupo</template>
+                                    <v-progress-linear :model-value="cs.seleccionados / cs.crupo" color="blue-grey" height="25">
+                                        <strong>seleccionados {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
+                                    </v-progress-linear>
+                                    <v-progress-circular
+                                        :model-value="cs.seleccionados_publico"
+                                        :rotate="360"
+                                        :size="100"
+                                        :width="15"
+                                        color="primary"
+                                    >
+                                        <template v-slot:default>
+                                            {{ cs.seleccionados > 0 ? (cs.seleccionados_publico / cs.seleccionados) * 100 : 0 }}% <Br /> Público
+                                        </template>
                                     </v-progress-circular>
-                                    <v-progress-circular :model-value="10" :rotate="360" :size="100" :width="15" color="primary">
-                                        <template v-slot:default> 10 % <Br /> Público</template>
-                                    </v-progress-circular>
-                                    <v-progress-circular :model-value="10" :rotate="360" :size="100" :width="15" color="secundary">
-                                        <template v-slot:default> 10 % <BR /> Privado</template>
+                                    <v-progress-circular
+                                        :model-value="cs.seleccionados_privado"
+                                        :rotate="360"
+                                        :size="100"
+                                        :width="15"
+                                        color="secundary"
+                                    >
+                                        <template v-slot:default>
+                                            {{ cs.seleccionados > 0 ? (cs.seleccionados_privado / cs.seleccionados) * 100 : 0 }}% <Br /> Privado
+                                        </template>
                                     </v-progress-circular>
                                 </div>
 

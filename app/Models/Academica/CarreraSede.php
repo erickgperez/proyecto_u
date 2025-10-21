@@ -2,6 +2,7 @@
 
 namespace App\Models\Academica;
 
+use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\User;
@@ -46,6 +47,11 @@ class CarreraSede extends Model
     public function convocatorias(): BelongsToMany
     {
         return $this->belongsToMany(Convocatoria::class, 'academico.convocatoria_carrera_sede', 'carrera_sede_id', 'convocatoria_id');
+    }
+
+    public function seleccionados(): BelongsToMany
+    {
+        return $this->belongsToMany(Aspirante::class, 'ingreso.convocatoria_aspirante', 'carrera_sede_id', 'aspirante_id');
     }
 
     public function getTituloAttribute(): string
