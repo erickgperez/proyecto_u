@@ -26,6 +26,7 @@ const props = defineProps({
     },
 });
 
+const loading = ref(false);
 const convocatoria = ref<Convocatoria | null>(null);
 const sede = ref(null);
 const carrerasSede = ref(null);
@@ -61,6 +62,7 @@ function itemProps(item: Convocatoria) {
 
 function cargarSolicitudes() {
     if (convocatoria.value != null && sede.value != null) {
+        loading.value = true;
         axios
             .get(route('ingreso-convocatoria-solicitudes', { id: convocatoria.value.id, idSede: sede.value.id }))
             .then(function (response) {
@@ -70,6 +72,9 @@ function cargarSolicitudes() {
             .catch(function (error) {
                 // handle error
                 console.error('Error fetching data:', error);
+            })
+            .finally(function () {
+                loading.value = false;
             });
     }
 }
@@ -87,119 +92,127 @@ watch(convocatoria, () => {
         :subtitulo="$t('aspirante._seleccion_descripcion_')"
         icono="mdi-account-filter-outline"
     >
-        <v-sheet v-if="hasPermission('MENU_INGRESO_SELECCION')" class="elevation-12 rounded-xl">
-            <v-layout>
-                <v-navigation-drawer location="right" v-model="drawer" color="blue-grey-lighten-4" class="rounded-xl" :width="400">
-                    <v-list>
-                        <v-list-item class="font-weight-black text-primary">
-                            <template v-slot:append>
-                                <v-btn
-                                    icon="mdi-close"
-                                    :title="$t('_cerrar_parametros_')"
-                                    color="primary"
-                                    size="small"
-                                    variant="text"
-                                    @click.stop="drawer = !drawer"
-                                ></v-btn>
-                            </template>
-                            <template v-slot:prepend>
-                                <v-icon icon="mdi-application-cog" size="small" variant="text"></v-icon>
-                            </template>
-                            {{ $t('_parametros_') }}
-                        </v-list-item>
-                    </v-list>
-
-                    <v-divider></v-divider>
-                    <v-select
-                        clearable
-                        v-model="convocatoria"
-                        :label="$t('convocatoria._convocatoria_')"
-                        :items="props.convocatorias"
-                        :item-props="itemProps"
-                    ></v-select>
-                    <v-select
-                        clearable
-                        v-model="sede"
-                        :label="$t('sede._sede_')"
-                        :items="sedes"
-                        item-title="nombre"
-                        item-id="id"
-                        return-object
-                    ></v-select>
-                    <v-row justify="center">
-                        <v-btn
-                            color="primary"
-                            rounded="xl"
-                            variant="elevated"
-                            @click="cargarSolicitudes"
-                            :disabled="convocatoria == null || sede == null"
-                            >{{ $t('_cargar_') }}</v-btn
-                        >
-                    </v-row>
-                </v-navigation-drawer>
-
-                <v-navigation-drawer location="right" permanent class="rounded-r-xl" width="350">
-                    <v-fab
-                        :active="!drawer"
-                        color="primary"
-                        location="top right"
-                        absolute
-                        icon="mdi-application-cog"
-                        variant="tonal"
-                        @click.stop="drawer = !drawer"
-                        :title="$t('_parametros_')"
-                    ></v-fab>
-
-                    <v-divider></v-divider>
-
-                    <v-list density="compact" nav>
-                        <v-card v-for="cs in carrerasSede" :key="id">
-                            <v-card-text>
-                                <div class="text-caption text-green-darken-3">{{ cs.carrera }}</div>
-                                <div class="text-center">
-                                    <v-progress-linear :model-value="cs.seleccionados / cs.crupo" color="blue-grey" height="25">
-                                        <strong>seleccionados {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
-                                    </v-progress-linear>
-                                    <v-progress-circular
-                                        :model-value="cs.seleccionados_publico"
-                                        :rotate="360"
-                                        :size="100"
-                                        :width="15"
+        <v-card v-if="hasPermission('MENU_INGRESO_SELECCION')" class="elevation-12 rounded-xl">
+            <v-card-title color="primary" class="bg-blue-accent-2 pa-5">
+                <v-row>
+                    <div class="text-font-weight-black">{{ convocatoria?.descripcion }}</div>
+                    <v-spacer></v-spacer>
+                    <DIV>Sede: {{ sede?.nombre }}</DIV>
+                </v-row>
+            </v-card-title>
+            <v-card-text class="pa-0">
+                <v-layout>
+                    <v-navigation-drawer location="right" v-model="drawer" color="blue-grey-lighten-4" :width="400">
+                        <v-list>
+                            <v-list-item class="font-weight-black text-primary">
+                                <template v-slot:append>
+                                    <v-btn
+                                        icon="mdi-close"
+                                        :title="$t('_cerrar_parametros_')"
                                         color="primary"
-                                    >
-                                        <template v-slot:default>
-                                            {{ cs.seleccionados > 0 ? (cs.seleccionados_publico / cs.seleccionados) * 100 : 0 }}% <Br /> Público
-                                        </template>
-                                    </v-progress-circular>
-                                    <v-progress-circular
-                                        :model-value="cs.seleccionados_privado"
-                                        :rotate="360"
-                                        :size="100"
-                                        :width="15"
-                                        color="secundary"
-                                    >
-                                        <template v-slot:default>
-                                            {{ cs.seleccionados > 0 ? (cs.seleccionados_privado / cs.seleccionados) * 100 : 0 }}% <Br /> Privado
-                                        </template>
-                                    </v-progress-circular>
-                                </div>
+                                        size="small"
+                                        variant="text"
+                                        @click.stop="drawer = !drawer"
+                                    ></v-btn>
+                                </template>
+                                <template v-slot:prepend>
+                                    <v-icon icon="mdi-application-cog" size="small" variant="text"></v-icon>
+                                </template>
+                                {{ $t('_parametros_') }}
+                            </v-list-item>
+                        </v-list>
 
-                                <!--<div class="d-flex justify-space-between py-3">
+                        <v-divider></v-divider>
+                        <v-select
+                            clearable
+                            v-model="convocatoria"
+                            :label="$t('convocatoria._convocatoria_')"
+                            :items="props.convocatorias"
+                            :item-props="itemProps"
+                        ></v-select>
+                        <v-select
+                            clearable
+                            v-model="sede"
+                            :label="$t('sede._sede_')"
+                            :items="sedes"
+                            item-title="nombre"
+                            item-id="id"
+                            return-object
+                        ></v-select>
+                        <v-row justify="center">
+                            <v-btn
+                                :loading="loading"
+                                color="primary"
+                                rounded="xl"
+                                variant="elevated"
+                                @click="cargarSolicitudes"
+                                :disabled="convocatoria == null || sede == null"
+                                >{{ $t('_cargar_') }}</v-btn
+                            >
+                        </v-row>
+                    </v-navigation-drawer>
+
+                    <v-navigation-drawer location="right" permanent class="rounded-r-xl" width="350">
+                        <v-fab
+                            :active="!drawer"
+                            color="primary"
+                            location="top right"
+                            absolute
+                            icon="mdi-application-cog"
+                            variant="tonal"
+                            @click.stop="drawer = !drawer"
+                            :title="$t('_parametros_')"
+                        ></v-fab>
+
+                        <v-divider></v-divider>
+
+                        <v-list density="compact" nav>
+                            <v-card v-for="cs in carrerasSede" :key="id">
+                                <v-card-text>
+                                    <div class="text-caption text-green-darken-3">{{ cs.carrera }}</div>
+                                    <div class="text-center">
+                                        <v-progress-linear :model-value="cs.seleccionados / cs.crupo" color="blue-grey" height="25">
+                                            <strong>seleccionados {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
+                                        </v-progress-linear>
+                                        <v-progress-circular
+                                            :model-value="cs.seleccionados_publico"
+                                            :rotate="360"
+                                            :size="100"
+                                            :width="15"
+                                            color="primary"
+                                        >
+                                            <template v-slot:default>
+                                                {{ cs.seleccionados > 0 ? (cs.seleccionados_publico / cs.seleccionados) * 100 : 0 }}% <Br /> Público
+                                            </template>
+                                        </v-progress-circular>
+                                        <v-progress-circular
+                                            :model-value="cs.seleccionados_privado"
+                                            :rotate="360"
+                                            :size="100"
+                                            :width="15"
+                                            color="secundary"
+                                        >
+                                            <template v-slot:default>
+                                                {{ cs.seleccionados > 0 ? (cs.seleccionados_privado / cs.seleccionados) * 100 : 0 }}% <Br /> Privado
+                                            </template>
+                                        </v-progress-circular>
+                                    </div>
+
+                                    <!--<div class="d-flex justify-space-between py-3">
                                     <span class="text-green-darken-3 font-weight-medium"> $26,442.00 remitted </span>
 
                                     <span class="text-medium-emphasis"> $29,380.00 total </span>
                                 </div>-->
-                            </v-card-text>
+                                </v-card-text>
 
-                            <!--<v-divider></v-divider>
+                                <!--<v-divider></v-divider>
 
                             <v-list-item append-icon="mdi-chevron-right" lines="two" subtitle="Details and agreement" link></v-list-item>
                         -->
-                        </v-card>
-                    </v-list>
-                </v-navigation-drawer>
-                <v-main class="overflow-y-scroll text-4xl" style="height: 90dvh">
-                    <v-container>
+                            </v-card>
+                        </v-list>
+                    </v-navigation-drawer>
+                    <v-main class="w-100 overflow-y-scroll rounded-l-xl text-4xl" style="height: 85dvh">
                         <v-data-table
                             :headers="headers"
                             :items="solicitudes"
@@ -237,9 +250,9 @@ watch(convocatoria, () => {
                                 </v-list>
                             </template>
                         </v-data-table>
-                    </v-container>
-                </v-main>
-            </v-layout>
-        </v-sheet>
+                    </v-main>
+                </v-layout>
+            </v-card-text>
+        </v-card>
     </AppLayout>
 </template>
