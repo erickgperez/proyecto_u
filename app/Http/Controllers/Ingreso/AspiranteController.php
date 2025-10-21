@@ -66,7 +66,7 @@ class AspiranteController extends Controller
         $flujo = Flujo::where('tipo_flujo_id', $tipo_flujo->id)->first();
         $estado = Estado::where('codigo', 'INICIO')->first();
         $etapa = $flujo->primeraEtapa();
-        $aspirante = Aspirante::find($id)->with('persona');
+        $aspirante = Aspirante::find($id);
 
         // Crear la solicitud
         $solicitud = new Solicitud;
@@ -116,6 +116,7 @@ class AspiranteController extends Controller
         $convocatoria = Convocatoria::find($request->get('convocatoria_id'));
         $solicitud->modelo()->associate($convocatoria);
         $aspirante = $solicitud->solicitante;
+
         $flujo = $solicitud->flujo;
 
         //Guardar convocatoria_aspirante
