@@ -14,17 +14,17 @@ return new class extends Migration
         Schema::create('secundaria.institucion', function (Blueprint $table) {
             $table->id();
             $table->comment('Instituciones de educación media');
-            $table->string('codigo', length: 20)->unique();
-            $table->string('nombre', length: 255);
+            $table->string('codigo', length: 20)->unique()->comment('Código que identifica a la institución');
+            $table->string('nombre', length: 255)->comment('Nombre de la institución de bachillerato');
             $table->string('direccion', length: 255)->nullable();
 
             $table->foreign('sector_id')->references('id')->on('secundaria.sector')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->foreignId('sector_id');
+            $table->foreignId('sector_id')->comment('Sector al que pertenece la institución');
 
-            $table->foreignId('distrito_id');
+            $table->foreignId('distrito_id')->comment('Distrito donde está ubicada la institución');
             $table->foreign('distrito_id')->references('id')->on('distrito')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
-            $table->foreignId('pais_id');
+            $table->foreignId('pais_id')->comment('País de la institución');
             $table->foreign('pais_id')->references('id')->on('distrito')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->timestamps();

@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->comment('Relación de muchos a muchos entre documento y archivo');
 
-            $table->foreignId('documento_id');
+            $table->foreignId('documento_id')->comment('Id del documento al que pertenece el archivo');
             $table->foreign('documento_id')->references('id')->on('documento.documento')->onDelete('CASCADE')->onUpdate('CASCADE');
 
-            $table->foreignId('archivo_id');
+            $table->foreignId('archivo_id')->comment('Id del archivo');
             $table->foreign('archivo_id')->references('id')->on('documento.archivo')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->timestamps();

@@ -16,13 +16,13 @@ return new class extends Migration
 
             $table->comment('Relación de muchos a muchos entre convocatoria y aspirante');
 
-            $table->foreignId('convocatoria_id');
+            $table->foreignId('convocatoria_id')->comment('Id de la convocatoria a la que está asignado el aspirante');
             $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
-            $table->foreignId('aspirante_id');
+            $table->foreignId('aspirante_id')->comment('Id del aspirante que está asignado a la convocatoria');
             $table->foreign('aspirante_id')->references('id')->on('ingreso.aspirante')->onDelete('CASCADE')->onUpdate('CASCADE');
 
-            $table->foreignId('carrera_sede_id')->comment('Carrera sede en que fue seleccionado')->nullable();
+            $table->foreignId('carrera_sede_id')->comment('Carrera sede en que fue seleccionada')->nullable();
             $table->foreign('carrera_sede_id')->references('id')->on('workflow.solicitud_carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->timestamps();

@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->comment('Relación para definir las carreras (por sede) para las cuales se hará la convocatoria');
 
-            $table->foreignId('convocatoria_id');
+            $table->foreignId('convocatoria_id')->comment('Id de la convocatoria a la que se le asigna la carrera/sede');
             $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('CASCADE')->onUpdate('CASCADE');
 
-            $table->foreignId('carrera_sede_id');
+            $table->foreignId('carrera_sede_id')->comment('Id de la carrera/sede');
             $table->foreign('carrera_sede_id')->references('id')->on('academico.carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');

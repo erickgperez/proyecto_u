@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('academico.sede', function (Blueprint $table) {
             $table->id();
             $table->comment('Registro de las sedes');
-            $table->string('codigo', length: 20)->unique();
-            $table->string('nombre', length: 255)->nullable();
+            $table->string('codigo', length: 20)->unique()->comment('Código de identificación de la sede');
+            $table->string('nombre', length: 255)->nullable()->comment('Nombre descriptivo de la sede');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

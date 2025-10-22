@@ -14,10 +14,10 @@ return new class extends Migration
         Schema::create('documento.documento', function (Blueprint $table) {
             $table->id();
             $table->comment('Guarda la información de los documentos subidos al sistema');
-            $table->string('numero', length: 100);
-            $table->timestamp('fecha_emision')->nullable();
-            $table->timestamp('fecha_expiracion')->nullable();
-            $table->boolean('revisado');
+            $table->string('numero', length: 100)->comment('Número del documento. Ej.: número de DUI, número de partida de nacimiento, entre otros');
+            $table->timestamp('fecha_emision')->nullable()->comment('Fecha en que se emitió el documento');
+            $table->timestamp('fecha_expiracion')->nullable()->comment('Fecha en que expira el documento');
+            $table->boolean('revisado')->comment('Indica si el documento ya fue revisado y estaba correcto');
             $table->foreignId('tipo_id')->nullable()->comment('Tipo del documento');
             $table->foreign('tipo_id')->references('id')->on('documento.tipo')->onDelete('RESTRICT')->onUpdate('CASCADE');
 

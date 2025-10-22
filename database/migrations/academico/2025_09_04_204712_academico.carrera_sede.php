@@ -16,10 +16,10 @@ return new class extends Migration
             $table->comment('Relación para definir las carreras que se imparten en una sede');
             $table->integer('cupo')->nullable()->comment('El cupo que tiene asignado la carrera en la sede');
 
-            $table->foreignId('carrera_id');
+            $table->foreignId('carrera_id')->comment('Id de la carrera que se relaciona con la sede');
             $table->foreign('carrera_id')->references('id')->on('plan_estudio.carrera')->onDelete('CASCADE')->onUpdate('CASCADE');
 
-            $table->foreignId('sede_id');
+            $table->foreignId('sede_id')->comment('Id de la sede en la que se imparte la carrera');
             $table->foreign('sede_id')->references('id')->on('academico.sede')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->timestamps();

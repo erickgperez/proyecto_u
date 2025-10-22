@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('plan_estudio.carrera', function (Blueprint $table) {
             $table->id();
 
-            $table->string('codigo', length: 30)->unique();
-            $table->text('nombre');
+            $table->string('codigo', length: 30)->unique()->comment('Código asignado a la carrera');
+            $table->text('nombre')->comment('Nombre de la carrera');
             $table->foreignId('certificacion_de')->nullable()->comment('Una carrera puede estar compuesta de certificaciones, las certificaciones también serán guardadas como una carrera');
             $table->foreign('certificacion_de')->references('id')->on('plan_estudio.carrera')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->foreignId('tipo_carrera_id');

@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->comment('Relación de muchos a muchos entre persona y documento');
 
-            $table->foreignId('persona_id');
+            $table->foreignId('persona_id')->comment('Id de la persona a quien pertenece el documento');
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('CASCADE')->onUpdate('CASCADE');
 
-            $table->foreignId('documento_id');
+            $table->foreignId('documento_id')->comment('Id del documento');
             $table->foreign('documento_id')->references('id')->on('documento.documento')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->timestamps();

@@ -24,16 +24,16 @@ return new class extends Migration
             $table->string('tercer_apellido', length: 100)->nullable();
             $table->string('sexo', length: 10)->nullable();
             $table->unsignedTinyInteger('edad')->nullable();
-            $table->string('sector', length: 10)->nullable();
-            $table->string('grado', length: 15)->nullValue();
-            $table->string('codigo_ce', length: 15)->nullable();
+            $table->string('sector', length: 10)->nullable()->comment('Sector de la institución en que estudia el alumno');
+            $table->string('grado', length: 15)->nullValue()->comment('Grado que cursa');
+            $table->string('codigo_ce', length: 15)->nullable()->comment('Código del centro educativo');
             $table->string('nombre_centro_educativo', length: 255)->nullable();
-            $table->string('direccion', length: 255)->nullable();
+            $table->string('direccion', length: 255)->nullable()->comment('Dirección del centro educativo');
             $table->string('codigo_depto', length: 5)->nullable();
             $table->string('departamento', length: 100)->nullable();
             $table->string('codigo_distrito', length: 7)->nullable();
             $table->string('distrito', length: 100)->nullable();
-            $table->string('opcion_bachillerato', length: 100)->nullable();            //$table->timestamps();
+            $table->string('opcion_bachillerato', length: 100)->nullable()->comment('Opción de bachillerato que estudia el alumno');
         });
     }
 
