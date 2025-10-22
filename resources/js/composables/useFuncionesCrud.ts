@@ -39,13 +39,13 @@ export function useFuncionesCrud(itemVacio: any, items: any) {
     };
 
     const handleFormSave = (data: any) => {
-        if (selectedAction.value == 'edit') {
+        if (selectedAction.value == 'new') {
+            localItems.value.push(data);
+            step.value = 1;
+        } else {
             const index = localItems.value.findIndex((item) => item.id === data.id);
 
             localItems.value[index] = data;
-        } else {
-            localItems.value.push(data);
-            step.value = 1;
         }
     };
 
