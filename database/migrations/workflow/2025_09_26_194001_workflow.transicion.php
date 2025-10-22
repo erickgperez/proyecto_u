@@ -19,13 +19,13 @@ return new class extends Migration
             $table->string('codigo', length: 100);
             $table->string('nombre', length: 255);
 
-            $table->foreignId('flujo_id');
+            $table->foreignId('flujo_id')->comment('Flujo o proceso al que pertenece la transición');
             $table->foreign('flujo_id')->references('id')->on('workflow.etapa')->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->foreignId('etapa_origen_id');
+            $table->foreignId('etapa_origen_id')->comment('Etapa antes de realizar la transición');
             $table->foreign('etapa_origen_id')->references('id')->on('workflow.etapa')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->foreignId('estado_origen_id')->comment('Estado que se tendrá la solicitud en la etapa destino');
+            $table->foreignId('estado_origen_id')->comment('Estado que se tendrá la solicitud en la etapa origen, antes de realizar la transción');
             $table->foreign('estado_origen_id')->references('id')->on('workflow.estado')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->foreignId('etapa_destino_id');
+            $table->foreignId('etapa_destino_id')->comment('Etapa en la que quedará la solicitud después de aplicar la transición');
             $table->foreign('etapa_destino_id')->references('id')->on('workflow.etapa')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->foreignId('estado_destino_id')->comment('Estado que se tendrá la solicitud en la etapa destino');
             $table->foreign('estado_destino_id')->references('id')->on('workflow.estado')->onDelete('RESTRICT')->onUpdate('CASCADE');

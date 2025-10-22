@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('persona_usuario', function (Blueprint $table) {
             $table->id();
 
+            $table->comment('Relación de muchos a muchos entre usuario y persona');
             $table->foreignId('persona_id');
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
 

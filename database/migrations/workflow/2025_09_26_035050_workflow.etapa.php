@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('nombre', length: 255);
             $table->text('indicaciones')->nullable();
 
-            $table->foreignId('flujo_id');
+            $table->foreignId('flujo_id')->comment('Flujo o proceso al que pertenece la etapa');
             $table->foreign('flujo_id')->references('id')->on('workflow.flujo')->onDelete('CASCADE')->onUpdate('CASCADE');
             $table->foreignId('lugar_id')->nullable();
             $table->foreign('lugar_id')->references('id')->on('workflow.lugar')->onDelete('RESTRICT')->onUpdate('CASCADE');

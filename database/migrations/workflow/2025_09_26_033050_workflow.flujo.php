@@ -16,9 +16,9 @@ return new class extends Migration
 
             $table->comment('Para la creación de los procesos que se realizarán');
 
-            $table->string('codigo', length: 100)->unique();
-            $table->string('nombre', length: 255);
-            $table->boolean('activo')->default(true);
+            $table->string('codigo', length: 100)->unique()->comment('código del proceso');
+            $table->string('nombre', length: 255)->comment('Nombre que describe el proceso');
+            $table->boolean('activo')->default(true)->comment('Indica si el proceso está activo');
 
             $table->foreignId('tipo_flujo_id');
             $table->foreign('tipo_flujo_id')->references('id')->on('workflow.tipo_flujo')->onDelete('RESTRICT')->onUpdate('CASCADE');

@@ -13,26 +13,29 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
-            $table->rememberToken();
+            $table->comment('Almacena los usuarios del sistema');
+            $table->string('name')->comment('Nombre del usuario');
+            $table->string('email')->unique()->comment('Dirección de correo que se utilizará para ingresar al sistema');
+            $table->timestamp('email_verified_at')->nullable()->comment('Fecha en que se realizó el proceso de verificación de correo');
+            $table->string('password')->comment('Clave del usuario');
+            $table->rememberToken()->comment('Token asignado para recordar al usuario');
             $table->timestamps();
         });
 
         Schema::create('password_reset_tokens', function (Blueprint $table) {
-            $table->string('email')->primary();
-            $table->string('token');
+            $table->comment('Tabla para la gestión de restauración de claves de usuario');
+            $table->string('email')->primary()->comment('Dirección de correo del usuario');
+            $table->string('token')->comment('Token para restarurar la clave');
             $table->timestamp('created_at')->nullable();
         });
 
         Schema::create('sessions', function (Blueprint $table) {
+            $table->comment('Lleva el registro de la sesiones de usuario');
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
-            $table->string('ip_address', 45)->nullable();
-            $table->text('user_agent')->nullable();
-            $table->longText('payload');
+            $table->string('ip_address', 45)->nullable()->comment('Dirección IP desde donde accede el usuario');
+            $table->text('user_agent')->nullable()->comment('Forma de conexión, si lo hace vía web o desde consola de comandos');
+            $table->longText('payload')->comment('identificador de la sesión');
             $table->integer('last_activity')->index();
         });
     }
