@@ -102,7 +102,7 @@ const props = defineProps(['item', 'accion']);
                     {{ $t('_created_by_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ (props.item.created_by?.name ?? '') + ' ' + (props.item.created_by?.email ?? '') }}
+                    {{ (props.item.creator?.name ?? '') + ' ' + (props.item.creator?.email ?? '') }}
                 </v-col>
             </v-row>
             <v-row>
@@ -118,7 +118,7 @@ const props = defineProps(['item', 'accion']);
                     {{ $t('_updated_by_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ (props.item.updated_by?.name ?? '') + ' ' + (props.item.updated_by?.email ?? '') }}
+                    {{ (props.item.updater?.name ?? '') + ' ' + (props.item.updater?.email ?? '') }}
                 </v-col>
             </v-row>
         </template>

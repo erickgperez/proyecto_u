@@ -18,7 +18,7 @@ class PersonaController extends Controller
     public function index(Request $request): Response
     {
 
-        $personas = Persona::with('sexo')->get();
+        $personas = Persona::with('sexo', 'creator', 'updater')->get();
         $sexos = Sexo::all();
 
         return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos]);
@@ -55,7 +55,7 @@ class PersonaController extends Controller
 
         $persona->save();
 
-        $personaData = Persona::with('sexo')->find($persona->id);
+        $personaData = Persona::with('sexo', 'creator', 'updater')->find($persona->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }

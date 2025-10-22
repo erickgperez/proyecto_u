@@ -135,20 +135,6 @@ onMounted(() => {
                             counter="100"
                             :label="$t('_nombre_') + ' *'"
                         ></v-text-field>
-
-                        <!--<v-autocomplete
-                            clearable
-                            :label="$t('sede._carreras_')"
-                            :items="props.carreras"
-                            v-model="formData.carrerasIds"
-                            item-title="nombreCompleto"
-                            item-value="id"
-                            prepend-icon="mdi-form-dropdown"
-                            multiple
-                            chips
-                            :hint="$t('sede._carreras_ayuda_')"
-                            persistent-hint
-                        ></v-autocomplete>-->
                         {{ $t('sede._carreras_ayuda_') }}
                         <v-list v-model:selected="formData.carrerasIds" select-strategy="leaf" v-for="tipo in props.tipos" :key="tipo">
                             <v-list-subheader>{{ tipo }}</v-list-subheader>
