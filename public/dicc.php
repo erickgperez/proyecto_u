@@ -1,10 +1,10 @@
 <?php
 // Conexión a la base de datos
 $host = "localhost";
-$dbname = "proyectodb";
-$user = "usuariodb";
+$dbname = "db_proyecto";
+$user = "admin_proyecto";
 $password = "usuario";
-$port = "5433";
+$port = "5434";
 
 $conn = pg_connect("host=$host dbname=$dbname user=$user password=$password port=$port");
 
@@ -16,7 +16,7 @@ if (!$conn) {
 // Consulta para obtener las tablas
 $query = "SELECT schemaname, tablename, *
     FROM pg_tables
-    WHERE schemaname IN ('public', 'secundaria', 'ingreso', 'registro_acad')
+    WHERE schemaname IN ('public', 'secundaria', 'ingreso', 'academico', 'documento', 'plan_estudio','workflow')
     ORDER BY schemaname, tablename";
 $result = pg_query($conn, $query);
 
@@ -97,25 +97,24 @@ foreach ($tablas as $row) {
     $comentarioT = array_key_exists($idCol, $comentarios) ? $comentarios[$idCol] : '';
 
     if ($result_columnas) {
+        list($esquema, $tabla) = explode('.', $nombre);
         echo '<BR>
-        <TABLE border = 1>
-            <CAPTION>
-                Tabla: ' . $nombre . '<BR>
-                Descripci&oacute;n: ' . $comentarioT . '
+        <B>Tabla:</B> ' . $nombre . '<BR>
+        <B>Descripci&oacute;n:</B> ' . $comentarioT . '<BR>
+        <TABLE border = 1 style="font-size: 10pt;">
             <THEAD>
                 <TR>
                     <TH></TH>
                     <TH>Nombre</TH>
                     <TH>Tipo</TH>
                     <TH>Nulo</TH>
-                    <TH>Restricciones</TH>
-                    <TH>Valor por defecto</TH>
+                    <TH>Restricciones / Valor por defecto</TH>
                     <TH>Descripci&oacute;n</TH>
                 </TR>
             </THEAD>
             <TBODY>';
         while ($row_columnas = pg_fetch_assoc($result_columnas)) {
-            $tipo = $row_columnas['data_type'];
+            $tipo = $row_columnas['udt_name'];
             if ($row_columnas['udt_name'] === 'varchar') {
                 $tipo .= " ($row_columnas[character_maximum_length]) ";
             } elseif ($row_columnas['udt_name'] === 'numeric') {
@@ -135,8 +134,13 @@ foreach ($tablas as $row) {
                     <TD>$row_columnas[column_name]</TD>
                     <TD>$tipo</TD>
                     <TD>$nullable</TD>
-                    <TD>$restriccionesCampo</TD>
-                    <TD>$row_columnas[column_default]</TD>
+                    <TD>
+                        $restriccionesCampo";
+            if ($row_columnas['column_default']) {
+                echo "/ $row_columnas[column_default]";
+            }
+
+            echo "</TD>
                     <TD>$comentario</TD>
                 </TR>";
         }
