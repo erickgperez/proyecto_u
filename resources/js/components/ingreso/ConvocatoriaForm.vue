@@ -46,10 +46,9 @@ interface FormData {
     cuerpo_mensaje: string;
     afiche: string | null;
     afiche_file: File | null;
-    carreras_sedes: [];
 }
 
-const props = defineProps(['item', 'accion', 'sedesCarreras']);
+const props = defineProps(['item', 'accion']);
 
 const content = ref(props.item?.cuerpo_mensaje);
 
@@ -61,7 +60,6 @@ const formData = ref<FormData>({
     cuerpo_mensaje: '',
     afiche_file: null,
     afiche: '',
-    carreras_sedes: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -136,7 +134,6 @@ onMounted(() => {
     reset();
     if (props.accion === 'edit') {
         formData.value = { ...props.item };
-        formData.value.carreras_sedes = props.item.carreras_sedes.map((cs: any) => cs.id);
     }
 });
 
@@ -244,40 +241,6 @@ const extensions = [
 
                         {{ $t('_consejo_cuerpo_mensaje_') }}
                     </v-col>
-
-                    <v-col cols="12" class="pt-15 pl-15">
-                        <v-card class="mx-auto">
-                            <v-toolbar class="bg-blue-lighten-5">
-                                <v-toolbar-title class="text-h6" :text="$t('convocatoria._oferta_')"></v-toolbar-title>
-                            </v-toolbar>
-
-                            <v-card-text>
-                                <div class="font-weight-bold ms-1 mb-2">{{ $t('convocatoria._oferta_indicaciones_') }}</div>
-
-                                <v-treeview
-                                    v-model:selected="formData.carreras_sedes"
-                                    :items="props.sedesCarreras"
-                                    item-value="id"
-                                    select-strategy="classic"
-                                    selectable
-                                    :indent-lines="true"
-                                >
-                                    <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
-                                        <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
-                                            <template v-slot:badge>
-                                                <v-icon v-if="isSelected" icon="$complete"></v-icon>
-                                            </template>
-                                            <v-btn
-                                                v-bind="toggleProps"
-                                                :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
-                                                :variant="isOpen ? 'outlined' : 'tonal'"
-                                            ></v-btn>
-                                        </v-badge>
-                                    </template>
-                                </v-treeview>
-                            </v-card-text>
-                        </v-card>
-                    </v-col>
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
                             {{ $t('_guardar_') }}
@@ -288,7 +251,7 @@ const extensions = [
         </template>
     </v-card>
 </template>
-<style lang="css">
+<style lang="css" scoped>
 .el-tiptap-editor__menu-bar {
     /*position: sticky;*/
     /*background-color: #f0f0f0;
