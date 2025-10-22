@@ -120,6 +120,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_MOSTRAR']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_BORRAR']);
         Permission::create(['name' => 'INGRESO_CONVOCATORIA_CALENDARIZAR']);
+        Permission::create(['name' => 'INGRESO_CONVOCATORIA_OFERTA']);
 
         Permission::create(['name' => 'MENU_INGRESO_CONVOCATORIA_CARGAR-ARCHIVO']);
         // CANDIDATOS

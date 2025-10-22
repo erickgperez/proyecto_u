@@ -4,6 +4,7 @@ import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
 import Evento from '@/components/Evento.vue';
 import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
+import ConvocatoriaOfertaForm from '@/components/ingreso/ConvocatoriaOfertaForm.vue';
 import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
@@ -73,6 +74,7 @@ const acc = {
     mostrar: 'INGRESO_CONVOCATORIA_MOSTRAR',
     borrar: 'INGRESO_CONVOCATORIA_BORRAR',
     calendarizar: 'INGRESO_CONVOCATORIA_CALENDARIZAR',
+    oferta: 'INGRESO_CONVOCATORIA_OFERTA',
 };
 const permisoAny = 'INGRESO_CONVOCATORIA_';
 // Permisos requeridos por la interfaz
@@ -110,6 +112,14 @@ const opcionesAccion = [
         emitAction: 'calendarizar',
         color: 'brown',
         icon: 'mdi-calendar-month-outline',
+    },
+    {
+        permiso: acc.oferta,
+        title: t('convocatoria._oferta_'),
+        text: t('convocatoria._oferta_descripcion_'),
+        emitAction: 'oferta',
+        color: 'orange-darken-3',
+        icon: 'mdi-format-list-text',
     },
     {
         permiso: acc.editar,
@@ -183,6 +193,13 @@ const opcionesAccion = [
                             :sedesCarreras="props.sedesCarreras"
                             @form-saved="handleFormSave"
                         ></ConvocatoriaForm>
+                        <ConvocatoriaOfertaForm
+                            v-if="selectedAction === 'oferta'"
+                            :item="selectedItem"
+                            :accion="selectedAction"
+                            :sedesCarreras="props.sedesCarreras"
+                            @form-saved="handleFormSave"
+                        ></ConvocatoriaOfertaForm>
                         <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
                         <Evento v-if="selectedAction == 'calendarizar'" :idCalendario="selectedItem.calendarizacion_id"></Evento>
                     </v-sheet>

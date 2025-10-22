@@ -61,7 +61,6 @@ class ConvocatoriaController extends Controller
         $convocatoria->descripcion = $request->get('descripcion');
         $convocatoria->fecha = $request->get('fecha');
         $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
-        $convocatoria->carrerasSedes()->sync($request->get('carreras_sedes') ?? []);
 
         if ($request->hasFile('afiche_file')) {
             $file = $request->file('afiche_file');
@@ -78,6 +77,20 @@ class ConvocatoriaController extends Controller
 
             $convocatoria->afiche = $path;
         }
+
+        $convocatoria->save();
+
+        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater')->find($convocatoria->id);
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
+    }
+
+    public function ofertaSave($id, Request $request)
+    {
+
+        $convocatoria = Convocatoria::find($id);
+
+        $convocatoria->carrerasSedes()->sync($request->get('carreras_sedes') ?? []);
 
         $convocatoria->save();
 
