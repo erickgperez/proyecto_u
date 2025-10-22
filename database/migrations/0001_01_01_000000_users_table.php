@@ -30,7 +30,7 @@ return new class extends Migration
         });
 
         Schema::create('sessions', function (Blueprint $table) {
-            $table->comment('Lleva el registro de la sesiones de usuario');
+            $table->comment('Lleva el registro de las sesiones de usuario');
             $table->string('id')->primary();
             $table->foreignId('user_id')->nullable()->index();
             $table->string('ip_address', 45)->nullable()->comment('Dirección IP desde donde accede el usuario');

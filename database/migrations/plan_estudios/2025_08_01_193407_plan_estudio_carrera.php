@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.carrera', function (Blueprint $table) {
             $table->id();
-
+            $table->comment('Almacena la información de las carreras y cursos que se imparten en la universidad');
             $table->string('codigo', length: 30)->unique()->comment('Código asignado a la carrera');
             $table->text('nombre')->comment('Nombre de la carrera');
             $table->foreignId('certificacion_de')->nullable()->comment('Una carrera puede estar compuesta de certificaciones, las certificaciones también serán guardadas como una carrera');

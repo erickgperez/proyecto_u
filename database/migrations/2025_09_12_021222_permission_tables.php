@@ -104,13 +104,14 @@ return new class extends Migration
         Schema::create($tableNames['role_has_permissions'], static function (Blueprint $table) use ($tableNames, $pivotRole, $pivotPermission) {
             $table->unsignedBigInteger($pivotPermission);
             $table->unsignedBigInteger($pivotRole);
+            $table->comment('Tabla para asignar permisos a los roles');
 
-            $table->foreign($pivotPermission)
+            $table->foreign($pivotPermission)->comment('Id del permiso asignado')
                 ->references('id') // permission id
                 ->on($tableNames['permissions'])
                 ->onDelete('cascade');
 
-            $table->foreign($pivotRole)
+            $table->foreign($pivotRole)->comment('Id del rol')
                 ->references('id') // role id
                 ->on($tableNames['roles'])
                 ->onDelete('cascade');
