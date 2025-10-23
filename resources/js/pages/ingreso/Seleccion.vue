@@ -235,46 +235,38 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                         >
                                             <strong>seleccionados {{ ultimaSeleccion.seleccionados }}/{{ ultimaSeleccion.cupo }} </strong>
                                         </v-progress-linear>
-                                        <v-progress-circular
-                                            :model-value="
-                                                ultimaSeleccion.seleccionados > 0
-                                                    ? Math.round((ultimaSeleccion.seleccionados_publico / ultimaSeleccion.seleccionados) * 100)
-                                                    : 0
-                                            "
-                                            :rotate="360"
+                                        <v-pie
+                                            :gauge-cut="100"
+                                            hide-slice
+                                            :inner-cut="70"
+                                            animation
+                                            :palette="['#00876c', '#d43d51']"
                                             :size="100"
-                                            :width="15"
-                                            color="primary"
-                                            class="mt-3 mr-3"
-                                        >
-                                            <template v-slot:default>
-                                                {{
-                                                    ultimaSeleccion.seleccionados > 0
-                                                        ? Math.round((ultimaSeleccion.seleccionados_publico / ultimaSeleccion.seleccionados) * 100)
-                                                        : 0
-                                                }}% <Br /> Público
-                                            </template>
-                                        </v-progress-circular>
-                                        <v-progress-circular
-                                            :model-value="
-                                                ultimaSeleccion.seleccionados > 0
-                                                    ? Math.round((ultimaSeleccion.seleccionados_privado / ultimaSeleccion.seleccionados) * 100)
-                                                    : 0
-                                            "
-                                            :rotate="360"
-                                            :size="100"
-                                            :width="15"
-                                            color="brown-darken-1"
-                                            class="mt-3"
-                                        >
-                                            <template v-slot:default>
-                                                {{
-                                                    ultimaSeleccion.seleccionados > 0
-                                                        ? Math.round((ultimaSeleccion.seleccionados_privado / ultimaSeleccion.seleccionados) * 100)
-                                                        : 0
-                                                }}% <Br /> Privado
-                                            </template>
-                                        </v-progress-circular>
+                                            reveal
+                                            :legend="{ position: 'right', textFormat: '[title] ([value]%)' }"
+                                            :items="[
+                                                {
+                                                    key: 1,
+                                                    title: 'Público',
+                                                    value:
+                                                        ultimaSeleccion.seleccionados > 0
+                                                            ? Math.round(
+                                                                  (ultimaSeleccion.seleccionados_publico / ultimaSeleccion.seleccionados) * 100,
+                                                              )
+                                                            : 0,
+                                                },
+                                                {
+                                                    key: 2,
+                                                    title: 'Privado',
+                                                    value:
+                                                        ultimaSeleccion.seleccionados > 0
+                                                            ? Math.round(
+                                                                  (ultimaSeleccion.seleccionados_privado / ultimaSeleccion.seleccionados) * 100,
+                                                              )
+                                                            : 0,
+                                                },
+                                            ]"
+                                        />
                                     </v-container>
                                 </v-card-text>
                             </v-card>
@@ -282,49 +274,34 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                             <v-card v-for="cs in carrerasSede" :key="cs.id" class="elevation-4 ma-2 border-1">
                                 <v-card-text>
                                     <span class="text-caption text-green-darken-3">{{ cs.carrera }}</span>
-                                    <v-contaniner class="text-center">
+                                    <v-container class="text-center">
                                         <v-progress-linear :model-value="(cs.seleccionados / cs.cupo) * 100" color="blue-grey-lighten-3" height="25">
                                             <strong>seleccionados {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
                                         </v-progress-linear>
-                                        <v-row>
-                                            <v-col>
-                                                <v-progress-circular
-                                                    :model-value="cs.seleccionados > 0 ? (cs.seleccionados_publico / cs.seleccionados) * 100 : 0"
-                                                    :rotate="360"
-                                                    :size="100"
-                                                    :width="15"
-                                                    color="primary"
-                                                    class="mt-3 mr-3"
-                                                >
-                                                    <template v-slot:default>
-                                                        {{
-                                                            cs.seleccionados > 0
-                                                                ? Math.round((cs.seleccionados_publico / cs.seleccionados) * 100)
-                                                                : 0
-                                                        }}% <Br /> Público
-                                                    </template>
-                                                </v-progress-circular>
-                                                <v-progress-circular
-                                                    :model-value="
-                                                        cs.seleccionados > 0 ? Math.round((cs.seleccionados_privado / cs.seleccionados) * 100) : 0
-                                                    "
-                                                    :rotate="360"
-                                                    :size="100"
-                                                    :width="15"
-                                                    color="brown-darken-1"
-                                                    class="mt-3"
-                                                >
-                                                    <template v-slot:default>
-                                                        {{
-                                                            cs.seleccionados > 0
-                                                                ? Math.round((cs.seleccionados_privado / cs.seleccionados) * 100)
-                                                                : 0
-                                                        }}% <Br /> Privado
-                                                    </template>
-                                                </v-progress-circular>
-                                            </v-col>
-                                        </v-row>
-                                    </v-contaniner>
+                                        <v-pie
+                                            v-if="cs.seleccionados > 0"
+                                            :gauge-cut="100"
+                                            hide-slice
+                                            :inner-cut="70"
+                                            animation
+                                            :palette="['#00876c', '#d43d51']"
+                                            :size="100"
+                                            reveal
+                                            :legend="{ position: 'right', textFormat: '[title] ([value]%)' }"
+                                            :items="[
+                                                {
+                                                    key: 1,
+                                                    title: 'Público',
+                                                    value: cs.seleccionados > 0 ? Math.round((cs.seleccionados_publico / cs.seleccionados) * 100) : 0,
+                                                },
+                                                {
+                                                    key: 2,
+                                                    title: 'Privado',
+                                                    value: cs.seleccionados > 0 ? Math.round((cs.seleccionados_privado / cs.seleccionados) * 100) : 0,
+                                                },
+                                            ]"
+                                        />
+                                    </v-container>
                                 </v-card-text>
                             </v-card>
                         </v-list>
