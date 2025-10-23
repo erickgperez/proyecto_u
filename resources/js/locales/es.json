@@ -19,7 +19,8 @@
         "_seleccion_": "Selección",
         "_seleccionado_": "Seleccionado",
         "_seleccion_aspirantes_": "Selección de aspirantes",
-        "_seleccion_descripcion_": "Seleccionar los aspirantes que se aceptarán como estudiantes"
+        "_seleccion_descripcion_": "Seleccionar los aspirantes que se aceptarán como estudiantes",
+        "_ultima_seleccion_": "Última selección"
     },
     "auth": {
         "_cerrar_sesion_": "Cerrar sesión",
