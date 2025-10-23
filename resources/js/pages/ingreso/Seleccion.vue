@@ -229,7 +229,7 @@ watch(convocatoria, () => {
                                 <tr
                                     class="text-no-wrap"
                                     :class="{
-                                        'bg-success': item.seleccionado,
+                                        'bg-green-lighten-4': item.seleccionado,
                                     }"
                                 >
                                     <td>{{ item.nie }}</td>

@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Mail\CandidatoInvitado;
 use App\Models\Academica\CarreraSede;
 use App\Models\Calendarizacion;
+use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Secundaria\DataBachillerato;
+use App\Models\Secundaria\Institucion;
+use App\Models\Workflow\Solicitud;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -237,6 +240,17 @@ class ConvocatoriaController extends Controller
         $convocatoria = Convocatoria::find($id);
 
         $solicitudes_ = $convocatoria->solicitudes()
+            ->join('ingreso.aspirante as aspirante', function ($join) {
+                $join->on('solicitud.solicitante_id', '=', 'aspirante.id')
+                    ->where('solicitud.solicitante_type', '=', Aspirante::class);
+            })
+            ->join('public.persona as persona', 'aspirante.persona_id', '=', 'persona.id')
+            ->join('public.estudio as estudio', 'estudio.persona_id', '=', 'persona.id')
+            ->join('secundaria.institucion as institucion', function ($join) {
+                $join->on('estudio.institucion_id', '=', 'institucion.id')
+                    ->where('estudio.institucion_type', '=', Institucion::class);
+            })
+            ->join('secundaria.sector as sector', 'institucion.sector_id', '=', 'sector.id')
             ->with([
                 'solicitante',
                 'etapa',
@@ -247,30 +261,29 @@ class ConvocatoriaController extends Controller
                     ;
                 }
             ])
-            ->withCount(['solicitudCarrerasSede as solicitudes_carrera_sede' => function ($query) use ($idSede) {
+            ->whereHas('solicitudCarrerasSede', function (Builder $query) use ($idSede) {
                 $query->join('academico.carrera_sede as cs', 'workflow.solicitud_carrera_sede.carrera_sede_id', '=', 'cs.id')
                     ->where('cs.sede_id', '=', $idSede)
                 ;
-            }])
+            })
             ->get();
 
         $solitudes = [];
         foreach ($solicitudes_ as $sol) {
-            if ($sol->solicitudes_carrera_sede > 0) {
-                $arreglo = [
-                    'nie' => $sol->solicitante->nie,
-                    'nombre' => $sol->solicitante->persona->nombreCompleto,
-                    'nota' => $sol->solicitante->calificacion_bachillerato
+            $arreglo = [
+                'nie' => $sol->solicitante->nie,
+                'nombre' => $sol->solicitante->persona->nombreCompleto,
+                'nota' => $sol->solicitante->calificacion_bachillerato,
+                'sector' => $sol->descripcion,
+            ];
+            foreach ($sol->solicitudCarrerasSede as $scs) {
+                $arreglo[$scs->tipoCarreraSedeSolicitud->codigo] = [
+                    'carrera_sede_id' => $scs->carreraSede->id,
+                    'carrera' => $scs->carreraSede->carrera->nombreCompleto,
+                    'opcion' => $scs->tipoCarreraSedeSolicitud->codigo
                 ];
-                foreach ($sol->solicitudCarrerasSede as $scs) {
-                    $arreglo[$scs->tipoCarreraSedeSolicitud->codigo] = [
-                        'carrera_sede_id' => $scs->carreraSede->id,
-                        'carrera' => $scs->carreraSede->carrera->nombreCompleto,
-                        'opcion' => $scs->tipoCarreraSedeSolicitud->codigo
-                    ];
-                }
-                $solitudes[] = $arreglo;
             }
+            $solitudes[] = $arreglo;
         }
 
         array_multisort(
