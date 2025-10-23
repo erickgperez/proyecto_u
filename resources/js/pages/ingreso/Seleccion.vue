@@ -75,7 +75,7 @@ const headers = [
 const search = ref('');
 
 const sortBy: SortBy[] = [
-    { key: 'fecha', order: 'asc' },
+    { key: 'nota', order: 'desc' },
     { key: 'nombre', order: 'asc' },
 ];
 
@@ -232,9 +232,26 @@ function cargarSolicitudes() {
                         </v-list>
                     </v-navigation-drawer>
                     <v-main class="w-100 overflow-y-scroll rounded-l-xl text-4xl" style="height: 85dvh">
+                        <v-card-title class="d-flex align-center border-b-md pe-2">
+                            <v-spacer></v-spacer>
+
+                            <v-text-field
+                                v-model="search"
+                                density="compact"
+                                :label="$t('_buscar_')"
+                                prepend-inner-icon="mdi-magnify"
+                                variant="outlined"
+                                rounded="xl"
+                                flat
+                                hide-details
+                                single-line
+                            ></v-text-field>
+                        </v-card-title>
                         <v-data-table
+                            v-model:search="search"
                             :headers="headers"
                             :items="solicitudes"
+                            :sort-by="sortBy"
                             density="compact"
                             border="primary thin"
                             class="w-100"
