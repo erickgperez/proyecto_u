@@ -24,6 +24,7 @@ interface Solicitud {
     sector: string;
     nota: number;
     seleccionado: boolean;
+    carrera_sede_seleccionada: number;
     PRIMERA_OPCION: Opcion | null;
     SEGUNDA_OPCION: Opcion | null;
     TERCERA_OPCION: Opcion | null;
@@ -129,11 +130,12 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
 
                 //verificar si tiene cupo
                 if (carreraSede.cupo > carreraSede.seleccionados) {
-                    carreraSede.seleccionados += 5;
+                    carreraSede.seleccionados++;
+                    item.carrera_sede_seleccionada = carreraSede.carrera_sede_id;
                     if (item.sector === 'Privado') {
-                        carreraSede.seleccionados_privado += 5;
+                        carreraSede.seleccionados_privado++;
                     } else {
-                        carreraSede.seleccionados_publico += 5;
+                        carreraSede.seleccionados_publico++;
                     }
 
                     carrerasSede.value[index] = carreraSede;

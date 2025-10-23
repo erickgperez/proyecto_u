@@ -247,10 +247,19 @@ class ConvocatoriaController extends Controller
             'estado',
             'solicitudCarrerasSede'
         ])
-            ->select('solicitud.*', 'sector.descripcion as sector')
+            ->select(
+                'solicitud.*',
+                'sector.descripcion as sector',
+                'convocatoria_aspirante.seleccionado',
+                'convocatoria_aspirante.carrera_sede_id as carrera_sede_seleccionada'
+            )
             ->join('ingreso.aspirante as aspirante', function ($join) {
                 $join->on('solicitud.solicitante_id', '=', 'aspirante.id')
                     ->where('solicitud.solicitante_type', '=', Aspirante::class);
+            })
+            ->join('ingreso.convocatoria_aspirante as convocatoria_aspirante', function ($join) use ($convocatoria) {
+                $join->on('aspirante.id', '=', 'convocatoria_aspirante.aspirante_id')
+                    ->where('convocatoria_aspirante.convocatoria_id', $convocatoria->id);
             })
             ->join('public.persona as persona', 'aspirante.persona_id', '=', 'persona.id')
             ->join('public.estudio as estudio', 'estudio.persona_id', '=', 'persona.id')
@@ -270,6 +279,8 @@ class ConvocatoriaController extends Controller
                 'nie' => $sol->solicitante->nie,
                 'nombre' => $sol->solicitante->persona->nombreCompleto,
                 'nota' => $sol->solicitante->calificacion_bachillerato,
+                'seleccionado' => $sol->seleccionado,
+                'carrera_sede_seleccionada' => $sol->carrera_sede_seleccionada,
                 'sector' => $sol->sector,
             ];
             foreach ($sol->solicitudCarrerasSede as $scs) {
