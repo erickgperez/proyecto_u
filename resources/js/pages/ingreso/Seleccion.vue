@@ -4,6 +4,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { SortBy } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
@@ -63,6 +64,8 @@ const sede = ref<Sede | null>(null);
 const carrerasSede = ref<CarreraSede[]>([]);
 const ultimaSeleccion = ref<CarreraSede | null>(null);
 const solicitudes = ref<Solicitud[]>([]);
+const snackbar = ref(false);
+const text = ref('');
 
 const headers = [
     { title: t('aspirante._nie_'), key: 'nie' },
@@ -126,18 +129,52 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
 
                 //verificar si tiene cupo
                 if (carreraSede.cupo > carreraSede.seleccionados) {
-                    carreraSede.seleccionados++;
+                    carreraSede.seleccionados += 5;
                     if (item.sector === 'Privado') {
-                        carreraSede.seleccionados_privado++;
+                        carreraSede.seleccionados_privado += 5;
                     } else {
-                        carreraSede.seleccionados_publico++;
+                        carreraSede.seleccionados_publico += 5;
                     }
+
+                    carrerasSede.value[index] = carreraSede;
+                    ultimaSeleccion.value = carreraSede;
                 } else {
-                    //sin cupo
-                    item.seleccionado = false;
+                    //sin cupo, verificar si hay cupo en las otras opciones
+                    let siguienteOpcion = '';
+                    if (opcion === 'PRIMERA_OPCION') {
+                        //tiene segunda opción?
+                        if (item.hasOwnProperty('SEGUNDA_OPCION')) {
+                            siguienteOpcion = 'SEGUNDA_OPCION';
+                        }
+                    } else if (opcion === 'SEGUNDA_OPCION') {
+                        //tiene tercera opción?
+                        if (item.hasOwnProperty('TERCERA_OPCION')) {
+                            siguienteOpcion = 'TERCERA_OPCION';
+                        }
+                    }
+
+                    if (siguienteOpcion != '') {
+                        Swal.fire({
+                            title: carreraSede.carrera + ' ' + t('aspirante._no_tiene_cupo_'),
+                            text: '¿' + t('aspirante._verificar_carrera_en_') + ' ' + siguienteOpcion + '?',
+                            showCancelButton: true,
+                            confirmButtonText: t('_si_'),
+                            cancelButtonText: t('_cancelar_'),
+                            confirmButtonColor: '#81D4FA',
+                            cancelButtonColor: '#D7E1EE',
+                        }).then(async (result: any) => {
+                            if (result.isConfirmed) {
+                                seleccionar(item, siguienteOpcion);
+                            } else {
+                                item.seleccionado = false;
+                            }
+                        });
+                    } else {
+                        item.seleccionado = false;
+                        text.value = t('aspirante._no_cupo_ninguna_carrera_elegida_aspirante_');
+                        snackbar.value = true;
+                    }
                 }
-                carrerasSede.value[index] = carreraSede;
-                ultimaSeleccion.value = carreraSede;
             }
         }
     }
@@ -394,4 +431,11 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
             </v-card-text>
         </v-card>
     </AppLayout>
+    <v-snackbar v-model="snackbar" multi-line>
+        {{ text }}
+
+        <template v-slot:actions>
+            <v-btn color="white" @click="snackbar = false" icon="mdi-close-circle-outline"></v-btn>
+        </template>
+    </v-snackbar>
 </template>

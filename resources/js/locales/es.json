@@ -13,6 +13,8 @@
     "_archivo_borrado_correctamente_": "Archivo borrado correctamente",
     "aspirante": {
         "_nie_": "NIE",
+        "_no_tiene_cupo_": "no tiene cupo",
+        "_no_cupo_ninguna_carrera_elegida_aspirante_": "No hay cupo en ninguna carrera elegida por el aspirante",
         "_nota_": "Nota",
         "_opciones_": "Opciones",
         "_plural_": "Aspirantes",
@@ -20,7 +22,8 @@
         "_seleccionado_": "Seleccionado",
         "_seleccion_aspirantes_": "Selección de aspirantes",
         "_seleccion_descripcion_": "Seleccionar los aspirantes que se aceptarán como estudiantes",
-        "_ultima_seleccion_": "Última selección"
+        "_ultima_seleccion_": "Última selección",
+        "_verificar_carrera_en_": "Verificar carrera en"
     },
     "auth": {
         "_cerrar_sesion_": "Cerrar sesión",
@@ -342,6 +345,7 @@
     "_seguridad_": "Seguridad",
     "_seleccion_candidatos_": "Selección de candidatos",
     "_sexo_": "Sexo",
+    "_si_": "Sí",
     "_siguiente_": "Siguiente",
     "_si_no_elije_opcion_mostrara_todas_": "Si no elije ninguna opción, se mostrarán los candidatos para todos los tipos de bachillerato",
     "solicitud": {

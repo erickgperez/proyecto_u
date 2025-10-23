@@ -13,6 +13,8 @@
     "_archivo_borrado_correctamente_": "File successfully deleted",
     "aspirante": {
         "_nie_": "NIE",
+        "_no_tiene_cupo_": "there is no quota",
+        "_no_cupo_ninguna_carrera_elegida_aspirante_": "There is no space in any of the courses chosen by the applicant",
         "_nota_": "Grade",
         "_opciones_": "Options",
         "_plural_": "Applicants",
@@ -20,7 +22,8 @@
         "_seleccionado_": "Selected",
         "_seleccion_aspirantes_": "Selection of applicants",
         "_seleccion_descripcion_": "Select the applicants who will be accepted as students",
-        "_ultima_seleccion_": "Last selection"
+        "_ultima_seleccion_": "Last selection",
+        "_verificar_carrera_en_": "Check career in"
     },
     "auth": {
         "_cerrar_sesion_": "Logout",
@@ -308,6 +311,7 @@
     "_seguridad_": "Security",
     "_seleccion_candidatos_": "Candidate Selection",
     "_sexo_": "Sex",
+    "_si_": "Yes",
     "_siguiente_": "Next",
     "_si_no_elije_opcion_mostrara_todas_": "If you do not choose any option, candidates for all types of high school will be displayed.",
     "solicitud": {
