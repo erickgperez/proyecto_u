@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ingreso;
 use App\Http\Controllers\Controller;
 use App\Mail\CandidatoInvitado;
 use App\Models\Academica\CarreraSede;
+use App\Models\Academica\Sede;
 use App\Models\Calendarizacion;
 use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
@@ -238,8 +239,15 @@ class ConvocatoriaController extends Controller
     public function solicitudes(int $id, int $idSede)
     {
         $convocatoria = Convocatoria::find($id);
+        $sede = Sede::find($idSede);
 
-        $solicitudes_ = $convocatoria->solicitudes()
+        $solicitudes_ = $convocatoria->solicitudes()->with([
+            'solicitante',
+            'etapa',
+            'estado',
+            'solicitudCarrerasSede'
+        ])
+            ->select('solicitud.*', 'sector.descripcion as sector')
             ->join('ingreso.aspirante as aspirante', function ($join) {
                 $join->on('solicitud.solicitante_id', '=', 'aspirante.id')
                     ->where('solicitud.solicitante_type', '=', Aspirante::class);
@@ -251,30 +259,18 @@ class ConvocatoriaController extends Controller
                     ->where('estudio.institucion_type', '=', Institucion::class);
             })
             ->join('secundaria.sector as sector', 'institucion.sector_id', '=', 'sector.id')
-            ->with([
-                'solicitante',
-                'etapa',
-                'estado',
-                'solicitudCarrerasSede' => function ($query) use ($idSede) {
-                    $query->join('academico.carrera_sede as cs', 'workflow.solicitud_carrera_sede.carrera_sede_id', '=', 'cs.id')
-                        ->where('cs.sede_id', '=', $idSede)
-                    ;
-                }
-            ])
-            ->whereHas('solicitudCarrerasSede', function (Builder $query) use ($idSede) {
-                $query->join('academico.carrera_sede as cs', 'workflow.solicitud_carrera_sede.carrera_sede_id', '=', 'cs.id')
-                    ->where('cs.sede_id', '=', $idSede)
-                ;
-            })
+            ->whereBelongsTo($sede)
+            ->orderBy('aspirante.calificacion_bachillerato', 'DESC')
             ->get();
 
         $solitudes = [];
         foreach ($solicitudes_ as $sol) {
             $arreglo = [
+                'id' => $sol->id,
                 'nie' => $sol->solicitante->nie,
                 'nombre' => $sol->solicitante->persona->nombreCompleto,
                 'nota' => $sol->solicitante->calificacion_bachillerato,
-                'sector' => $sol->descripcion,
+                'sector' => $sol->sector,
             ];
             foreach ($sol->solicitudCarrerasSede as $scs) {
                 $arreglo[$scs->tipoCarreraSedeSolicitud->codigo] = [
@@ -285,14 +281,6 @@ class ConvocatoriaController extends Controller
             }
             $solitudes[] = $arreglo;
         }
-
-        array_multisort(
-            array_column($solitudes, 'nota'),
-            SORT_DESC,
-            array_column($solitudes, 'nombre'),
-            SORT_ASC,
-            $solitudes
-        );
 
         $ofertaSede_ = CarreraSede::with([
             'carrera' => ['tipo'],

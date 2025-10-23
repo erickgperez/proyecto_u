@@ -21,11 +21,12 @@ interface Solicitud {
     id: number;
     nie: string;
     nombre: string;
+    sector: string;
     nota: number;
     seleccionado: boolean;
-    PRIMERA_OPCION: Opcion;
-    SEGUNDA_OPCION: Opcion;
-    TERCERA_OPCION: Opcion;
+    PRIMERA_OPCION: Opcion | null;
+    SEGUNDA_OPCION: Opcion | null;
+    TERCERA_OPCION: Opcion | null;
 }
 interface Sede {
     id: number;
@@ -67,6 +68,7 @@ const headers = [
     { title: t('aspirante._nie_'), key: 'nie' },
     { title: t('_nombre_'), key: 'nombre' },
     { title: t('aspirante._nota_'), key: 'nota' },
+    { title: t('_sector_'), key: 'sector' },
     { title: t('aspirante._seleccionado_'), key: 'seleccionado' },
     { title: t('aspirante._opciones_'), key: 'opciones' },
 ];
@@ -238,7 +240,6 @@ function cargarSolicitudes() {
                             class="w-100"
                             multi-sort
                             hover
-                            fixed-header
                             striped="odd"
                         >
                             <template v-slot:item="{ item }">
@@ -251,12 +252,13 @@ function cargarSolicitudes() {
                                     <td>{{ item.nie }}</td>
                                     <td>{{ item.nombre }}</td>
                                     <td>{{ item.nota }}</td>
+                                    <td>{{ item.sector }}</td>
                                     <td>
                                         <v-checkbox-btn v-model="item.seleccionado" :ripple="false"></v-checkbox-btn>
                                     </td>
                                     <td>
                                         <v-list density="compact" bg-color="transparent">
-                                            <v-list-item>
+                                            <v-list-item v-if="item.PRIMERA_OPCION">
                                                 <template v-slot:prepend>
                                                     <v-icon icon="mdi-numeric-1"></v-icon>
                                                 </template>
@@ -265,7 +267,7 @@ function cargarSolicitudes() {
                                                     {{ item.PRIMERA_OPCION.carrera }}
                                                 </v-list-item-title>
                                             </v-list-item>
-                                            <v-list-item>
+                                            <v-list-item v-if="item.SEGUNDA_OPCION">
                                                 <template v-slot:prepend>
                                                     <v-icon icon="mdi-numeric-2"></v-icon>
                                                 </template>
@@ -274,13 +276,13 @@ function cargarSolicitudes() {
                                                     {{ item.SEGUNDA_OPCION.carrera }}
                                                 </v-list-item-title>
                                             </v-list-item>
-                                            <v-list-item>
+                                            <v-list-item v-if="item.TERCERA_OPCION">
                                                 <template v-slot:prepend>
                                                     <v-icon icon="mdi-numeric-3"></v-icon>
                                                 </template>
 
                                                 <v-list-item-title>
-                                                    {{ item.TERCERA_OPCION.carrera }}
+                                                    {{ item.TERCERA_OPCION?.carrera }}
                                                 </v-list-item-title>
                                             </v-list-item>
                                         </v-list>
