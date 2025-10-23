@@ -36,6 +36,7 @@ const headers = [
     { title: t('aspirante._nie_'), key: 'nie' },
     { title: t('_nombre_'), key: 'nombre' },
     { title: t('aspirante._nota_'), key: 'nota' },
+    { title: t('aspirante._seleccionado_'), key: 'seleccionado' },
     { title: t('aspirante._opciones_'), key: 'opciones' },
 ];
 const search = ref('');
@@ -224,30 +225,45 @@ watch(convocatoria, () => {
                             fixed-header
                             striped="odd"
                         >
-                            <template v-slot:item.opciones="{ value, item }">
-                                <v-list density="compact" bg-color="transparent">
-                                    <v-list-item>
-                                        <template v-slot:prepend>
-                                            <v-icon icon="mdi-numeric-1"></v-icon>
-                                        </template>
+                            <template v-slot:item="{ item }">
+                                <tr
+                                    class="text-no-wrap"
+                                    :class="{
+                                        'bg-success': item.seleccionado,
+                                    }"
+                                >
+                                    <td>{{ item.nie }}</td>
+                                    <td>{{ item.nombre }}</td>
+                                    <td>{{ item.nota }}</td>
+                                    <td>
+                                        <v-checkbox-btn v-model="item.seleccionado" :ripple="false"></v-checkbox-btn>
+                                    </td>
+                                    <td>
+                                        <v-list density="compact" bg-color="transparent">
+                                            <v-list-item>
+                                                <template v-slot:prepend>
+                                                    <v-icon icon="mdi-numeric-1"></v-icon>
+                                                </template>
 
-                                        <v-list-item-title v-text="item.PRIMERA_OPCION.carrera"></v-list-item-title>
-                                    </v-list-item>
-                                    <v-list-item>
-                                        <template v-slot:prepend>
-                                            <v-icon icon="mdi-numeric-2"></v-icon>
-                                        </template>
+                                                <v-list-item-title v-text="item.PRIMERA_OPCION.carrera"></v-list-item-title>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <template v-slot:prepend>
+                                                    <v-icon icon="mdi-numeric-2"></v-icon>
+                                                </template>
 
-                                        <v-list-item-title v-text="item.SEGUNDA_OPCION.carrera"></v-list-item-title>
-                                    </v-list-item>
-                                    <v-list-item>
-                                        <template v-slot:prepend>
-                                            <v-icon icon="mdi-numeric-3"></v-icon>
-                                        </template>
+                                                <v-list-item-title v-text="item.SEGUNDA_OPCION.carrera"></v-list-item-title>
+                                            </v-list-item>
+                                            <v-list-item>
+                                                <template v-slot:prepend>
+                                                    <v-icon icon="mdi-numeric-3"></v-icon>
+                                                </template>
 
-                                        <v-list-item-title v-text="item.TERCERA_OPCION.carrera"></v-list-item-title>
-                                    </v-list-item>
-                                </v-list>
+                                                <v-list-item-title v-text="item.TERCERA_OPCION.carrera"></v-list-item-title>
+                                            </v-list-item>
+                                        </v-list>
+                                    </td>
+                                </tr>
                             </template>
                         </v-data-table>
                     </v-main>
