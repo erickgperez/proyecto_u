@@ -90,7 +90,11 @@ const submitForm = async () => {
                     v-model="formData.tipoCarga"
                     prepend-icon="mdi-form-dropdown"
                 ></v-select>
-                <v-btn :loading="loading" class="mt-2" type="submit" block rounded variant="tonal" color="blue-darken-4">{{ $t('_enviar_') }}</v-btn>
+                <div class="d-flex align-center justify-center">
+                    <v-btn :loading="loading" class="mt-2" append-icon="mdi-upload" type="submit" rounded variant="tonal" color="blue-darken-4">{{
+                        $t('_enviar_')
+                    }}</v-btn>
+                </div>
             </v-form>
         </v-sheet>
         <v-alert v-else border="top" type="warning" variant="outlined" prominent>
