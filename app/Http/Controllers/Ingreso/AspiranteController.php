@@ -114,7 +114,9 @@ class AspiranteController extends Controller
         $solicitud = Solicitud::find($id);
 
         $convocatoria = Convocatoria::find($request->get('convocatoria_id'));
+        $sede = Sede::find($request->get('sede_id'));
         $solicitud->modelo()->associate($convocatoria);
+        $solicitud->sede()->associate($sede);
         $aspirante = $solicitud->solicitante;
 
         $flujo = $solicitud->flujo;

@@ -101,6 +101,7 @@ class SimulacionController extends Controller
                         //Crear la seleccion
                         $data = [
                             'convocatoria_id' => $convocatoria->id,
+                            'sede_id' => $sede->id,
                             'carrera_sede' => $carrera_sede,
                         ];
 

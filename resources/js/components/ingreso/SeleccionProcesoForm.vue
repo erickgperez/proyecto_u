@@ -27,6 +27,7 @@ const carrerasSeleccionadas = ref([]);
 
 interface FormData {
     convocatoria_id: number | null;
+    sede_id: number | null;
     carrera_sede: [];
 }
 
@@ -34,6 +35,7 @@ const props = defineProps(['solicitud', 'aspirante']);
 
 const formData = ref<FormData>({
     convocatoria_id: null,
+    sede_id: null,
     carrera_sede: [],
 });
 
@@ -44,6 +46,7 @@ async function submitForm() {
     const message = ref('');
 
     formData.value.convocatoria_id = convocatoria.value.id;
+    formData.value.sede_id = sede.value.id;
     formData.value.carrera_sede = carrerasSeleccionadas.value.map((carr) => carr.id);
     try {
         const resp = await axios.post(route('ingreso-solicitud-seleccion-carrera', { id: props.solicitud.id }), formData.value);
