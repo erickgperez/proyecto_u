@@ -115,7 +115,7 @@ function cargarSolicitudes() {
 
 function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
     //gestión de selección
-    if (!item.seleccionado) {
+    if (item.seleccionado) {
         const carreraSedeAspirante = item[opcion];
         if (carreraSedeAspirante) {
             //Tiene la opción buscar la carrera sede
@@ -132,6 +132,9 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                     } else {
                         carreraSede.seleccionados_publico++;
                     }
+                } else {
+                    //sin cupo
+                    item.seleccionado = false;
                 }
                 carrerasSede.value[index] = carreraSede;
                 ultimaSeleccion.value = carreraSede;
@@ -152,9 +155,9 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
         <v-card v-if="hasPermission('MENU_INGRESO_SELECCION')" class="elevation-12 rounded-xl">
             <v-card-title color="primary" class="bg-blue-accent-2 pa-5">
                 <v-row>
-                    <div class="text-font-weight-black">{{ convocatoria?.descripcion }}</div>
+                    <span class="text-font-weight-black">{{ convocatoria?.descripcion }}</span>
                     <v-spacer></v-spacer>
-                    <DIV>Sede: {{ sede?.nombre }}</DIV>
+                    <span>Sede: {{ sede?.nombre }}</span>
                 </v-row>
             </v-card-title>
             <v-card-text class="pa-0">
@@ -346,7 +349,11 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                     <td>{{ item.nota }}</td>
                                     <td>{{ item.sector }}</td>
                                     <td>
-                                        <v-checkbox-btn v-model="item.seleccionado" :ripple="false" @click="seleccionar(item)"></v-checkbox-btn>
+                                        <v-checkbox-btn
+                                            v-model="item.seleccionado"
+                                            :ripple="false"
+                                            @update:modelValue="seleccionar(item)"
+                                        ></v-checkbox-btn>
                                     </td>
                                     <td>
                                         <v-list density="compact" bg-color="transparent">
