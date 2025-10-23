@@ -12,7 +12,6 @@ const { hasPermission } = usePermissions();
 const { t } = useI18n();
 
 interface Opcion {
-    id: number;
     carrera_sede_id: number;
     carrera: string;
     opcion: string;
@@ -112,6 +111,32 @@ function cargarSolicitudes() {
             });
     }
 }
+
+function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
+    //gestión de selección
+    if (!item.seleccionado) {
+        const carreraSedeAspirante = item[opcion];
+        if (carreraSedeAspirante) {
+            //Tiene la opción buscar la carrera sede
+            const index = carrerasSede.value.findIndex((cs) => cs.carrera_sede_id === carreraSedeAspirante.carrera_sede_id);
+
+            if (index >= 0) {
+                const carreraSede = carrerasSede.value[index];
+
+                //verificar si tiene cupo
+                if (carreraSede.cupo > carreraSede.seleccionados) {
+                    carreraSede.seleccionados++;
+                    if (item.sector === 'Privado') {
+                        carreraSede.seleccionados_privado++;
+                    } else {
+                        carreraSede.seleccionados_publico++;
+                    }
+                }
+                carrerasSede.value[index] = carreraSede;
+            }
+        }
+    }
+}
 </script>
 
 <template>
@@ -201,11 +226,11 @@ function cargarSolicitudes() {
                                 <v-card-text>
                                     <div class="text-caption text-green-darken-3">{{ cs.carrera }}</div>
                                     <div class="text-center">
-                                        <v-progress-linear :model-value="cs.seleccionados / cs.cupo" color="blue-grey" height="25">
+                                        <v-progress-linear :model-value="(cs.seleccionados / cs.cupo) * 100" color="blue-grey" height="25">
                                             <strong>seleccionados {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
                                         </v-progress-linear>
                                         <v-progress-circular
-                                            :model-value="cs.seleccionados_publico"
+                                            :model-value="cs.seleccionados > 0 ? (cs.seleccionados_publico / cs.seleccionados) * 100 : 0"
                                             :rotate="360"
                                             :size="100"
                                             :width="15"
@@ -271,7 +296,7 @@ function cargarSolicitudes() {
                                     <td>{{ item.nota }}</td>
                                     <td>{{ item.sector }}</td>
                                     <td>
-                                        <v-checkbox-btn v-model="item.seleccionado" :ripple="false"></v-checkbox-btn>
+                                        <v-checkbox-btn v-model="item.seleccionado" :ripple="false" @click="seleccionar(item)"></v-checkbox-btn>
                                     </td>
                                     <td>
                                         <v-list density="compact" bg-color="transparent">
