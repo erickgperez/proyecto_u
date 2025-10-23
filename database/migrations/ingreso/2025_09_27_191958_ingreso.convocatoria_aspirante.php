@@ -22,6 +22,8 @@ return new class extends Migration
             $table->foreignId('aspirante_id')->comment('Id del aspirante que está asignado a la convocatoria');
             $table->foreign('aspirante_id')->references('id')->on('ingreso.aspirante')->onDelete('CASCADE')->onUpdate('CASCADE');
 
+            $table->boolean('seleccionado')->default(false)->comment('Indica si el aspirante ha sido seleccionado como estudiante');
+
             $table->foreignId('carrera_sede_id')->comment('Carrera sede en que fue seleccionada')->nullable();
             $table->foreign('carrera_sede_id')->references('id')->on('workflow.solicitud_carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');
 
