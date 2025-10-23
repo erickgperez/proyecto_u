@@ -4,13 +4,44 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { SortBy } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
-import { computed, PropType, ref, watch } from 'vue';
+import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { hasPermission } = usePermissions();
 
 const { t } = useI18n();
 
+interface Opcion {
+    id: number;
+    carrera_sede_id: number;
+    carrera: string;
+    opcion: string;
+}
+interface Solicitud {
+    id: number;
+    nie: string;
+    nombre: string;
+    nota: number;
+    seleccionado: boolean;
+    PRIMERA_OPCION: Opcion;
+    SEGUNDA_OPCION: Opcion;
+    TERCERA_OPCION: Opcion;
+}
+interface Sede {
+    id: number;
+    nombre: string;
+}
+interface CarreraSede {
+    id: number;
+    sede: Sede;
+    carrera: string;
+    carrera_tipo: string;
+    carrera_nombre: string;
+    seleccionados: number;
+    cupo: number;
+    seleccionados_publico: number;
+    seleccionados_privado: number;
+}
 interface Convocatoria {
     id: number;
     nombre: string;
@@ -28,9 +59,9 @@ const props = defineProps({
 
 const loading = ref(false);
 const convocatoria = ref<Convocatoria | null>(null);
-const sede = ref(null);
-const carrerasSede = ref(null);
-const solicitudes = ref([]);
+const sede = ref<Sede | null>(null);
+const carrerasSede = ref<CarreraSede[]>([]);
+const solicitudes = ref<Solicitud[]>([]);
 
 const headers = [
     { title: t('aspirante._nie_'), key: 'nie' },
@@ -49,7 +80,7 @@ const sortBy: SortBy[] = [
 const drawer = ref(true);
 
 const sedes = computed(() => {
-    const sedes_ = convocatoria.value?.carreras_sedes.map((cs) => cs.sede);
+    const sedes_ = convocatoria.value?.carreras_sedes.map((cs: CarreraSede) => cs.sede);
     return sedes_?.filter((obj, index, self) => index === self.findIndex((t) => t.id === obj.id));
 });
 
@@ -79,10 +110,6 @@ function cargarSolicitudes() {
             });
     }
 }
-
-watch(convocatoria, () => {
-    sede.value = null;
-});
 </script>
 
 <template>
@@ -168,11 +195,11 @@ watch(convocatoria, () => {
                         <v-divider></v-divider>
 
                         <v-list density="compact" nav>
-                            <v-card v-for="cs in carrerasSede" :key="id">
+                            <v-card v-for="cs in carrerasSede" :key="cs.id">
                                 <v-card-text>
                                     <div class="text-caption text-green-darken-3">{{ cs.carrera }}</div>
                                     <div class="text-center">
-                                        <v-progress-linear :model-value="cs.seleccionados / cs.crupo" color="blue-grey" height="25">
+                                        <v-progress-linear :model-value="cs.seleccionados / cs.cupo" color="blue-grey" height="25">
                                             <strong>seleccionados {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
                                         </v-progress-linear>
                                         <v-progress-circular
@@ -198,18 +225,7 @@ watch(convocatoria, () => {
                                             </template>
                                         </v-progress-circular>
                                     </div>
-
-                                    <!--<div class="d-flex justify-space-between py-3">
-                                    <span class="text-green-darken-3 font-weight-medium"> $26,442.00 remitted </span>
-
-                                    <span class="text-medium-emphasis"> $29,380.00 total </span>
-                                </div>-->
                                 </v-card-text>
-
-                                <!--<v-divider></v-divider>
-
-                            <v-list-item append-icon="mdi-chevron-right" lines="two" subtitle="Details and agreement" link></v-list-item>
-                        -->
                             </v-card>
                         </v-list>
                     </v-navigation-drawer>
@@ -245,21 +261,27 @@ watch(convocatoria, () => {
                                                     <v-icon icon="mdi-numeric-1"></v-icon>
                                                 </template>
 
-                                                <v-list-item-title v-text="item.PRIMERA_OPCION.carrera"></v-list-item-title>
+                                                <v-list-item-title>
+                                                    {{ item.PRIMERA_OPCION.carrera }}
+                                                </v-list-item-title>
                                             </v-list-item>
                                             <v-list-item>
                                                 <template v-slot:prepend>
                                                     <v-icon icon="mdi-numeric-2"></v-icon>
                                                 </template>
 
-                                                <v-list-item-title v-text="item.SEGUNDA_OPCION.carrera"></v-list-item-title>
+                                                <v-list-item-title>
+                                                    {{ item.SEGUNDA_OPCION.carrera }}
+                                                </v-list-item-title>
                                             </v-list-item>
                                             <v-list-item>
                                                 <template v-slot:prepend>
                                                     <v-icon icon="mdi-numeric-3"></v-icon>
                                                 </template>
 
-                                                <v-list-item-title v-text="item.TERCERA_OPCION.carrera"></v-list-item-title>
+                                                <v-list-item-title>
+                                                    {{ item.TERCERA_OPCION.carrera }}
+                                                </v-list-item-title>
                                             </v-list-item>
                                         </v-list>
                                     </td>
