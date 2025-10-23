@@ -27,7 +27,7 @@ return new class extends Migration
             $table->foreignId('estado_id')->comment('Estado de la solicitud');
             $table->foreign('estado_id')->references('id')->on('workflow.estado')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
-            $table->foreignId('sede_id')->comment('Sede donde está realizando la solicitud');
+            $table->foreignId('sede_id')->nullable()->comment('Sede donde está realizando la solicitud');
             $table->foreign('sede_id')->references('id')->on('academico.sede')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             // relación muchos a uno polimórfica (el solicitante puede ser un aspirante, estudiante, docente u otros)
