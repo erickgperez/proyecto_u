@@ -2,6 +2,7 @@
 
 namespace App\Models\Workflow;
 
+use App\Models\Academica\Sede;
 use App\Models\Persona;
 use App\Models\Rol;
 use App\Models\User;
@@ -41,6 +42,11 @@ class Solicitud extends Model
     public function estado(): BelongsTo
     {
         return $this->belongsTo(Estado::class, 'estado_id');
+    }
+
+    public function sede(): BelongsTo
+    {
+        return $this->belongsTo(Sede::class, 'sede_id');
     }
 
     public function creator()
