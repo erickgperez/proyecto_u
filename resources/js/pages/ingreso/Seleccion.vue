@@ -272,8 +272,10 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                     <v-container class="text-center">
                                         <v-progress-linear
                                             :model-value="(ultimaSeleccion.seleccionados / ultimaSeleccion.cupo) * 100"
-                                            color="blue-grey-lighten-3"
-                                            height="25"
+                                            height="30"
+                                            color="indigo-lighten-2"
+                                            class="border-md elevation-6 mb-2"
+                                            rounded
                                         >
                                             <strong>seleccionados {{ ultimaSeleccion.seleccionados }}/{{ ultimaSeleccion.cupo }} </strong>
                                         </v-progress-linear>
@@ -308,7 +310,19 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                             : 0,
                                                 },
                                             ]"
-                                        />
+                                        >
+                                            <template #legend="{ items }">
+                                                <div class="d-flex flex-column">
+                                                    <div v-for="(item, i) in items" :key="i" class="d-flex align-center">
+                                                        <div
+                                                            :style="{ background: item.color, width: '12px', height: '12px' }"
+                                                            class="mr-2 rounded"
+                                                        />
+                                                        {{ item.title }} ({{ item.value }}%)
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </v-pie>
                                     </v-container>
                                 </v-card-text>
                             </v-card>
@@ -317,7 +331,13 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                 <v-card-text>
                                     <span class="text-caption text-green-darken-3">{{ cs.carrera }}</span>
                                     <v-container class="text-center">
-                                        <v-progress-linear :model-value="(cs.seleccionados / cs.cupo) * 100" color="blue-grey-lighten-3" height="25">
+                                        <v-progress-linear
+                                            rounded
+                                            :model-value="(cs.seleccionados / cs.cupo) * 100"
+                                            color="indigo-lighten-2"
+                                            height="30"
+                                            class="border-md elevation-6 mb-2"
+                                        >
                                             <strong>seleccionados {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
                                         </v-progress-linear>
                                         <v-pie
@@ -342,7 +362,19 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                     value: cs.seleccionados > 0 ? Math.round((cs.seleccionados_privado / cs.seleccionados) * 100) : 0,
                                                 },
                                             ]"
-                                        />
+                                        >
+                                            <template #legend="{ items }">
+                                                <div class="d-flex flex-column">
+                                                    <div v-for="(item, i) in items" :key="i" class="d-flex align-center">
+                                                        <div
+                                                            :style="{ background: item.color, width: '12px', height: '12px' }"
+                                                            class="mr-2 rounded"
+                                                        />
+                                                        {{ item.title }} ({{ item.value }}%)
+                                                    </div>
+                                                </div>
+                                            </template>
+                                        </v-pie>
                                     </v-container>
                                 </v-card-text>
                             </v-card>
@@ -441,3 +473,10 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
         </template>
     </v-snackbar>
 </template>
+<style scoped>
+.v-pie__legend {
+    background-color: red !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+</style>
