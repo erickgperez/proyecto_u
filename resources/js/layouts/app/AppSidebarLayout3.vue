@@ -452,7 +452,7 @@ onMounted(() => {
                             </v-item-group>
                         </v-card>
                     </v-menu>
-                    <v-list>
+                    <v-list rounded="xl">
                         <v-menu v-model="menu" :close-on-content-click="false" location="bottom center">
                             <template v-slot:activator="{ props }">
                                 <v-list-item
