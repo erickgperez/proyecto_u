@@ -47,11 +47,29 @@ class SimulacionController extends Controller
                 echo '<BR><BR>No se ha cargado la base de bachilleres, primero suba el archivo en Ingreso->convocatoria->cargar archivo';
             } else {
                 foreach ($bachilleres as $row) {
+                    $carrera_sede = [];
                     //Elegir una sede al azar
                     $sede = Sede::inRandomOrder()->first();
 
                     //Elegir al azar 3 carreras de esa sede
-                    $carreras = CarreraSede::inRandomOrder()->where('sede_id', $sede->id)->take(3)->get();
+                    // La primera que sea una carrera técnica
+                    $carreraSedeT = CarreraSede::inRandomOrder()
+                        ->select('carrera_sede.*')
+                        ->join('plan_estudio.carrera as carrera', 'carrera_sede.carrera_id', '=', 'carrera.id')
+                        ->whereBelongsTo($sede)
+                        ->where('carrera.tipo_carrera_id', 1)
+                        ->first();
+
+                    // Las otras 2 carreras que sean técnicas o certificaciones, pero diferentes a la primera
+                    $carreras = CarreraSede::inRandomOrder()
+                        ->whereBelongsTo($sede)
+                        ->where('carrera_sede.id', '!=', $carreraSedeT->id)
+                        ->take(2)->get();
+
+                    array_push($carrera_sede, $carreraSedeT->id);
+                    foreach ($carreras as $c) {
+                        array_push($carrera_sede, $c->id);
+                    }
 
                     try {
 
@@ -93,10 +111,6 @@ class SimulacionController extends Controller
 
                         //Recuperar la convocatoria de prueba
                         $convocatoria = Convocatoria::where('nombre', '01-2026')->first();
-                        $carrera_sede = [];
-                        foreach ($carreras as $c) {
-                            $carrera_sede[] = $c->id;
-                        }
 
                         //Crear la seleccion
                         $data = [
