@@ -473,10 +473,3 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
         </template>
     </v-snackbar>
 </template>
-<style scoped>
-.v-pie__legend {
-    background-color: red !important;
-    border: none !important;
-    box-shadow: none !important;
-}
-</style>
