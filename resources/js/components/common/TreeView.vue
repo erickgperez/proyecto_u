@@ -86,7 +86,6 @@ function onClickClose(selection: any) {
                     </template>
                 </v-treeview>
             </v-col>
-            <v-divider :vertical="$vuetify.display.mdAndUp" class="my-md-3"></v-divider>
 
             <v-col cols="12" sm="6">
                 <v-card-text>

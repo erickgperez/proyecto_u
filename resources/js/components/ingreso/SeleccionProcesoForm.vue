@@ -46,7 +46,7 @@ async function submitForm() {
     const message = ref('');
 
     formData.value.convocatoria_id = convocatoria.value.id;
-    formData.value.sede_id = sede.value.id;
+    formData.value.sede_id = sede.value.id.split('-').pop();
     formData.value.carrera_sede = carrerasSeleccionadas.value.map((carr) => carr.id);
     try {
         const resp = await axios.post(route('ingreso-solicitud-seleccion-carrera', { id: props.solicitud.id }), formData.value);
