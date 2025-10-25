@@ -24,7 +24,7 @@ interface Solicitud {
     sector: string;
     nota: number;
     seleccionado: boolean;
-    carrera_sede_seleccionada: number;
+    carrera_sede_seleccionada: number | null;
     PRIMERA_OPCION: Opcion | null;
     SEGUNDA_OPCION: Opcion | null;
     TERCERA_OPCION: Opcion | null;
@@ -137,8 +137,6 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                     } else {
                         carreraSede.seleccionados_publico++;
                     }
-
-                    carrerasSede.value[index] = carreraSede;
                     ultimaSeleccion.value = carreraSede;
                 } else {
                     //sin cupo, verificar si hay cupo en las otras opciones
@@ -179,6 +177,25 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                 }
             }
         }
+    } else {
+        //quitar la selección
+        const index = carrerasSede.value.findIndex((cs) => cs.carrera_sede_id === item.carrera_sede_seleccionada);
+
+        if (index >= 0) {
+            const carreraSede = carrerasSede.value[index];
+            console.log(carreraSede);
+            carreraSede.seleccionados--;
+
+            if (item.sector === 'Privado') {
+                carreraSede.seleccionados_privado--;
+            } else {
+                carreraSede.seleccionados_publico--;
+            }
+
+            ultimaSeleccion.value = carreraSede;
+        }
+
+        item.carrera_sede_seleccionada = null;
     }
 }
 </script>
@@ -252,7 +269,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                     </v-navigation-drawer>
 
                     <v-navigation-drawer location="right" permanent class="rounded-r-xl" width="350">
-                        <v-fab
+                        <!--<v-fab
                             :active="!drawer"
                             color="primary"
                             location="top right"
@@ -262,7 +279,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                             @click.stop="drawer = !drawer"
                             :title="$t('_parametros_')"
                         ></v-fab>
-
+                        -->
                         <v-divider></v-divider>
 
                         <v-list density="compact" nav>
@@ -280,6 +297,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                             <strong>seleccionados {{ ultimaSeleccion.seleccionados }}/{{ ultimaSeleccion.cupo }} </strong>
                                         </v-progress-linear>
                                         <v-pie
+                                            v-if="ultimaSeleccion.seleccionados > 0"
                                             :gauge-cut="100"
                                             hide-slice
                                             :inner-cut="70"
@@ -382,6 +400,14 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                     </v-navigation-drawer>
                     <v-main class="w-100 overflow-y-scroll rounded-l-xl text-4xl" style="height: 85dvh">
                         <v-card-title class="d-flex align-center border-b-md pe-2">
+                            <v-btn
+                                color="primary"
+                                icon="mdi-application-cog"
+                                variant="tonal"
+                                @click.stop="drawer = !drawer"
+                                :title="$t('_parametros_')"
+                            ></v-btn>
+
                             <v-spacer></v-spacer>
 
                             <v-text-field
