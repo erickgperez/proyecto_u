@@ -198,6 +198,22 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
 
         item.carrera_sede_seleccionada = null;
     }
+    //
+    axios
+        .get(
+            route('ingreso-solicitud-seleccion-aplicar', {
+                id: item.id,
+                seleccionado: item.seleccionado,
+                idCarreraSede: item.carrera_sede_seleccionada,
+            }),
+        )
+        .then(function (response) {
+            console.log(response);
+        })
+        .catch(function (error) {
+            // handle error
+            console.error('Error fetching data:', error);
+        });
 }
 </script>
 

@@ -9,6 +9,7 @@ use App\Models\Departamento;
 use App\Models\Distrito;
 use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
+use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Municipio;
 use App\Models\Persona;
 use App\Models\PlanEstudio\Carrera;
@@ -182,5 +183,17 @@ class AspiranteController extends Controller
 
 
         return Inertia::render('ingreso/Seleccion', ['convocatorias' => $convocatorias]);
+    }
+
+    public function aplicarSeleccion(int $id, $seleccionado = true, $idCarreraSede = null)
+    {
+        $solicitud = Solicitud::find($id);
+        $aspirante = $solicitud->solicitante();
+        $convocatoria = $solicitud->modelo();
+        dump($aspirante);
+        dd($convocatoria);
+
+        if ($seleccionado) {
+        }
     }
 }
