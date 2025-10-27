@@ -185,15 +185,25 @@ class AspiranteController extends Controller
         return Inertia::render('ingreso/Seleccion', ['convocatorias' => $convocatorias]);
     }
 
-    public function aplicarSeleccion(int $id, $seleccionado = true, $idCarreraSede = null)
+    public function aplicarSeleccion(int $id, $seleccionado = true, $idSolicitudCarreraSede = null)
     {
         $solicitud = Solicitud::find($id);
-        $aspirante = $solicitud->solicitante();
-        $convocatoria = $solicitud->modelo();
-        dump($aspirante);
-        dd($convocatoria);
+        $aspirante = $solicitud->solicitante;
+        $convocatoria = $solicitud->modelo;
+
+        $convocatoriaAspirante = ConvocatoriaAspirante::whereBelongsTo($aspirante)
+            ->whereBelongsTo($convocatoria)
+            ->first();
+        $convocatoriaAspirante->seleccionado = $seleccionado;
 
         if ($seleccionado) {
+            $convocatoriaAspirante->solicitud_carrera_sede_id = $idSolicitudCarreraSede;
+        } else {
+            $convocatoriaAspirante->solicitud_carrera_sede_id = null;
         }
+
+        $convocatoriaAspirante->save();
+
+        return response()->json(['status' => 'ok', 'message' => '']);
     }
 }
