@@ -251,7 +251,7 @@ class ConvocatoriaController extends Controller
                 'solicitud.*',
                 'sector.descripcion as sector',
                 'convocatoria_aspirante.seleccionado',
-                'convocatoria_aspirante.carrera_sede_id as carrera_sede_seleccionada'
+                'convocatoria_aspirante.solicitud_carrera_sede_id'
             )
             ->join('ingreso.aspirante as aspirante', function ($join) {
                 $join->on('solicitud.solicitante_id', '=', 'aspirante.id')
@@ -280,11 +280,12 @@ class ConvocatoriaController extends Controller
                 'nombre' => $sol->solicitante->persona->nombreCompleto,
                 'nota' => $sol->solicitante->calificacion_bachillerato,
                 'seleccionado' => $sol->seleccionado,
-                'carrera_sede_seleccionada' => $sol->carrera_sede_seleccionada,
+                'solicitud_carrera_sede_id' => $sol->solicitud_carrera_sede_id,
                 'sector' => $sol->sector,
             ];
             foreach ($sol->solicitudCarrerasSede as $scs) {
                 $arreglo[$scs->tipoCarreraSedeSolicitud->codigo] = [
+                    'solicitud_carrera_sede_id' => $scs->id,
                     'carrera_sede_id' => $scs->carreraSede->id,
                     'carrera' => $scs->carreraSede->carrera->nombreCompleto,
                     'opcion' => $scs->tipoCarreraSedeSolicitud->codigo
@@ -298,15 +299,30 @@ class ConvocatoriaController extends Controller
             'sede'
         ])
             ->withCount([
-                'seleccionados as seleccionados',
-                'seleccionados as seleccionados_publico' => function (Builder $query) {
+                'solicitudes as seleccionados' => function (Builder $query) use ($convocatoria) {
                     $query
-                        ->join('public.persona as p', 'ingreso.aspirante.persona_id', '=', 'p.id')
+                        ->join('workflow.solicitud as s', 'workflow.solicitud_carrera_sede.solicitud_id', '=', 's.id')
+                        ->join('ingreso.convocatoria_aspirante as ca', 'workflow.solicitud_carrera_sede.id', '=', 'ca.solicitud_carrera_sede_id')
+                        ->where('s.solicitante_type', 'App\Models\Ingreso\Aspirante')
+                        ->where('s.modelo_type', 'App\Models\Ingreso\Convocatoria')
+                        ->where('s.modelo_id',  $convocatoria->id)
+                        ->where('ca.seleccionado', true);
+                },
+                'solicitudes as seleccionados_publico' => function (Builder $query) use ($convocatoria) {
+                    $query
+                        ->join('workflow.solicitud as s', 'workflow.solicitud_carrera_sede.solicitud_id', '=', 's.id')
+                        ->join('ingreso.convocatoria_aspirante as ca', 'workflow.solicitud_carrera_sede.id', '=', 'ca.solicitud_carrera_sede_id')
+                        ->join('ingreso.aspirante as a', 'ca.aspirante_id', '=', 'a.id')
+                        ->join('public.persona as p', 'a.persona_id', '=', 'p.id')
                         ->join('public.estudio as e', 'p.id', 'e.persona_id')
                         ->join('secundaria.institucion as i', 'e.institucion_id', 'i.id')
-                        ->join('secundaria.sector as s', 'i.sector_id', 's.id')
+                        ->join('secundaria.sector as sec', 'i.sector_id', 'sec.id')
+                        ->where('ca.seleccionado', true)
                         ->where('e.institucion_type', 'App\Models\Secundaria\Institucion')
-                        ->where('s.codigo', '01');
+                        ->where('s.solicitante_type', 'App\Models\Ingreso\Aspirante')
+                        ->where('s.modelo_type', 'App\Models\Ingreso\Convocatoria')
+                        ->where('s.modelo_id',  $convocatoria->id)
+                        ->where('sec.codigo', '01');
                 }
             ])
             ->where('sede_id', $idSede)

@@ -24,7 +24,7 @@ interface Solicitud {
     sector: string;
     nota: number;
     seleccionado: boolean;
-    carrera_sede_seleccionada: number | null;
+    solicitud_carrera_sede_id: number | null;
     PRIMERA_OPCION: Opcion | null;
     SEGUNDA_OPCION: Opcion | null;
     TERCERA_OPCION: Opcion | null;
@@ -132,7 +132,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                 //verificar si tiene cupo
                 if (carreraSede.cupo > carreraSede.seleccionados) {
                     carreraSede.seleccionados++;
-                    item.carrera_sede_seleccionada = carreraSede.carrera_sede_id;
+                    item.solicitud_carrera_sede_id = carreraSedeAspirante.solicitud_carrera_sede_id;
                     if (item.sector === 'Privado') {
                         carreraSede.seleccionados_privado++;
                     } else {
@@ -180,7 +180,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
         }
     } else {
         //quitar la selección
-        const index = carrerasSede.value.findIndex((cs) => cs.carrera_sede_id === item.carrera_sede_seleccionada);
+        const index = carrerasSede.value.findIndex((cs) => cs.carrera_sede_id === item.carrera_sede_id);
 
         if (index >= 0) {
             const carreraSede = carrerasSede.value[index];
@@ -196,15 +196,15 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
             ultimaSeleccion.value = carreraSede;
         }
 
-        item.carrera_sede_seleccionada = null;
+        item.solicitud_carrera_sede_id = null;
     }
-    //
+
     axios
         .get(
             route('ingreso-solicitud-seleccion-aplicar', {
                 id: item.id,
                 seleccionado: item.seleccionado,
-                idCarreraSede: item.carrera_sede_seleccionada,
+                idSolicitudCarreraSede: item.solicitud_carrera_sede_id,
             }),
         )
         .then(function (response) {
