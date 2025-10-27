@@ -248,10 +248,10 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                     <v-app-bar-title>
                         <v-card class="mx-auto bg-transparent">
                             <template v-slot:title>
-                                <span class="font-weight-black">{{ convocatoria?.descripcion }}</span>
+                                <span>{{ convocatoria?.descripcion }}</span>
                             </template>
                             <template v-slot:subtitle v-if="sede">
-                                <span class="font-weight-black">SEDE: {{ sede?.nombre }}</span>
+                                <span>SEDE: {{ sede?.nombre }}</span>
                             </template>
                         </v-card>
                     </v-app-bar-title>
