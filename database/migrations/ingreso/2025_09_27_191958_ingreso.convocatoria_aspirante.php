@@ -24,8 +24,8 @@ return new class extends Migration
 
             $table->boolean('seleccionado')->default(false)->comment('Indica si el aspirante ha sido seleccionado como estudiante');
 
-            $table->foreignId('carrera_sede_id')->comment('Carrera sede en que fue seleccionada')->nullable();
-            $table->foreign('carrera_sede_id')->references('id')->on('workflow.solicitud_carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('solicitud_carrera_sede_id')->comment('Carrera sede en que fue seleccionada')->nullable();
+            $table->foreign('solicitud_carrera_sede_id')->references('id')->on('workflow.solicitud_carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
