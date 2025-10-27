@@ -6,10 +6,13 @@ use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\User;
+use App\Models\Workflow\Solicitud;
+use App\Models\Workflow\SolicitudCarreraSede;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CarreraSede extends Model
 {
@@ -49,9 +52,9 @@ class CarreraSede extends Model
         return $this->belongsToMany(Convocatoria::class, 'academico.convocatoria_carrera_sede', 'carrera_sede_id', 'convocatoria_id');
     }
 
-    public function seleccionados(): BelongsToMany
+    public function solicitudes(): HasMany
     {
-        return $this->belongsToMany(Aspirante::class, 'ingreso.convocatoria_aspirante', 'carrera_sede_id', 'aspirante_id');
+        return $this->hasMany(SolicitudCarreraSede::class, 'carrera_sede_id');
     }
 
     public function getTituloAttribute(): string
