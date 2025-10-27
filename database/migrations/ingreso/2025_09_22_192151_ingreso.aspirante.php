@@ -20,6 +20,11 @@ return new class extends Migration
             $table->foreignId('persona_id')->comment('Persona a la que está asignado el aspirante');
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
+            $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
+            $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
+            $table->foreign('updated_by')->references('id')->on('users')->onDelete('set null');
+
             $table->timestamps();
         });
     }
