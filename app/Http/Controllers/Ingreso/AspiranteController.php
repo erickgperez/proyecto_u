@@ -176,8 +176,9 @@ class AspiranteController extends Controller
         $convocatorias = Convocatoria::with([
             'carrerasSedes' => [
                 'carrera',
-                'sede'
+                'sede',
             ],
+            'configuracion'
         ])->orderBy('nombre', 'asc')
             ->get();
 
