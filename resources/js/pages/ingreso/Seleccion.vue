@@ -296,6 +296,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                         color="primary"
                                         rounded="xl"
                                         variant="elevated"
+                                        prepend-icon="mdi-reload"
                                         @click="cargarSolicitudes"
                                         :disabled="convocatoria == null || sede == null"
                                         >{{ $t('_cargar_') }}</v-btn
@@ -304,8 +305,6 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                             </v-navigation-drawer>
 
                             <v-navigation-drawer location="right" permanent class="rounded-r-xl" width="350">
-                                <v-divider></v-divider>
-
                                 <v-list density="compact" nav>
                                     <v-card
                                         v-if="ultimaSeleccion != null"
@@ -436,14 +435,6 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                             </v-navigation-drawer>
                             <v-main class="w-100 overflow-y-scroll rounded-l-xl text-4xl" style="height: 85dvh">
                                 <v-card-title class="d-flex align-center border-b-md pe-2">
-                                    <!--<v-btn
-                                color="primary"
-                                icon="mdi-application-cog"
-                                variant="tonal"
-                                @click.stop="drawer = !drawer"
-                                :title="$t('_parametros_')"
-                            ></v-btn>-->
-
                                     <v-spacer></v-spacer>
 
                                     <v-text-field

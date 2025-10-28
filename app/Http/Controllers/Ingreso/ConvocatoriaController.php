@@ -331,6 +331,7 @@ class ConvocatoriaController extends Controller
             ->where('sede_id', $idSede)
             ->get();
         $ofertaSede = [];
+        $infoSede = ['cupoSede' => 0, 'seleccionadosSede' => 0, 'seleccionadosPublicoSede' => 0, 'seleccionadosPrivadoSede' => 0];
         foreach ($ofertaSede_ as $cs) {
             $ofertaSede[] = [
                 'carrera_sede_id'   => $cs->id,
@@ -343,6 +344,10 @@ class ConvocatoriaController extends Controller
                 'seleccionados_publico' => $cs->seleccionados_publico,
                 'seleccionados_privado' => $cs->seleccionados - $cs->seleccionados_publico
             ];
+            $infoSede['cupoSede'] += $cs->cupo;
+            $infoSede['seleccionadosSede'] +=  $cs->seleccionados;
+            $infoSede['seleccionadosPublicoSede'] = $cs->seleccionados_publico;
+            $infoSede['seleccionadosPrivadoSede'] = $cs->seleccionados - $cs->seleccionados_publico;
         }
         array_multisort(
             array_column($ofertaSede, 'carrera_tipo'),
@@ -352,6 +357,6 @@ class ConvocatoriaController extends Controller
             $ofertaSede
         );
 
-        return response()->json(['status' => 'ok', 'ofertaSede' => $ofertaSede, 'solicitudes' => $solitudes]);
+        return response()->json(['status' => 'ok', 'ofertaSede' => $ofertaSede, 'solicitudes' => $solitudes, 'infoSede' => $infoSede]);
     }
 }
