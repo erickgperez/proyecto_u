@@ -24,6 +24,7 @@ interface Solicitud {
     sector: string;
     nota: number;
     seleccionado: boolean;
+    carrera_sede_id: number | null;
     solicitud_carrera_sede_id: number | null;
     PRIMERA_OPCION: Opcion | null;
     SEGUNDA_OPCION: Opcion | null;
@@ -133,6 +134,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                 if (carreraSede.cupo > carreraSede.seleccionados) {
                     carreraSede.seleccionados++;
                     item.solicitud_carrera_sede_id = carreraSedeAspirante.solicitud_carrera_sede_id;
+                    item.carrera_sede_id = carreraSedeAspirante.carrera_sede_id;
                     if (item.sector === 'Privado') {
                         carreraSede.seleccionados_privado++;
                     } else {
@@ -197,6 +199,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
         }
 
         item.solicitud_carrera_sede_id = null;
+        item.carrera_sede_id = null;
     }
 
     axios
@@ -226,23 +229,6 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
         icono="mdi-account-filter-outline"
     >
         <v-card v-if="hasPermission('MENU_INGRESO_SELECCION')" class="elevation-12 rounded-xl">
-            <!-- <v-card-title color="primary" class="bg-blue-accent-2 pa-5">
-                <v-row>
-                    <span class="text-font-weight-black">{{ convocatoria?.descripcion }}</span>
-                    <v-spacer></v-spacer>
-                    <span>Sede: {{ sede?.nombre }}</span>
-                </v-row>
-            </v-card-title>-->
-
-            <!--<v-fab
-                    color="primary"
-                    absolute
-                    icon="mdi-application-cog"
-                    variant="tonal"
-                    @click.stop="drawer = !drawer"
-                    :title="$t('_parametros_')"
-                    location="top start"
-                ></v-fab>-->
             <v-layout>
                 <v-app-bar :elevation="0" class="bg-blue-grey-lighten-3">
                     <v-app-bar-title>

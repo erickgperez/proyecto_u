@@ -195,12 +195,7 @@ class AspiranteController extends Controller
             ->whereBelongsTo($convocatoria)
             ->first();
         $convocatoriaAspirante->seleccionado = $seleccionado;
-
-        if ($seleccionado) {
-            $convocatoriaAspirante->solicitud_carrera_sede_id = $idSolicitudCarreraSede;
-        } else {
-            $convocatoriaAspirante->solicitud_carrera_sede_id = null;
-        }
+        $convocatoriaAspirante->solicitud_carrera_sede_id = $idSolicitudCarreraSede;
 
         $convocatoriaAspirante->save();
 

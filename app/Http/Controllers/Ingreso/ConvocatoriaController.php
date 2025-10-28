@@ -251,7 +251,8 @@ class ConvocatoriaController extends Controller
                 'solicitud.*',
                 'sector.descripcion as sector',
                 'convocatoria_aspirante.seleccionado',
-                'convocatoria_aspirante.solicitud_carrera_sede_id'
+                'convocatoria_aspirante.solicitud_carrera_sede_id',
+                'scs.carrera_sede_id',
             )
             ->join('ingreso.aspirante as aspirante', function ($join) {
                 $join->on('solicitud.solicitante_id', '=', 'aspirante.id')
@@ -261,6 +262,7 @@ class ConvocatoriaController extends Controller
                 $join->on('aspirante.id', '=', 'convocatoria_aspirante.aspirante_id')
                     ->where('convocatoria_aspirante.convocatoria_id', $convocatoria->id);
             })
+            ->leftJoin('workflow.solicitud_carrera_sede as scs', 'scs.id', '=', 'convocatoria_aspirante.solicitud_carrera_sede_id')
             ->join('public.persona as persona', 'aspirante.persona_id', '=', 'persona.id')
             ->join('public.estudio as estudio', 'estudio.persona_id', '=', 'persona.id')
             ->join('secundaria.institucion as institucion', function ($join) {
@@ -281,6 +283,7 @@ class ConvocatoriaController extends Controller
                 'nota' => $sol->solicitante->calificacion_bachillerato,
                 'seleccionado' => $sol->seleccionado,
                 'solicitud_carrera_sede_id' => $sol->solicitud_carrera_sede_id,
+                'carrera_sede_id' => $sol->carrera_sede_id,
                 'sector' => $sol->sector,
             ];
             foreach ($sol->solicitudCarrerasSede as $scs) {
