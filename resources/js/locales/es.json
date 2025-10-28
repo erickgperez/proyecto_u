@@ -14,6 +14,7 @@
     "aspirante": {
         "_nie_": "NIE",
         "_no_tiene_cupo_": "no tiene cupo",
+        "_no_tiene_cupo_sector_": " ya tiene completo su cuota de cupo para sector",
         "_no_cupo_ninguna_carrera_elegida_aspirante_": "No hay cupo en ninguna carrera elegida por el aspirante",
         "_nota_": "Nota",
         "_opciones_": "Opciones",
@@ -115,6 +116,7 @@
         "_convocatoria_": "Convocatoria",
         "_convocatoria_a_utilizar_para_enviar_invitaciones_": "Convocatoria a utilizar para el envio de invitaciones",
         "_convocatoria_seleccionada_": "Convocatoria seleccionada",
+        "_cuota_cupo_sector_": "Cuota de cupo por sector",
         "_cuota_sector_publico_": "Cuota sector público",
         "_cuota_sector_publico_hint_": "Porcentaje de cupo asignado para estudiantes del sector público",
         "_fecha_publicacion_resultados_": "Publicación de resultados",
@@ -122,7 +124,9 @@
         "_listado_actividades_": "Listado de actividades de la convocatoria",
         "_oferta_": "Oferta de carreras",
         "_oferta_descripcion_": "Seleccionar las sedes con las respectivas carreras que se ofertarán en la convocatoria",
-        "_oferta_indicaciones_": "Seleccione la sede y luego las carreras que desea incluir en la convocatoria"
+        "_oferta_indicaciones_": "Seleccione la sede y luego las carreras que desea incluir en la convocatoria",
+        "_publico_": "Público",
+        "_privado_": "Privado"
     },
     "_correo_": "Correo",
     "_consejo_cuerpo_mensaje_": "Mensaje que se enviará por correo electrónico cuando se hagan invitaciones a la convocatoria",

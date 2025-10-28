@@ -45,11 +45,19 @@ interface CarreraSede {
     seleccionados_publico: number;
     seleccionados_privado: number;
 }
+
+interface Configuracion {
+    id: number;
+    fecha_publicacion_resultados: Date | null;
+    cuota_sector_publico: number | null;
+}
+
 interface Convocatoria {
     id: number;
     nombre: string;
     descripcion: string;
     carreras_sedes: [];
+    configuracion: Configuracion | null;
 }
 
 const props = defineProps({
@@ -131,7 +139,24 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                 const carreraSede = carrerasSede.value[index];
 
                 //verificar si tiene cupo
+                let existeCupo = true;
+                let mensaje = '';
                 if (carreraSede.cupo > carreraSede.seleccionados) {
+                    //Verificar si la convocatoria tiene cuota asignada por sector
+                    if (convocatoria.value && convocatoria.value.configuracion && convocatoria.value.configuracion.cuota_sector_publico) {
+                        const cupoSectorPublico = Math.ceil((carreraSede.cupo * convocatoria.value.configuracion.cuota_sector_publico) / 100);
+                        const cupoSector = item.sector === 'Privado' ? carreraSede.cupo - cupoSectorPublico : cupoSectorPublico;
+                        const seleccionadosSector = item.sector === 'Privado' ? carreraSede.seleccionados_privado : carreraSede.seleccionados_publico;
+                        if (cupoSector <= seleccionadosSector) {
+                            existeCupo = false;
+                            mensaje = t('aspirante._no_tiene_cupo_sector_') + ' ' + item.sector;
+                        }
+                    }
+                } else {
+                    existeCupo = false;
+                    mensaje = t('aspirante._no_tiene_cupo_');
+                }
+                if (existeCupo) {
                     carreraSede.seleccionados++;
                     item.solicitud_carrera_sede_id = carreraSedeAspirante.solicitud_carrera_sede_id;
                     item.carrera_sede_id = carreraSedeAspirante.carrera_sede_id;
@@ -158,7 +183,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
 
                     if (siguienteOpcion != '') {
                         Swal.fire({
-                            title: carreraSede.carrera + ' ' + t('aspirante._no_tiene_cupo_'),
+                            title: carreraSede.carrera + ' ' + mensaje,
                             text: '¿' + t('aspirante._verificar_carrera_en_') + ' ' + siguienteOpcion + '?',
                             showCancelButton: true,
                             confirmButtonText: t('_si_'),
@@ -238,6 +263,20 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                             </template>
                             <template v-slot:subtitle v-if="sede">
                                 <span>SEDE: {{ sede?.nombre }}</span>
+                                <span
+                                    class="ms-3"
+                                    v-if="convocatoria && convocatoria.configuracion && convocatoria.configuracion.cuota_sector_publico"
+                                >
+                                    ({{ $t('convocatoria._cuota_cupo_sector_') }}:
+                                    <span class="text-pink font-weight-black"
+                                        >{{ $t('convocatoria._publico_') }} - {{ convocatoria.configuracion.cuota_sector_publico }}%
+                                    </span>
+                                    ::
+                                    <span class="text-pink font-weight-black">
+                                        {{ $t('convocatoria._privado_') }} - {{ 100 - convocatoria.configuracion.cuota_sector_publico }}%
+                                    </span>
+                                    )
+                                </span>
                             </template>
                         </v-card>
                     </v-app-bar-title>

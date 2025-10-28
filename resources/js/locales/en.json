@@ -14,6 +14,7 @@
     "aspirante": {
         "_nie_": "NIE",
         "_no_tiene_cupo_": "there is no quota",
+        "_no_tiene_cupo_sector_": " You have already filled your quota for the sector",
         "_no_cupo_ninguna_carrera_elegida_aspirante_": "There is no space in any of the courses chosen by the applicant",
         "_nota_": "Grade",
         "_opciones_": "Options",
@@ -116,6 +117,7 @@
         "_convocatoria_": "Application process",
         "_convocatoria_a_utilizar_para_enviar_invitaciones_": "Application process to be used for sending invitations",
         "_convocatoria_seleccionada_": "Selected application process",
+        "_cuota_cupo_sector_": "Quota by sector",
         "_cuota_sector_publico_": "Public sector quota",
         "_cuota_sector_publico_hint_": "Percentage of places assigned to public sector students",
         "_fecha_publicacion_resultados_": "Publication of results",
@@ -123,7 +125,9 @@
         "_listado_actividades_": "List of activities of the application process",
         "_oferta_": "Course offerings",
         "_oferta_descripcion_": "Select the locations with the respective courses that will be offered in the application process",
-        "_oferta_indicaciones_": "Select the location and then the courses you wish to include in the application process."
+        "_oferta_indicaciones_": "Select the location and then the courses you wish to include in the application process.",
+        "_publico_": "Public",
+        "_privado_": "Private"
     },
 
     "_correo_": "email",
