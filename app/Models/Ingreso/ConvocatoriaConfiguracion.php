@@ -2,23 +2,18 @@
 
 namespace App\Models\Ingreso;
 
-use App\Models\Academica\CarreraSede;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class ConvocatoriaAspirante extends Model
+
+class ConvocatoriaConfiguracion extends Model
 {
     use UserStamps;
 
-    protected $table = "ingreso.convocatoria_aspirante";
+    protected $table = "ingreso.convocatoria_configuracion";
 
-    protected $fillable = [
-        'convocatoria_id',
-        'aspirante_id',
-        'carrera_sede_id',
-    ];
 
     public function creator()
     {
@@ -33,15 +28,5 @@ class ConvocatoriaAspirante extends Model
     public function convocatoria(): BelongsTo
     {
         return $this->belongsTo(Convocatoria::class);
-    }
-
-    public function carreraSede(): BelongsTo
-    {
-        return $this->belongsTo(CarreraSede::class);
-    }
-
-    public function aspirante(): BelongsTo
-    {
-        return $this->belongsTo(Aspirante::class);
     }
 }

@@ -9,6 +9,7 @@ use App\Models\Academica\Sede;
 use App\Models\Calendarizacion;
 use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
+use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\Institucion;
 use App\Models\Workflow\Solicitud;
@@ -28,7 +29,7 @@ class ConvocatoriaController extends Controller
     public function index(Request $request): Response
     {
 
-        $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater')->get();
+        $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion')->get();
 
         $items = $this->getSedesCarreras();
 
@@ -99,6 +100,27 @@ class ConvocatoriaController extends Controller
         $convocatoria->save();
 
         $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater')->find($convocatoria->id);
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
+    }
+
+    public function configuracionSave($id, Request $request)
+    {
+
+        $convocatoria = Convocatoria::find($id);
+        $configuracion = $convocatoria->configuracion;
+
+        if (!$configuracion) {
+            //No existe el registro de configuración, crearlo
+            $configuracion = new ConvocatoriaConfiguracion();
+            $configuracion->convocatoria()->associate($convocatoria);
+        }
+
+        $configuracion->fecha_publicacion_resultados = $request->get('fecha_publicacion_resultados');
+        $configuracion->cuota_sector_publico = $request->get('cuota_sector_publico');
+        $configuracion->save();
+
+        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion')->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }

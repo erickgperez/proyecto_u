@@ -40,7 +40,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.postForm(route('ingreso-convocatoria-oferta-save', { id: props.item.id }), formData.value, {
+            const resp = await axios.postForm(route('ingreso-convocatoria-configuracion-save', { id: props.item.id }), formData.value, {
                 headers: {
                     'Content-Type': 'multipart/form-data',
                 },
@@ -83,6 +83,9 @@ async function submitForm() {
 
 onMounted(() => {
     reset();
+    if (props.item.configuracion != null) {
+        formData.value = { ...props.item.configuracion };
+    }
 });
 </script>
 <template>

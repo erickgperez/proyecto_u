@@ -18,10 +18,11 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/ingreso/convocatoria', [ConvocatoriaController::class, 'index'])->name('ingreso-convocatoria-index');
     Route::post('/ingreso/convocatoria/save', [ConvocatoriaController::class, 'save'])->name('ingreso-convocatoria-save');
-    Route::post('/ingreso/convocatoria/{id}/oferta/save', [ConvocatoriaController::class, 'ofertaSave'])->name('ingreso-convocatoria-oferta-save');
     Route::delete('/ingreso/convocatoria/{id}/delete', [ConvocatoriaController::class, 'delete'])->name('ingreso-convocatoria-delete');
     Route::get('/ingreso/convocatoria/{id}/invitaciones-pendientes', [ConvocatoriaController::class, 'enviarInvitacionesPendientes'])->name('ingreso-convocatoria-invitaciones-pendientes');
     Route::get('/ingreso/convocatoria/{id}/oferta', [ConvocatoriaController::class, 'ofertaCarreras'])->name('ingreso-convocatoria-oferta');
+    Route::post('/ingreso/convocatoria/{id}/oferta/save', [ConvocatoriaController::class, 'ofertaSave'])->name('ingreso-convocatoria-oferta-save');
+    Route::post('/ingreso/convocatoria/{id}/configuracion/save', [ConvocatoriaController::class, 'configuracionSave'])->name('ingreso-convocatoria-configuracion-save');
     Route::get('/ingreso/convocatoria/{id}/sede/{idSede}/solicitudes', [ConvocatoriaController::class, 'solicitudes'])->name('ingreso-convocatoria-solicitudes');
 
 
