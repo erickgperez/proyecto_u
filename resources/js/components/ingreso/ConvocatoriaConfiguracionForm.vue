@@ -18,16 +18,18 @@ function reset() {
 
 interface FormData {
     id: number | null;
-    carreras_sedes: [];
+    fecha_publicacion_resultados: Date | null;
+    cuota_sector_publico: number | null;
 }
 
-const props = defineProps(['item', 'accion', 'sedesCarreras']);
+const props = defineProps(['item', 'accion']);
 
 const formData = ref<FormData>({
     id: null,
-    carreras_sedes: [],
+    fecha_publicacion_resultados: null,
+    cuota_sector_publico: null,
 });
-const isEditing = toRef(() => props.accion === 'edit');
+const isEditing = toRef(() => props.accion === 'configuracion');
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -81,8 +83,6 @@ async function submitForm() {
 
 onMounted(() => {
     reset();
-
-    formData.value.carreras_sedes = props.item.carreras_sedes.map((cs: any) => cs.id);
 });
 </script>
 <template>
@@ -93,33 +93,33 @@ onMounted(() => {
                     <v-col cols="12" class="pt-15 pl-15">
                         <v-card class="mx-auto">
                             <v-toolbar class="bg-blue-grey-lighten-3">
-                                <v-toolbar-title class="text-h6" :text="$t('convocatoria._oferta_')"></v-toolbar-title>
+                                <v-toolbar-title class="text-h6" :text="$t('convocatoria._configuracion_')"></v-toolbar-title>
                             </v-toolbar>
 
                             <v-card-text>
-                                <div class="font-weight-bold ms-1 mb-2">{{ $t('convocatoria._oferta_indicaciones_') }}</div>
-
-                                <v-treeview
-                                    v-model:selected="formData.carreras_sedes"
-                                    :items="props.sedesCarreras"
-                                    item-value="id"
-                                    select-strategy="classic"
-                                    selectable
-                                    :indent-lines="true"
-                                >
-                                    <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
-                                        <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
-                                            <template v-slot:badge>
-                                                <v-icon v-if="isSelected" icon="$complete"></v-icon>
-                                            </template>
-                                            <v-btn
-                                                v-bind="toggleProps"
-                                                :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
-                                                :variant="isOpen ? 'outlined' : 'tonal'"
-                                            ></v-btn>
-                                        </v-badge>
-                                    </template>
-                                </v-treeview>
+                                <v-locale-provider locale="es">
+                                    <v-date-input
+                                        clearable
+                                        v-model="formData.fecha_publicacion_resultados"
+                                        :label="$t('convocatoria._fecha_publicacion_resultados_')"
+                                        :hint="$t('convocatoria._fecha_publicacion_resultados_hint_')"
+                                        persistent-hint
+                                    ></v-date-input>
+                                </v-locale-provider>
+                                <v-divider></v-divider>
+                                <v-number-input
+                                    :max="100"
+                                    :min="1"
+                                    reverse
+                                    control-variant="split"
+                                    append-icon="mdi-percent"
+                                    prepend-icon="mdi-counter"
+                                    class="w-50"
+                                    v-model="formData.cuota_sector_publico"
+                                    :label="$t('convocatoria._cuota_sector_publico_')"
+                                    :hint="$t('convocatoria._cuota_sector_publico_hint_')"
+                                    persistent-hint
+                                ></v-number-input>
                             </v-card-text>
                         </v-card>
                     </v-col>

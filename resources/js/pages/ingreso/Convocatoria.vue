@@ -3,6 +3,7 @@ import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
 import Evento from '@/components/Evento.vue';
+import ConvocatoriaConfiguracionForm from '@/components/ingreso/ConvocatoriaConfiguracionForm.vue';
 import ConvocatoriaForm from '@/components/ingreso/ConvocatoriaForm.vue';
 import ConvocatoriaOfertaForm from '@/components/ingreso/ConvocatoriaOfertaForm.vue';
 import ConvocatoriaShow from '@/components/ingreso/ConvocatoriaShow.vue';
@@ -75,6 +76,7 @@ const acc = {
     borrar: 'INGRESO_CONVOCATORIA_BORRAR',
     calendarizar: 'INGRESO_CONVOCATORIA_CALENDARIZAR',
     oferta: 'INGRESO_CONVOCATORIA_OFERTA',
+    configuracion: 'INGRESO_CONVOCATORIA_CONFIGURACION',
 };
 const permisoAny = 'INGRESO_CONVOCATORIA_';
 // Permisos requeridos por la interfaz
@@ -106,11 +108,11 @@ const sortBy: SortBy[] = [
 
 const opcionesAccion = [
     {
-        permiso: acc.calendarizar,
-        title: t('convocatoria._calendarizar_'),
-        text: t('convocatoria._calendarizar_descripcion_'),
-        emitAction: 'calendarizar',
-        color: 'brown',
+        permiso: acc.configuracion,
+        title: t('convocatoria._configuracion_'),
+        text: t('convocatoria._configuracion_descripcion_'),
+        emitAction: 'configuracion',
+        color: 'indigo-darken-2',
         icon: 'mdi-calendar-month-outline',
     },
     {
@@ -121,6 +123,15 @@ const opcionesAccion = [
         color: 'orange-darken-3',
         icon: 'mdi-format-list-text',
     },
+    {
+        permiso: acc.calendarizar,
+        title: t('convocatoria._calendarizar_'),
+        text: t('convocatoria._calendarizar_descripcion_'),
+        emitAction: 'calendarizar',
+        color: 'brown',
+        icon: 'mdi-calendar-month-outline',
+    },
+
     {
         permiso: acc.editar,
         ...accionEditObject,
@@ -200,6 +211,13 @@ const opcionesAccion = [
                             :sedesCarreras="props.sedesCarreras"
                             @form-saved="handleFormSave"
                         ></ConvocatoriaOfertaForm>
+                        <ConvocatoriaConfiguracionForm
+                            v-if="selectedAction === 'configuracion'"
+                            :item="selectedItem"
+                            :accion="selectedAction"
+                            @form-saved="handleFormSave"
+                        ></ConvocatoriaConfiguracionForm>
+
                         <ConvocatoriaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></ConvocatoriaShow>
                         <Evento v-if="selectedAction == 'calendarizar'" :idCalendario="selectedItem.calendarizacion_id"></Evento>
                     </v-sheet>
