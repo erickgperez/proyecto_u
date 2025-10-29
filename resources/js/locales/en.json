@@ -121,6 +121,7 @@
         "_cuota_cupo_sector_": "Quota by sector",
         "_cuota_sector_publico_": "Public sector quota",
         "_cuota_sector_publico_hint_": "Percentage of places assigned to public sector students",
+        "_ejecutar_seleccion_automatica_?": "Run auto-select?",
         "_fecha_publicacion_resultados_": "Publication of results",
         "_fecha_publicacion_resultados_hint_": "Date from which applicants will be able to see if they were selected",
         "_listado_actividades_": "List of activities of the application process",

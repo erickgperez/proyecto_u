@@ -76,6 +76,7 @@ const props = defineProps({
 });
 
 const loading = ref(false);
+const ejecutandoSeleccionAutomatica = ref(false);
 const convocatoria = ref<Convocatoria | null>(null);
 const sede = ref<Sede | null>(null);
 const infoSede = ref<InfoSede>({ cupoSede: 0, seleccionadosSede: 0, seleccionadosPublicoSede: 0, seleccionadosPrivadoSede: 0 });
@@ -84,6 +85,7 @@ const ultimaSeleccion = ref<CarreraSede | null>(null);
 const solicitudes = ref<Solicitud[]>([]);
 const tipoSeleccion = ref(null);
 const snackbar = ref(false);
+const overlay = ref(false);
 const text = ref('');
 const step = ref(1);
 
@@ -180,7 +182,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                         infoSede.value.seleccionadosPublicoSede++;
                     }
                     ultimaSeleccion.value = carreraSede;
-                } else {
+                } else if (!ejecutandoSeleccionAutomatica.value || (ejecutandoSeleccionAutomatica.value && tipoSeleccion.value.id == 2)) {
                     //sin cupo, verificar si hay cupo en las otras opciones
                     let siguienteOpcion = '';
                     if (opcion === 'PRIMERA_OPCION') {
@@ -195,31 +197,37 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                         }
                     }
 
-                    if (siguienteOpcion != '') {
-                        Swal.fire({
-                            title: carreraSede.carrera + ' ' + mensaje,
-                            text: '¿' + t('aspirante._verificar_carrera_en_') + ' ' + siguienteOpcion + '?',
-                            showCancelButton: true,
-                            confirmButtonText: t('_si_'),
-                            cancelButtonText: t('_cancelar_'),
-                            confirmButtonColor: '#81D4FA',
-                            cancelButtonColor: '#D7E1EE',
-                        }).then(async (result: any) => {
-                            if (result.isConfirmed) {
-                                seleccionar(item, siguienteOpcion);
-                            } else {
-                                item.seleccionado = false;
-                            }
-                        });
+                    if (ejecutandoSeleccionAutomatica.value) {
+                        seleccionar(item, siguienteOpcion);
                     } else {
-                        item.seleccionado = false;
-                        text.value = t('aspirante._no_cupo_ninguna_carrera_elegida_aspirante_');
-                        snackbar.value = true;
+                        if (siguienteOpcion != '') {
+                            Swal.fire({
+                                title: carreraSede.carrera + ' ' + mensaje,
+                                text: '¿' + t('aspirante._verificar_carrera_en_') + ' ' + siguienteOpcion + '?',
+                                showCancelButton: true,
+                                confirmButtonText: t('_si_'),
+                                cancelButtonText: t('_cancelar_'),
+                                confirmButtonColor: '#81D4FA',
+                                cancelButtonColor: '#D7E1EE',
+                            }).then(async (result: any) => {
+                                if (result.isConfirmed) {
+                                    seleccionar(item, siguienteOpcion);
+                                } else {
+                                    item.seleccionado = false;
+                                }
+                            });
+                        } else {
+                            item.seleccionado = false;
+                            text.value = t('aspirante._no_cupo_ninguna_carrera_elegida_aspirante_');
+                            snackbar.value = true;
+                        }
                     }
+                } else {
+                    item.seleccionado = false;
                 }
             }
         }
-    } else {
+    } else if (!ejecutandoSeleccionAutomatica.value) {
         //quitar la selección
         const index = carrerasSede.value.findIndex((cs) => cs.carrera_sede_id === item.carrera_sede_id);
 
@@ -244,20 +252,55 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
         item.carrera_sede_id = null;
     }
 
-    axios
-        .get(
-            route('ingreso-solicitud-seleccion-aplicar', {
-                id: item.id,
-                seleccionado: item.seleccionado,
-                idSolicitudCarreraSede: item.solicitud_carrera_sede_id,
-            }),
-        )
-        .then(function (response) {
-            console.log(response);
+    if (!ejecutandoSeleccionAutomatica.value || (ejecutandoSeleccionAutomatica.value && item.seleccionado))
+        axios
+            .get(
+                route('ingreso-solicitud-seleccion-aplicar', {
+                    id: item.id,
+                    seleccionado: item.seleccionado,
+                    idSolicitudCarreraSede: item.solicitud_carrera_sede_id,
+                }),
+            )
+            .then(function (response) {
+                console.log(response);
+            })
+            .catch(function (error) {
+                // handle error
+                console.error('Error fetching data:', error);
+            });
+}
+
+function seleccionAutomatica() {
+    console.log(tipoSeleccion);
+
+    Swal.fire({
+        title: t('convocatoria._ejecutar_seleccion_automatica_?'),
+        text: tipoSeleccion.value.id == 1 ? t('convocatoria._seleccion_tipo1_') : t('convocatoria._seleccion_tipo2_'),
+        showCancelButton: true,
+        confirmButtonText: t('_si_'),
+        cancelButtonText: t('_cancelar_'),
+        confirmButtonColor: '#81D4FA',
+        cancelButtonColor: '#D7E1EE',
+    })
+        .then(async (result: any) => {
+            if (result.isConfirmed) {
+                overlay.value = true;
+                loading.value = true;
+                ejecutandoSeleccionAutomatica.value = true;
+
+                solicitudes.value.forEach((item) => {
+                    //si no está seleccionado y aún hay cupo en alguna carrera de la sede
+                    if (!item.seleccionado && infoSede.value.cupoSede > infoSede.value.seleccionadosSede) {
+                        item.seleccionado = true;
+                        seleccionar(item);
+                    }
+                });
+            }
         })
-        .catch(function (error) {
-            // handle error
-            console.error('Error fetching data:', error);
+        .finally(function () {
+            loading.value = false;
+            ejecutandoSeleccionAutomatica.value = false;
+            overlay.value = false;
         });
 }
 </script>
@@ -388,9 +431,11 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                     <v-row justify="center" class="mt-6">
                                                         <v-btn
                                                             color="success"
+                                                            :loading="ejecutandoSeleccionAutomatica"
                                                             rounded="xl"
                                                             variant="elevated"
                                                             prepend-icon="mdi-play-speed"
+                                                            @click="seleccionAutomatica"
                                                             :disabled="tipoSeleccion == null"
                                                             >{{ $t('_ejecutar_') }}</v-btn
                                                         >
@@ -696,4 +741,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
             <v-btn color="white" @click="snackbar = false" icon="mdi-close-circle-outline"></v-btn>
         </template>
     </v-snackbar>
+    <v-overlay :model-value="overlay" class="align-center justify-center" persistent>
+        <v-progress-circular color="primary" size="64" indeterminate></v-progress-circular>
+    </v-overlay>
 </template>
