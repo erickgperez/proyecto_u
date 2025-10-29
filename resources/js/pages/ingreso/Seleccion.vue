@@ -5,7 +5,7 @@ import { SortBy } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { computed, PropType, ref } from 'vue';
+import { computed, PropType, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { hasPermission } = usePermissions();
@@ -86,6 +86,7 @@ const solicitudes = ref<Solicitud[]>([]);
 const tipoSeleccion = ref(null);
 const snackbar = ref(false);
 const overlay = ref(false);
+const solicitudesEnProceso = ref(0);
 const text = ref('');
 const step = ref(1);
 
@@ -198,7 +199,11 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                     }
 
                     if (ejecutandoSeleccionAutomatica.value) {
-                        seleccionar(item, siguienteOpcion);
+                        if (siguienteOpcion != '') {
+                            seleccionar(item, siguienteOpcion);
+                        } else {
+                            item.seleccionado = false;
+                        }
                     } else {
                         if (siguienteOpcion != '') {
                             Swal.fire({
@@ -252,7 +257,11 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
         item.carrera_sede_id = null;
     }
 
-    if (!ejecutandoSeleccionAutomatica.value || (ejecutandoSeleccionAutomatica.value && item.seleccionado))
+    if (
+        !ejecutandoSeleccionAutomatica.value ||
+        (ejecutandoSeleccionAutomatica.value && item.seleccionado && item.solicitud_carrera_sede_id != null)
+    ) {
+        solicitudesEnProceso.value++;
         axios
             .get(
                 route('ingreso-solicitud-seleccion-aplicar', {
@@ -262,12 +271,16 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                 }),
             )
             .then(function (response) {
-                console.log(response);
+                //console.log(response);
             })
             .catch(function (error) {
                 // handle error
                 console.error('Error fetching data:', error);
+            })
+            .finally(function () {
+                solicitudesEnProceso.value--;
             });
+    }
 }
 
 function seleccionAutomatica() {
@@ -303,6 +316,14 @@ function seleccionAutomatica() {
             overlay.value = false;
         });
 }
+
+watch(solicitudesEnProceso, () => {
+    if (solicitudesEnProceso.value > 1) {
+        overlay.value = true;
+    } else {
+        overlay.value = false;
+    }
+});
 </script>
 
 <template>
@@ -742,6 +763,11 @@ function seleccionAutomatica() {
         </template>
     </v-snackbar>
     <v-overlay :model-value="overlay" class="align-center justify-center" persistent>
-        <v-progress-circular color="primary" size="64" indeterminate></v-progress-circular>
+        <v-card class="pa-6" rounded="xl">
+            <v-progress-linear color="deep-purple-accent-4" indeterminate rounded height="20"></v-progress-linear>
+            <v-divider></v-divider>
+            <span class="text-h6"> {{ $t('convocatoria._solicitudes_pendientes_procesar_') }}: </span>
+            <span class="text-h4 text-red-accent-3 ms-4">{{ solicitudesEnProceso }}</span>
+        </v-card>
     </v-overlay>
 </template>

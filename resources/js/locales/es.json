@@ -133,6 +133,7 @@
         "_seleccion_tipo1_": "Se eligirá solo la carrera de la primera opción, considerando las mayores notas",
         "_seleccion_tipo2_": "Se tomará cualquier carrera con cupo en el orden en que las eligió el aspirante, iniciando con los estudiantes con mayores notas",
         "_seleccion_automatica_": "Selección automática",
+        "_solicitudes_pendientes_procesar_": "Solicitudes pendientes de procesar",
         "_tipo_seleccion_": "Tipo de selección"
     },
     "_correo_": "Correo",
