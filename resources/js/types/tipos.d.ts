@@ -56,3 +56,56 @@ export interface Etapa {
     nombre: string;
     indicaciones: string;
 }
+
+interface Opcion {
+    carrera_sede_id: number;
+    carrera: string;
+    opcion: string;
+}
+
+interface Solicitud {
+    id: number;
+    nie: string;
+    nombre: string;
+    sector: string;
+    nota: number;
+    seleccionado: boolean;
+    carrera_sede_id: number | null;
+    solicitud_carrera_sede_id: number | null;
+    PRIMERA_OPCION: Opcion | null;
+    SEGUNDA_OPCION: Opcion | null;
+    TERCERA_OPCION: Opcion | null;
+}
+
+interface CarreraSede {
+    id: number;
+    sede: Sede;
+    carrera: string;
+    carrera_tipo: string;
+    carrera_nombre: string;
+    seleccionados: number;
+    cupo: number;
+    seleccionados_publico: number;
+    seleccionados_privado: number;
+}
+
+interface Configuracion {
+    id: number;
+    fecha_publicacion_resultados: Date | null;
+    cuota_sector_publico: number | null;
+}
+
+interface Convocatoria {
+    id: number;
+    nombre: string;
+    descripcion: string;
+    carreras_sedes: [];
+    configuracion: Configuracion | null;
+}
+
+interface InfoSede {
+    cupoSede: number;
+    seleccionadosSede: number;
+    seleccionadosPublicoSede: number;
+    seleccionadosPrivadoSede: number;
+}
