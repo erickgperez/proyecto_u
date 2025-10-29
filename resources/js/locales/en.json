@@ -114,6 +114,7 @@
         "_calendarizar_descripcion_": "Schedule the activities carried out in the application process",
         "_configuracion_": "Configuration",
         "_configuracion_descripcion_": "Setting Application process parameters",
+        "_consolidado_sede_": "Consolidated location",
         "_convocatoria_": "Application process",
         "_convocatoria_a_utilizar_para_enviar_invitaciones_": "Application process to be used for sending invitations",
         "_convocatoria_seleccionada_": "Selected application process",
@@ -127,7 +128,12 @@
         "_oferta_descripcion_": "Select the locations with the respective courses that will be offered in the application process",
         "_oferta_indicaciones_": "Select the location and then the courses you wish to include in the application process.",
         "_publico_": "Public",
-        "_privado_": "Private"
+        "_privado_": "Private",
+        "_seleccionados_": "Selected",
+        "_seleccion_tipo1_": "Only the first option career will be chosen, considering the highest grades",
+        "_seleccion_tipo2_": "Any course with a quota will be taken in the order in which the applicant chose them, starting with the students with the highest grades.",
+        "_seleccion_automatica_": "Automatic selection",
+        "_tipo_seleccion_": "Selection type"
     },
 
     "_correo_": "email",
@@ -146,6 +152,7 @@
     "_editar_convocatoria_": "Edit application process",
     "_editar_datos_registro_seleccionado_": "Editar los datos del registro seleccionado",
     "_editar_sede_": "Edit location",
+    "_ejecutar_": "Execute",
     "_elija_accion_realizar_": "Choose action to perform",
     "_elija_convocatoria_para_invitaciones_": "Choose the application process",
     "_elija_tipo_carga_": "Choose the type of load",

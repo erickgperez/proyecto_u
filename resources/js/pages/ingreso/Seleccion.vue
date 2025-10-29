@@ -60,6 +60,13 @@ interface Convocatoria {
     configuracion: Configuracion | null;
 }
 
+interface InfoSede {
+    cupoSede: number;
+    seleccionadosSede: number;
+    seleccionadosPublicoSede: number;
+    seleccionadosPrivadoSede: number;
+}
+
 const props = defineProps({
     convocatorias: {
         type: Array as PropType<Convocatoria[]>,
@@ -71,9 +78,11 @@ const props = defineProps({
 const loading = ref(false);
 const convocatoria = ref<Convocatoria | null>(null);
 const sede = ref<Sede | null>(null);
+const infoSede = ref<InfoSede>({ cupoSede: 0, seleccionadosSede: 0, seleccionadosPublicoSede: 0, seleccionadosPrivadoSede: 0 });
 const carrerasSede = ref<CarreraSede[]>([]);
 const ultimaSeleccion = ref<CarreraSede | null>(null);
 const solicitudes = ref<Solicitud[]>([]);
+const tipoSeleccion = ref(null);
 const snackbar = ref(false);
 const text = ref('');
 const step = ref(1);
@@ -116,6 +125,7 @@ function cargarSolicitudes() {
             .then(function (response) {
                 carrerasSede.value = response.data.ofertaSede;
                 solicitudes.value = response.data.solicitudes;
+                infoSede.value = response.data.infoSede;
             })
             .catch(function (error) {
                 // handle error
@@ -158,12 +168,16 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                 }
                 if (existeCupo) {
                     carreraSede.seleccionados++;
+                    infoSede.value.seleccionadosSede++;
+
                     item.solicitud_carrera_sede_id = carreraSedeAspirante.solicitud_carrera_sede_id;
                     item.carrera_sede_id = carreraSedeAspirante.carrera_sede_id;
                     if (item.sector === 'Privado') {
                         carreraSede.seleccionados_privado++;
+                        infoSede.value.seleccionadosPrivadoSede++;
                     } else {
                         carreraSede.seleccionados_publico++;
+                        infoSede.value.seleccionadosPublicoSede++;
                     }
                     ultimaSeleccion.value = carreraSede;
                 } else {
@@ -213,11 +227,14 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
             const carreraSede = carrerasSede.value[index];
             console.log(carreraSede);
             carreraSede.seleccionados--;
+            infoSede.value.seleccionadosSede--;
 
             if (item.sector === 'Privado') {
                 carreraSede.seleccionados_privado--;
+                infoSede.value.seleccionadosPrivadoSede--;
             } else {
                 carreraSede.seleccionados_publico--;
+                infoSede.value.seleccionadosPublicoSede--;
             }
 
             ultimaSeleccion.value = carreraSede;
@@ -293,58 +310,166 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                     <v-window-item :value="1" class="pt-8">
                         <v-layout>
                             <v-navigation-drawer location="right" v-model="drawer" color="blue-grey-lighten-5" :width="400">
-                                <v-list>
-                                    <v-list-item class="font-weight-black text-primary">
-                                        <template v-slot:append>
-                                            <v-btn
-                                                icon="mdi-close"
-                                                :title="$t('_cerrar_parametros_')"
-                                                color="primary"
-                                                size="small"
-                                                variant="text"
-                                                @click.stop="drawer = !drawer"
-                                            ></v-btn>
-                                        </template>
-                                        <template v-slot:prepend>
-                                            <v-icon icon="mdi-application-cog" size="small" variant="text"></v-icon>
-                                        </template>
-                                        {{ $t('_parametros_') }}
-                                    </v-list-item>
-                                </v-list>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-list>
+                                            <v-list-item class="font-weight-black text-primary">
+                                                <template v-slot:append>
+                                                    <v-btn
+                                                        icon="mdi-close"
+                                                        :title="$t('_cerrar_parametros_')"
+                                                        color="primary"
+                                                        size="small"
+                                                        variant="text"
+                                                        @click.stop="drawer = !drawer"
+                                                    ></v-btn>
+                                                </template>
+                                                <template v-slot:prepend>
+                                                    <v-icon icon="mdi-application-cog" size="small" variant="text"></v-icon>
+                                                </template>
+                                                {{ $t('_parametros_') }}
+                                            </v-list-item>
+                                        </v-list>
 
-                                <v-divider></v-divider>
-                                <v-select
-                                    clearable
-                                    v-model="convocatoria"
-                                    :label="$t('convocatoria._convocatoria_')"
-                                    :items="props.convocatorias"
-                                    :item-props="itemProps"
-                                ></v-select>
-                                <v-select
-                                    clearable
-                                    v-model="sede"
-                                    :label="$t('sede._sede_')"
-                                    :items="sedes"
-                                    item-title="nombre"
-                                    item-id="id"
-                                    return-object
-                                ></v-select>
-                                <v-row justify="center">
-                                    <v-btn
-                                        :loading="loading"
-                                        color="primary"
-                                        rounded="xl"
-                                        variant="elevated"
-                                        prepend-icon="mdi-reload"
-                                        @click="cargarSolicitudes"
-                                        :disabled="convocatoria == null || sede == null"
-                                        >{{ $t('_cargar_') }}</v-btn
-                                    >
+                                        <v-divider></v-divider>
+                                        <v-select
+                                            clearable
+                                            v-model="convocatoria"
+                                            :label="$t('convocatoria._convocatoria_')"
+                                            :items="props.convocatorias"
+                                            :item-props="itemProps"
+                                        ></v-select>
+                                        <v-select
+                                            clearable
+                                            v-model="sede"
+                                            :label="$t('sede._sede_')"
+                                            :items="sedes"
+                                            item-title="nombre"
+                                            item-id="id"
+                                            return-object
+                                        ></v-select>
+                                        <v-row justify="center">
+                                            <v-btn
+                                                :loading="loading"
+                                                color="primary"
+                                                rounded="xl"
+                                                variant="elevated"
+                                                prepend-icon="mdi-reload"
+                                                @click="cargarSolicitudes"
+                                                :disabled="convocatoria == null || sede == null"
+                                                >{{ $t('_cargar_') }}</v-btn
+                                            >
+                                        </v-row>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col class="mt-6">
+                                        <v-expansion-panels v-if="solicitudes.length > 0">
+                                            <v-expansion-panel :title="$t('convocatoria._seleccion_automatica_')">
+                                                <v-expansion-panel-text>
+                                                    <v-select
+                                                        clearable
+                                                        v-model="tipoSeleccion"
+                                                        :label="$t('convocatoria._tipo_seleccion_')"
+                                                        :items="[
+                                                            { id: 1, title: 'Nota y primera opción' },
+                                                            { id: 2, title: 'Nota, cualquier opción' },
+                                                        ]"
+                                                        item-title="title"
+                                                        item-value="id"
+                                                        return-object
+                                                    ></v-select>
+
+                                                    <span v-if="tipoSeleccion">
+                                                        <span v-if="tipoSeleccion.id == 1"> {{ $t('convocatoria._seleccion_tipo1_') }}</span>
+                                                        <span v-else> {{ $t('convocatoria._seleccion_tipo2_') }}</span>
+                                                    </span>
+
+                                                    <v-row justify="center" class="mt-6">
+                                                        <v-btn
+                                                            color="success"
+                                                            rounded="xl"
+                                                            variant="elevated"
+                                                            prepend-icon="mdi-play-speed"
+                                                            :disabled="tipoSeleccion == null"
+                                                            >{{ $t('_ejecutar_') }}</v-btn
+                                                        >
+                                                    </v-row>
+                                                </v-expansion-panel-text>
+                                            </v-expansion-panel>
+                                        </v-expansion-panels>
+                                    </v-col>
                                 </v-row>
                             </v-navigation-drawer>
 
                             <v-navigation-drawer location="right" permanent class="rounded-r-xl" width="350">
                                 <v-list density="compact" nav>
+                                    <v-card :title="$t('convocatoria._consolidado_sede_')" class="elevation-4 ma-2 border-1">
+                                        <v-card-text>
+                                            <span class="text-caption text-pink-darken-4" v-if="sede">SEDE: {{ sede.nombre }}</span>
+                                            <v-container class="text-center">
+                                                <v-progress-linear
+                                                    :model-value="(infoSede.seleccionadosSede / infoSede.cupoSede) * 100"
+                                                    height="30"
+                                                    color="indigo-lighten-2"
+                                                    class="border-md elevation-6 mb-2"
+                                                    rounded
+                                                >
+                                                    <strong>
+                                                        {{ $t('convocatoria._seleccionados_') }} {{ infoSede.seleccionadosSede }}/{{
+                                                            infoSede.cupoSede
+                                                        }}
+                                                    </strong>
+                                                </v-progress-linear>
+                                                <v-pie
+                                                    v-if="infoSede.seleccionadosSede > 0"
+                                                    :gauge-cut="100"
+                                                    hide-slice
+                                                    :inner-cut="70"
+                                                    animation
+                                                    :palette="['#00876c', '#d43d51']"
+                                                    :size="100"
+                                                    reveal
+                                                    :legend="{ position: 'right', textFormat: '[title] ([value]%)' }"
+                                                    :items="[
+                                                        {
+                                                            key: 1,
+                                                            title: $t('convocatoria._publico_'),
+                                                            value:
+                                                                infoSede.seleccionadosSede > 0
+                                                                    ? Math.round(
+                                                                          (infoSede.seleccionadosPublicoSede / infoSede.seleccionadosSede) * 100,
+                                                                      )
+                                                                    : 0,
+                                                        },
+                                                        {
+                                                            key: 2,
+                                                            title: $t('convocatoria._privado_'),
+                                                            value:
+                                                                infoSede.seleccionadosSede > 0
+                                                                    ? Math.round(
+                                                                          (infoSede.seleccionadosPrivadoSede / infoSede.seleccionadosSede) * 100,
+                                                                      )
+                                                                    : 0,
+                                                        },
+                                                    ]"
+                                                >
+                                                    <template #legend="{ items }">
+                                                        <div class="d-flex flex-column">
+                                                            <div v-for="(item, i) in items" :key="i" class="d-flex align-center">
+                                                                <div
+                                                                    :style="{ background: item.color, width: '12px', height: '12px' }"
+                                                                    class="mr-2 rounded"
+                                                                />
+                                                                {{ item.title }} ({{ item.value }}%)
+                                                            </div>
+                                                        </div>
+                                                    </template>
+                                                </v-pie>
+                                            </v-container>
+                                        </v-card-text>
+                                    </v-card>
+                                    <v-divider></v-divider>
                                     <v-card
                                         v-if="ultimaSeleccion != null"
                                         :title="$t('aspirante._ultima_seleccion_')"
@@ -360,7 +485,11 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                     class="border-md elevation-6 mb-2"
                                                     rounded
                                                 >
-                                                    <strong>seleccionados {{ ultimaSeleccion.seleccionados }}/{{ ultimaSeleccion.cupo }} </strong>
+                                                    <strong
+                                                        >{{ $t('convocatoria._seleccionados_') }} {{ ultimaSeleccion.seleccionados }}/{{
+                                                            ultimaSeleccion.cupo
+                                                        }}
+                                                    </strong>
                                                 </v-progress-linear>
                                                 <v-pie
                                                     v-if="ultimaSeleccion.seleccionados > 0"
@@ -375,7 +504,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                     :items="[
                                                         {
                                                             key: 1,
-                                                            title: 'Público',
+                                                            title: $t('convocatoria._publico_'),
                                                             value:
                                                                 ultimaSeleccion.seleccionados > 0
                                                                     ? Math.round(
@@ -386,7 +515,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                         },
                                                         {
                                                             key: 2,
-                                                            title: 'Privado',
+                                                            title: $t('convocatoria._privado_'),
                                                             value:
                                                                 ultimaSeleccion.seleccionados > 0
                                                                     ? Math.round(
@@ -424,7 +553,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                     height="30"
                                                     class="border-md elevation-6 mb-2"
                                                 >
-                                                    <strong>seleccionados {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
+                                                    <strong>{{ $t('convocatoria._seleccionados_') }} {{ cs.seleccionados }}/{{ cs.cupo }} </strong>
                                                 </v-progress-linear>
                                                 <v-pie
                                                     v-if="cs.seleccionados > 0"
@@ -439,7 +568,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                     :items="[
                                                         {
                                                             key: 1,
-                                                            title: 'Público',
+                                                            title: $t('convocatoria._publico_'),
                                                             value:
                                                                 cs.seleccionados > 0
                                                                     ? Math.round((cs.seleccionados_publico / cs.seleccionados) * 100)
@@ -447,7 +576,7 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                                                         },
                                                         {
                                                             key: 2,
-                                                            title: 'Privado',
+                                                            title: $t('convocatoria._privado_'),
                                                             value:
                                                                 cs.seleccionados > 0
                                                                     ? Math.round((cs.seleccionados_privado / cs.seleccionados) * 100)
