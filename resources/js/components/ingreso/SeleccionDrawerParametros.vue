@@ -74,7 +74,7 @@ watch(tipoSeleccion, () => {
 });
 </script>
 <template>
-    <v-navigation-drawer location="right" v-model="localDrawer" color="blue-grey-lighten-5" :width="400">
+    <v-navigation-drawer location="right" v-model="props.drawer" color="blue-grey-lighten-5" :width="400">
         <v-row>
             <v-col cols="12">
                 <v-list>
