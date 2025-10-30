@@ -12,7 +12,6 @@ use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\Institucion;
-use App\Models\Workflow\Solicitud;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -263,11 +262,12 @@ class ConvocatoriaController extends Controller
         $convocatoria = Convocatoria::find($id);
         $sede = Sede::find($idSede);
 
-        $solicitudes_ = $convocatoria->solicitudes()->with([
+        $querySol = $convocatoria->solicitudes()->with([
             'solicitante',
             'etapa',
             'estado',
-            'solicitudCarrerasSede'
+            'solicitudCarrerasSede',
+            'sede'
         ])
             ->select(
                 'solicitud.*',
@@ -298,9 +298,11 @@ class ConvocatoriaController extends Controller
                     ->where('estudio.institucion_type', '=', Institucion::class);
             })
             ->join('secundaria.sector as sector', 'institucion.sector_id', '=', 'sector.id')
-            ->whereBelongsTo($sede)
-            ->orderBy('aspirante.calificacion_bachillerato', 'DESC')
-            ->get();
+            ->orderBy('aspirante.calificacion_bachillerato', 'DESC');
+        if ($idSede > 0) {
+            $querySol->whereBelongsTo($sede);
+        }
+        $solicitudes_ = $querySol->get();
 
         $solitudes = [];
         foreach ($solicitudes_ as $sol) {
@@ -310,6 +312,7 @@ class ConvocatoriaController extends Controller
                 'nombre' => $sol->solicitante->persona->nombreCompleto,
                 'carrera_nombre' => $sol->nombre_carrera,
                 'carrera_codigo' => $sol->codigo_carrera,
+                'sede' => $sol->sede->nombre,
                 'opcion' => $sol->opcion,
                 'sexo' => $sol->solicitante->persona->sexo->descripcion,
                 'nota' => $sol->solicitante->calificacion_bachillerato,
@@ -329,65 +332,82 @@ class ConvocatoriaController extends Controller
             $solitudes[] = $arreglo;
         }
 
-        $ofertaSede_ = CarreraSede::with([
-            'carrera' => ['tipo'],
-            'sede'
-        ])
-            ->withCount([
-                'solicitudes as seleccionados' => function (Builder $query) use ($convocatoria) {
-                    $query
-                        ->join('workflow.solicitud as s', 'workflow.solicitud_carrera_sede.solicitud_id', '=', 's.id')
-                        ->join('ingreso.convocatoria_aspirante as ca', 'workflow.solicitud_carrera_sede.id', '=', 'ca.solicitud_carrera_sede_id')
-                        ->where('s.solicitante_type', 'App\Models\Ingreso\Aspirante')
-                        ->where('s.modelo_type', 'App\Models\Ingreso\Convocatoria')
-                        ->where('s.modelo_id',  $convocatoria->id)
-                        ->where('ca.seleccionado', true);
-                },
-                'solicitudes as seleccionados_publico' => function (Builder $query) use ($convocatoria) {
-                    $query
-                        ->join('workflow.solicitud as s', 'workflow.solicitud_carrera_sede.solicitud_id', '=', 's.id')
-                        ->join('ingreso.convocatoria_aspirante as ca', 'workflow.solicitud_carrera_sede.id', '=', 'ca.solicitud_carrera_sede_id')
-                        ->join('ingreso.aspirante as a', 'ca.aspirante_id', '=', 'a.id')
-                        ->join('public.persona as p', 'a.persona_id', '=', 'p.id')
-                        ->join('public.estudio as e', 'p.id', 'e.persona_id')
-                        ->join('secundaria.institucion as i', 'e.institucion_id', 'i.id')
-                        ->join('secundaria.sector as sec', 'i.sector_id', 'sec.id')
-                        ->where('ca.seleccionado', true)
-                        ->where('e.institucion_type', 'App\Models\Secundaria\Institucion')
-                        ->where('s.solicitante_type', 'App\Models\Ingreso\Aspirante')
-                        ->where('s.modelo_type', 'App\Models\Ingreso\Convocatoria')
-                        ->where('s.modelo_id',  $convocatoria->id)
-                        ->where('sec.codigo', '01');
-                }
-            ])
-            ->where('sede_id', $idSede)
-            ->get();
+        $infoSede = [];
         $ofertaSede = [];
-        $infoSede = ['cupoSede' => 0, 'seleccionadosSede' => 0, 'seleccionadosPublicoSede' => 0, 'seleccionadosPrivadoSede' => 0];
-        foreach ($ofertaSede_ as $cs) {
-            $ofertaSede[] = [
-                'carrera_sede_id'   => $cs->id,
-                'cupo'              => $cs->cupo,
-                'carrera_id'        => $cs->carrera_id,
-                'carrera'           => $cs->carrera->nombreCompleto,
-                'carrera_nombre'    => $cs->carrera->nombre,
-                'carrera_tipo'      => $cs->carrera->tipo->descripcion,
-                'seleccionados'     => $cs->seleccionados,
-                'seleccionados_publico' => $cs->seleccionados_publico,
-                'seleccionados_privado' => $cs->seleccionados - $cs->seleccionados_publico
-            ];
-            $infoSede['cupoSede'] += $cs->cupo;
-            $infoSede['seleccionadosSede'] +=  $cs->seleccionados;
-            $infoSede['seleccionadosPublicoSede'] = $cs->seleccionados_publico;
-            $infoSede['seleccionadosPrivadoSede'] = $cs->seleccionados - $cs->seleccionados_publico;
+
+        if (!empty($solitudes)) {
+            $queryOferta = CarreraSede::with([
+                'carrera' => ['tipo'],
+                'sede'
+            ])
+                ->withCount([
+                    'solicitudes as seleccionados' => function (Builder $query) use ($convocatoria) {
+                        $query
+                            ->join('workflow.solicitud as s', 'workflow.solicitud_carrera_sede.solicitud_id', '=', 's.id')
+                            ->join('ingreso.convocatoria_aspirante as ca', 'workflow.solicitud_carrera_sede.id', '=', 'ca.solicitud_carrera_sede_id')
+                            ->where('s.solicitante_type', 'App\Models\Ingreso\Aspirante')
+                            ->where('s.modelo_type', 'App\Models\Ingreso\Convocatoria')
+                            ->where('s.modelo_id',  $convocatoria->id)
+                            ->where('ca.seleccionado', true);
+                    },
+                    'solicitudes as seleccionados_publico' => function (Builder $query) use ($convocatoria) {
+                        $query
+                            ->join('workflow.solicitud as s', 'workflow.solicitud_carrera_sede.solicitud_id', '=', 's.id')
+                            ->join('ingreso.convocatoria_aspirante as ca', 'workflow.solicitud_carrera_sede.id', '=', 'ca.solicitud_carrera_sede_id')
+                            ->join('ingreso.aspirante as a', 'ca.aspirante_id', '=', 'a.id')
+                            ->join('public.persona as p', 'a.persona_id', '=', 'p.id')
+                            ->join('public.estudio as e', 'p.id', 'e.persona_id')
+                            ->join('secundaria.institucion as i', 'e.institucion_id', 'i.id')
+                            ->join('secundaria.sector as sec', 'i.sector_id', 'sec.id')
+                            ->where('ca.seleccionado', true)
+                            ->where('e.institucion_type', 'App\Models\Secundaria\Institucion')
+                            ->where('s.solicitante_type', 'App\Models\Ingreso\Aspirante')
+                            ->where('s.modelo_type', 'App\Models\Ingreso\Convocatoria')
+                            ->where('s.modelo_id',  $convocatoria->id)
+                            ->where('sec.codigo', '01');
+                    }
+                ]);
+            if ($idSede > 0) {
+                $queryOferta->where('sede_id', $idSede);
+            }
+
+            $ofertaSede_ = $queryOferta->get();
+
+            foreach ($ofertaSede_ as $cs) {
+                $ofertaSede[] = [
+                    'carrera_sede_id'   => $cs->id,
+                    'sede'              => $cs->sede->nombre,
+                    'cupo'              => $cs->cupo,
+                    'carrera_id'        => $cs->carrera_id,
+                    'carrera'           => $cs->carrera->nombreCompleto,
+                    'carrera_nombre'    => $cs->carrera->nombre,
+                    'carrera_tipo'      => $cs->carrera->tipo->descripcion,
+                    'seleccionados'     => $cs->seleccionados,
+                    'seleccionados_publico' => $cs->seleccionados_publico,
+                    'seleccionados_privado' => $cs->seleccionados - $cs->seleccionados_publico
+                ];
+                if (!array_key_exists($cs->sede->nombre, $infoSede)) {
+                    $infoSede[$cs->sede->nombre] =  ['nombre' => '', 'cupo' => 0, 'seleccionados' => 0, 'seleccionados_publico' => 0, 'seleccionados_privado' => 0];
+                }
+                $infoSede[$cs->sede->nombre]['nombre'] = $cs->sede->nombre;
+                $infoSede[$cs->sede->nombre]['cupo'] += $cs->cupo;
+                $infoSede[$cs->sede->nombre]['seleccionados'] +=  $cs->seleccionados;
+                $infoSede[$cs->sede->nombre]['seleccionados_publico'] += $cs->seleccionados_publico;
+                $infoSede[$cs->sede->nombre]['seleccionados_privado'] += $cs->seleccionados - $cs->seleccionados_publico;
+            }
         }
-        array_multisort(
+
+
+        /*foreach($infoSede as $i) {
+
+        }*/
+        /*array_multisort(
             array_column($ofertaSede, 'carrera_tipo'),
             SORT_ASC,
             array_column($ofertaSede, 'carrera_nombre'),
             SORT_ASC,
             $ofertaSede
-        );
+        );*/
 
         return response()->json(['status' => 'ok', 'ofertaSede' => $ofertaSede, 'solicitudes' => $solitudes, 'infoSede' => $infoSede]);
     }

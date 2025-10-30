@@ -107,8 +107,9 @@ interface Convocatoria {
 }
 
 interface InfoSede {
-    cupoSede: number;
-    seleccionadosSede: number;
-    seleccionadosPublicoSede: number;
-    seleccionadosPrivadoSede: number;
+    nombre: string;
+    cupo: number;
+    seleccionados: number;
+    seleccionados_publico: number;
+    seleccionados_privado: number;
 }

@@ -37,14 +37,15 @@ const sedes = computed(() => {
 });
 
 function cargarSolicitudes() {
-    if (convocatoria.value != null && sede.value != null) {
+    if (convocatoria.value != null) {
         loading.value = true;
         axios
-            .get(route('ingreso-convocatoria-solicitudes', { id: convocatoria.value.id, idSede: sede.value.id }))
+            .get(route('ingreso-convocatoria-solicitudes', { id: convocatoria.value.id, idSede: sede.value?.id ?? 0 }))
             .then(function (response) {
                 emit('carrerasSede', response.data.ofertaSede);
                 emit('solicitudes', response.data.solicitudes);
                 emit('infoSede', response.data.infoSede);
+                console.log(response.data.infoSede);
             })
             .catch(function (error) {
                 // handle error
@@ -103,13 +104,14 @@ watch(tipoSeleccion, () => {
                     :items="props.convocatorias"
                     :item-props="itemProps"
                 ></v-select>
+                <div class="text-subtitle-1 text-medium-emphasis">{{ $t('sede._sede_') }}</div>
                 <v-select
                     clearable
                     v-model="sede"
-                    :label="$t('sede._sede_')"
                     :items="sedes"
                     item-title="nombre"
                     item-id="id"
+                    placeholder="Todas las sedes"
                     return-object
                 ></v-select>
                 <v-row justify="center">
@@ -120,7 +122,7 @@ watch(tipoSeleccion, () => {
                         variant="elevated"
                         prepend-icon="mdi-reload"
                         @click="cargarSolicitudes"
-                        :disabled="convocatoria == null || sede == null"
+                        :disabled="convocatoria == null"
                         >{{ $t('_cargar_') }}</v-btn
                     >
                 </v-row>

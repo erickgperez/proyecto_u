@@ -29,7 +29,7 @@ const loading = ref(false);
 const ejecutandoSeleccionAutomatica = ref(false);
 const convocatoria = ref<Convocatoria | null>(null);
 const sede = ref<Sede | null>(null);
-const infoSede = ref<InfoSede>({ cupoSede: 0, seleccionadosSede: 0, seleccionadosPublicoSede: 0, seleccionadosPrivadoSede: 0 });
+const infoSede = ref<InfoSede[]>([]);
 const carrerasSede = ref<CarreraSede[]>([]);
 const ultimaSeleccion = ref<CarreraSede | null>(null);
 const solicitudes = ref<Solicitud[]>([]);
@@ -77,16 +77,16 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
                 }
                 if (existeCupo) {
                     carreraSede.seleccionados++;
-                    infoSede.value.seleccionadosSede++;
+                    infoSede.value[item.sede].seleccionados++;
 
                     item.solicitud_carrera_sede_id = carreraSedeAspirante.solicitud_carrera_sede_id;
                     item.carrera_sede_id = carreraSedeAspirante.carrera_sede_id;
                     if (item.sector === 'Privado') {
                         carreraSede.seleccionados_privado++;
-                        infoSede.value.seleccionadosPrivadoSede++;
+                        infoSede.value[item.sede].seleccionados_privado++;
                     } else {
                         carreraSede.seleccionados_publico++;
-                        infoSede.value.seleccionadosPublicoSede++;
+                        infoSede.value[item.sede].seleccionados_publico++;
                     }
                     ultimaSeleccion.value = carreraSede;
                 } else if (!ejecutandoSeleccionAutomatica.value || (ejecutandoSeleccionAutomatica.value && tipoSeleccion.value.id == 2)) {
@@ -146,14 +146,14 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
             const carreraSede = carrerasSede.value[index];
             console.log(carreraSede);
             carreraSede.seleccionados--;
-            infoSede.value.seleccionadosSede--;
+            infoSede.value[item.sede].seleccionados--;
 
             if (item.sector === 'Privado') {
                 carreraSede.seleccionados_privado--;
-                infoSede.value.seleccionadosPrivadoSede--;
+                infoSede.value[item.sede].seleccionados_privado--;
             } else {
                 carreraSede.seleccionados_publico--;
-                infoSede.value.seleccionadosPublicoSede--;
+                infoSede.value[item.sede].seleccionados_publico--;
             }
 
             ultimaSeleccion.value = carreraSede;
