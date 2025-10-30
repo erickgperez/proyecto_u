@@ -297,8 +297,8 @@ const handleInfoSede = (newInfoSede: any) => {
                 >
                 </SeleccionDrawerParametros>
 
-                <v-window v-model="step" class="pt-8">
-                    <v-window-item :value="1" class="pt-8">
+                <v-window v-model="step">
+                    <v-window-item :value="1">
                         <v-layaout>
                             <SeleccionDrawerGraficos
                                 :info-sede="infoSede"
@@ -306,12 +306,12 @@ const handleInfoSede = (newInfoSede: any) => {
                                 :carreras-sede="carrerasSede"
                                 :ultima-seleccion="ultimaSeleccion"
                             ></SeleccionDrawerGraficos>
-                            <v-main class="w-100 overflow-y-scroll rounded-l-xl text-4xl" style="height: 85dvh">
+                            <v-main class="w-100 overflow-y-scroll rounded-l-xl text-4xl" style="height: 91dvh">
                                 <SeleccionListado :solicitudes="solicitudes" @seleccionar="seleccionar"> </SeleccionListado>
                             </v-main>
                         </v-layaout>
                     </v-window-item>
-                    <v-window-item :value="2" class="pt-8" style="height: 85dvh">
+                    <v-window-item :value="2" class="pt-16" style="height: 91dvh">
                         <SeleccionGrafico :seleccionados="seleccionados"> </SeleccionGrafico>
                     </v-window-item>
                 </v-window>

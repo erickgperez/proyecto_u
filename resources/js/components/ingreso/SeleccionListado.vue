@@ -31,7 +31,7 @@ const sortBy: SortBy[] = [
 ];
 </script>
 <template>
-    <v-card-title class="d-flex align-center border-b-md pe-2">
+    <v-card-title class="d-flex align-center border-b-md">
         <v-spacer></v-spacer>
 
         <v-text-field
