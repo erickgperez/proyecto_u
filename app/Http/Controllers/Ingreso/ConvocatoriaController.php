@@ -275,6 +275,9 @@ class ConvocatoriaController extends Controller
                 'convocatoria_aspirante.seleccionado',
                 'convocatoria_aspirante.solicitud_carrera_sede_id',
                 'scs.carrera_sede_id',
+                'carrera.nombre as nombre_carrera',
+                'carrera.codigo as codigo_carrera',
+                'tcss.codigo as opcion'
             )
             ->join('ingreso.aspirante as aspirante', function ($join) {
                 $join->on('solicitud.solicitante_id', '=', 'aspirante.id')
@@ -285,6 +288,9 @@ class ConvocatoriaController extends Controller
                     ->where('convocatoria_aspirante.convocatoria_id', $convocatoria->id);
             })
             ->leftJoin('workflow.solicitud_carrera_sede as scs', 'scs.id', '=', 'convocatoria_aspirante.solicitud_carrera_sede_id')
+            ->leftJoin('academico.carrera_sede as cs', 'cs.id', '=', 'scs.carrera_sede_id')
+            ->leftJoin('plan_estudio.carrera as carrera', 'carrera.id', '=', 'cs.carrera_id')
+            ->leftJoin('workflow.tipo_carrera_sede_solicitud as tcss', 'tcss.id', '=', 'scs.tipo_carrera_sede_solicitud_id')
             ->join('public.persona as persona', 'aspirante.persona_id', '=', 'persona.id')
             ->join('public.estudio as estudio', 'estudio.persona_id', '=', 'persona.id')
             ->join('secundaria.institucion as institucion', function ($join) {
@@ -302,6 +308,10 @@ class ConvocatoriaController extends Controller
                 'id' => $sol->id,
                 'nie' => $sol->solicitante->nie,
                 'nombre' => $sol->solicitante->persona->nombreCompleto,
+                'carrera_nombre' => $sol->nombre_carrera,
+                'carrera_codigo' => $sol->codigo_carrera,
+                'opcion' => $sol->opcion,
+                'sexo' => $sol->solicitante->persona->sexo->descripcion,
                 'nota' => $sol->solicitante->calificacion_bachillerato,
                 'seleccionado' => $sol->seleccionado,
                 'solicitud_carrera_sede_id' => $sol->solicitud_carrera_sede_id,

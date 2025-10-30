@@ -4,6 +4,7 @@ namespace App\Models\Ingreso;
 
 use App\Models\Academica\CarreraSede;
 use App\Models\User;
+use App\Models\Workflow\SolicitudCarreraSede;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -35,9 +36,9 @@ class ConvocatoriaAspirante extends Model
         return $this->belongsTo(Convocatoria::class);
     }
 
-    public function carreraSede(): BelongsTo
+    public function solicitudCarreraSede(): BelongsTo
     {
-        return $this->belongsTo(CarreraSede::class);
+        return $this->belongsTo(SolicitudCarreraSede::class);
     }
 
     public function aspirante(): BelongsTo

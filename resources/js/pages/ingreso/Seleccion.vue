@@ -2,6 +2,7 @@
 import SeleccionAppBar from '@/components/ingreso/SeleccionAppBar.vue';
 import SeleccionDrawerGraficos from '@/components/ingreso/SeleccionDrawerGraficos.vue';
 import SeleccionDrawerParametros from '@/components/ingreso/SeleccionDrawerParametros.vue';
+import SeleccionGrafico from '@/components/ingreso/SeleccionGrafico.vue';
 import SeleccionListado from '@/components/ingreso/SeleccionListado.vue';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
@@ -9,7 +10,7 @@ import { CarreraSede, Convocatoria, InfoSede, Sede, Solicitud } from '@/types/ti
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { PropType, ref, watch } from 'vue';
+import { computed, PropType, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { hasPermission } = usePermissions();
@@ -40,6 +41,10 @@ const text = ref('');
 const step = ref(1);
 
 const drawer = ref(true);
+
+const seleccionados = computed(() => {
+    return solicitudes.value.filter((sol: Solicitud) => sol.seleccionado);
+});
 
 function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
     //gestión de selección
@@ -306,7 +311,9 @@ const handleInfoSede = (newInfoSede: any) => {
                             </v-main>
                         </v-layaout>
                     </v-window-item>
-                    <v-window-item :value="2" class="pt-8"> Un grafiquito </v-window-item>
+                    <v-window-item :value="2" class="pt-8" style="height: 85dvh">
+                        <SeleccionGrafico :seleccionados="seleccionados"> </SeleccionGrafico>
+                    </v-window-item>
                 </v-window>
             </v-layout>
         </v-card>

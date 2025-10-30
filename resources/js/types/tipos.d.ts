@@ -70,6 +70,9 @@ interface Solicitud {
     sector: string;
     nota: number;
     seleccionado: boolean;
+    carrera_nombre: string;
+    carrera_codigo: string;
+    sexo: string;
     carrera_sede_id: number | null;
     solicitud_carrera_sede_id: number | null;
     PRIMERA_OPCION: Opcion | null;
