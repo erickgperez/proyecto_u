@@ -7,13 +7,14 @@ import 'vue-pivottable/dist/vue-pivottable.css';
 const props = defineProps(['seleccionados']);
 
 const data = computed(() => {
-    return props.seleccionados.map(({ carrera_nombre, carrera_codigo, opcion, sexo, sector, nota }) => ({
+    return props.seleccionados.map(({ carrera_nombre, carrera_codigo, opcion, sexo, sector, nota, sede }) => ({
         carrera_nombre,
         carrera_codigo,
         opcion,
         sexo,
         sector,
         nota,
+        sede,
     }));
 });
 const usFmtInt = PivotUtilities.numberFormat({ digitsAfterDecimal: 0 });
@@ -31,8 +32,8 @@ const renderers = markRaw({
 <template>
     <VuePivottableUi
         :data="data"
-        :rows="['sexo']"
-        :cols="['sector']"
+        :rows="['sector']"
+        :cols="['sede']"
         :renderers="renderers"
         renderer-name="Grouped Column Chart"
         aggregatorName="Count"
