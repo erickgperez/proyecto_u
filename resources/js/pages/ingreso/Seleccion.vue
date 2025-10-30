@@ -230,6 +230,9 @@ watch(solicitudesEnProceso, () => {
 
 const handleChangeStep = (newStep: number) => {
     step.value = newStep;
+    if (newStep == 2) {
+        drawer.value = false;
+    }
 };
 
 const handleChangeDrawer = () => {
