@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { CarreraSede, Convocatoria, Sede, Solicitud } from '@/types/tipos';
+import { CarreraSede, Convocatoria, Sede } from '@/types/tipos';
 import axios from 'axios';
 import { computed, ref, watch } from 'vue';
 
-const props = defineProps(['convocatorias', 'drawer']);
+const props = defineProps(['convocatorias', 'drawer', 'solicitudes']);
 
 const emit = defineEmits([
     'seleccionAutomatica',
@@ -29,7 +29,6 @@ const convocatoria = ref<Convocatoria | null>(null);
 const sede = ref<Sede | null>(null);
 const localDrawer = props.drawer;
 const tipoSeleccion = ref(null);
-const solicitudes = ref<Solicitud[]>([]);
 const ejecutandoSeleccionAutomatica = ref(false);
 
 const sedes = computed(() => {
@@ -129,7 +128,7 @@ watch(tipoSeleccion, () => {
         </v-row>
         <v-row>
             <v-col class="mt-6">
-                <v-expansion-panels v-if="solicitudes.length > 0">
+                <v-expansion-panels v-if="props.solicitudes.length > 0">
                     <v-expansion-panel :title="$t('convocatoria._seleccion_automatica_')">
                         <v-expansion-panel-text>
                             <v-select

@@ -279,6 +279,7 @@ const handleInfoSede = (newInfoSede: any) => {
                 <SeleccionDrawerParametros
                     :convocatorias="props.convocatorias"
                     :drawer="drawer"
+                    :solicitudes="solicitudes"
                     @change-drawer="handleChangeDrawer"
                     @change-convocatoria="handleChangeConvocatoria"
                     @change-sede="handleChangeSede"
