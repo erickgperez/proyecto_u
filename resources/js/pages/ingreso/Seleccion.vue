@@ -190,8 +190,6 @@ function seleccionar(item: Solicitud, opcion = 'PRIMERA_OPCION') {
 }
 
 function seleccionAutomatica() {
-    console.log(tipoSeleccion);
-
     Swal.fire({
         title: t('convocatoria._ejecutar_seleccion_automatica_?'),
         text: tipoSeleccion.value.id == 1 ? t('convocatoria._seleccion_tipo1_') : t('convocatoria._seleccion_tipo2_'),
@@ -206,10 +204,9 @@ function seleccionAutomatica() {
                 overlay.value = true;
                 loading.value = true;
                 ejecutandoSeleccionAutomatica.value = true;
-
                 solicitudes.value.forEach((item) => {
                     //si no está seleccionado y aún hay cupo en alguna carrera de la sede
-                    if (!item.seleccionado && infoSede.value.cupoSede > infoSede.value.seleccionadosSede) {
+                    if (!item.seleccionado && infoSede.value[item.sede].cupo > infoSede.value[item.sede].seleccionados) {
                         item.seleccionado = true;
                         seleccionar(item);
                     }
