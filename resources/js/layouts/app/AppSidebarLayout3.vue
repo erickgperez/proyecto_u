@@ -183,18 +183,6 @@ onMounted(() => {
                                 </v-list>
                             </v-menu>
                         </v-list-item>
-                        <Link
-                            v-if="hasPermission('MENU_INGRESO_CALIFICACION-BACHILLERATO')"
-                            :href="route('ingreso-bachillerato-cargar-calificacion')"
-                        >
-                            <v-list-item
-                                link
-                                prepend-icon="mdi-card-account-details-star-outline"
-                                :class="$page.url === '/ingreso/bachillerato/cargar-calificacion' ? 'bg-blue-lighten-4' : ''"
-                            >
-                                {{ $t('ingreso._nota_bachillerato_') }}
-                            </v-list-item>
-                        </Link>
                         <v-list-item
                             v-if="hasPermission('MENU_INGRESO_ASPIRANTES')"
                             prepend-icon="mdi-account-convert"
@@ -203,6 +191,20 @@ onMounted(() => {
                         >
                             {{ $t('aspirante._plural_') }}
                             <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link
+                                        v-if="hasPermission('MENU_INGRESO_ASPIRANTES_CALIFICACION-BACHILLERATO')"
+                                        :href="route('ingreso-bachillerato-cargar-calificacion')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-card-account-details-star-outline"
+                                            :class="$page.url === '/ingreso/bachillerato/cargar-calificacion' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                            {{ $t('ingreso._nota_bachillerato_') }}
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
                                 <v-list class="bg-blue-grey-darken-2">
                                     <Link :href="route('ingreso-aspirante-seleccion')" v-if="hasPermission('MENU_INGRESO_ASPIRANTES_SELECCION')">
                                         <v-list-item
