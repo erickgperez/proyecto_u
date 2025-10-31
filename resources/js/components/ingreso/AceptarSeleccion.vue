@@ -1,5 +1,7 @@
 <script setup lang="ts">
-import { computed, onMounted } from 'vue';
+import axios from 'axios';
+import { computed } from 'vue';
+
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -16,19 +18,14 @@ const fechaPublicacion = computed(() => {
     return null;
 });
 
-async function submitForm() {}
-
-onMounted(() => {
-    /*axios
-        .get(route('ingreso-aspirante-convocatoria-carrera', { id: props.aspirante.id }))
-        .then(function (response) {
-            convocatorias.value = response.data.convocatorias;
-            carreras.value = response.data.carreras;
-        })
+async function aceptarSeleccion() {
+    axios
+        .get(route('ingreso-solicitud-seleccion-aceptar', { id: props.solicitud.id }))
+        .then(function (response) {})
         .catch(function (error) {
             console.error('Error fetching data:', error);
-        });*/
-});
+        });
+}
 </script>
 <template>
     <v-container v-if="fechaPublicacion && today > fechaPublicacion">
@@ -57,7 +54,9 @@ onMounted(() => {
             <span class="font-weight-bold text-decoration-underline">{{ $t('aspirante._confirmar_ingreso_') }}</span>
             {{ $t('aspirante._a_la_universidad_') }}
             <v-divider class="mb-8"></v-divider>
-            <v-btn prepend-icon="mdi-checkbox-marked-outline" variant="tonal" color="primary">{{ $t('aspirante._aceptar_ingreso_') }}</v-btn>
+            <v-btn prepend-icon="mdi-checkbox-marked-outline" variant="tonal" color="primary" @click="aceptarSeleccion">{{
+                $t('aspirante._aceptar_ingreso_')
+            }}</v-btn>
         </v-alert>
         <v-alert v-else border="top" type="warning" variant="outlined" prominent> No ha sido seleccionado </v-alert>
     </v-container>

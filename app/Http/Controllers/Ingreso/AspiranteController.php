@@ -210,4 +210,30 @@ class AspiranteController extends Controller
 
         return response()->json(['status' => 'ok', 'message' => '']);
     }
+
+    public function aceptarSeleccion(int $id)
+    {
+        $solicitud = Solicitud::with([
+            'solicitante',
+            'etapa',
+            'estado',
+            'modelo'
+        ])->where('id', $id)->first();
+
+
+        $convocatoriaAspirante = ConvocatoriaAspirante::with('solicitudCarreraSede')
+            ->whereBelongsTo($solicitud->solicitante)
+            ->whereBelongsTo($solicitud->modelo)
+            ->first();
+
+        dd($convocatoriaAspirante->solicitudCarreraSede->carreraSede->carrera);
+
+        $solicitud->pasarSiguienteEtapa();
+        $solicitud->save();
+
+        //Guardar en el historial de solicitud
+        $solicitud->guardarHistorial();
+
+        return response()->json(['status' => 'ok', 'message' => '']);
+    }
 }
