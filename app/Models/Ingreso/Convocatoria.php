@@ -4,6 +4,7 @@ namespace App\Models\Ingreso;
 
 use App\Models\Academica\CarreraSede;
 use App\Models\Calendarizacion;
+use App\Models\Secundaria\Institucion;
 use App\Models\Secundaria\Invitacion;
 use App\Models\User;
 use App\Models\Workflow\Solicitud;

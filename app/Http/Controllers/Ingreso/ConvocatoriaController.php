@@ -7,11 +7,10 @@ use App\Mail\CandidatoInvitado;
 use App\Models\Academica\CarreraSede;
 use App\Models\Academica\Sede;
 use App\Models\Calendarizacion;
-use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
-use App\Models\Secundaria\Institucion;
+use App\Services\SolicitudService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +21,13 @@ use Inertia\Response;
 
 class ConvocatoriaController extends Controller
 {
+    protected $solicitudService;
+
+    public function __construct(SolicitudService $solicitudService)
+    {
+        $this->solicitudService = $solicitudService;
+    }
+
     /**
      *
      */
@@ -262,43 +268,11 @@ class ConvocatoriaController extends Controller
         $convocatoria = Convocatoria::find($id);
         $sede = Sede::find($idSede);
 
-        $querySol = $convocatoria->solicitudes()->with([
-            'solicitante',
-            'etapa',
-            'estado',
-            'solicitudCarrerasSede',
-            'sede'
-        ])
-            ->select(
-                'solicitud.*',
-                'sector.descripcion as sector',
-                'convocatoria_aspirante.seleccionado',
-                'convocatoria_aspirante.solicitud_carrera_sede_id',
-                'scs.carrera_sede_id',
-                'carrera.nombre as nombre_carrera',
-                'carrera.codigo as codigo_carrera',
-                'tcss.codigo as opcion'
-            )
-            ->join('ingreso.aspirante as aspirante', function ($join) {
-                $join->on('solicitud.solicitante_id', '=', 'aspirante.id')
-                    ->where('solicitud.solicitante_type', '=', Aspirante::class);
-            })
-            ->join('ingreso.convocatoria_aspirante as convocatoria_aspirante', function ($join) use ($convocatoria) {
-                $join->on('aspirante.id', '=', 'convocatoria_aspirante.aspirante_id')
-                    ->where('convocatoria_aspirante.convocatoria_id', $convocatoria->id);
-            })
-            ->leftJoin('workflow.solicitud_carrera_sede as scs', 'scs.id', '=', 'convocatoria_aspirante.solicitud_carrera_sede_id')
-            ->leftJoin('academico.carrera_sede as cs', 'cs.id', '=', 'scs.carrera_sede_id')
-            ->leftJoin('plan_estudio.carrera as carrera', 'carrera.id', '=', 'cs.carrera_id')
-            ->leftJoin('workflow.tipo_carrera_sede_solicitud as tcss', 'tcss.id', '=', 'scs.tipo_carrera_sede_solicitud_id')
-            ->join('public.persona as persona', 'aspirante.persona_id', '=', 'persona.id')
-            ->join('public.estudio as estudio', 'estudio.persona_id', '=', 'persona.id')
-            ->join('secundaria.institucion as institucion', function ($join) {
-                $join->on('estudio.institucion_id', '=', 'institucion.id')
-                    ->where('estudio.institucion_type', '=', Institucion::class);
-            })
-            ->join('secundaria.sector as sector', 'institucion.sector_id', '=', 'sector.id')
-            ->orderBy('aspirante.calificacion_bachillerato', 'DESC');
+        $querySol = $this->solicitudService->getQB()
+            ->orderBy('aspirante.calificacion_bachillerato', 'DESC')
+            ->where('solicitud.modelo_id', $convocatoria->id)
+            ->where('solicitud.modelo_type', Convocatoria::class);
+
         if ($idSede > 0) {
             $querySol->whereBelongsTo($sede);
         }

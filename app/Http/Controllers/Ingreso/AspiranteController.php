@@ -20,6 +20,7 @@ use App\Models\Workflow\Solicitud;
 use App\Models\Workflow\SolicitudCarreraSede;
 use App\Models\Workflow\TipoCarreraSedeSolicitud;
 use App\Models\Workflow\TipoFlujo;
+use App\Services\SolicitudService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -28,6 +29,12 @@ use Inertia\Response;
 class AspiranteController extends Controller
 {
 
+    protected $solicitudService;
+
+    public function __construct(SolicitudService $solicitudService)
+    {
+        $this->solicitudService = $solicitudService;
+    }
     public function save(Request $request) {}
 
     public function delete(int $id) {}
@@ -48,9 +55,12 @@ class AspiranteController extends Controller
         $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
 
         //Buscar la solicitud más reciente con el rol de aspirante
-        $solicitud = $aspirante->solicitudes()->with('estado', 'etapa')
+        $solicitud = $this->solicitudService->getQB()
+            ->where('solicitud.solicitante_id', $aspirante->id)
+            ->where('solicitud.solicitante_type', Aspirante::class)
             ->orderBy('created_at', 'desc')
             ->first();
+
         $flujo = null;
         $etapasOrden = [];
         if ($solicitud) {
@@ -80,7 +90,7 @@ class AspiranteController extends Controller
         //Guardarla en el historial de la solicitud
         $solicitud->guardarHistorial();
 
-        $solicitudData = Solicitud::with('estado', 'etapa')->find($solicitud->id);
+        $solicitudData = Solicitud::with('estado', 'etapa', 'modelo', 'solicitante')->find($solicitud->id);
         $etapasOrden = $flujo->etapasEnOrden();
 
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitudData, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
