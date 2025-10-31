@@ -49,8 +49,6 @@ class AspiranteController extends Controller
 
     public function solicitud(int $idPersona)
     {
-        $rolAspirante = Rol::where('name', 'aspirante')->first();
-
         $persona = Persona::find($idPersona);
         $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
 

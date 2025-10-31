@@ -9,6 +9,8 @@ const { t } = useI18n();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
+const time = ref(null);
+const showMenu = ref(false);
 
 const emit = defineEmits(['form-saved']);
 
@@ -19,6 +21,7 @@ function reset() {
 interface FormData {
     id: number | null;
     fecha_publicacion_resultados: Date | null;
+    hora: string | null;
     cuota_sector_publico: number | null;
 }
 
@@ -27,6 +30,7 @@ const props = defineProps(['item', 'accion']);
 const formData = ref<FormData>({
     id: null,
     fecha_publicacion_resultados: null,
+    hora: '',
     cuota_sector_publico: null,
 });
 const isEditing = toRef(() => props.accion === 'configuracion');
@@ -37,6 +41,7 @@ async function submitForm() {
 
     const hasError = ref(false);
     const message = ref('');
+    formData.value.hora = time.value;
 
     if (valid) {
         try {
@@ -85,6 +90,10 @@ onMounted(() => {
     reset();
     if (props.item.configuracion != null) {
         formData.value = { ...props.item.configuracion };
+        if (formData.value.fecha_publicacion_resultados) {
+            const fecha = new Date(formData.value.fecha_publicacion_resultados);
+            time.value = fecha.getHours() + ':' + fecha.getMinutes();
+        }
     }
 });
 </script>
@@ -100,15 +109,32 @@ onMounted(() => {
                             </v-toolbar>
 
                             <v-card-text>
-                                <v-locale-provider locale="es">
-                                    <v-date-input
-                                        clearable
-                                        v-model="formData.fecha_publicacion_resultados"
-                                        :label="$t('convocatoria._fecha_publicacion_resultados_')"
-                                        :hint="$t('convocatoria._fecha_publicacion_resultados_hint_')"
-                                        persistent-hint
-                                    ></v-date-input>
-                                </v-locale-provider>
+                                <v-row>
+                                    <v-col cols="6">
+                                        <v-locale-provider locale="es">
+                                            <v-date-input
+                                                clearable
+                                                v-model="formData.fecha_publicacion_resultados"
+                                                :label="$t('convocatoria._fecha_publicacion_resultados_')"
+                                                :hint="$t('convocatoria._fecha_publicacion_resultados_hint_')"
+                                                persistent-hint
+                                            ></v-date-input>
+                                        </v-locale-provider>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-text-field
+                                            :model-value="time"
+                                            :label="$t('convocatoria._hora_publicacion_resultados_')"
+                                            prepend-icon="mdi-clock-time-four-outline"
+                                            readonly
+                                            clearable
+                                        >
+                                            <v-menu v-model="showMenu" :close-on-content-click="false" activator="parent" min-width="0">
+                                                <v-time-picker v-model="time" color="green"></v-time-picker>
+                                            </v-menu>
+                                        </v-text-field>
+                                    </v-col>
+                                </v-row>
                                 <v-divider></v-divider>
                                 <v-number-input
                                     :max="100"

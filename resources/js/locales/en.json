@@ -124,6 +124,7 @@
         "_ejecutar_seleccion_automatica_?": "Run auto-select?",
         "_fecha_publicacion_resultados_": "Publication of results",
         "_fecha_publicacion_resultados_hint_": "Date from which applicants will be able to see if they were selected",
+        "_hora_publicacion_resultados_": "Publication time",
         "_listado_actividades_": "List of activities of the application process",
         "_oferta_": "Course offerings",
         "_oferta_descripcion_": "Select the locations with the respective courses that will be offered in the application process",
