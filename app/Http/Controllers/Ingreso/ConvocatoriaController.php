@@ -121,7 +121,16 @@ class ConvocatoriaController extends Controller
             $configuracion->convocatoria()->associate($convocatoria);
         }
 
-        $configuracion->fecha_publicacion_resultados = $request->get('fecha_publicacion_resultados');
+        $fecha_ = $request->get('fecha_publicacion_resultados');
+        $fechaHora = null;
+        if ($fecha_) {
+            $fecha = new \DateTime($fecha_);
+            $hora = $request->get('hora') ?? '00:00:00';
+
+            $fechaHora = $fecha->format("Y-m-d") . ' ' . $hora;
+        }
+
+        $configuracion->fecha_publicacion_resultados = $fechaHora;
         $configuracion->cuota_sector_publico = $request->get('cuota_sector_publico');
         $configuracion->save();
 
