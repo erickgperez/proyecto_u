@@ -12,7 +12,7 @@ class SolicitudService
     public function getQB(): Builder
     {
         $qb = Solicitud::with([
-            'solicitante' => ['persona'],
+            'solicitante' => ['persona' => ['sexo']],
             'etapa',
             'estado',
             'solicitudCarrerasSede',

@@ -68,6 +68,7 @@ function actualizar(data: any) {
             {{ $t('solicitud._crear_solicitud_') }}
         </v-btn>
     </v-alert>
+
     <v-stepper-vertical :items="etapas.map((s) => s.codigo)" v-if="solicitud != null" v-model="step">
         <template v-for="(s, index) in etapas" v-slot:[`item.${index+1}`] :key="s.codigo">
             <h3>{{ s.nombre }}</h3>
