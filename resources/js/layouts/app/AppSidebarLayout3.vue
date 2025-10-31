@@ -204,8 +204,7 @@ onMounted(() => {
                                             {{ $t('ingreso._nota_bachillerato_') }}
                                         </v-list-item>
                                     </Link>
-                                </v-list>
-                                <v-list class="bg-blue-grey-darken-2">
+
                                     <Link :href="route('ingreso-aspirante-seleccion')" v-if="hasPermission('MENU_INGRESO_ASPIRANTES_SELECCION')">
                                         <v-list-item
                                             link

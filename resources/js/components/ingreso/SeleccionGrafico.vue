@@ -45,3 +45,8 @@ const renderers = markRaw({
         <template #aggregatorCell> <i class="fas fa-calculator" style="margin-right: 0.25rem"></i> </template>
     </VuePivottableUi>
 </template>
+<style scoped>
+.pvtRenderers {
+    width: 18% !important;
+}
+</style>
