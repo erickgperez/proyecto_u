@@ -21,17 +21,11 @@ class EtapaSeeder extends Seeder
                 'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id
             ],
             [
-                'codigo' => 'SOLICITUD',
-                'nombre' => 'Ingreso de datos de la solicitud',
-                'indicaciones' => 'Verifique los datos generales que ya están cargados. Ingrese los que hagan falta',
+                'codigo' => 'SELECCION_ASPIRANTE',
+                'nombre' => 'Selección de estudiante',
+                'indicaciones' => 'Su solicitud se ha creado, y se está pendiente del proceso de selección. En caso de ser seleccionado/a como estudiante, se le enviará un correo electrónico notificándole.',
                 'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id
-            ],
-            [
-                'codigo' => 'DOCUMENTACION',
-                'nombre' => 'Documentación',
-                'indicaciones' => 'Suba los archivos de los documentos que se le indican a continuación.',
-                'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id
-            ],
+            ]
         ]);
     }
 }
