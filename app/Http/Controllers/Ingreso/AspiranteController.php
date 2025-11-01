@@ -3,22 +3,9 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
-use App\Models\Academica\CarreraSede;
-use App\Models\Academica\Sede;
-use App\Models\Departamento;
-use App\Models\Distrito;
-use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaAspirante;
-use App\Models\Municipio;
-use App\Models\Persona;
-use App\Models\PlanEstudio\Carrera;
-use App\Models\Workflow\Estado;
-use App\Models\Workflow\Flujo;
 use App\Models\Workflow\Solicitud;
-use App\Models\Workflow\SolicitudCarreraSede;
-use App\Models\Workflow\TipoCarreraSedeSolicitud;
-use App\Models\Workflow\TipoFlujo;
 use App\Services\SolicitudService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;

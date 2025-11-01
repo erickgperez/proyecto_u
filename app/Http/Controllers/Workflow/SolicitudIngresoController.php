@@ -5,12 +5,8 @@ namespace App\Http\Controllers\Workflow;
 use App\Http\Controllers\Controller;
 use App\Models\Academica\CarreraSede;
 use App\Models\Academica\Sede;
-use App\Models\Departamento;
-use App\Models\Distrito;
 use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
-use App\Models\Ingreso\ConvocatoriaAspirante;
-use App\Models\Municipio;
 use App\Models\Persona;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\Workflow\Estado;
@@ -21,9 +17,6 @@ use App\Models\Workflow\TipoCarreraSedeSolicitud;
 use App\Models\Workflow\TipoFlujo;
 use App\Services\SolicitudService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Inertia\Inertia;
-use Inertia\Response;
 
 class SolicitudIngresoController extends Controller
 {
@@ -169,5 +162,18 @@ class SolicitudIngresoController extends Controller
         //Regresar la solicitud
         $etapasOrden = $flujo->etapasEnOrden();
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
+    }
+
+    public function savePersona($id, Request $request)
+    {
+        $request->validate([
+            'fecha_nacimiento' => 'required|date',
+        ]);
+
+        $persona = Persona::find($id);
+        $persona->fecha_nacimiento = $request->get('fecha_nacimiento');
+        $persona->save();
+
+        return response()->json(['status' => 'ok', 'message' => '']);
     }
 }

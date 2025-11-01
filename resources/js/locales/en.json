@@ -300,6 +300,8 @@
         "_administrar_": "Manage people",
         "_apellidos_": "Last name",
         "_crear_": "Create a new person",
+        "_datos_personales_": "Personal data",
+        "_datos_contacto_": "Contact information",
         "_editar_": "Edit person data",
         "_edad_": "Age",
         "_fecha_nacimiento_": "birthdate",
