@@ -32,7 +32,7 @@ class TransicionSeeder extends Seeder
                 'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id,
                 'etapa_origen_id' => Etapa::where('codigo', 'SOLICITUD')->first()->id,
                 'estado_origen_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
-                'etapa_destino_id' => Etapa::where('codigo', 'DOCUMENTACION')->first()->id,
+                'etapa_destino_id' => Etapa::where('codigo', 'SELECCION_ASPIRANTE')->first()->id,
                 'estado_destino_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
             ],
         ]);
