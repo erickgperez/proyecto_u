@@ -3,7 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import CarrerasSeleccionadas from '../CarrerasSeleccionadas.vue';
+import CarrerasSeleccionadas from '../ingreso/CarrerasSeleccionadas.vue';
 
 const { t } = useI18n();
 

@@ -1,6 +1,7 @@
 <script setup lang="ts">
-import IngresoSeleccionAspirante from '@/components/ingreso/workflow/IngresoSeleccionAspirante.vue';
-import IngresoSeleccionProcesoCarrera from '@/components/ingreso/workflow/IngresoSeleccionProcesoCarrera.vue';
+import IngresoSeleccionAspirante from '@/components/workflow/IngresoSeleccionAspirante.vue';
+import IngresoSeleccionProcesoCarrera from '@/components/workflow/IngresoSeleccionProcesoCarrera.vue';
+import IngresoSolicitud from '@/components/workflow/IngresoSolicitud.vue';
 import { Etapa } from '@/types/tipos';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
@@ -17,7 +18,7 @@ const step = ref(1);
 
 function crearSolicitud() {
     axios
-        .get(route('ingreso-aspirante-solicitud-crear', { id: aspirante.value?.id }))
+        .get(route('workflow-ingreso-aspirante-solicitud-crear', { id: aspirante.value?.id }))
         .then(function (response) {
             actualizar(response.data);
         })
@@ -29,7 +30,7 @@ function crearSolicitud() {
 
 onMounted(() => {
     axios
-        .get(route('ingreso-aspirante-solicitud', { idPersona: persona.id }))
+        .get(route('workflow-ingreso-solicitud', { idPersona: persona.id }))
         .then(function (response) {
             actualizar(response.data);
         })
@@ -81,6 +82,8 @@ function actualizar(data: any) {
                 :aspirante="aspirante"
                 v-if="s.codigo == 'SELECCION_PROCESO_CARRERA'"
             ></IngresoSeleccionProcesoCarrera>
+            <IngresoSolicitud :solicitud="solicitud" @form-saved="actualizar" v-if="s.codigo == 'SOLICITUD'"></IngresoSolicitud>
+
             <IngresoSeleccionAspirante :solicitud="solicitud" v-if="s.codigo == 'SELECCION_ASPIRANTE'"> </IngresoSeleccionAspirante>
         </template>
     </v-stepper-vertical>

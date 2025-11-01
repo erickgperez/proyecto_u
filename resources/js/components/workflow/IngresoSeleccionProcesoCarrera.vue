@@ -3,7 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import CarrerasSeleccionadas from './CarrerasSeleccionadas.vue';
+import CarrerasSeleccionadas from '../ingreso/CarrerasSeleccionadas.vue';
 
 const { t } = useI18n();
 
@@ -49,7 +49,7 @@ async function submitForm() {
     formData.value.sede_id = sede.value.id.split('-').pop();
     formData.value.carrera_sede = carrerasSeleccionadas.value.map((carr) => carr.id);
     try {
-        const resp = await axios.post(route('ingreso-solicitud-seleccion-carrera', { id: props.solicitud.id }), formData.value);
+        const resp = await axios.post(route('workflow-ingreso-solicitud-seleccion-carrera', { id: props.solicitud.id }), formData.value);
         if (resp.data.status == 'ok') {
             Swal.fire({
                 title: t('_exito_'),
@@ -113,10 +113,11 @@ async function validarCarreras() {
 
 onMounted(() => {
     axios
-        .get(route('ingreso-aspirante-convocatoria-carrera', { id: props.aspirante.id }))
+        .get(route('workflow-ingreso-aspirante-convocatoria-carrera', { id: props.aspirante.id }))
         .then(function (response) {
             convocatorias.value = response.data.convocatorias;
             carreras.value = response.data.carreras;
+            convocatoria.value = response.data.convocatoria;
         })
         .catch(function (error) {
             console.error('Error fetching data:', error);
