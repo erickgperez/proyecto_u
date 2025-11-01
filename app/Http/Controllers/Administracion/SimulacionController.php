@@ -12,6 +12,7 @@ use App\Models\Secundaria\DataBachillerato;
 use App\Models\User;
 use App\Models\Workflow\Solicitud;
 use App\Services\AspiranteService;
+use App\Services\SolicitudService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -20,10 +21,12 @@ use PhpParser\Node\Stmt\TryCatch;
 class SimulacionController extends Controller
 {
     protected $aspiranteService;
+    protected $solicitudService;
 
-    public function __construct(AspiranteService $aspiranteService)
+    public function __construct(AspiranteService $aspiranteService, SolicitudService $solicitudService)
     {
         $this->aspiranteService = $aspiranteService;
+        $this->solicitudService = $solicitudService;
     }
 
     /**
@@ -97,7 +100,7 @@ class SimulacionController extends Controller
                         $user->fresh();
 
                         //Crear la solicitud de ingreso
-                        $aspiranteC = new AspiranteController();
+                        $aspiranteC = new AspiranteController($this->solicitudService);
                         //Verificar si ya tiene una
                         $solicitud = $aspirante->solicitudes()->with('estado', 'etapa')
                             ->orderBy('created_at', 'desc')
