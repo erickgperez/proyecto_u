@@ -42,13 +42,14 @@ interface FormData {
     id: number | null;
     nombre: string;
     descripcion: string;
+    flujo_id: number | null;
     fecha: Date | null;
     cuerpo_mensaje: string;
     afiche: string | null;
     afiche_file: File | null;
 }
 
-const props = defineProps(['item', 'accion']);
+const props = defineProps(['item', 'accion', 'flujos']);
 
 const content = ref(props.item?.cuerpo_mensaje);
 
@@ -56,6 +57,7 @@ const formData = ref<FormData>({
     id: null,
     nombre: '',
     descripcion: '',
+    flujo_id: null,
     fecha: null,
     cuerpo_mensaje: '',
     afiche_file: null,
@@ -195,6 +197,18 @@ const extensions = [
                             counter="255"
                             :label="$t('_descripcion_')"
                         ></v-text-field>
+                        <v-select
+                            required
+                            icon-color="deep-orange"
+                            :label="$t('convocatoria._flujo_')"
+                            :items="props.flujos"
+                            v-model="formData.flujo_id"
+                            item-title="nombre"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                            :hint="$t('convocatoria._flujo_hint_')"
+                            persistent-hint
+                        ></v-select>
                     </v-col>
 
                     <v-col cols="12">

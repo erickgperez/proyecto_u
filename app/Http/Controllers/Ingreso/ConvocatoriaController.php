@@ -10,12 +10,14 @@ use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
+use App\Models\Workflow\Flujo;
 use App\Services\SolicitudService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -34,24 +36,30 @@ class ConvocatoriaController extends Controller
     public function index(Request $request): Response
     {
 
-        $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion')->get();
+        $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion', 'flujo')->get();
 
-        $items = $this->getSedesCarreras();
+        $sedesCarreras = $this->getSedesCarreras();
+        $flujos = Flujo::where('activo', true)->get();
 
-        return Inertia::render('ingreso/Convocatoria', ['items' => $convocatorias, 'sedesCarreras' => $items]);
+        return Inertia::render('ingreso/Convocatoria', [
+            'items'         => $convocatorias,
+            'sedesCarreras' => $sedesCarreras,
+            'flujos'        => $flujos
+        ]);
     }
 
     public function save(Request $request)
     {
         // Aunque se ha validado del lado del cliente, validar aquí también
         $request->validate([
-            'nombre' => 'required|string|max:100',
+            'nombre'  => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:255',
             'fecha' => 'required|date',
             'cuerpo_mensaje' => 'nullable|string',
             'afiche_file' => 'nullable|file|mimes:pdf',
             'afiche_file' => 'nullable|file|mimes:pdf',
             'carrerasSedes' => 'nullable',
+            'flujo_id' => ['nullable', 'integer', Rule::exists('pgsql.workflow.flujo', 'id')],
         ]);
 
         if ($request->get('id') === null) {
@@ -90,7 +98,7 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater')->find($convocatoria->id);
+        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'flujo')->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
@@ -104,7 +112,7 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater')->find($convocatoria->id);
+        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'flujo')->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
@@ -134,7 +142,7 @@ class ConvocatoriaController extends Controller
         $configuracion->cuota_sector_publico = $request->get('cuota_sector_publico');
         $configuracion->save();
 
-        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion')->find($convocatoria->id);
+        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion', 'flujo')->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }

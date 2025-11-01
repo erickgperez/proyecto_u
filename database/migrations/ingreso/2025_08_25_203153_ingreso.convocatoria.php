@@ -19,6 +19,8 @@ return new class extends Migration
             $table->timestamp('fecha')->nullable()->comment('Fecha en que se lanzará la convocatoria');
             $table->text('cuerpo_mensaje')->nullable()->comment('Texto que se mostrará en las invitaciones que se enviarán por correo ');
             $table->string('afiche', length: 255)->nullable()->comment('Archivo del afiche informativo de la convocatoria, se adjuntará en la invitación enviada por correo');
+            $table->foreignId('flujo_id')->comment('Flujo de proceso que seguirás las solicitudes de ingreso de esta convocatoria');
+            $table->foreign('flujo_id')->references('id')->on('workflow.flujo')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('calendarizacion_id')->nullable()->comment('Calendario de eventos de la convocatoria');
             $table->foreign('calendarizacion_id')->references('id')->on('public.calendarizacion')->onDelete('RESTRICT')->onUpdate('CASCADE');
