@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import AceptarSeleccion from '@/components/ingreso/AceptarSeleccion.vue';
-import SeleccionProcesoForm from '@/components/ingreso/SeleccionProcesoForm.vue';
+import IngresoSeleccionAspirante from '@/components/ingreso/workflow/IngresoSeleccionAspirante.vue';
+import IngresoSeleccionProcesoCarrera from '@/components/ingreso/workflow/IngresoSeleccionProcesoCarrera.vue';
 import { Etapa } from '@/types/tipos';
 import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
@@ -75,12 +75,13 @@ function actualizar(data: any) {
 
             <div v-html="s.indicaciones"></div>
 
-            <SeleccionProcesoForm
+            <IngresoSeleccionProcesoCarrera
                 :solicitud="solicitud"
                 @form-saved="actualizar"
+                :aspirante="aspirante"
                 v-if="s.codigo == 'SELECCION_PROCESO_CARRERA'"
-            ></SeleccionProcesoForm>
-            <AceptarSeleccion :solicitud="solicitud" :aspirante="aspirante" v-if="s.codigo == 'SELECCION_ASPIRANTE'"> </AceptarSeleccion>
+            ></IngresoSeleccionProcesoCarrera>
+            <IngresoSeleccionAspirante :solicitud="solicitud" v-if="s.codigo == 'SELECCION_ASPIRANTE'"> </IngresoSeleccionAspirante>
         </template>
     </v-stepper-vertical>
 </template>
