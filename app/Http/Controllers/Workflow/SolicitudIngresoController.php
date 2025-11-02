@@ -10,12 +10,11 @@ use App\Models\Ingreso\Convocatoria;
 use App\Models\Persona;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\Workflow\Estado;
-use App\Models\Workflow\Flujo;
 use App\Models\Workflow\Solicitud;
 use App\Models\Workflow\SolicitudCarreraSede;
 use App\Models\Workflow\TipoCarreraSedeSolicitud;
-use App\Models\Workflow\TipoFlujo;
 use App\Services\SolicitudService;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SolicitudIngresoController extends Controller
@@ -34,6 +33,15 @@ class SolicitudIngresoController extends Controller
         $persona = Persona::find($idPersona);
         $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
 
+        $now = Carbon::now();
+        $convocatorias = Convocatoria::with('configuracion')
+            ->join('ingreso.convocatoria_configuracion as conf', 'ingreso.convocatoria.id', '=', 'conf.convocatoria_id')
+            ->whereRaw('? BETWEEN conf.fecha_inicio_recepcion_solicitudes AND conf.fecha_fin_recepcion_solicitudes', [$now])
+            ->get();
+
+        //Verificar si ya está asociado a una convocatoria
+        $convocatoriaAspirante = $aspirante->convocatorias()->orderBy('created_at', 'DESC')->first();
+
         //Buscar la solicitud más reciente con el rol de aspirante
         $solicitud = $this->solicitudService->getQB()
             ->where('solicitud.solicitante_id', $aspirante->id)
@@ -48,16 +56,25 @@ class SolicitudIngresoController extends Controller
             $etapasOrden = $flujo->etapasEnOrden();
         }
 
-        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
+        return response()->json([
+            'status' => 'ok',
+            'message' => '',
+            'solicitud' => $solicitud,
+            'convocatorias' => $convocatorias,
+            'convocatoriaAspirante' => $convocatoriaAspirante,
+            'aspirante' => $aspirante,
+            'etapas' => $etapasOrden
+        ]);
     }
 
-    public function solicitudCrear(int $id)
+    public function solicitudCrear(int $id, $idConvocatoria)
     {
-        $tipo_flujo = TipoFlujo::where('codigo', 'INGRESO')->first();
-        $flujo = Flujo::where('tipo_flujo_id', $tipo_flujo->id)->first();
+
+        $aspirante = Aspirante::find($id);
+        $convocatoria = Convocatoria::find($idConvocatoria);
+        $flujo = $convocatoria->flujo;
         $estado = Estado::where('codigo', 'INICIO')->first();
         $etapa = $flujo->primeraEtapa();
-        $aspirante = Aspirante::find($id);
 
         // Crear la solicitud
         $solicitud = new Solicitud;
@@ -65,10 +82,15 @@ class SolicitudIngresoController extends Controller
         $solicitud->estado()->associate($estado);
         $solicitud->etapa()->associate($etapa);
         $solicitud->solicitante()->associate($aspirante);
+        $solicitud->modelo()->associate($convocatoria);
         $solicitud->save();
 
         //Guardarla en el historial de la solicitud
         $solicitud->guardarHistorial();
+
+        //Guardar convocatoria_aspirante
+        $aspirante->convocatorias()->syncWithoutDetaching([$convocatoria->id]);
+
 
         $solicitudData = Solicitud::with('estado', 'etapa', 'modelo', 'solicitante')->find($solicitud->id);
         $etapasOrden = $flujo->etapasEnOrden();
@@ -76,54 +98,15 @@ class SolicitudIngresoController extends Controller
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitudData, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
     }
 
-    public function convocatoriaCarrera(int $id)
-    {
-
-        $aspirante = Aspirante::find($id);
-        $convocatorias = Convocatoria::all();
-        $convocatoria = $aspirante->convocatorias()->orderBy('created_at', 'desc')->first();
-
-        $carreras = Carrera::orderBy('nombre')->get();
-        /*$sedes = Sede::orderBy('nombre')->get();
-        $distritos = Distrito::orderBy('descripcion')->get();
-        $departamentos = Departamento::orderBy('descripcion')->get();
-        $municipios = Municipio::orderBy('descripcion')->get();
-        $carrerasSedes = CarreraSede::with('carrera', 'sede')->get();*/
-
-        return response()->json([
-            'status' => 'ok',
-            'message' => '',
-            'convocatorias' => $convocatorias,
-            'convocatoria' => $convocatoria,
-            'carreras' => $carreras,
-            /*'distritos' => $distritos,
-            'departamentos' => $departamentos,
-            'municipios' => $municipios,
-            'sedes' => $sedes,
-            'carrerasSedes' => $carrerasSedes*/
-        ]);
-    }
-
     public function seleccionCarrera(int $id, Request $request)
     {
         $solicitud = Solicitud::find($id);
 
-        $convocatoria = Convocatoria::find($request->get('convocatoria_id'));
         $sede = Sede::find($request->get('sede_id'));
-        $solicitud->modelo()->associate($convocatoria);
         $solicitud->sede()->associate($sede);
         $aspirante = $solicitud->solicitante;
 
         $flujo = $solicitud->flujo;
-
-        //Guardar convocatoria_aspirante
-        //Verificar si ya existe
-        $convocatoriaAspirante = $aspirante->convocatorias()->where('convocatoria_id', $convocatoria->id)->first();
-
-        if (!$convocatoriaAspirante) {
-            //No existe, agregarla
-            $aspirante->convocatorias()->syncWithoutDetaching([$convocatoria->id]);
-        }
         //Guardar solicitud_carrera_sede
         //Borrar las que ya tenga asociadas
         $solicitud->solicitudCarrerasSede()->delete();

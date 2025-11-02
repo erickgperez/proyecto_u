@@ -11,8 +11,6 @@ const emit = defineEmits(['form-saved']);
 
 const loading = ref(false);
 const step = ref(1);
-const convocatorias = ref([]);
-const carreras = ref([]);
 const sedes = ref([]);
 const oferta = ref([]);
 const ofertaSede = ref([]);
@@ -20,21 +18,17 @@ const snackbar = ref(false);
 const text = ref('');
 const form1 = ref(null);
 const form2 = ref(null);
-const form3 = ref(null);
-const convocatoria = ref(null);
 const sede = ref(null);
 const carrerasSeleccionadas = ref([]);
 
 interface FormData {
-    convocatoria_id: number | null;
     sede_id: number | null;
     carrera_sede: [];
 }
 
-const props = defineProps(['solicitud', 'aspirante']);
+const props = defineProps(['solicitud']);
 
 const formData = ref<FormData>({
-    convocatoria_id: null,
     sede_id: null,
     carrera_sede: [],
 });
@@ -45,7 +39,6 @@ async function submitForm() {
     const hasError = ref(false);
     const message = ref('');
 
-    formData.value.convocatoria_id = convocatoria.value.id;
     formData.value.sede_id = sede.value.id.split('-').pop();
     formData.value.carrera_sede = carrerasSeleccionadas.value.map((carr) => carr.id);
     try {
@@ -113,18 +106,17 @@ async function validarCarreras() {
 
 onMounted(() => {
     axios
-        .get(route('workflow-ingreso-aspirante-convocatoria-carrera', { id: props.aspirante.id }))
+        .get(route('ingreso-convocatoria-oferta', { id: props.solicitud.modelo.id }))
         .then(function (response) {
-            convocatorias.value = response.data.convocatorias;
-            carreras.value = response.data.carreras;
-            convocatoria.value = response.data.convocatoria;
+            oferta.value = response.data.oferta;
+            sedes.value = oferta.value.map(({ id, title }) => ({ id, title }));
         })
         .catch(function (error) {
             console.error('Error fetching data:', error);
         });
 });
 
-const forms = [form1, form2, form3];
+const forms = [form1, form2];
 
 async function nextStep() {
     const currentFormRef = forms[step.value - 1];
@@ -133,14 +125,14 @@ async function nextStep() {
         if (valid) {
             step.value++;
         }
-        if (step.value === 2 && convocatoria.value != null) {
+        /*if (step.value === 2 && convocatoria.value != null) {
             const resp = await axios.get(route('ingreso-convocatoria-oferta', { id: convocatoria.value.id }));
             oferta.value = resp.data.oferta;
             sedes.value = oferta.value.map(({ id, title }) => ({ id, title }));
-        }
+        }*/
 
-        if (step.value === 3 && sede.value != null) {
-        }
+        /*if (step.value === 3 && sede.value != null) {
+        }*/
     }
 }
 
@@ -167,52 +159,23 @@ watch(sede, (newSede) => {
 <template>
     <v-stepper alt-labels hide-actions v-model="step">
         <v-stepper-header>
-            <v-stepper-item :value="1" :color="step === 1 ? 'pink' : ''">
-                <span :class="step === 1 ? 'text-pink' : ''">{{ $t('ingreso._seleccion_convocatoria_') }}</span>
+            <v-stepper-item :color="step === 1 ? 'pink' : ''" :value="1">
+                <span :class="step === 1 ? 'text-pink' : ''">{{ $t('sede._sede_') }}</span>
             </v-stepper-item>
             <v-divider></v-divider>
             <v-stepper-item :color="step === 2 ? 'pink' : ''" :value="2">
-                <span :class="step === 2 ? 'text-pink' : ''">{{ $t('sede._sede_') }}</span>
+                <span :class="step === 2 ? 'text-pink' : ''">{{ $t('ingreso._seleccion_carreras_') }}</span>
             </v-stepper-item>
             <v-divider></v-divider>
             <v-stepper-item :color="step === 3 ? 'pink' : ''" :value="3">
-                <span :class="step === 3 ? 'text-pink' : ''">{{ $t('ingreso._seleccion_carreras_') }}</span>
-            </v-stepper-item>
-            <v-divider></v-divider>
-            <v-stepper-item :color="step === 4 ? 'pink' : ''" :value="4">
-                <span :class="step === 4 ? 'text-pink' : ''">{{ $t('ingreso._resumen_') }}</span>
+                <span :class="step === 3 ? 'text-pink' : ''">{{ $t('ingreso._resumen_') }}</span>
             </v-stepper-item>
         </v-stepper-header>
         <v-stepper-window>
             <v-stepper-window-item :value="1">
-                <v-card :title="$t('ingreso._seleccion_convocatoria_indicacion_')" flat>
-                    <v-card-text class="pt-4">
-                        <v-form fast-fail ref="form1">
-                            <v-autocomplete
-                                clearable
-                                :label="$t('convocatoria._convocatoria_')"
-                                :items="convocatorias"
-                                v-model="convocatoria"
-                                return-object
-                                :rules="[(v) => !!v || $t('_campo_requerido_')]"
-                                item-title="nombre"
-                                item-value="id"
-                                prepend-icon="mdi-form-dropdown"
-                            ></v-autocomplete>
-                        </v-form>
-                    </v-card-text>
-                    <v-card-actions>
-                        <v-btn @click="nextStep" rounded variant="tonal" color="primary" append-icon="mdi-chevron-right">
-                            {{ $t('_siguiente_') }}
-                        </v-btn>
-                    </v-card-actions>
-                </v-card>
-            </v-stepper-window-item>
-
-            <v-stepper-window-item :value="2">
                 <v-card :title="$t('ingreso._seleccion_sede_indicacion_')" flat>
                     <v-card-text class="pt-4">
-                        <v-form fast-fail ref="form2">
+                        <v-form fast-fail ref="form1">
                             <v-autocomplete
                                 clearable
                                 :label="$t('sede._sede_')"
@@ -237,13 +200,13 @@ watch(sede, (newSede) => {
                 </v-card>
             </v-stepper-window-item>
 
-            <v-stepper-window-item :value="3">
+            <v-stepper-window-item :value="2">
                 <v-card flat>
                     <v-card-text class="pt-4">
                         {{ $t('ingreso._seleccion_carreras_indicacion_') }}
                         <v-row>
                             <v-col class="pa-6" cols="12" md="6">
-                                <v-form fast-fail ref="form3">
+                                <v-form fast-fail ref="form2">
                                     <v-treeview
                                         v-model:selected="carrerasSeleccionadas"
                                         open-all
@@ -285,14 +248,14 @@ watch(sede, (newSede) => {
                     </v-card-actions>
                 </v-card>
             </v-stepper-window-item>
-            <v-stepper-window-item :value="4">
+            <v-stepper-window-item :value="3">
                 <v-card :title="$t('ingreso._resumen_')" flat>
                     <v-card-text class="pt-4">
                         {{ $t('ingreso._revise_informacion_') }}
                         <v-alert border="start" type="info" variant="outlined">
                             <template v-slot:title> {{ $t('ingreso._seleccion_convocatoria_') }} </template>
 
-                            <span class="text-h6 text-black">{{ convocatoria.nombre }} -- {{ convocatoria.descripcion }}</span>
+                            <span class="text-h6 text-black">{{ props.solicitud.modelo.nombre }} -- {{ props.solicitud.modelo.descripcion }}</span>
                         </v-alert>
 
                         <br />

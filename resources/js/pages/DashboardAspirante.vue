@@ -111,12 +111,7 @@ function actualizar(data: any) {
 
             <div v-html="s.indicaciones"></div>
 
-            <IngresoSeleccionCarrera
-                :solicitud="solicitud"
-                @form-saved="actualizar"
-                :aspirante="aspirante"
-                v-if="s.codigo == 'SELECCION_CARRERA'"
-            ></IngresoSeleccionCarrera>
+            <IngresoSeleccionCarrera :solicitud="solicitud" @form-saved="actualizar" v-if="s.codigo == 'SELECCION_CARRERA'"></IngresoSeleccionCarrera>
             <IngresoSolicitud :solicitud="solicitud" @form-saved="actualizar" v-if="s.codigo == 'SOLICITUD'"></IngresoSolicitud>
 
             <IngresoSeleccionAspirante :solicitud="solicitud" v-if="s.codigo == 'SELECCION_ASPIRANTE'"> </IngresoSeleccionAspirante>

@@ -9,7 +9,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/workflow/ingreso/aspirante/{id}/convocatoria/{idConvocatoria}/solicitud/crear', [SolicitudIngresoController::class, 'solicitudCrear'])->name('workflow-ingreso-aspirante-convocatoria-solicitud-crear');
 
     // Ingreso SelecionProcesoCarrera
-    Route::get('/workflow/ingreso/aspirante/{id}/convocatoria', [SolicitudIngresoController::class, 'convocatoriaCarrera'])->name('workflow-ingreso-aspirante-convocatoria-carrera');
+    //Route::get('/workflow/ingreso/aspirante/{id}/convocatoria', [SolicitudIngresoController::class, 'convocatoriaCarrera'])->name('workflow-ingreso-aspirante-convocatoria-carrera');
     Route::post('/workflow/ingreso/solicitud/{id}/seleccion-carrera', [SolicitudIngresoController::class, 'seleccionCarrera'])->name('workflow-ingreso-solicitud-seleccion-carrera');
 
     //Ingreso solicitud
