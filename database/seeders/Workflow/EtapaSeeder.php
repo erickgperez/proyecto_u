@@ -16,8 +16,8 @@ class EtapaSeeder extends Seeder
         DB::table('workflow.etapa')->insert([
             [
                 'codigo' => 'SELECCION_CARRERA',
-                'nombre' => 'Selección de proceso y carrera',
-                'indicaciones' => 'Seleccione la convocatoria en la que participará, la carrera y sede de su elección. Puede elegir una carrera principal y una alternativa en caso de no ser seleccionado en la principal',
+                'nombre' => 'Selección carrera/sede',
+                'indicaciones' => 'Seleccione la carrera y sede de su elección. Puede elegir una carrera principal y dos alternativa; estas se usarán en caso de no ser seleccionado en la principal',
                 'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id
             ],
             [
