@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administracion;
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Ingreso\AspiranteController;
+use App\Http\Controllers\Workflow\SolicitudIngresoController;
 use App\Models\Academica\CarreraSede;
 use App\Models\Academica\Sede;
 use App\Models\Ingreso\Convocatoria;
@@ -100,30 +101,32 @@ class SimulacionController extends Controller
                         $user->fresh();
 
                         //Crear la solicitud de ingreso
-                        $aspiranteC = new AspiranteController($this->solicitudService);
+                        $solicitudC = new SolicitudIngresoController($this->solicitudService);
                         //Verificar si ya tiene una
                         $solicitud = $aspirante->solicitudes()->with('estado', 'etapa')
                             ->orderBy('created_at', 'desc')
                             ->first();
                         if (!$solicitud) {
-                            $resp = $aspiranteC->solicitudCrear($aspirante->id);
+                            // No existe la solicitud, crearla
+                            //Recuperar la convocatoria de prueba
+                            $convocatoria = Convocatoria::where('nombre', '01-2026')->first();
+
+                            $resp = $solicitudC->solicitudCrear($aspirante->id, $convocatoria->id);
                             $data = json_decode($resp->getContent(), true);
 
                             $solicitud = Solicitud::with('estado', 'etapa')->find($data['solicitud']['id']);
                         }
 
-                        //Recuperar la convocatoria de prueba
-                        $convocatoria = Convocatoria::where('nombre', '01-2026')->first();
+
 
                         //Crear la seleccion
                         $data = [
-                            'convocatoria_id' => $convocatoria->id,
                             'sede_id' => $sede->id,
                             'carrera_sede' => $carrera_sede,
                         ];
 
-                        $request = Request::create(route('ingreso-solicitud-seleccion-carrera', ['id' => $solicitud->id]), 'POST', $data);
-                        $aspiranteC->seleccionCarrera($solicitud->id, $request);
+                        $request = Request::create(route('workflow-ingreso-solicitud-seleccion-carrera', ['id' => $solicitud->id]), 'POST', $data);
+                        $solicitudC->seleccionCarrera($solicitud->id, $request);
                     } catch (\Throwable $e) {
                         dump($e);
                     }
