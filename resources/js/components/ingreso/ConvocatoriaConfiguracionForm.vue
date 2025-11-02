@@ -9,9 +9,9 @@ const { t } = useI18n();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
-const time = ref(null);
 const showMenu = ref(false);
 const showMenu1 = ref(false);
+const showMenu2 = ref(false);
 
 const emit = defineEmits(['form-saved']);
 
@@ -22,11 +22,11 @@ function reset() {
 interface FormData {
     id: number | null;
     fecha_publicacion_resultados: Date | null;
-    hora: string | null;
-    fecha_recepcion_solicitudes: Date | null;
-    hora_recepcion_solicitudes: string | null;
-    fecha_finalizacion: Date | null;
-    hora_finalizacion: string | null;
+    hora_publicacion_resultados: string | null;
+    fecha_inicio_recepcion_solicitudes: Date | null;
+    hora_inicio_recepcion_solicitudes: string | null;
+    fecha_fin_recepcion_solicitudes: Date | null;
+    hora_fin_recepcion_solicitudes: string | null;
     cuota_sector_publico: number | null;
 }
 
@@ -35,21 +35,20 @@ const props = defineProps(['item', 'accion']);
 const formData = ref<FormData>({
     id: null,
     fecha_publicacion_resultados: null,
-    hora: '',
-    fecha_recepcion_solicitudes: null,
-    hora_recepcion_solicitudes: '',
-    fecha_finalizacion: null,
-    hora_finalizacion: '',
+    hora_publicacion_resultados: '',
+    fecha_inicio_recepcion_solicitudes: null,
+    hora_inicio_recepcion_solicitudes: '',
+    fecha_fin_recepcion_solicitudes: null,
+    hora_fin_recepcion_solicitudes: '',
     cuota_sector_publico: null,
 });
+
+const dateFields = ['fecha_publicacion_resultados', 'fecha_inicio_recepcion_solicitudes', 'fecha_fin_recepcion_solicitudes'];
 const isEditing = toRef(() => props.accion === 'configuracion');
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
     loading.value = true;
-
-    const hasError = ref(false);
-    const message = ref('');
 
     if (valid) {
         try {
@@ -92,14 +91,15 @@ onMounted(() => {
     reset();
     if (props.item.configuracion != null) {
         formData.value = { ...props.item.configuracion };
-        if (formData.value.fecha_publicacion_resultados) {
-            const fecha = new Date(formData.value.fecha_publicacion_resultados);
-            formData.value.hora = fecha.getHours() + ':' + fecha.getMinutes();
-        }
-        if (formData.value.fecha_recepcion_solicitudes) {
-            const fecha = new Date(formData.value.fecha_recepcion_solicitudes);
-            formData.value.hora_recepcion_solicitudes = fecha.getHours() + ':' + fecha.getMinutes();
-        }
+        dateFields.forEach((field) => {
+            if (formData.value[field]) {
+                const fecha = new Date(formData.value[field]);
+                const horaKey = field.replace('fecha_', 'hora_');
+                const horas = fecha.getHours().toString().padStart(2, '0');
+                const minutos = fecha.getMinutes().toString().padStart(2, '0');
+                formData.value[horaKey] = `${horas}:${minutos}`;
+            }
+        });
     }
 });
 </script>
@@ -120,23 +120,50 @@ onMounted(() => {
                                         <v-locale-provider locale="es">
                                             <v-date-input
                                                 clearable
-                                                v-model="formData.fecha_recepcion_solicitudes"
-                                                :label="$t('convocatoria._fecha_recepcion_solicitudes_')"
-                                                :hint="$t('convocatoria._fecha_recepcion_solicitudes_hint_')"
+                                                v-model="formData.fecha_inicio_recepcion_solicitudes"
+                                                :label="$t('convocatoria._fecha_inicio_recepcion_solicitudes_')"
+                                                :hint="$t('convocatoria._fecha_inicio_recepcion_solicitudes_hint_')"
                                                 persistent-hint
                                             ></v-date-input>
                                         </v-locale-provider>
                                     </v-col>
                                     <v-col cols="6">
                                         <v-text-field
-                                            :model-value="formData.hora_recepcion_solicitudes"
-                                            :label="$t('convocatoria._hora_recepcion_solicitudes_')"
+                                            :model-value="formData.hora_inicio_recepcion_solicitudes"
+                                            :label="$t('convocatoria._hora_inicio_recepcion_solicitudes_')"
                                             prepend-icon="mdi-clock-time-four-outline"
                                             readonly
                                             clearable
                                         >
                                             <v-menu v-model="showMenu1" :close-on-content-click="false" activator="parent" min-width="0">
-                                                <v-time-picker v-model="formData.hora_recepcion_solicitudes" color="green"></v-time-picker>
+                                                <v-time-picker v-model="formData.hora_inicio_recepcion_solicitudes" color="green"></v-time-picker>
+                                            </v-menu>
+                                        </v-text-field>
+                                    </v-col>
+                                </v-row>
+
+                                <v-row>
+                                    <v-col cols="6">
+                                        <v-locale-provider locale="es">
+                                            <v-date-input
+                                                clearable
+                                                v-model="formData.fecha_fin_recepcion_solicitudes"
+                                                :label="$t('convocatoria._fecha_fin_recepcion_solicitudes_')"
+                                                :hint="$t('convocatoria._fecha_fin_recepcion_solicitudes_hint_')"
+                                                persistent-hint
+                                            ></v-date-input>
+                                        </v-locale-provider>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-text-field
+                                            :model-value="formData.hora_fin_recepcion_solicitudes"
+                                            :label="$t('convocatoria._hora_fin_recepcion_solicitudes_')"
+                                            prepend-icon="mdi-clock-time-four-outline"
+                                            readonly
+                                            clearable
+                                        >
+                                            <v-menu v-model="showMenu2" :close-on-content-click="false" activator="parent" min-width="0">
+                                                <v-time-picker v-model="formData.hora_fin_recepcion_solicitudes" color="green"></v-time-picker>
                                             </v-menu>
                                         </v-text-field>
                                     </v-col>
@@ -155,32 +182,35 @@ onMounted(() => {
                                     </v-col>
                                     <v-col cols="6">
                                         <v-text-field
-                                            :model-value="formData.hora"
+                                            :model-value="formData.hora_publicacion_resultados"
                                             :label="$t('convocatoria._hora_publicacion_resultados_')"
                                             prepend-icon="mdi-clock-time-four-outline"
                                             readonly
                                             clearable
                                         >
                                             <v-menu v-model="showMenu" :close-on-content-click="false" activator="parent" min-width="0">
-                                                <v-time-picker v-model="formData.hora" color="green"></v-time-picker>
+                                                <v-time-picker v-model="formData.hora_publicacion_resultados" color="green"></v-time-picker>
                                             </v-menu>
                                         </v-text-field>
                                     </v-col>
                                 </v-row>
-                                <v-divider></v-divider>
-                                <v-number-input
-                                    :max="100"
-                                    :min="1"
-                                    reverse
-                                    control-variant="split"
-                                    append-icon="mdi-percent"
-                                    prepend-icon="mdi-counter"
-                                    class="w-50"
-                                    v-model="formData.cuota_sector_publico"
-                                    :label="$t('convocatoria._cuota_sector_publico_')"
-                                    :hint="$t('convocatoria._cuota_sector_publico_hint_')"
-                                    persistent-hint
-                                ></v-number-input>
+                                <v-row>
+                                    <v-col cols="12">
+                                        <v-number-input
+                                            :max="100"
+                                            :min="1"
+                                            reverse
+                                            control-variant="split"
+                                            append-icon="mdi-percent"
+                                            prepend-icon="mdi-counter"
+                                            class="w-50"
+                                            v-model="formData.cuota_sector_publico"
+                                            :label="$t('convocatoria._cuota_sector_publico_')"
+                                            :hint="$t('convocatoria._cuota_sector_publico_hint_')"
+                                            persistent-hint
+                                        ></v-number-input>
+                                    </v-col>
+                                </v-row>
                             </v-card-text>
                         </v-card>
                     </v-col>
