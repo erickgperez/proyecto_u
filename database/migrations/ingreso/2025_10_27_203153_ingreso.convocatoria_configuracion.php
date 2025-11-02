@@ -17,6 +17,8 @@ return new class extends Migration
 
             $table->tinyInteger('cuota_sector_publico')->nullable()->unsigned()->comment('Porcentaje de cupo asignado al sector público');
             $table->timestamp('fecha_publicacion_resultados')->nullable()->comment('Fecha a partir de la cual los aspirantes podrán visualizar si fueron seleccionados');
+            $table->timestamp('fecha_recepcion_solicitudes')->nullable()->comment('Fecha en los aspirantes pueden empezar a crear solicitudes de ingreso');
+            $table->timestamp('fecha_finalizacion')->nullable()->comment('Fecha en que se completa la convocatoria y se da por cerrada');
 
             $table->foreignId('convocatoria_id')->nullable()->comment('Convocatoria a la que pertenece la configuración');
             $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('RESTRICT')->onUpdate('CASCADE');

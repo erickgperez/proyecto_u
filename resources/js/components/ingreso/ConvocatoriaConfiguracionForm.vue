@@ -11,6 +11,7 @@ const loading = ref(false);
 const formRef = ref<VForm | null>(null);
 const time = ref(null);
 const showMenu = ref(false);
+const showMenu1 = ref(false);
 
 const emit = defineEmits(['form-saved']);
 
@@ -22,6 +23,10 @@ interface FormData {
     id: number | null;
     fecha_publicacion_resultados: Date | null;
     hora: string | null;
+    fecha_recepcion_solicitudes: Date | null;
+    hora_recepcion_solicitudes: string | null;
+    fecha_finalizacion: Date | null;
+    hora_finalizacion: string | null;
     cuota_sector_publico: number | null;
 }
 
@@ -31,6 +36,10 @@ const formData = ref<FormData>({
     id: null,
     fecha_publicacion_resultados: null,
     hora: '',
+    fecha_recepcion_solicitudes: null,
+    hora_recepcion_solicitudes: '',
+    fecha_finalizacion: null,
+    hora_finalizacion: '',
     cuota_sector_publico: null,
 });
 const isEditing = toRef(() => props.accion === 'configuracion');
@@ -41,7 +50,6 @@ async function submitForm() {
 
     const hasError = ref(false);
     const message = ref('');
-    formData.value.hora = time.value;
 
     if (valid) {
         try {
@@ -65,19 +73,13 @@ async function submitForm() {
                     toast: true,
                 });
             } else {
-                hasError.value = true;
-                message.value = t(resp.data.message);
+                throw new Error(resp.data.message);
             }
         } catch (error: any) {
-            hasError.value = true;
-            message.value = t('_no_se_pudo_guardar_formulario_');
             console.log(error);
-        }
-
-        if (hasError.value) {
             Swal.fire({
                 title: t('_error_'),
-                text: message.value,
+                text: t('_no_se_pudo_guardar_formulario_') + '. ' + error.message,
                 icon: 'error',
                 confirmButtonColor: '#D7E1EE',
             });
@@ -92,7 +94,11 @@ onMounted(() => {
         formData.value = { ...props.item.configuracion };
         if (formData.value.fecha_publicacion_resultados) {
             const fecha = new Date(formData.value.fecha_publicacion_resultados);
-            time.value = fecha.getHours() + ':' + fecha.getMinutes();
+            formData.value.hora = fecha.getHours() + ':' + fecha.getMinutes();
+        }
+        if (formData.value.fecha_recepcion_solicitudes) {
+            const fecha = new Date(formData.value.fecha_recepcion_solicitudes);
+            formData.value.hora_recepcion_solicitudes = fecha.getHours() + ':' + fecha.getMinutes();
         }
     }
 });
@@ -114,6 +120,32 @@ onMounted(() => {
                                         <v-locale-provider locale="es">
                                             <v-date-input
                                                 clearable
+                                                v-model="formData.fecha_recepcion_solicitudes"
+                                                :label="$t('convocatoria._fecha_recepcion_solicitudes_')"
+                                                :hint="$t('convocatoria._fecha_recepcion_solicitudes_hint_')"
+                                                persistent-hint
+                                            ></v-date-input>
+                                        </v-locale-provider>
+                                    </v-col>
+                                    <v-col cols="6">
+                                        <v-text-field
+                                            :model-value="formData.hora_recepcion_solicitudes"
+                                            :label="$t('convocatoria._hora_recepcion_solicitudes_')"
+                                            prepend-icon="mdi-clock-time-four-outline"
+                                            readonly
+                                            clearable
+                                        >
+                                            <v-menu v-model="showMenu1" :close-on-content-click="false" activator="parent" min-width="0">
+                                                <v-time-picker v-model="formData.hora_recepcion_solicitudes" color="green"></v-time-picker>
+                                            </v-menu>
+                                        </v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col cols="6">
+                                        <v-locale-provider locale="es">
+                                            <v-date-input
+                                                clearable
                                                 v-model="formData.fecha_publicacion_resultados"
                                                 :label="$t('convocatoria._fecha_publicacion_resultados_')"
                                                 :hint="$t('convocatoria._fecha_publicacion_resultados_hint_')"
@@ -123,14 +155,14 @@ onMounted(() => {
                                     </v-col>
                                     <v-col cols="6">
                                         <v-text-field
-                                            :model-value="time"
+                                            :model-value="formData.hora"
                                             :label="$t('convocatoria._hora_publicacion_resultados_')"
                                             prepend-icon="mdi-clock-time-four-outline"
                                             readonly
                                             clearable
                                         >
                                             <v-menu v-model="showMenu" :close-on-content-click="false" activator="parent" min-width="0">
-                                                <v-time-picker v-model="time" color="green"></v-time-picker>
+                                                <v-time-picker v-model="formData.hora" color="green"></v-time-picker>
                                             </v-menu>
                                         </v-text-field>
                                     </v-col>
