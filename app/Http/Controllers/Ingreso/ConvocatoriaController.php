@@ -129,20 +129,17 @@ class ConvocatoriaController extends Controller
             $configuracion->convocatoria()->associate($convocatoria);
         }
 
-        $fechasHoras = [
-            ['fecha' => 'fecha_publicacion_resultados', 'hora' => 'hora'],
-            ['fecha' => 'fecha_recepcion_solicitudes', 'hora' => 'hora_recepcion_solicitudes'],
-        ];
-        foreach ($fechasHoras as $row) {
-            $fecha_ = $request->get($row['fecha']);
+        $fechasHoras = ['publicacion_resultados', 'inicio_recepcion_solicitudes', 'fin_recepcion_solicitudes'];
+        foreach ($fechasHoras as $campo) {
+            $fecha_ = $request->get('fecha_' . $campo);
             $fechaHora = null;
             if ($fecha_) {
                 $fecha = new \DateTime($fecha_);
-                $hora = $request->get($row['hora']) ?? '00:00:00';
+                $hora = $request->get('hora_' . $campo) ?? '00:00:00';
 
                 $fechaHora = $fecha->format("Y-m-d") . ' ' . $hora;
             }
-            $configuracion->{$row['fecha']} = $fechaHora;
+            $configuracion->{'fecha_' . $campo} = $fechaHora;
         }
 
 
