@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
+const { mensajeError, mensajeExito } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -33,9 +34,6 @@ async function submitForm() {
     const { valid } = await formRef.value!.validate();
     loading.value = true;
 
-    const hasError = ref(false);
-    const message = ref('');
-
     if (valid) {
         try {
             const resp = await axios.postForm(route('ingreso-convocatoria-oferta-save', { id: props.item.id }), formData.value, {
@@ -48,32 +46,13 @@ async function submitForm() {
                     reset();
                 }
                 emit('form-saved', resp.data.convocatoria);
-                Swal.fire({
-                    title: t('_exito_'),
-                    text: t('_datos_subidos_correctamente_'),
-                    icon: 'success',
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2500,
-                    toast: true,
-                });
+                mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
-                hasError.value = true;
-                message.value = t(resp.data.message);
+                throw new Error(resp.data.message);
             }
         } catch (error: any) {
-            hasError.value = true;
-            message.value = t('_no_se_pudo_guardar_formulario_');
             console.log(error);
-        }
-
-        if (hasError.value) {
-            Swal.fire({
-                title: t('_error_'),
-                text: message.value,
-                icon: 'error',
-                confirmButtonColor: '#D7E1EE',
-            });
+            mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + error.message);
         }
     }
     loading.value = false;

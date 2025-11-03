@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import {
     Bold,
@@ -23,6 +24,7 @@ import { useDate } from 'vuetify';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
+const { mensajeExito, mensajeError } = useFunciones();
 
 const date = useDate();
 
@@ -80,42 +82,19 @@ async function submitForm() {
     const { valid } = await formRef.value!.validate();
     loading.value = true;
 
-    const hasError = ref(false);
-    const message = ref('');
-
     if (valid) {
         try {
             const resp = await axios.post(route('general-actividad-save', { id: props.idCalendario }), formData.value);
             if (resp.data.status == 'ok') {
                 eventos.value = resp.data.items;
-                Swal.fire({
-                    title: t('_exito_'),
-                    text: t('_datos_subidos_correctamente_'),
-                    icon: 'success',
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2500,
-                    toast: true,
-                });
-
                 dialog.value = false;
+                mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
-                hasError.value = true;
-                message.value = t(resp.data.message);
+                throw new Error(resp.data.message);
             }
         } catch (error: any) {
-            hasError.value = true;
-            message.value = t('_no_se_pudo_guardar_formulario_');
             console.log(error);
-        }
-
-        if (hasError.value) {
-            Swal.fire({
-                title: t('_error_'),
-                text: message.value,
-                icon: 'error',
-                confirmButtonColor: '#D7E1EE',
-            });
+            mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + error.message);
         }
     }
     loading.value = false;
@@ -140,15 +119,6 @@ function remove(item: Evento) {
 
                 if (resp.data.status == 'ok') {
                     eventos.value = resp.data.items;
-                    /*Swal.fire({
-                        title: t('_exito_'),
-                        text: t('_registro_eliminado_correctamente_'),
-                        icon: 'success',
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2500,
-                        toast: true,
-                    });*/
                 } else {
                     hasError.value = true;
                     message.value = t(resp.data.message);

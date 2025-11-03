@@ -1,13 +1,16 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import { usePermissions } from '@/composables/usePermissions';
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { computed, PropType, ref } from 'vue';
+import { computed, PropType } from 'vue';
 import { useI18n } from 'vue-i18n';
 
-const { hasPermission, hasAnyPermission } = usePermissions();
+const { hasPermission } = usePermissions();
 
 const { t } = useI18n();
+
+const { mensajeExito, mensajeError } = useFunciones();
 
 interface Accion {
     permiso: string;
@@ -55,9 +58,6 @@ function emitirAccion(accion: string) {
 }
 
 function remove() {
-    const hasError = ref(false);
-    const message = ref('');
-    const messageLog = ref('');
     Swal.fire({
         title: t('_confirmar_borrar_registro_'),
         text: props.selectedItemLabel,
@@ -72,38 +72,14 @@ function remove() {
                 const resp = await axios.delete(route(props.rutaBorrar, { id: props.selectedItemId }));
 
                 if (resp.data.status == 'ok') {
-                    Swal.fire({
-                        title: t('_exito_'),
-                        text: t('_registro_eliminado_correctamente_'),
-                        icon: 'success',
-                        position: 'top-end',
-                        showConfirmButton: false,
-                        timer: 2500,
-                        toast: true,
-                    });
-
-                    /*const index = localItems.value.findIndex((item) => item.id === selectedItem.value?.id);
-                    localItems.value.splice(index, 1);
-
-                    step.value = 1;*/
-                    emit('action', 'delete');
+                    emit('action', 'detele');
+                    mensajeExito(t('_registro_eliminado_correctamente_'));
                 } else {
-                    hasError.value = true;
-                    message.value = t(resp.data.message);
+                    throw new Error(resp.data.message);
                 }
             } catch (error: any) {
-                hasError.value = true;
-                messageLog.value = error.response.data.message;
-            }
-
-            if (hasError.value) {
-                console.log(messageLog.value);
-                Swal.fire({
-                    title: t('_error_'),
-                    text: t('_no_se_pudo_eliminar_') + '. ' + message.value,
-                    icon: 'error',
-                    confirmButtonColor: '#D7E1EE',
-                });
+                console.log(error);
+                mensajeError(t('_no_se_pudo_eliminar_') + '. ' + error.message);
             }
         }
     });

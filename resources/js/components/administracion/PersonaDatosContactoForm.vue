@@ -1,13 +1,12 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
-const { rules } = useFunciones();
+const { rules, mensajeExito, mensajeError } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -58,26 +57,13 @@ async function submitForm() {
             const resp = await axios.post(route('administracion-persona-datos-contacto-save', { id: props.item.id }), formData.value);
             if (resp.data.status == 'ok') {
                 emit('form-saved', resp.data.item);
-                Swal.fire({
-                    title: t('_exito_'),
-                    text: t('_datos_subidos_correctamente_'),
-                    icon: 'success',
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2500,
-                    toast: true,
-                });
+                mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
                 throw new Error(resp.data.message);
             }
         } catch (error: any) {
             console.log(error);
-            Swal.fire({
-                title: t('_error_'),
-                text: t('_no_se_pudo_guardar_formulario_') + '. ' + error.message,
-                icon: 'error',
-                confirmButtonColor: '#D7E1EE',
-            });
+            mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + error.message);
         }
     }
     loading.value = false;

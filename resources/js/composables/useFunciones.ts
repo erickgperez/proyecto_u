@@ -1,3 +1,4 @@
+import Swal from 'sweetalert2';
 import { useI18n } from 'vue-i18n';
 
 export function useFunciones() {
@@ -61,8 +62,31 @@ export function useFunciones() {
         return carrerasAgrupadasArray;
     }
 
+    function mensajeExito(mensaje: string) {
+        Swal.fire({
+            title: t('_exito_'),
+            text: mensaje,
+            icon: 'success',
+            position: 'top-end',
+            showConfirmButton: false,
+            timer: 2500,
+            toast: true,
+        });
+    }
+
+    function mensajeError(mensaje: string) {
+        Swal.fire({
+            title: t('_error_'),
+            text: mensaje,
+            icon: 'error',
+            confirmButtonColor: '#D7E1EE',
+        });
+    }
+
     return {
         rules,
         carrerasAgrupadasVList,
+        mensajeExito,
+        mensajeError,
     };
 }

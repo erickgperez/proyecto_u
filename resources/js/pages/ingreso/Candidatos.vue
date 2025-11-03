@@ -2,6 +2,7 @@
 import GraficoCandidatos from '@/components/ingreso/GraficoCandidatos.vue';
 import Invitaciones from '@/components/ingreso/Invitaciones.vue';
 import ListadoCandidatos from '@/components/ingreso/ListadoCandidatos.vue';
+import { useFunciones } from '@/composables/useFunciones';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -13,6 +14,7 @@ import { useI18n } from 'vue-i18n';
 const { hasPermission } = usePermissions();
 
 const { t } = useI18n();
+const { mensajeError } = useFunciones();
 
 interface Departamento {
     codigo_depto: string;
@@ -72,14 +74,6 @@ function enviarInvitacionesPendientes() {
                     const resp = await axios.get(route('ingreso-convocatoria-invitaciones-pendientes', { id: convocatoria.value?.id }));
 
                     if (resp.data.status == 'ok') {
-                        /*Swal.fire({
-                            title: t('_exito_'),
-                            text: t('invitacion._invitaciones_enviadas_correctamente_'),
-                            icon: 'success',
-                            position: 'top-end',
-                            confirmButtonColor: '#D7E1EE',
-                        });*/
-
                         handleConvocatoria(resp.data.convocatoria);
                     } else {
                         hasError.value = true;
@@ -92,12 +86,7 @@ function enviarInvitacionesPendientes() {
 
                 if (hasError.value) {
                     console.log(messageLog.value);
-                    Swal.fire({
-                        title: t('_error_'),
-                        text: t('invitacion._no_se_pudo_realizar_envio_') + '. ' + message.value,
-                        icon: 'error',
-                        confirmButtonColor: '#D7E1EE',
-                    });
+                    mensajeError(t('invitacion._no_se_pudo_realizar_envio_') + '. ' + message.value);
                 }
             }
         });

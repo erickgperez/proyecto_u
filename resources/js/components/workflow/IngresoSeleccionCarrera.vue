@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, ref, watch } from 'vue';
@@ -6,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import CarrerasSeleccionadas from '../ingreso/CarrerasSeleccionadas.vue';
 
 const { t } = useI18n();
+const { mensajeError, mensajeExito } = useFunciones();
 
 const emit = defineEmits(['form-saved']);
 
@@ -36,41 +38,19 @@ const formData = ref<FormData>({
 async function submitForm() {
     loading.value = true;
 
-    const hasError = ref(false);
-    const message = ref('');
-
     formData.value.sede_id = sede.value.id.split('-').pop();
     formData.value.carrera_sede = carrerasSeleccionadas.value.map((carr) => carr.id);
     try {
         const resp = await axios.post(route('workflow-ingreso-solicitud-seleccion-carrera', { id: props.solicitud.id }), formData.value);
         if (resp.data.status == 'ok') {
-            Swal.fire({
-                title: t('_exito_'),
-                text: t('_datos_subidos_correctamente_'),
-                icon: 'success',
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 2500,
-                toast: true,
-            });
             emit('form-saved', resp.data);
+            mensajeExito(t('_datos_subidos_correctamente_'));
         } else {
-            hasError.value = true;
-            message.value = t(resp.data.message);
+            throw new Error(resp.data.message);
         }
     } catch (error: any) {
-        hasError.value = true;
-        message.value = t('_no_se_pudo_guardar_formulario_');
         console.log(error);
-    }
-
-    if (hasError.value) {
-        Swal.fire({
-            title: t('_error_'),
-            text: message.value,
-            icon: 'error',
-            confirmButtonColor: '#D7E1EE',
-        });
+        mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + error.message);
     }
 
     loading.value = false;

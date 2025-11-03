@@ -28,7 +28,7 @@ import {
 } from 'element-tiptap';
 
 const { t } = useI18n();
-const { rules } = useFunciones();
+const { rules, mensajeExito, mensajeError } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -86,9 +86,6 @@ async function submitForm() {
     const { valid } = await formRef.value!.validate();
     loading.value = true;
 
-    const hasError = ref(false);
-    const message = ref('');
-
     if (valid) {
         formData.value.cuerpo_mensaje = content.value;
         try {
@@ -103,32 +100,13 @@ async function submitForm() {
                 }
                 emit('form-saved', resp.data.convocatoria);
                 formData.value.afiche = resp.data.convocatoria.afiche;
-                Swal.fire({
-                    title: t('_exito_'),
-                    text: t('_datos_subidos_correctamente_'),
-                    icon: 'success',
-                    position: 'top-end',
-                    showConfirmButton: false,
-                    timer: 2500,
-                    toast: true,
-                });
+                mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
-                hasError.value = true;
-                message.value = t(resp.data.message);
+                throw new Error(resp.data.message);
             }
         } catch (error: any) {
-            hasError.value = true;
-            message.value = t('_no_se_pudo_guardar_formulario_');
             console.log(error);
-        }
-
-        if (hasError.value) {
-            Swal.fire({
-                title: t('_error_'),
-                text: message.value,
-                icon: 'error',
-                confirmButtonColor: '#D7E1EE',
-            });
+            mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + error.message);
         }
     }
     loading.value = false;

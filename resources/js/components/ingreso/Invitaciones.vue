@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import Swal from 'sweetalert2';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
@@ -26,6 +26,7 @@ const loading = ref(false);
 const emit = defineEmits(['convocatoria']);
 
 const { t } = useI18n();
+const { mensajeExito } = useFunciones();
 
 const tipoEnvioRules: ((value: string) => true | string)[] = [(v) => !!v || 'Elija un tipo de envío'];
 const tipoInvitacionRules: ((value: string) => true | string)[] = [(v) => !!v || 'Elija la forma de invitación'];
@@ -51,14 +52,7 @@ async function submitForm(): Promise<void> {
                 idConvocatoria: props.convocatoria.id,
             })
             .then(function (response) {
-                Swal.fire({
-                    title: t('_enviado_'),
-                    position: 'top-end',
-                    text: t('invitacion._invitaciones_enviadas_correctamente_'),
-                    icon: 'success',
-                    showConfirmButton: false,
-                    timer: 1500,
-                });
+                mensajeExito(t('invitacion._invitaciones_enviadas_correctamente_'));
                 emit('convocatoria', response.data.convocatoria);
             })
             .catch(function (error) {
