@@ -5,6 +5,7 @@ import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
+import { useFunciones } from '@/composables/useFunciones';
 import {
     Bold,
     BulletList,
@@ -27,6 +28,7 @@ import {
 } from 'element-tiptap';
 
 const { t } = useI18n();
+const { rules } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -172,7 +174,7 @@ const extensions = [
                                 required
                                 icon-color="deep-orange"
                                 v-model="formData.fecha"
-                                :rules="[(v) => !!v || $t('_fecha_requerida_')]"
+                                :rules="[rules.required]"
                                 :label="$t('_fecha_') + ' *'"
                             ></v-date-input>
                         </v-locale-provider>
@@ -182,10 +184,7 @@ const extensions = [
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
-                            :rules="[
-                                (v) => !!v || $t('_nombre_requerido_'),
-                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima') + ': 100 ' + $t('_caracteres_'),
-                            ]"
+                            :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('_nombre_') + ' *'"
                         ></v-text-field>
@@ -193,12 +192,13 @@ const extensions = [
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion"
-                            :rules="[(v) => !v || v.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(255)]"
                             counter="255"
                             :label="$t('_descripcion_')"
                         ></v-text-field>
                         <v-select
                             required
+                            :rules="[rules.required]"
                             icon-color="deep-orange"
                             :label="$t('convocatoria._flujo_')"
                             :items="props.flujos"
