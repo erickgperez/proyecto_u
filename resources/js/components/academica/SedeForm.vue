@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, ref, toRef } from 'vue';
@@ -6,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
+const { rules } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -115,10 +117,7 @@ onMounted(() => {
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.codigo"
-                            :rules="[
-                                (v) => !!v || $t('_campo_requerido_'),
-                                (v) => !v || v.length <= 20 || $t('_longitud_maxima_') + ': 20 ' + $t('_caracteres_'),
-                            ]"
+                            :rules="[rules.required, rules.maxLength(20)]"
                             counter="20"
                             :label="$t('_codigo_') + ' *'"
                         ></v-text-field>
@@ -128,10 +127,7 @@ onMounted(() => {
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
-                            :rules="[
-                                (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 255) || $t('_longitud_maxima') + ': 255 ' + $t('_caracteres_'),
-                            ]"
+                            :rules="[rules.required, rules.maxLength(255)]"
                             counter="100"
                             :label="$t('_nombre_') + ' *'"
                         ></v-text-field>
