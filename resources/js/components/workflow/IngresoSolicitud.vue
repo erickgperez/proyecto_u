@@ -49,7 +49,7 @@ async function submitForm1() {
             .catch(function (error) {
                 Swal.fire({
                     title: t('_error_'),
-                    text: t('_no_se_pudo_guardar_formulario_') + ' ' + error.message,
+                    text: t('_no_se_pudo_guardar_formulario_') + '. ' + error.message,
                     icon: 'error',
                     confirmButtonColor: '#D7E1EE',
                 });

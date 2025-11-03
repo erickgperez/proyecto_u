@@ -5,7 +5,6 @@ use App\Http\Controllers\Administracion\EtapaController;
 use App\Http\Controllers\Administracion\FlujoController;
 use App\Http\Controllers\Administracion\PermisosController;
 use App\Http\Controllers\Administracion\PersonaController;
-use App\Http\Controllers\Administracion\ProcesoController;
 use App\Http\Controllers\Administracion\RolesController;
 use App\Http\Controllers\Administracion\SimulacionController;
 use App\Http\Controllers\Administracion\TipoFlujoController;
@@ -18,6 +17,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/administracion/persona', [PersonaController::class, 'index'])->name('administracion-persona-index');
     Route::post('/administracion/persona/save', [PersonaController::class, 'save'])->name('administracion-persona-save');
+    Route::post('/administracion/persona/{id}/datos-contacto/save', [PersonaController::class, 'datosContactoSave'])->name('administracion-persona-datos-contacto-save');
     Route::delete('/administracion/persona/{id}/delete', [PersonaController::class, 'delete'])->name('administracion-persona-delete');
 
     Route::get('/seguridad/permisos', [PermisosController::class, 'index'])->name('seguridad-permisos-index');

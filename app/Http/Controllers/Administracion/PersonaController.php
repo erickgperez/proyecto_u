@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administracion;
 
 use App\Http\Controllers\Controller;
+use App\Models\DatosContacto;
 use App\Models\Persona;
 use App\Models\Sexo;
 use Illuminate\Http\Request;
@@ -18,7 +19,7 @@ class PersonaController extends Controller
     public function index(Request $request): Response
     {
 
-        $personas = Persona::with('sexo', 'creator', 'updater')->get();
+        $personas = Persona::with('sexo', 'creator', 'updater', 'datosContacto')->get();
         $sexos = Sexo::all();
 
         return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos]);
@@ -55,10 +56,44 @@ class PersonaController extends Controller
 
         $persona->save();
 
-        $personaData = Persona::with('sexo', 'creator', 'updater')->find($persona->id);
+        $personaData = Persona::with('sexo', 'creator', 'updater', 'datosContacto')->find($persona->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }
+
+    public function datosContactoSave($id, Request $request)
+    {
+        $persona = Persona::find($id);
+        $datosContacto = $persona->datosContacto;
+
+        if (!$datosContacto) {
+            $datosContacto = new DatosContacto();
+        }
+
+        $campos = [
+            'email_principal',
+            'email_alternativo',
+            'direccion_residencia',
+            'residencia_distrito_id',
+            'telefono_residencia',
+            'direccion_trabajo',
+            'telefono_trabajo',
+            'telefono_personal',
+            'telefono_personal_alternativo'
+        ];
+        foreach ($campos as $c) {
+            $datosContacto->{$c} = $request->get($c);
+        }
+        $datosContacto->persona()->associate($persona);
+        $datosContacto->save();
+
+
+        $personaData = Persona::with('sexo', 'creator', 'updater', 'datosContacto')->find($persona->id);
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
+    }
+
+
 
     public function delete(int $id)
     {

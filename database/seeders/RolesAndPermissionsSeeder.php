@@ -59,6 +59,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_PERSONA_EDITAR']);
         Permission::create(['name' => 'ADMINISTRACION_PERSONA_MOSTRAR']);
         Permission::create(['name' => 'ADMINISTRACION_PERSONA_BORRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERSONA_DATOS-CONTACTO']);
 
         Permission::create(['name' => 'MENU_ADMINISTRACION_PROCESOS']);
 

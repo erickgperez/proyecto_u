@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PersonaDatosContactoForm from '@/components/administracion/PersonaDatosContactoForm.vue';
 import PersonaForm from '@/components/administracion/PersonaForm.vue';
 import PersonaShow from '@/components/administracion/PersonaShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
@@ -67,6 +68,7 @@ const acc = {
     editar: 'ADMINISTRACION_PERSONA_EDITAR',
     mostrar: 'ADMINISTRACION_PERSONA_MOSTRAR',
     borrar: 'ADMINISTRACION_PERSONA_BORRAR',
+    datos_contacto: 'ADMINISTRACION_PERSONA_DATOS-CONTACTO',
 };
 const permisoAny = 'ADMINISTRACION_PERSONA_';
 // Permisos requeridos por la interfaz
@@ -100,6 +102,14 @@ const sortBy: SortBy[] = [
 ];
 
 const opcionesAccion = [
+    {
+        permiso: acc.datos_contacto,
+        title: t('persona._datos_contacto_'),
+        text: t('persona._datos_contacto_descripcion_'),
+        emitAction: 'datos-contacto',
+        color: 'purple-darken-4',
+        icon: 'mdi-calendar-month-outline',
+    },
     {
         permiso: acc.editar,
         ...accionEditObject,
@@ -170,6 +180,12 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
+                        <PersonaDatosContactoForm
+                            v-if="selectedAction === 'datos-contacto'"
+                            :item="selectedItem"
+                            :accion="selectedAction"
+                            @form-saved="handleFormSave"
+                        ></PersonaDatosContactoForm>
                         <PersonaForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"

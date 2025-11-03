@@ -11,6 +11,7 @@ use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Persona extends Model
 {
@@ -98,5 +99,10 @@ class Persona extends Model
     public function aspirantes(): HasMany
     {
         return $this->hasMany(Aspirante::class)->chaperone();
+    }
+
+    public function datosContacto(): HasOne
+    {
+        return $this->hasOne(DatosContacto::class, 'persona_id');
     }
 }

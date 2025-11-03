@@ -1,0 +1,191 @@
+<script setup lang="ts">
+import axios from 'axios';
+import Swal from 'sweetalert2';
+import { onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import type { VForm } from 'vuetify/components';
+
+const { t } = useI18n();
+
+const loading = ref(false);
+const formRef = ref<VForm | null>(null);
+const distritos = ref([]);
+
+const emit = defineEmits(['form-saved']);
+
+function reset() {
+    formRef.value!.reset();
+}
+
+interface FormData {
+    id: number | null;
+    email_principal: string;
+    email_alternativo: string;
+    direccion_residencia: string;
+    residencia_distrito_id: number | null;
+    telefono_residencia: string;
+    direccion_trabajo: string;
+    telefono_trabajo: string;
+    telefono_personal: string;
+    telefono_personal_alternativo: string;
+    persona_id: number | null;
+}
+
+const props = defineProps(['item', 'accion']);
+
+const formData = ref<FormData>({
+    id: null,
+    email_principal: '',
+    email_alternativo: '',
+    direccion_residencia: '',
+    residencia_distrito_id: null,
+    telefono_residencia: '',
+    direccion_trabajo: '',
+    telefono_trabajo: '',
+    telefono_personal: '',
+    telefono_personal_alternativo: '',
+    persona_id: null,
+});
+
+async function submitForm() {
+    const { valid } = await formRef.value!.validate();
+    loading.value = true;
+
+    if (valid) {
+        try {
+            const resp = await axios.post(route('administracion-persona-datos-contacto-save', { id: props.item.id }), formData.value);
+            if (resp.data.status == 'ok') {
+                emit('form-saved', resp.data.item);
+                Swal.fire({
+                    title: t('_exito_'),
+                    text: t('_datos_subidos_correctamente_'),
+                    icon: 'success',
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 2500,
+                    toast: true,
+                });
+            } else {
+                throw new Error(resp.data.message);
+            }
+        } catch (error: any) {
+            console.log(error);
+            Swal.fire({
+                title: t('_error_'),
+                text: t('_no_se_pudo_guardar_formulario_') + '. ' + error.message,
+                icon: 'error',
+                confirmButtonColor: '#D7E1EE',
+            });
+        }
+    }
+    loading.value = false;
+}
+
+onMounted(() => {
+    reset();
+
+    formData.value = { ...props.item.datos_contacto };
+});
+</script>
+<template>
+    <v-card :title="$t('persona._datos_contacto_')">
+        <template v-slot:text>
+            <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
+                <v-row>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                            required
+                            icon-color="deep-orange"
+                            prepend-icon="mdi-at"
+                            v-model="formData.email_principal"
+                            :rules="[
+                                (v) => !!v || $t('_campo_requerido_'),
+                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_'),
+                            ]"
+                            counter="100"
+                            :label="$t('persona._email_principal_') + ' *'"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                            prepend-icon="mdi-at"
+                            v-model="formData.email_alternativo"
+                            :rules="[(v) => !v || v.length <= 100 || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_')]"
+                            counter="100"
+                            :label="$t('persona._email_alternativo_')"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                            prepend-icon="mdi-cellphone-sound"
+                            v-model="formData.telefono_personal"
+                            :rules="[(v) => !v || v.length <= 50 || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_')]"
+                            counter="50"
+                            :label="$t('persona._telefono_personal_')"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                            prepend-icon="mdi-cellphone-sound"
+                            v-model="formData.telefono_personal_alternativo"
+                            :rules="[(v) => !v || v.length <= 50 || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_')]"
+                            counter="50"
+                            :label="$t('persona._telefono_personal_alternativo_')"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                        <v-text-field
+                            prepend-icon="mdi-home"
+                            v-model="formData.direccion_residencia"
+                            :rules="[(v) => !v || v.length <= 500 || $t('_longitud_maxima_') + ': 500 ' + $t('_caracteres_')]"
+                            counter="500"
+                            :label="$t('persona._direccion_residencia_')"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                        <v-text-field
+                            prepend-icon="mdi-cellphone-basic"
+                            v-model="formData.telefono_residencia"
+                            :rules="[(v) => !v || v.length <= 50 || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_')]"
+                            counter="50"
+                            :label="$t('persona._telefono_residencia_')"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-select
+                            :label="$t('persona._distrito_')"
+                            :items="distritos"
+                            v-model="formData.residencia_distrito_id"
+                            item-title="descripcion"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                        ></v-select>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                        <v-text-field
+                            prepend-icon="mdi-office-building-outline"
+                            v-model="formData.direccion_trabajo"
+                            :rules="[(v) => !v || v.length <= 500 || $t('_longitud_maxima_') + ': 500 ' + $t('_caracteres_')]"
+                            counter="500"
+                            :label="$t('persona._direccion_trabajo_')"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="4">
+                        <v-text-field
+                            prepend-icon="mdi-deskphone"
+                            v-model="formData.telefono_trabajo"
+                            :rules="[(v) => !v || v.length <= 50 || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_')]"
+                            counter="50"
+                            :label="$t('persona._telefono_trabajo_')"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" align="right">
+                        <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
+                            {{ $t('_guardar_') }}
+                        </v-btn>
+                    </v-col>
+                </v-row>
+            </v-form>
+        </template>
+    </v-card>
+</template>
