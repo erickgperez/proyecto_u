@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
@@ -6,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
+const { rules } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -98,10 +100,7 @@ onMounted(() => {
                             icon-color="deep-orange"
                             prepend-icon="mdi-at"
                             v-model="formData.email_principal"
-                            :rules="[
-                                (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_'),
-                            ]"
+                            :rules="[rules.required, rules.email, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('persona._email_principal_') + ' *'"
                         ></v-text-field>
@@ -110,7 +109,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-at"
                             v-model="formData.email_alternativo"
-                            :rules="[(v) => !v || v.length <= 100 || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_')]"
+                            :rules="[rules.email, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('persona._email_alternativo_')"
                         ></v-text-field>
@@ -119,7 +118,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-cellphone-sound"
                             v-model="formData.telefono_personal"
-                            :rules="[(v) => !v || v.length <= 50 || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(50)]"
                             counter="50"
                             :label="$t('persona._telefono_personal_')"
                         ></v-text-field>
@@ -128,7 +127,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-cellphone-sound"
                             v-model="formData.telefono_personal_alternativo"
-                            :rules="[(v) => !v || v.length <= 50 || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(50)]"
                             counter="50"
                             :label="$t('persona._telefono_personal_alternativo_')"
                         ></v-text-field>
@@ -137,7 +136,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-home"
                             v-model="formData.direccion_residencia"
-                            :rules="[(v) => !v || v.length <= 500 || $t('_longitud_maxima_') + ': 500 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(500)]"
                             counter="500"
                             :label="$t('persona._direccion_residencia_')"
                         ></v-text-field>
@@ -146,7 +145,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-cellphone-basic"
                             v-model="formData.telefono_residencia"
-                            :rules="[(v) => !v || v.length <= 50 || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(50)]"
                             counter="50"
                             :label="$t('persona._telefono_residencia_')"
                         ></v-text-field>
@@ -165,7 +164,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-office-building-outline"
                             v-model="formData.direccion_trabajo"
-                            :rules="[(v) => !v || v.length <= 500 || $t('_longitud_maxima_') + ': 500 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(50)]"
                             counter="500"
                             :label="$t('persona._direccion_trabajo_')"
                         ></v-text-field>
@@ -174,7 +173,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-deskphone"
                             v-model="formData.telefono_trabajo"
-                            :rules="[(v) => !v || v.length <= 50 || $t('_longitud_maxima_') + ': 50 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(50)]"
                             counter="50"
                             :label="$t('persona._telefono_trabajo_')"
                         ></v-text-field>
