@@ -1,4 +1,18 @@
+import { useI18n } from 'vue-i18n';
+
 export function useFunciones() {
+    const { t } = useI18n();
+
+    const rules = {
+        required: (value: any) => !!value || t('_campo_requerido_'),
+        email: (value: any) => {
+            const pattern =
+                /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+            return !value || pattern.test(value) || t('_direccion_correo_no_valida_');
+        },
+        maxLength: (max: number) => (value: any) => !value || value.length <= max || `${t('_longitud_maxima_')}: ${max} ${t('_caracteres_')}`,
+    };
+
     /**
      * Agrupa un array de carreras por tipo, insertando subencabezados y divisores.
      * @param {Array<Object>} carreras El array de objetos de carrera.
@@ -48,6 +62,7 @@ export function useFunciones() {
     }
 
     return {
+        rules,
         carrerasAgrupadasVList,
     };
 }
