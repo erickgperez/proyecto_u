@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { computed, onMounted, ref, toRef } from 'vue';
@@ -6,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
+const { rules } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -109,10 +111,7 @@ onMounted(() => {
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.codigo"
-                            :rules="[
-                                (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_'),
-                            ]"
+                            :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('transicion._codigo_') + ' *'"
                         ></v-text-field>
@@ -122,7 +121,7 @@ onMounted(() => {
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
-                            :rules="[(v) => !v || v.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
+                            :rules="[rules.required, rules.maxLength(255)]"
                             counter="255"
                             :label="$t('transicion._nombre_') + ' *'"
                         ></v-text-field>
@@ -130,7 +129,7 @@ onMounted(() => {
                         <v-autocomplete
                             clearable
                             icon-color="deep-orange"
-                            required
+                            :rules="[rules.required]"
                             :label="$t('flujo._singular_') + ' *'"
                             :items="flujos"
                             v-model="formData.flujo_id"
@@ -143,7 +142,7 @@ onMounted(() => {
                         <v-autocomplete
                             clearable
                             icon-color="deep-orange"
-                            required
+                            :rules="[rules.required]"
                             :label="$t('transicion._etapa_origen_') + ' *'"
                             :items="etapasByFlujo"
                             v-model="formData.etapa_origen_id"
@@ -156,7 +155,7 @@ onMounted(() => {
                         <v-autocomplete
                             clearable
                             icon-color="deep-orange"
-                            required
+                            :rules="[rules.required]"
                             :label="$t('transicion._estado_origen_') + ' *'"
                             :items="estados"
                             v-model="formData.estado_origen_id"
@@ -169,7 +168,7 @@ onMounted(() => {
                         <v-autocomplete
                             clearable
                             icon-color="deep-orange"
-                            required
+                            :rules="[rules.required]"
                             :label="$t('transicion._etapa_destino_') + ' *'"
                             :items="etapasByFlujo"
                             v-model="formData.etapa_destino_id"
@@ -182,7 +181,7 @@ onMounted(() => {
                         <v-autocomplete
                             clearable
                             icon-color="deep-orange"
-                            required
+                            :rules="[rules.required]"
                             :label="$t('transicion._estado_destino_') + ' *'"
                             :items="estados"
                             v-model="formData.estado_destino_id"

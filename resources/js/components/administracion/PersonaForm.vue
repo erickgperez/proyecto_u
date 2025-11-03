@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, ref, toRef } from 'vue';
@@ -6,6 +7,7 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
+const { rules } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -107,10 +109,7 @@ onMounted(() => {
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.primer_nombre"
-                            :rules="[
-                                (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_'),
-                            ]"
+                            :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('persona._primer_nombre_') + ' *'"
                         ></v-text-field>
@@ -119,7 +118,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.segundo_nombre"
-                            :rules="[(v) => !v || v.length <= 100 || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('persona._segundo_nombre_')"
                         ></v-text-field>
@@ -128,7 +127,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.tercer_nombre"
-                            :rules="[(v) => !v || v.length <= 100 || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('persona._tercer_nombre_')"
                         ></v-text-field>
@@ -139,10 +138,7 @@ onMounted(() => {
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.primer_apellido"
-                            :rules="[
-                                (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_'),
-                            ]"
+                            :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('persona._primer_apellido_') + ' *'"
                         ></v-text-field>
@@ -151,7 +147,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.segundo_apellido"
-                            :rules="[(v) => !v || v.length <= 100 || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('persona._segundo_apellido_')"
                         ></v-text-field>
@@ -160,7 +156,7 @@ onMounted(() => {
                         <v-text-field
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.tercer_apellido"
-                            :rules="[(v) => !v || v.length <= 2 || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_')]"
+                            :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('persona._tercer_apellido_')"
                         ></v-text-field>

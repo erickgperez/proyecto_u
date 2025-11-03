@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import {
     Bold,
@@ -26,6 +27,7 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
+const { rules } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -138,24 +140,19 @@ const extensions = [
                 <v-row>
                     <v-col cols="12">
                         <v-text-field
-                            required
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.codigo"
-                            :rules="[
-                                (v) => !!v || $t('_campo_requerido_'),
-                                (v) => (!!v && v.length <= 100) || $t('_longitud_maxima_') + ': 100 ' + $t('_caracteres_'),
-                            ]"
+                            :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('etapa._codigo_') + ' *'"
                         ></v-text-field>
 
                         <v-text-field
-                            required
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
-                            :rules="[(v) => !v || v.length <= 255 || $t('_longitud_maxima_') + ': 255 ' + $t('_caracteres_')]"
+                            :rules="[rules.required, rules.maxLength(255)]"
                             counter="255"
                             :label="$t('etapa._nombre_') + ' *'"
                         ></v-text-field>
@@ -163,7 +160,7 @@ const extensions = [
                         <v-autocomplete
                             clearable
                             icon-color="deep-orange"
-                            required
+                            :rules="[rules.required]"
                             :label="$t('flujo._singular_') + ' *'"
                             :items="flujos"
                             v-model="formData.flujo_id"
