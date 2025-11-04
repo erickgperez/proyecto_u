@@ -29,7 +29,7 @@ const emit = defineEmits(['changeStep', 'changeDrawer']);
 
         <template v-slot:append>
             <v-btn v-if="step == 1" icon="mdi-application-cog" @click.stop="emit('changeDrawer')" :title="$t('_parametros_')"></v-btn>
-            <v-btn v-if="step == 1" icon="mdi-chart-bar" @click.stop="emit('changeStep', 2)" :title="$t('_grafico_')"></v-btn>
+            <v-btn v-if="step == 1" icon="mdi-chart-bar" @click.stop="emit('changeStep', 2)" :title="$t('_grafico_dinamico_')"></v-btn>
 
             <v-btn v-if="step == 2" icon="mdi-format-list-checks" @click.stop="emit('changeStep', 1)" :title="$t('_listado_seleccion_')"></v-btn>
         </template>

@@ -9,10 +9,11 @@ import type { VForm } from 'vuetify/components';
 const { hasPermission } = usePermissions();
 
 import { useFunciones } from '@/composables/useFunciones';
+import Swal from 'sweetalert2';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
-const { mensajeError, mensajeExito } = useFunciones();
+const { mensajeError } = useFunciones();
 
 const formRef = ref<VForm | null>(null);
 interface FormData {
@@ -45,7 +46,13 @@ const submitForm = async () => {
             formData.archivo = null;
             formData.tipoCarga = 'incremental';
 
-            mensajeExito(t('_datos_subidos_correctamente_'));
+            Swal.fire({
+                title: t('_exito_'),
+                text: t('_datos_subidos_correctamente_'),
+                icon: 'success',
+                position: 'top-end',
+                confirmButtonColor: '#D7E1EE',
+            });
         } catch (error) {
             mensajeError(t('_verifique_que_ha_subido_archivo_csv_'));
         }
