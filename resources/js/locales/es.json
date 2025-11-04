@@ -401,6 +401,10 @@
     "solicitud": {
         "_crear_solicitud_": "Crear solicitud",
         "_iniciar_solicitud_": "Iniciar solicitud",
+        "_finalizar_": "Finalizar",
+        "_confirmar_siguiente_etapa_": "Una vez completados los datos de la solicitud, confirme para pasar a siguiente etapa del proceso de ingreso",
+        "_guardar_pasar_siguiente_etapa_": "Guardar y pasar a siguiente etapa",
+        "_pasar_siguiente_etapa_": "Pasar a siguiente etapa",
         "_mensaje_crear_solicitud_": "Por favor, confirme que desea iniciar la solicitud de ingreso."
     },
     "_solo_estudiantes_para_carreras_universitarias_": "Solo a estudiantes de bachilleratos que son requisitos para las carreras universitarias",

@@ -3,36 +3,44 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import PersonaDatosContactoForm from '../administracion/PersonaDatosContactoForm.vue';
 
 const { t } = useI18n();
 
-const emit = defineEmits(['form-saved']);
+const emit = defineEmits(['form-saved', 'siguienteEtapa']);
 
-const loading = ref(false);
 const step = ref(1);
-const convocatorias = ref([]);
-const carreras = ref([]);
-const sedes = ref([]);
-const oferta = ref([]);
-const ofertaSede = ref([]);
 const snackbar = ref(false);
 const text = ref('');
 const form1 = ref(null);
-const form2 = ref(null);
-const form3 = ref(null);
-const convocatoria = ref(null);
-const sede = ref(null);
-const carrerasSeleccionadas = ref([]);
+const distritosTree = ref([]);
 
 const form1Data = ref({
     fecha_nacimiento: '',
 });
 
 const props = defineProps(['solicitud']);
+const persona = ref(null);
 
 onMounted(() => {
     form1Data.value.fecha_nacimiento = props.solicitud.solicitante.persona.fecha_nacimiento;
+
+    axios
+        .get(route('administracion-persona-info', { id: props.solicitud.solicitante.persona.id }))
+        .then(function (response) {
+            distritosTree.value = response.data.distritosTree;
+            persona.value = response.data.persona;
+        })
+        .catch(function (error) {
+            // handle error
+            console.error('Error fetching data:', error);
+        });
 });
+
+function handleFormSave() {
+    //emit('form-saved');
+    step.value++;
+}
 
 async function submitForm1() {
     const { valid } = await form1.value.validate();
@@ -74,12 +82,9 @@ function prevStep() {
             </v-stepper-item>
             <v-divider></v-divider>
             <v-stepper-item :color="step === 3 ? 'indigo' : ''" :value="3">
-                <span :class="step === 3 ? 'text-indigo' : ''">{{ $t('ingreso._seleccion_carreras_') }}</span>
+                <span :class="step === 3 ? 'text-indigo' : ''">{{ $t('solicitud._finalizar_') }}</span>
             </v-stepper-item>
             <v-divider></v-divider>
-            <v-stepper-item :color="step === 4 ? 'indigo' : ''" :value="4">
-                <span :class="step === 4 ? 'text-indigo' : ''">{{ $t('ingreso._resumen_') }}</span>
-            </v-stepper-item>
         </v-stepper-header>
         <v-stepper-window>
             <v-stepper-window-item :value="1">
@@ -159,10 +164,24 @@ function prevStep() {
                 </v-card>
             </v-stepper-window-item>
 
-            <v-stepper-window-item :value="2"> </v-stepper-window-item>
-
-            <v-stepper-window-item :value="3"> </v-stepper-window-item>
-            <v-stepper-window-item :value="4"> </v-stepper-window-item>
+            <v-stepper-window-item :value="2">
+                <PersonaDatosContactoForm
+                    :item="persona"
+                    :accion="'datos-contacto'"
+                    :distritosTree="distritosTree"
+                    :guardarTxt="$t('_siguiente_')"
+                    @form-saved="handleFormSave"
+                >
+                </PersonaDatosContactoForm>
+                <v-btn class="mt-4" rounded variant="tonal" color="secundary" prepend-icon="mdi-chevron-left" @click="prevStep">
+                    {{ $t('_atras_') }}
+                </v-btn>
+            </v-stepper-window-item>
+            <v-stepper-window-item :value="3">
+                <span class="text-h6">{{ $t('solicitud._confirmar_siguiente_etapa_') }}</span>
+                <v-divider class="mb-6"></v-divider>
+                <v-btn color="primary" @click="emit('siguienteEtapa')">{{ $t('solicitud._pasar_siguiente_etapa_') }}</v-btn>
+            </v-stepper-window-item>
         </v-stepper-window>
     </v-stepper>
     <v-snackbar v-model="snackbar" multi-line>

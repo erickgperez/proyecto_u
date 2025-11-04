@@ -147,6 +147,28 @@ class SolicitudIngresoController extends Controller
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
     }
 
+
+    public function siguienteEtapa(int $id, Request $request)
+    {
+        $solicitud = Solicitud::find($id);
+
+        //Pasar la solicitud a la siguiente etapa
+        $solicitud->pasarSiguienteEtapa();
+        $solicitud->save();
+
+        $aspirante = $solicitud->solicitante;
+        $flujo = $solicitud->flujo;
+
+        //Guardar en el historial de solicitud
+        $solicitud->guardarHistorial();
+
+        $solicitudData = Solicitud::with('estado', 'etapa', 'modelo', 'solicitante')->find($solicitud->id);
+
+        //Regresar la solicitud
+        $etapasOrden = $flujo->etapasEnOrden();
+        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitudData, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
+    }
+
     public function savePersona($id, Request $request)
     {
         $request->validate([

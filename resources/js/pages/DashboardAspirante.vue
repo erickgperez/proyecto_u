@@ -33,6 +33,18 @@ async function crearSolicitud() {
     }
 }
 
+async function siguienteEtapaSolicitud() {
+    axios
+        .get(route('workflow-ingreso-solicitud-siguiente-etapa', { id: solicitud.value?.id }))
+        .then(function (response) {
+            actualizar(response.data);
+        })
+        .catch(function (error) {
+            // handle error
+            console.error('Error fetching data:', error);
+        });
+}
+
 onMounted(() => {
     axios
         .get(route('workflow-ingreso-solicitud', { idPersona: persona.id }))
@@ -112,9 +124,16 @@ function actualizar(data: any) {
             <div v-html="s.indicaciones"></div>
 
             <IngresoSeleccionCarrera :solicitud="solicitud" @form-saved="actualizar" v-if="s.codigo == 'SELECCION_CARRERA'"></IngresoSeleccionCarrera>
-            <IngresoSolicitud :solicitud="solicitud" @form-saved="actualizar" v-if="s.codigo == 'SOLICITUD'"></IngresoSolicitud>
+            <IngresoSolicitud
+                :solicitud="solicitud"
+                @form-saved="actualizar"
+                @siguiente-etapa="siguienteEtapaSolicitud"
+                v-if="s.codigo == 'SOLICITUD'"
+            ></IngresoSolicitud>
 
             <IngresoSeleccionAspirante :solicitud="solicitud" v-if="s.codigo == 'SELECCION_ASPIRANTE'"> </IngresoSeleccionAspirante>
         </template>
+        <template v-slot:prev></template>
+        <template v-slot:next></template>
     </v-stepper-vertical>
 </template>

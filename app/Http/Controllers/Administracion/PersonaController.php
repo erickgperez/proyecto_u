@@ -27,11 +27,21 @@ class PersonaController extends Controller
     public function index(Request $request): Response
     {
 
-        $personas = Persona::with('sexo', 'creator', 'updater', 'datosContacto')->get();
+        $personas = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->get();
         $sexos = Sexo::all();
         $distritosTree = $this->distritoService->distritosLikeTree();
 
         return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos, 'distritosTree' => $distritosTree]);
+    }
+
+    public function personaInfo($id, Request $request)
+    {
+
+        $persona = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->find($id);
+        $sexos = Sexo::all();
+        $distritosTree = $this->distritoService->distritosLikeTree();
+
+        return response()->json(['status' => 'ok', 'message' => '', 'persona' => $persona, 'distritosTree' => $distritosTree]);
     }
 
     public function save(Request $request)
@@ -65,7 +75,7 @@ class PersonaController extends Controller
 
         $persona->save();
 
-        $personaData = Persona::with('sexo', 'creator', 'updater', 'datosContacto')->find($persona->id);
+        $personaData = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->find($persona->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }
@@ -97,7 +107,7 @@ class PersonaController extends Controller
         $datosContacto->save();
 
 
-        $personaData = Persona::with('sexo', 'creator', 'updater', 'datosContacto')->find($persona->id);
+        $personaData = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->find($persona->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }

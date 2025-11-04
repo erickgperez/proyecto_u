@@ -22,11 +22,11 @@ class DistritoService
                 //Obtener los distritos
                 $distritos = $m->distritos()->get();
                 foreach ($distritos as $dis) {
-                    $mChildren[] = ['id' => $dis->id, 'title' => $dis->descripcion, 'name' =>  $dis->descripcion . ' / ' . $m->descripcion . ' / ' . $d->descripcion];
+                    $mChildren[] = ['id' => $dis->id, 'descripcion' => $dis->descripcion, 'nombreCompleto' =>  $dis->nombreCompleto];
                 }
-                $dChildren[] = ['id' => 'muni' . $m->id, 'title' => $m->descripcion, 'children' => $mChildren];
+                $dChildren[] = ['id' => 'muni' . $m->id, 'descripcion' => $m->descripcion, 'children' => $mChildren];
             }
-            $tree[] = ['id' => 'depto' . $d->id, 'title' => $d->descripcion, 'children' => $dChildren];
+            $tree[] = ['id' => 'depto' . $d->id, 'descripcion' => $d->descripcion, 'children' => $dChildren];
         }
 
         return $tree;

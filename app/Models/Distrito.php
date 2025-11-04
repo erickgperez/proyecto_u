@@ -19,6 +19,6 @@ class Distrito extends Model
 
     public function getNombreCompletoAttribute(): string
     {
-        return (string) "{$this->descripcion} ({$this->municipio->descripcion}/{$this->municipio->departamento->descripcion})";
+        return (string) "{$this->descripcion} ({$this->municipio->descripcion} / {$this->municipio->departamento->descripcion})";
     }
 }

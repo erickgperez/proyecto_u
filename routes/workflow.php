@@ -14,4 +14,5 @@ Route::middleware('auth', 'verified')->group(function () {
 
     //Ingreso solicitud
     Route::post('/workflow/ingreso/solicitud/persona/{idPersona}/save', [SolicitudIngresoController::class, 'savePersona'])->name('workflow-ingreso-solicitud-persona-save');
+    Route::get('/workflow/ingreso/solicitud/{id}/siguiente-etapa', [SolicitudIngresoController::class, 'siguienteEtapa'])->name('workflow-ingreso-solicitud-siguiente-etapa');
 });

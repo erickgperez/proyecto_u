@@ -12,7 +12,7 @@ const props = defineProps(['solicitud']);
 
 const today = new Date();
 const fechaPublicacion = computed(() => {
-    if (props.solicitud.modelo.configuracion.fecha_publicacion_resultados != null) {
+    if (props.solicitud.modelo.configuracion && props.solicitud.modelo.configuracion.fecha_publicacion_resultados != null) {
         return new Date(props.solicitud.modelo.configuracion.fecha_publicacion_resultados);
     }
     return null;

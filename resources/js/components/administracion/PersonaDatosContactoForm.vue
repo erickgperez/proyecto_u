@@ -10,7 +10,7 @@ const { rules, mensajeExito, mensajeError } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
-const distrito = computed(() => (formData.value.residencia_distrito ? formData.value.residencia_distrito[0].name : ''));
+const distrito = computed(() => (formData.value.residencia_distrito?.length > 0 ? formData.value.residencia_distrito[0].nombreCompleto : ''));
 const dialogTreeVisible = ref(false);
 
 const emit = defineEmits(['form-saved']);
@@ -24,7 +24,8 @@ interface FormData {
     email_principal: string;
     email_alternativo: string;
     direccion_residencia: string;
-    residencia_distrito: object | null;
+    residencia_distrito: Array<object[]> | null;
+    residencia_distrito_id: number | null;
     telefono_residencia: string;
     direccion_trabajo: string;
     telefono_trabajo: string;
@@ -33,14 +34,15 @@ interface FormData {
     persona_id: number | null;
 }
 
-const props = defineProps(['item', 'accion', 'distritosTree']);
+const props = defineProps(['item', 'accion', 'distritosTree', 'guardarTxt']);
 
 const formData = ref<FormData>({
     id: null,
     email_principal: '',
     email_alternativo: '',
     direccion_residencia: '',
-    residencia_distrito: null,
+    residencia_distrito: [],
+    residencia_distrito_id: null,
     telefono_residencia: '',
     direccion_trabajo: '',
     telefono_trabajo: '',
@@ -55,6 +57,10 @@ async function submitForm() {
 
     if (valid) {
         try {
+            if (formData.value.residencia_distrito?.length > 0) {
+                formData.value.residencia_distrito_id = formData.value.residencia_distrito[0].id;
+            }
+
             const resp = await axios.post(route('administracion-persona-datos-contacto-save', { id: props.item.id }), formData.value);
             if (resp.data.status == 'ok') {
                 emit('form-saved', resp.data.item);
@@ -74,6 +80,11 @@ onMounted(() => {
     reset();
 
     formData.value = { ...props.item.datos_contacto };
+
+    if (formData.value.residencia_distrito_id) {
+        const distrito_ = props.item.datos_contacto.distrito_residencia;
+        formData.value.residencia_distrito = [distrito_];
+    }
 });
 </script>
 <template>
@@ -166,7 +177,7 @@ onMounted(() => {
                     </v-col>
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
-                            {{ $t('_guardar_') }}
+                            {{ props.guardarTxt != null ? guardarTxt : $t('_guardar_') }}
                         </v-btn>
                     </v-col>
                 </v-row>
@@ -183,6 +194,7 @@ onMounted(() => {
                         selectable
                         select-strategy="single-leaf"
                         item-value="id"
+                        item-title="descripcion"
                         density="compact"
                         return-object
                     ></v-treeview>
