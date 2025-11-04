@@ -114,7 +114,7 @@ class DistritoSeeder extends Seeder
             ['codigo' => '0604', 'descripcion' => 'Cuscatancingo', 'municipio_id' => Municipio::where('codigo', '0601')->first()->id],
             ['codigo' => '0608', 'descripcion' => 'Mejicanos', 'municipio_id' => Municipio::where('codigo', '0601')->first()->id],
             ['codigo' => '0614', 'descripcion' => 'San Salvador', 'municipio_id' => Municipio::where('codigo', '0601')->first()->id],
-            ['codigo' => '0619', 'descripcion' => 'Delgado', 'municipio_id' => Municipio::where('codigo', '0601')->first()->id],
+            ['codigo' => '0619', 'descripcion' => 'Ciudad Delgado', 'municipio_id' => Municipio::where('codigo', '0601')->first()->id],
             ['codigo' => '0607', 'descripcion' => 'Ilopango', 'municipio_id' => Municipio::where('codigo', '0602')->first()->id],
             ['codigo' => '0613', 'descripcion' => 'San Martín', 'municipio_id' => Municipio::where('codigo', '0602')->first()->id],
             ['codigo' => '0617', 'descripcion' => 'Soyapango', 'municipio_id' => Municipio::where('codigo', '0602')->first()->id],

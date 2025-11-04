@@ -21,6 +21,7 @@ class AspiranteController extends Controller
     {
         $this->solicitudService = $solicitudService;
     }
+
     public function save(Request $request) {}
 
     public function delete(int $id) {}

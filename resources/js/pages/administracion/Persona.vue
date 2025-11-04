@@ -39,6 +39,7 @@ const props = defineProps({
         default: () => [],
     },
     sexos: Array,
+    distritosTree: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -184,6 +185,7 @@ const opcionesAccion = [
                             v-if="selectedAction === 'datos-contacto'"
                             :item="selectedItem"
                             :accion="selectedAction"
+                            :distritosTree="distritosTree"
                             @form-saved="handleFormSave"
                         ></PersonaDatosContactoForm>
                         <PersonaForm

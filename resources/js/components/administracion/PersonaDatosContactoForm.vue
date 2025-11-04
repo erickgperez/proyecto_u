@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -10,7 +10,8 @@ const { rules, mensajeExito, mensajeError } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
-const distritos = ref([]);
+const distrito = computed(() => (formData.value.residencia_distrito ? formData.value.residencia_distrito[0].name : ''));
+const dialogTreeVisible = ref(false);
 
 const emit = defineEmits(['form-saved']);
 
@@ -23,7 +24,7 @@ interface FormData {
     email_principal: string;
     email_alternativo: string;
     direccion_residencia: string;
-    residencia_distrito_id: number | null;
+    residencia_distrito: object | null;
     telefono_residencia: string;
     direccion_trabajo: string;
     telefono_trabajo: string;
@@ -32,14 +33,14 @@ interface FormData {
     persona_id: number | null;
 }
 
-const props = defineProps(['item', 'accion']);
+const props = defineProps(['item', 'accion', 'distritosTree']);
 
 const formData = ref<FormData>({
     id: null,
     email_principal: '',
     email_alternativo: '',
     direccion_residencia: '',
-    residencia_distrito_id: null,
+    residencia_distrito: null,
     telefono_residencia: '',
     direccion_trabajo: '',
     telefono_trabajo: '',
@@ -118,7 +119,7 @@ onMounted(() => {
                             :label="$t('persona._telefono_personal_alternativo_')"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" md="4">
+                    <v-col cols="12" md="6">
                         <v-text-field
                             prepend-icon="mdi-home"
                             v-model="formData.direccion_residencia"
@@ -127,7 +128,7 @@ onMounted(() => {
                             :label="$t('persona._direccion_residencia_')"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" md="4">
+                    <v-col cols="12" md="6">
                         <v-text-field
                             prepend-icon="mdi-cellphone-basic"
                             v-model="formData.telefono_residencia"
@@ -136,16 +137,15 @@ onMounted(() => {
                             :label="$t('persona._telefono_residencia_')"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12">
-                        <v-select
-                            :label="$t('persona._distrito_')"
-                            :items="distritos"
-                            v-model="formData.residencia_distrito_id"
-                            item-title="descripcion"
-                            item-value="id"
-                            prepend-icon="mdi-form-dropdown"
-                        ></v-select>
+                    <v-col cols="6">
+                        <v-text-field prepend-icon="mdi-home-city" :model-value="distrito" readonly :label="$t('persona._distrito_residencia_')">
+                        </v-text-field>
                     </v-col>
+                    <v-col cols="6">
+                        <v-btn @click="dialogTreeVisible = true" color="primary">{{ $t('persona._seleccionar_distrito_') }}</v-btn>
+                    </v-col>
+                </v-row>
+                <v-row>
                     <v-col cols="12" md="4">
                         <v-text-field
                             prepend-icon="mdi-office-building-outline"
@@ -173,4 +173,25 @@ onMounted(() => {
             </v-form>
         </template>
     </v-card>
+    <v-dialog v-model="dialogTreeVisible" max-width="500">
+        <template v-slot:default="{ isActive }">
+            <v-card>
+                <v-card-text>
+                    <v-treeview
+                        v-model:selected="formData.residencia_distrito"
+                        :items="props.distritosTree"
+                        selectable
+                        select-strategy="single-leaf"
+                        item-value="id"
+                        density="compact"
+                        return-object
+                    ></v-treeview>
+                </v-card-text>
+                <v-card-actions>
+                    <v-spacer></v-spacer>
+                    <v-btn color="secondary" @click="isActive.value = false">{{ $t('_cerrar_') }}</v-btn>
+                </v-card-actions>
+            </v-card>
+        </template>
+    </v-dialog>
 </template>

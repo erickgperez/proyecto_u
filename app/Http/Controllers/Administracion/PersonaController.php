@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\DatosContacto;
 use App\Models\Persona;
 use App\Models\Sexo;
+use App\Services\DistritoService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -13,6 +14,13 @@ use Inertia\Response;
 
 class PersonaController extends Controller
 {
+    protected $distritoService;
+
+    public function __construct(DistritoService $distritoService)
+    {
+        $this->distritoService = $distritoService;
+    }
+
     /**
      *
      */
@@ -21,8 +29,9 @@ class PersonaController extends Controller
 
         $personas = Persona::with('sexo', 'creator', 'updater', 'datosContacto')->get();
         $sexos = Sexo::all();
+        $distritosTree = $this->distritoService->distritosLikeTree();
 
-        return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos]);
+        return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos, 'distritosTree' => $distritosTree]);
     }
 
     public function save(Request $request)
