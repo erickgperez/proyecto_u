@@ -91,8 +91,10 @@ class SolicitudIngresoController extends Controller
         //Guardar convocatoria_aspirante
         $aspirante->convocatorias()->syncWithoutDetaching([$convocatoria->id]);
 
-
-        $solicitudData = Solicitud::with('estado', 'etapa', 'modelo', 'solicitante')->find($solicitud->id);
+        //Buscar la solicitud más reciente con el rol de aspirante
+        $solicitudData = $this->solicitudService->getQB()
+            ->where('solicitud.id', $solicitud->id)
+            ->first();
         $etapasOrden = $flujo->etapasEnOrden();
 
         return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitudData, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
@@ -143,8 +145,11 @@ class SolicitudIngresoController extends Controller
         $solicitud->guardarHistorial();
 
         //Regresar la solicitud
+        $solicitudData = $this->solicitudService->getQB()
+            ->where('solicitud.id', $solicitud->id)
+            ->first();
         $etapasOrden = $flujo->etapasEnOrden();
-        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitud, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
+        return response()->json(['status' => 'ok', 'message' => '', 'solicitud' => $solicitudData, 'aspirante' => $aspirante, 'etapas' => $etapasOrden]);
     }
 
 
@@ -162,7 +167,9 @@ class SolicitudIngresoController extends Controller
         //Guardar en el historial de solicitud
         $solicitud->guardarHistorial();
 
-        $solicitudData = Solicitud::with('estado', 'etapa', 'modelo', 'solicitante')->find($solicitud->id);
+        $solicitudData = $this->solicitudService->getQB()
+            ->where('solicitud.id', $solicitud->id)
+            ->first();
 
         //Regresar la solicitud
         $etapasOrden = $flujo->etapasEnOrden();
