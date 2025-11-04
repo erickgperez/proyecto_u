@@ -4,12 +4,13 @@ import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 import { reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
-const { mensajeError, mensajeExito } = useFunciones();
+const { mensajeError } = useFunciones();
 const { hasPermission } = usePermissions();
 
 const formRef = ref<VForm | null>(null);
@@ -43,7 +44,13 @@ const submitForm = async () => {
             formData.archivo = null;
             formData.tipoCarga = 'incremental';
 
-            mensajeExito(t('_datos_subidos_correctamente_'));
+            Swal.fire({
+                title: t('_exito_'),
+                text: t('_datos_subidos_correctamente_'),
+                icon: 'success',
+                position: 'top-end',
+                confirmButtonColor: '#D7E1EE',
+            });
         } catch (error) {
             mensajeError(t('_verifique_que_ha_subido_archivo_csv_'));
         }

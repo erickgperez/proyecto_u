@@ -116,22 +116,25 @@ function actualizar(data: any) {
     >
         <v-spacer class="mb-5"></v-spacer>
     </v-alert>
-
     <v-stepper-vertical :items="etapas.map((s) => s.codigo)" v-if="solicitud != null" v-model="step">
         <template v-for="(s, index) in etapas" v-slot:[`item.${index+1}`] :key="s.codigo">
             <h3>{{ s.nombre }}</h3>
 
             <div v-html="s.indicaciones"></div>
 
-            <IngresoSeleccionCarrera :solicitud="solicitud" @form-saved="actualizar" v-if="s.codigo == 'SELECCION_CARRERA'"></IngresoSeleccionCarrera>
+            <IngresoSeleccionCarrera
+                :solicitud="solicitud"
+                @form-saved="actualizar"
+                v-if="s.codigo === 'SELECCION_CARRERA'"
+            ></IngresoSeleccionCarrera>
             <IngresoSolicitud
                 :solicitud="solicitud"
                 @form-saved="actualizar"
                 @siguiente-etapa="siguienteEtapaSolicitud"
-                v-if="s.codigo == 'SOLICITUD'"
+                v-if="s.codigo === 'SOLICITUD'"
             ></IngresoSolicitud>
 
-            <IngresoSeleccionAspirante :solicitud="solicitud" v-if="s.codigo == 'SELECCION_ASPIRANTE'"> </IngresoSeleccionAspirante>
+            <IngresoSeleccionAspirante :solicitud="solicitud" v-if="s.codigo === 'SELECCION_ASPIRANTE'"> </IngresoSeleccionAspirante>
         </template>
         <template v-slot:prev></template>
         <template v-slot:next></template>
