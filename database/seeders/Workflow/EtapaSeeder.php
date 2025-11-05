@@ -46,12 +46,6 @@ class EtapaSeeder extends Seeder
                 'flujo_id' => Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first()->id
             ],
             [
-                'codigo' => 'CARGA_CANDIDATOS',
-                'nombre' => 'Cargar de estudiantes candidatos',
-                'indicaciones' => 'Cargar archivo con los estudiantes de bachilleratos. Menú Convocatoria->Cargar archivo',
-                'flujo_id' => Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first()->id
-            ],
-            [
                 'codigo' => 'INVITACIONES',
                 'nombre' => 'Envio de invitaciones',
                 'indicaciones' => 'Seleccione los candidatos a los que se le enviarán invitaciones para participar en la convocatoria. Menú Convocatoria->Candidatos',

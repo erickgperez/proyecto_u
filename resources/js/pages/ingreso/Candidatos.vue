@@ -25,6 +25,7 @@ interface Convocatoria {
     nombre: string;
     descripcion: string;
     invitaciones: number;
+    solicitud: object | null;
     invitaciones_pendientes_envio: number;
     invitaciones_aceptadas: number;
 }
@@ -37,7 +38,7 @@ interface Props {
 const convocatoria = ref<Convocatoria | null>(null);
 
 const dialog = ref(false);
-
+const noData = ref(false);
 const props = defineProps<Props>();
 
 const localConvocatorias = ref([...props.convocatorias]);
@@ -105,6 +106,15 @@ function handleConvocatoria(newConvocatoria: Convocatoria) {
 
     <AppLayout :titulo="$t('_candidatos_')" :subtitulo="$t('_estudiantes_candidatos_carrera_universitaria_')" icono="mdi-account-star-outline">
         <v-sheet v-if="hasPermission('MENU_INGRESO_CONVOCATORIA_CANDIDATOS')" class="elevation-12 pa-2 rounded-xl">
+            <v-alert
+                border="top"
+                type="warning"
+                variant="outlined"
+                prominent
+                v-if="convocatoria && convocatoria.solicitud && convocatoria.solicitud.etapa.codigo != 'INVITACIONES'"
+            >
+                {{ $t('convocatoria._alerta_invitaciones_') }}
+            </v-alert>
             <div class="d-flex flex-row">
                 <v-alert
                     v-if="convocatoria != null"
@@ -150,7 +160,10 @@ function handleConvocatoria(newConvocatoria: Convocatoria) {
                     </template>
                 </v-alert>
             </div>
-            <div class="d-flex flex-row">
+            <v-alert border="top" type="warning" variant="outlined" prominent v-if="noData">
+                {{ $t('convocatoria._alerta_invitaciones_no_data_') }}
+            </v-alert>
+            <div class="d-flex flex-row" v-else>
                 <v-tabs v-model="tab" color="primary" direction="vertical">
                     <v-tab prepend-icon="mdi-chart-bar" :text="$t('_resumen_')" value="option-1"></v-tab>
                     <v-tab
@@ -170,7 +183,7 @@ function handleConvocatoria(newConvocatoria: Convocatoria) {
                 <v-tabs-window v-model="tab" class="w-full">
                     <v-tabs-window-item value="option-1">
                         <v-card flat>
-                            <v-card-text> <GraficoCandidatos /> </v-card-text>
+                            <v-card-text> <GraficoCandidatos @no-data="noData = true" /> </v-card-text>
                         </v-card>
                     </v-tabs-window-item>
 

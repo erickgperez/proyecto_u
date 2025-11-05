@@ -65,6 +65,9 @@ onMounted(() => {
 });
 </script>
 <template>
+    <v-alert border="top" type="warning" variant="outlined" prominent v-if="item.solicitud && item.solicitud.etapa.codigo != 'OFERTA'">
+        {{ $t('convocatoria._alerta_oferta_') }}
+    </v-alert>
     <v-card :title="item.descripcion">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">

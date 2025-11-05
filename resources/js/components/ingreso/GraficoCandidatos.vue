@@ -1,3 +1,128 @@
+<script setup lang="ts">
+import axios from 'axios';
+import Plotly from 'plotly.js-dist-min';
+
+import { computed, onMounted, ref, watch } from 'vue';
+
+const data = ref([]);
+const emit = defineEmits(['no-data']);
+
+const rowKey = ref('sector');
+const colKey = ref('departamento');
+const chartType = ref('bar');
+// Selector de campo métrico y operación
+const metricField = ref('candidatos');
+const aggregation = ref('sum');
+
+const filters = ref({});
+
+const filterableFields = computed(() =>
+    columns.value.filter((c) => c !== rowKey.value && c !== colKey.value && c !== 'invitados' && c !== 'candidatos'),
+);
+
+function getUniqueValues(field) {
+    return [...new Set(data.value.map((item) => item[field]))];
+}
+
+const columns = computed(() => {
+    if (data.value.length > 0) {
+        return Object.keys(data.value[0]).filter((c) => c !== 'invitados' && c !== 'candidatos');
+    } else {
+        return [];
+    }
+});
+const filteredData = computed(() => {
+    return data.value.filter((item) =>
+        Object.entries(filters.value).every(([field, selected]) => (selected && !selected.length == 0 ? selected.includes(item[field]) : true)),
+    );
+});
+
+// Valores únicos de fila y columna
+const uniqueRowValues = computed(() => [...new Set(filteredData.value.map((item) => item[rowKey.value]))]);
+const uniqueColValues = computed(() => [...new Set(filteredData.value.map((item) => item[colKey.value]))]);
+
+// Detectar campos numéricos
+const numericFields = columns.value.filter((c) => typeof data.value.find((item) => typeof item[c] === 'number') !== 'undefined');
+
+// Calcular valor por celda con la métrica seleccionada
+function getCellValue(rowVal, colVal) {
+    const matching = filteredData.value.filter((item) => item[rowKey.value] === rowVal && item[colKey.value] === colVal);
+
+    if (aggregation.value === 'count') return matching.length;
+
+    const values = matching.map((item) => item[metricField.value] ?? 0);
+
+    if (aggregation.value === 'sum') {
+        return values.reduce((a, b) => a + b, 0);
+    } else if (aggregation.value === 'avg') {
+        const total = values.reduce((a, b) => a + b, 0);
+        return values.length ? (total / values.length).toFixed(2) : 0;
+    }
+
+    return 0;
+}
+
+// Contenedor del gráfico
+const plotlyContainer = ref();
+
+function renderChart() {
+    if (chartType.value != 'tabla') {
+        const z = uniqueRowValues.value.map((row) => uniqueColValues.value.map((col) => getCellValue(row, col)));
+
+        let traces = [];
+        const layout = {
+            title: `Candidatos`,
+            xaxis: { title: colKey.value },
+            yaxis: { title: rowKey.value },
+            margin: { t: 40 },
+        };
+
+        if (chartType.value === 'heatmap') {
+            traces = [
+                {
+                    z,
+                    x: uniqueColValues.value,
+                    y: uniqueRowValues.value,
+                    type: 'heatmap',
+                    colorscale: 'YlGnBu',
+                },
+            ];
+        } else {
+            traces = uniqueRowValues.value.map((row, i) => ({
+                x: uniqueColValues.value,
+                y: uniqueColValues.value.map((col) => z[i][uniqueColValues.value.indexOf(col)]),
+                type: chartType.value,
+                name: row,
+            }));
+        }
+
+        Plotly.newPlot(plotlyContainer.value, traces, layout, { responsive: true });
+    }
+}
+
+async function getResumenCandidatos() {
+    data.value = [];
+    try {
+        const response = await axios.get(route('ingreso-bachillerato-candidatos-resumen'));
+        data.value = response.data;
+        if (data.value.length > 0) {
+            renderChart();
+        } else {
+            emit('no-data');
+        }
+    } catch (error) {
+        console.error(error);
+    }
+}
+
+// 🔹 Actualizar al cambiar parámetros
+watch([rowKey, colKey, chartType, filters, aggregation, metricField], renderChart, { deep: true });
+
+onMounted(() => {
+    getResumenCandidatos();
+});
+</script>
+
 <template>
     <div class="p-4">
         <!-- <h2 class="mb-4 text-xl font-bold">Tabla pivote con filtros y gráfico</h2>-->
@@ -53,129 +178,3 @@
         <div v-show="chartType != 'tabla'" ref="plotlyContainer" class="mx-auto w-full"></div>
     </div>
 </template>
-
-<script setup lang="ts">
-import axios from 'axios';
-import Plotly from 'plotly.js-dist-min';
-
-import { computed, onMounted, ref, watch } from 'vue';
-
-// 🔸 Datos de ejemplo
-const data = ref([]);
-
-// 🔹 Variables reactivas
-const rowKey = ref('sector');
-const colKey = ref('departamento');
-const chartType = ref('bar');
-// Selector de campo métrico y operación
-const metricField = ref('candidatos');
-const aggregation = ref('sum');
-
-// 🔹 Filtros dinámicos
-const filters = ref({});
-
-// 🔹 Campos filtrables (no usados como row ni col)
-const filterableFields = computed(() =>
-    columns.value.filter((c) => c !== rowKey.value && c !== colKey.value && c !== 'invitados' && c !== 'candidatos'),
-);
-
-// 🔹 Valores únicos por campo
-function getUniqueValues(field) {
-    return [...new Set(data.value.map((item) => item[field]))];
-}
-
-// 🔹 Datos filtrados según filtros activos
-const columns = computed(() => {
-    if (data.value.length > 0) {
-        return Object.keys(data.value[0]).filter((c) => c !== 'invitados' && c !== 'candidatos');
-    } else {
-        return [];
-    }
-});
-const filteredData = computed(() => {
-    return data.value.filter((item) =>
-        Object.entries(filters.value).every(([field, selected]) => (selected && !selected.length == 0 ? selected.includes(item[field]) : true)),
-    );
-});
-
-// 🔹 Valores únicos de fila y columna
-const uniqueRowValues = computed(() => [...new Set(filteredData.value.map((item) => item[rowKey.value]))]);
-const uniqueColValues = computed(() => [...new Set(filteredData.value.map((item) => item[colKey.value]))]);
-
-// Detectar campos numéricos
-const numericFields = columns.value.filter((c) => typeof data.value.find((item) => typeof item[c] === 'number') !== 'undefined');
-
-// Calcular valor por celda con la métrica seleccionada
-function getCellValue(rowVal, colVal) {
-    const matching = filteredData.value.filter((item) => item[rowKey.value] === rowVal && item[colKey.value] === colVal);
-
-    if (aggregation.value === 'count') return matching.length;
-
-    const values = matching.map((item) => item[metricField.value] ?? 0);
-
-    if (aggregation.value === 'sum') {
-        return values.reduce((a, b) => a + b, 0);
-    } else if (aggregation.value === 'avg') {
-        const total = values.reduce((a, b) => a + b, 0);
-        return values.length ? (total / values.length).toFixed(2) : 0;
-    }
-
-    return 0;
-}
-
-// 🔹 Contenedor del gráfico
-const plotlyContainer = ref();
-
-function renderChart() {
-    if (chartType.value != 'tabla') {
-        const z = uniqueRowValues.value.map((row) => uniqueColValues.value.map((col) => getCellValue(row, col)));
-
-        let traces = [];
-        const layout = {
-            title: `Candidatos`,
-            xaxis: { title: colKey.value },
-            yaxis: { title: rowKey.value },
-            margin: { t: 40 },
-        };
-
-        if (chartType.value === 'heatmap') {
-            traces = [
-                {
-                    z,
-                    x: uniqueColValues.value,
-                    y: uniqueRowValues.value,
-                    type: 'heatmap',
-                    colorscale: 'YlGnBu',
-                },
-            ];
-        } else {
-            traces = uniqueRowValues.value.map((row, i) => ({
-                x: uniqueColValues.value,
-                y: uniqueColValues.value.map((col) => z[i][uniqueColValues.value.indexOf(col)]),
-                type: chartType.value,
-                name: row,
-            }));
-        }
-
-        Plotly.newPlot(plotlyContainer.value, traces, layout, { responsive: true });
-    }
-}
-
-async function getResumenCandidatos() {
-    data.value = [];
-    try {
-        const response = await axios.get(route('ingreso-bachillerato-candidatos-resumen'));
-        data.value = response.data;
-        renderChart();
-    } catch (error) {
-        console.error(error);
-    }
-}
-
-// 🔹 Actualizar al cambiar parámetros
-watch([rowKey, colKey, chartType, filters, aggregation, metricField], renderChart, { deep: true });
-
-onMounted(() => {
-    getResumenCandidatos();
-});
-</script>

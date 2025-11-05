@@ -32,6 +32,9 @@ class CandidatosController extends Controller
             ->groupBy('opcion_bachillerato')
             ->get();
         $convocatorias = Convocatoria::select('id', 'nombre', 'descripcion')
+            ->with([
+                'solicitud' => ['etapa']
+            ])
             ->orderBy('nombre', 'asc')
             ->withCount([
                 'invitaciones as invitaciones',
