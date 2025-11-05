@@ -13,14 +13,14 @@ import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { SortBy } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
-import { computed, PropType, ref } from 'vue';
+import { computed, onMounted, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
 
+const date = useDate();
 const { hasPermission } = usePermissions();
 const { accionEditObject, accionShowObject, accionDeleteObject } = useAccionesObject();
 const { t } = useI18n();
-const date = useDate();
 
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
@@ -30,6 +30,8 @@ interface Item {
     nombre: string;
     descripcion: string;
     cuerpo_mensaje: string;
+    etapa: string;
+    solicitud: object | null;
     afiche: string | null;
     calendarizacion_id: number | null;
     carreras_sedes: [];
@@ -49,6 +51,8 @@ const itemVacio = ref<Item>({
     id: null,
     nombre: '',
     descripcion: '',
+    etapa: '',
+    solicitud: null,
     cuerpo_mensaje: '',
     afiche: null,
     calendarizacion_id: null,
@@ -57,9 +61,13 @@ const itemVacio = ref<Item>({
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
     itemVacio,
-    props.items,
+    props.items.map((item: any) => {
+        return { ...item, etapa: item.solicitud ? item.solicitud.etapa.codigo : '' };
+    }),
 );
 
+const dialog = ref(false);
+const itemDialog = ref<Item | null>(null);
 const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 const rutaBorrar = ref('ingreso-convocatoria-delete');
 const mensajes = {
@@ -97,6 +105,7 @@ const fileName = ref('convocatorias');
 const headers = [
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
     { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('etapa._singular_'), key: 'etapa' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -141,6 +150,8 @@ const opcionesAccion = [
         ...accionDeleteObject,
     },
 ];
+
+onMounted(() => {});
 </script>
 
 <template>
@@ -168,6 +179,20 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
+                        <template v-slot:item.etapa="{ value, item }">
+                            <div class="d-flex ga-2" v-if="value">
+                                {{ value }}
+                                <v-icon
+                                    :title="$t('_indicaciones_')"
+                                    size="small"
+                                    icon="mdi-information-slab-circle-outline"
+                                    @click="
+                                        itemDialog = item;
+                                        dialog = true;
+                                    "
+                                ></v-icon>
+                            </div>
+                        </template>
                     </Listado>
                 </v-window-item>
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
@@ -226,5 +251,32 @@ const opcionesAccion = [
         <v-alert v-else border="top" type="warning" variant="outlined" prominent>
             {{ $t('_no_tiene_permiso_para_esta_accion_') }}
         </v-alert>
+        <v-dialog v-model="dialog" width="auto" max-width="800">
+            <v-card v-if="itemDialog">
+                <v-card-text v-if="itemDialog.solicitud">
+                    <span class="font-weight-black">{{ $t('etapa._singular_') }}:</span> <span>{{ itemDialog.solicitud.etapa.codigo }}</span>
+                    <v-divider></v-divider>
+                    <span class="font-weight-black">{{ $t('estado._singular_') }}:</span> <span>{{ itemDialog.solicitud.estado.codigo }}</span>
+                    <v-divider></v-divider>
+                    <span class="font-weight-black">{{ $t('etapa._indicaciones_') }}:</span> {{ itemDialog.solicitud.etapa.indicaciones }}
+                    <v-divider class="mb-6"></v-divider>
+                    <span class="font-weight-bold">{{ $t('_historial_') }}</span>
+                    <v-timeline align="start" side="end" v-if="itemDialog.solicitud.historial.length > 0">
+                        <v-timeline-item dot-color="teal-lighten-3" size="small" v-for="h in itemDialog.solicitud.historial" :key="id">
+                            <template v-slot:opposite>
+                                <div class="font-weight-bold">{{ date.format(h.created_at, 'keyboardDateTime12h') }}</div>
+                            </template>
+                            <div class="d-flex">
+                                <div>
+                                    <strong>{{ h.etapa.codigo }}</strong>
+                                    <div class="text-caption mb-2">{{ h.estado.codigo }}</div>
+                                    <div class="text-caption mb-2">{{ h.creator.name }}</div>
+                                </div>
+                            </div>
+                        </v-timeline-item>
+                    </v-timeline>
+                </v-card-text>
+            </v-card>
+        </v-dialog>
     </AppLayout>
 </template>

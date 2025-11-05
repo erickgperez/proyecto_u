@@ -2,7 +2,6 @@
 
 namespace App\Models\Workflow;
 
-use App\Models\Persona;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
@@ -29,6 +28,11 @@ class Historial extends Model
     public function etapa(): BelongsTo
     {
         return $this->belongsTo(Etapa::class, 'etapa_id');
+    }
+
+    public function estado(): BelongsTo
+    {
+        return $this->belongsTo(Estado::class, 'estado_id');
     }
 
     public function creator()

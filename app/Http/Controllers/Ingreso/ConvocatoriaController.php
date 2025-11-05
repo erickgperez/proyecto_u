@@ -40,14 +40,7 @@ class ConvocatoriaController extends Controller
     public function index(Request $request): Response
     {
 
-        $convocatorias = Convocatoria::with([
-            'carrerasSedes',
-            'creator',
-            'updater',
-            'configuracion',
-            'flujo',
-            'solicitud' => ['estado', 'etapa']
-        ])->get();
+        $convocatorias = $this->convocatoriaBase()->get();
 
         $sedesCarreras = $this->getSedesCarreras();
         $tipoFlujo = TipoFlujo::where('codigo', 'INGRESO')->first();
@@ -110,26 +103,24 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        // Crear una solicitud para al llevar el flujo de ejecución de la convocatoria
-        $flujo = Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first();
-        $estado = Estado::where('codigo', 'INICIO')->first();
-        $etapa = $flujo->primeraEtapa();
+        if ($request->get('id') === null) {
+            // Crear una solicitud para al llevar el flujo de ejecución de la convocatoria
+            $flujo = Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first();
+            $estado = Estado::where('codigo', 'INICIO')->first();
+            $etapa = $flujo->primeraEtapa();
 
-        $solicitud = new Solicitud();
-        $solicitud->flujo()->associate($flujo);
-        $solicitud->estado()->associate($estado);
-        $solicitud->etapa()->associate($etapa);
-        $solicitud->solicitante()->associate($convocatoria);
-        $solicitud->save();
 
-        $convocatoriaData = Convocatoria::with([
-            'carrerasSedes',
-            'creator',
-            'updater',
-            'configuracion',
-            'flujo',
-            'solicitud' => ['estado', 'etapa']
-        ])->find($convocatoria->id);
+            $solicitud = new Solicitud();
+            $solicitud->flujo()->associate($flujo);
+            $solicitud->estado()->associate($estado);
+            $solicitud->etapa()->associate($etapa);
+            $solicitud->solicitante()->associate($convocatoria);
+            $solicitud->save();
+            //Guardarla en el historial de la solicitud
+            $solicitud->guardarHistorial();
+        }
+
+        $convocatoriaData = $this->convocatoriaBase()->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
@@ -143,14 +134,7 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        $convocatoriaData = Convocatoria::with([
-            'carrerasSedes',
-            'creator',
-            'updater',
-            'configuracion',
-            'flujo',
-            'solicitud' => ['estado', 'etapa']
-        ])->find($convocatoria->id);
+        $convocatoriaData = $this->convocatoriaBase()->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
@@ -185,16 +169,21 @@ class ConvocatoriaController extends Controller
         $configuracion->prueba_bachillerato_id = $request->get('prueba_bachillerato_id');
         $configuracion->save();
 
-        $convocatoriaData = Convocatoria::with([
+        $convocatoriaData = $this->convocatoriaBase()->find($convocatoria->id);
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
+    }
+
+    protected function convocatoriaBase()
+    {
+        return Convocatoria::with([
             'carrerasSedes',
             'creator',
             'updater',
             'configuracion',
             'flujo',
-            'solicitud' => ['estado', 'etapa']
-        ])->find($convocatoria->id);
-
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
+            'solicitud' => ['estado', 'etapa', 'historial' => ['etapa', 'estado', 'creator']]
+        ]);
     }
 
     public function delete(int $id)
