@@ -155,6 +155,7 @@ class CandidatosController extends Controller
     public function invitaciones(Request $request)
     {
         $tipoEnvio = $request->get('tipoEnvio');
+
         $tipoInvitacion = $request->get('tipoInvitacion');
         $idConvocatoria = $request->get('idConvocatoria');
 
@@ -171,8 +172,17 @@ class CandidatosController extends Controller
             //Solo los que no tengan fecha de envío de correo
             $query->whereNull('fecha_envio_correo');
         }
+        if ($tipoEnvio === 'opciones') {
+            $query->whereIn('A.opcion_bachillerato', function ($query) {
+                $query->select('cs.descripcion')
+                    ->from('secundaria.carrera as cs')
+                    ->join('ingreso.relacion_carreras as rc', 'cs.id', '=', 'rc.carrera_secundaria_id')
+                ;
+            });
+        }
 
         $bachilleres = $query->get();
+
         foreach ($bachilleres as $bachiller) {
             $nie = $bachiller->nie;
             $invitacion = Invitacion::firstOrCreate([

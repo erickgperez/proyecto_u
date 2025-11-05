@@ -408,7 +408,7 @@
         "_pasar_siguiente_etapa_": "Pasar a siguiente etapa",
         "_mensaje_crear_solicitud_": "Por favor, confirme que desea iniciar la solicitud de ingreso."
     },
-    "_solo_estudiantes_para_carreras_universitarias_": "Solo a estudiantes de bachilleratos que son requisitos para las carreras universitarias",
+    "_solo_estudiantes_para_carreras_universitarias_": "Solo a estudiantes de opciones de bachillerato relacionadas a carreras universitarias",
     "_solo_invitaciones_no_enviadas_anteriormente_": "Solo invitaciones que no se hayan enviado anteriormente",
     "_suba_archivo_datos_estudiantes_bachillerato_": "Suba un archivo csv conteniendo los datos de los estudiantes de bachillerato",
     "_subir_archivo_csv_": "Subir un archivo CSV",
