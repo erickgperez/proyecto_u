@@ -14,6 +14,7 @@ use App\Models\Secundaria\PruebaBachillerato;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
 use App\Models\Workflow\Solicitud;
+use App\Models\Workflow\TipoFlujo;
 use App\Services\SolicitudService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -42,7 +43,8 @@ class ConvocatoriaController extends Controller
         $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion', 'flujo')->get();
 
         $sedesCarreras = $this->getSedesCarreras();
-        $flujos = Flujo::where('activo', true)->get();
+        $tipoFlujo = TipoFlujo::where('codigo', 'INGRESO')->first();
+        $flujos = Flujo::where('activo', true)->where('tipo_flujo_id', $tipoFlujo->id)->get();
         $pruebasBachillerato = PruebaBachillerato::orderBy('codigo', 'ASC')->get();
 
         return Inertia::render('ingreso/Convocatoria', [
