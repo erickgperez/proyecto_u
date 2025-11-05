@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Academica\Sede;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
+use App\Models\Secundaria\Carrera as SecundariaCarrera;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -19,9 +20,10 @@ class CarreraController extends Controller
     public function index(): Response
     {
 
-        $carreras = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes')->orderBy('nombre')->get();
+        $carreras = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes', 'carrerasSecundaria')->orderBy('nombre')->get();
         $tiposCarrera = TipoCarrera::orderBy('descripcion')->get();
         $sedes = Sede::orderBy('nombre')->get();
+        $carrerasSecundaria = SecundariaCarrera::orderBy('descripcion')->get();
 
         $items = [];
         foreach ($carreras as $row) {
@@ -32,7 +34,7 @@ class CarreraController extends Controller
             $items[] = $item;
         }
 
-        return Inertia::render('academica/Carrera', ['items' => $items, 'tiposCarrera' => $tiposCarrera, 'sedes' => $sedes]);
+        return Inertia::render('academica/Carrera', ['items' => $items, 'tiposCarrera' => $tiposCarrera, 'sedes' => $sedes, 'carrerasSecundaria' => $carrerasSecundaria]);
     }
 
     public function save(Request $request)
@@ -74,12 +76,18 @@ class CarreraController extends Controller
         $carrera->padre()->associate($padre);
         $carrera->tipo()->associate($tipoCarrera);
 
+        /*$sedes = [];
+        foreach ($request->get('sedes') as $s) {
+            $sedes[] = $s['id'];
+        }*/
         $carrera->sedes()->sync($request->get('sedes') ?? []);
+
+        //$carrera->carrerasSecundaria()->sync($request->get('carrerasSecundaria') ?? []);
 
         $carrera->save();
 
         //Obtener la información de las relaciones del item recién creado/actualizado
-        $item = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes')->find($carrera->id);
+        $item = Carrera::with('padre', 'tipo', 'creator', 'updater', 'sedes', 'carrerasSecundaria')->find($carrera->id);
         $item['padre_'] = $carrera->padre?->nombreCompleto;
         $item['tipo_'] = $carrera->tipo?->descripcion;
 

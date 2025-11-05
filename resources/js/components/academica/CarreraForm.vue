@@ -24,9 +24,10 @@ interface FormData {
     certificacion_de: number | null;
     tipo_carrera_id: number | null;
     sedes: [];
+    carrerasSecundaria: [];
 }
 
-const props = defineProps(['item', 'accion', 'carreras', 'tiposCarrera', 'sedes']);
+const props = defineProps(['item', 'accion', 'carreras', 'tiposCarrera', 'sedes', 'carrerasSecundaria']);
 
 const formData = ref<FormData>({
     id: null,
@@ -35,6 +36,7 @@ const formData = ref<FormData>({
     certificacion_de: null,
     tipo_carrera_id: null,
     sedes: [],
+    carrerasSecundaria: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -71,6 +73,7 @@ onMounted(() => {
     reset();
     if (props.accion === 'edit') {
         formData.value = { ...props.item };
+        formData.value.sedes = formData.value.sedes.map((cs) => cs.id);
     }
 });
 
@@ -141,6 +144,21 @@ watch(
                             multiple
                             chips
                             :hint="$t('carrera._sedes_ayuda_')"
+                            persistent-hint
+                        ></v-autocomplete>
+
+                        <v-autocomplete
+                            class="mt-6"
+                            clearable
+                            :label="$t('carrera._carreras_secundaria_')"
+                            :items="props.carrerasSecundaria"
+                            v-model="formData.carrerasSecundaria"
+                            item-title="descripcion"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                            multiple
+                            chips
+                            :hint="$t('carrera._carreras_ecundaria_ayuda_')"
                             persistent-hint
                         ></v-autocomplete>
                     </v-col>

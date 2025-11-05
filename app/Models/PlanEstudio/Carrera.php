@@ -2,13 +2,16 @@
 
 namespace App\Models\PlanEstudio;
 
+use App\Models\Academica\CarreraSede;
 use App\Models\Academica\Sede;
 use App\Models\Estudio;
+use App\Models\Secundaria\Carrera as SecundariaCarrera;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Carrera extends Model
 {
@@ -53,11 +56,16 @@ class Carrera extends Model
 
     public function sedes(): BelongsToMany
     {
-        return $this->belongsToMany(Sede::class, 'academico.carrera_sede', 'carrera_id', 'sede_id');
+        return $this->belongsToMany(Sede::class, 'academico.carrera_sede', 'carrera_id', 'sede_id')->using(CarreraSede::class);
     }
 
     public function estudios()
     {
         return $this->morphMany(Estudio::class, 'carrera');
+    }
+
+    public function carrerasSecundaria(): HasMany
+    {
+        return $this->hasMany(SecundariaCarrera::class, 'id');
     }
 }
