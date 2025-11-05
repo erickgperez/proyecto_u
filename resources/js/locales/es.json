@@ -147,6 +147,8 @@
         "_oferta_indicaciones_": "Seleccione la sede y luego las carreras que desea incluir en la convocatoria",
         "_publico_": "Público",
         "_privado_": "Privado",
+        "_prueba_bachillerato_": "Prueba de bachillerato",
+        "_prueba_bachillerato_hint_": "Prueba que realizan los estudiantes egresados de educación media",
         "_seleccionados_": "Seleccionados",
         "_seleccion_tipo1_": "Se eligirá solo la carrera de la primera opción, considerando las mayores notas",
         "_seleccion_tipo2_": "Se tomará cualquier carrera con cupo en el orden en que las eligió el aspirante, iniciando con los estudiantes con mayores notas",

@@ -6,7 +6,7 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
-const { mensajeExito, mensajeError } = useFunciones();
+const { rules, mensajeExito, mensajeError } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -29,9 +29,10 @@ interface FormData {
     fecha_fin_recepcion_solicitudes: Date | null;
     hora_fin_recepcion_solicitudes: string | null;
     cuota_sector_publico: number | null;
+    prueba_bachillerato_id: number | null;
 }
 
-const props = defineProps(['item', 'accion']);
+const props = defineProps(['item', 'accion', 'pruebasBachillerato']);
 
 const formData = ref<FormData>({
     id: null,
@@ -42,6 +43,7 @@ const formData = ref<FormData>({
     fecha_fin_recepcion_solicitudes: null,
     hora_fin_recepcion_solicitudes: '',
     cuota_sector_publico: null,
+    prueba_bachillerato_id: null,
 });
 
 const dateFields = ['fecha_publicacion_resultados', 'fecha_inicio_recepcion_solicitudes', 'fecha_fin_recepcion_solicitudes'];
@@ -108,6 +110,9 @@ onMounted(() => {
                                         <v-locale-provider locale="es">
                                             <v-date-input
                                                 clearable
+                                                required
+                                                :rules="[rules.required]"
+                                                icon-color="deep-orange"
                                                 v-model="formData.fecha_inicio_recepcion_solicitudes"
                                                 :label="$t('convocatoria._fecha_inicio_recepcion_solicitudes_')"
                                                 :hint="$t('convocatoria._fecha_inicio_recepcion_solicitudes_hint_')"
@@ -134,6 +139,9 @@ onMounted(() => {
                                     <v-col cols="6">
                                         <v-locale-provider locale="es">
                                             <v-date-input
+                                                required
+                                                :rules="[rules.required]"
+                                                icon-color="deep-orange"
                                                 clearable
                                                 v-model="formData.fecha_fin_recepcion_solicitudes"
                                                 :label="$t('convocatoria._fecha_fin_recepcion_solicitudes_')"
@@ -160,6 +168,9 @@ onMounted(() => {
                                     <v-col cols="6">
                                         <v-locale-provider locale="es">
                                             <v-date-input
+                                                required
+                                                :rules="[rules.required]"
+                                                icon-color="deep-orange"
                                                 clearable
                                                 v-model="formData.fecha_publicacion_resultados"
                                                 :label="$t('convocatoria._fecha_publicacion_resultados_')"
@@ -183,7 +194,7 @@ onMounted(() => {
                                     </v-col>
                                 </v-row>
                                 <v-row>
-                                    <v-col cols="12">
+                                    <v-col cols="12" md="6">
                                         <v-number-input
                                             :max="100"
                                             :min="1"
@@ -191,12 +202,27 @@ onMounted(() => {
                                             control-variant="split"
                                             append-icon="mdi-percent"
                                             prepend-icon="mdi-counter"
-                                            class="w-50"
+                                            class="w-100"
                                             v-model="formData.cuota_sector_publico"
                                             :label="$t('convocatoria._cuota_sector_publico_')"
                                             :hint="$t('convocatoria._cuota_sector_publico_hint_')"
                                             persistent-hint
                                         ></v-number-input>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <v-select
+                                            required
+                                            :rules="[rules.required]"
+                                            icon-color="deep-orange"
+                                            :label="$t('convocatoria._prueba_bachillerato_')"
+                                            :items="props.pruebasBachillerato"
+                                            v-model="formData.prueba_bachillerato_id"
+                                            item-title="codigo"
+                                            item-value="id"
+                                            prepend-icon="mdi-form-dropdown"
+                                            :hint="$t('convocatoria._prueba_bachillerato_hint_')"
+                                            persistent-hint
+                                        ></v-select>
                                     </v-col>
                                 </v-row>
                             </v-card-text>

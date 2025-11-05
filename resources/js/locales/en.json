@@ -147,6 +147,8 @@
         "_oferta_indicaciones_": "Select the location and then the courses you wish to include in the application process.",
         "_publico_": "Public",
         "_privado_": "Private",
+        "_prueba_bachillerato_": "High school graduation exam",
+        "_prueba_bachillerato_hint_": "Test taken by students graduating from secondary education",
         "_seleccionados_": "Selected",
         "_seleccion_tipo1_": "Only the first option career will be chosen, considering the highest grades",
         "_seleccion_tipo2_": "Any course with a quota will be taken in the order in which the applicant chose them, starting with the students with the highest grades.",

@@ -2,6 +2,7 @@
 
 namespace App\Models\Ingreso;
 
+use App\Models\Secundaria\PruebaBachillerato;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
@@ -28,5 +29,10 @@ class ConvocatoriaConfiguracion extends Model
     public function convocatoria(): BelongsTo
     {
         return $this->belongsTo(Convocatoria::class);
+    }
+
+    public function pruebaBachillerato(): BelongsTo
+    {
+        return $this->belongsTo(PruebaBachillerato::class);
     }
 }

@@ -44,6 +44,7 @@ const props = defineProps({
     },
     sedesCarreras: Array,
     flujos: Array,
+    pruebasBachillerato: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -216,6 +217,7 @@ const opcionesAccion = [
                             v-if="selectedAction === 'configuracion'"
                             :item="selectedItem"
                             :accion="selectedAction"
+                            :pruebasBachillerato="pruebasBachillerato"
                             @form-saved="handleFormSave"
                         ></ConvocatoriaConfiguracionForm>
 

@@ -10,6 +10,7 @@ use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
+use App\Models\Secundaria\PruebaBachillerato;
 use App\Models\Workflow\Flujo;
 use App\Services\SolicitudService;
 use Illuminate\Database\Eloquent\Builder;
@@ -40,11 +41,13 @@ class ConvocatoriaController extends Controller
 
         $sedesCarreras = $this->getSedesCarreras();
         $flujos = Flujo::where('activo', true)->get();
+        $pruebasBachillerato = PruebaBachillerato::orderBy('codigo', 'ASC')->get();
 
         return Inertia::render('ingreso/Convocatoria', [
             'items'         => $convocatorias,
             'sedesCarreras' => $sedesCarreras,
-            'flujos'        => $flujos
+            'flujos'        => $flujos,
+            'pruebasBachillerato' => $pruebasBachillerato,
         ]);
     }
 
@@ -144,6 +147,7 @@ class ConvocatoriaController extends Controller
 
 
         $configuracion->cuota_sector_publico = $request->get('cuota_sector_publico');
+        $configuracion->prueba_bachillerato_id = $request->get('prueba_bachillerato_id');
         $configuracion->save();
 
         $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion', 'flujo')->find($convocatoria->id);
