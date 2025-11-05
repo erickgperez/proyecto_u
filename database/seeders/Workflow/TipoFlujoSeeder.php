@@ -14,6 +14,7 @@ class TipoFlujoSeeder extends Seeder
     {
         DB::table('workflow.tipo_flujo')->insert([
             ['codigo' => 'INGRESO', 'descripcion' => 'Proceso de ingreso universitario'],
+            ['codigo' => 'CONFIGURACION_CONVOCATORIA', 'descripcion' => 'Proceso de configuración de convocatoria'],
         ]);
     }
 }
