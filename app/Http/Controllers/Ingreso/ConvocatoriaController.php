@@ -326,6 +326,7 @@ class ConvocatoriaController extends Controller
 
         $querySol = $this->solicitudService->getQB()
             ->orderBy('aspirante.calificacion_bachillerato', 'DESC')
+            //->where('aspirante.calificacion_bachillerato',  '>=', 0)
             ->where('solicitud.modelo_id', $convocatoria->id)
             ->where('solicitud.modelo_type', Convocatoria::class);
 
