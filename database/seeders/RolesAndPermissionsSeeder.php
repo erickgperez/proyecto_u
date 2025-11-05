@@ -178,7 +178,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
 
         // Crear roles y asignar los permisos
-        $role = Role::create(['name' => 'gestor-academico'])
+        Role::create(['name' => 'gestor-academico'])
             ->givePermissionTo([
                 'MODULO_GESTION-ACADEMICA',
                 'MENU_ACADEMICA_SEDES',
@@ -193,7 +193,7 @@ class RolesAndPermissionsSeeder extends Seeder
             ]);
 
 
-        $role = Role::create(['name' => 'gestor-ingreso'])
+        Role::create(['name' => 'gestor-ingreso'])
             ->givePermissionTo([
                 'MODULO_INGRESO',
                 'MENU_INGRESO_CONVOCATORIA',
@@ -206,10 +206,10 @@ class RolesAndPermissionsSeeder extends Seeder
             ]);
 
 
-        $role = Role::create(['name' => 'aspirante'])
+        Role::create(['name' => 'aspirante'])
             ->givePermissionTo();
 
-        $role = Role::create(['name' => 'super-admin']);
+
         // No se le dan permisos, este es el único rol que se verifica para dejar realizar cualquier acción
         //->givePermissionTo(Permission::all());
     }

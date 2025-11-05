@@ -3,6 +3,7 @@
 namespace Database\Seeders\Ingreso;
 
 use App\Models\Ingreso\Convocatoria;
+use App\Models\User;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Etapa;
 use App\Models\Workflow\Flujo;
@@ -25,6 +26,8 @@ class ConvocatoriaSolicitudSeeder extends Seeder
                 'flujo_id' => Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first()->id,
                 'etapa_id' => Etapa::where('codigo', 'OFERTA')->first()->id,
                 'estado_id' => Estado::where('codigo', 'INICIO')->first()->id,
+                'created_at' => Carbon::now(),
+                'created_by' => 1,
             ],
         );
 
@@ -32,6 +35,8 @@ class ConvocatoriaSolicitudSeeder extends Seeder
             'solicitud_id' => $solId,
             'etapa_id' => Etapa::where('codigo', 'OFERTA')->first()->id,
             'estado_id' => Estado::where('codigo', 'INICIO')->first()->id,
+            'created_at' => Carbon::now(),
+            'created_by' => 1,
         ]);
     }
 }

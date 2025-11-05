@@ -22,6 +22,7 @@ use Database\Seeders\Workflow\TipoFlujoSeeder;
 use Database\Seeders\Workflow\TransicionSeeder;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use Spatie\Permission\Models\Role;
 
 class DatabaseSeeder extends Seeder
 {
@@ -31,6 +32,15 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
 
+        Role::create(['name' => 'super-admin']);
+
+        User::factory()->create([
+            'name' => 'Test User',
+            'email' => 'test@example.com',
+            'password' => Hash::make('password'),
+        ])->each(function ($user) {
+            $user->assignRole('super-admin');
+        });
 
         $this->call([
             PruebaBachilleratoSeeder::class,
@@ -57,12 +67,5 @@ class DatabaseSeeder extends Seeder
             ConvocatoriaSeeder::class,
             ConvocatoriaSolicitudSeeder::class
         ]);
-        User::factory()->create([
-            'name' => 'Test User',
-            'email' => 'test@example.com',
-            'password' => Hash::make('password'),
-        ])->each(function ($user) {
-            $user->assignRole('super-admin');
-        });
     }
 }
