@@ -20,6 +20,8 @@ return new class extends Migration
             $table->timestamp('fecha_inicio_recepcion_solicitudes')->nullable()->comment('Fecha en los aspirantes pueden empezar a crear solicitudes de ingreso');
             $table->timestamp('fecha_fin_recepcion_solicitudes')->nullable()->comment('Fecha de finalización de recepción de solicitudes');
 
+            $table->foreignId('prueba_bachillerato_id')->nullable()->comment('Identificar el nombre de la prueba de los egresados de educación media');
+            $table->foreign('prueba_bachillerato_id')->references('id')->on('secundaria.prueba_bachillerato')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->foreignId('convocatoria_id')->nullable()->comment('Convocatoria a la que pertenece la configuración');
             $table->foreign('convocatoria_id')->references('id')->on('ingreso.convocatoria')->onDelete('RESTRICT')->onUpdate('CASCADE');
 

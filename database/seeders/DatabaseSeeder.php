@@ -11,6 +11,7 @@ use Database\Seeders\PlanEstudio\CarreraSeeder;
 use Database\Seeders\Ingreso\ConvocatoriaSeeder;
 use Database\Seeders\PlanEstudio\GradoSeeder;
 use Database\Seeders\PlanEstudio\TipoCarreraSeeder;
+use Database\Seeders\Secundaria\PruebaBachilleratoSeeder;
 use Database\Seeders\Secundaria\SectorSeeder;
 use Database\Seeders\Workflow\EstadoSeeder;
 use Database\Seeders\Workflow\EtapaSeeder;
@@ -31,6 +32,7 @@ class DatabaseSeeder extends Seeder
 
 
         $this->call([
+            PruebaBachilleratoSeeder::class,
             RolesAndPermissionsSeeder::class,
             DepartamentoSeeder::class,
             TipoSeeder::class,
