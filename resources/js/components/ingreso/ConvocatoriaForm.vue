@@ -45,7 +45,6 @@ interface FormData {
     nombre: string;
     descripcion: string;
     flujo_id: number | null;
-    fecha: Date | null;
     cuerpo_mensaje: string;
     afiche: string | null;
     afiche_file: File | null;
@@ -60,7 +59,6 @@ const formData = ref<FormData>({
     nombre: '',
     descripcion: '',
     flujo_id: null,
-    fecha: null,
     cuerpo_mensaje: '',
     afiche_file: null,
     afiche: '',
@@ -146,17 +144,6 @@ const extensions = [
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
                     <v-col cols="12">
-                        <v-locale-provider locale="es">
-                            <v-date-input
-                                clearable
-                                required
-                                icon-color="deep-orange"
-                                v-model="formData.fecha"
-                                :rules="[rules.required]"
-                                :label="$t('_fecha_') + ' *'"
-                            ></v-date-input>
-                        </v-locale-provider>
-
                         <v-text-field
                             required
                             icon-color="deep-orange"

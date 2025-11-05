@@ -16,7 +16,6 @@ class ConvocatoriaSeeder extends Seeder
     {
         Convocatoria::insert([
             [
-                'fecha' => Carbon::now(),
                 'nombre' => '01-2026',
                 'descripcion' => 'Primera convocatoria de ingreso 2026 - PRUEBA',
                 'cuerpo_mensaje' => 'Te invitamos a participar en el proceso de ingreso a nuestras carreras',

@@ -27,7 +27,6 @@ const date = useDate();
 // *************************************************************************************************************
 interface Item {
     id: number | null;
-    fecha: Date | null;
     nombre: string;
     descripcion: string;
     cuerpo_mensaje: string;
@@ -48,7 +47,6 @@ const props = defineProps({
 });
 const itemVacio = ref<Item>({
     id: null,
-    fecha: null,
     nombre: '',
     descripcion: '',
     cuerpo_mensaje: '',
@@ -97,16 +95,12 @@ const sheetName = ref('Listado_convocatorias');
 const fileName = ref('convocatorias');
 
 const headers = [
-    { title: t('_fecha_'), key: 'fecha' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
     { title: t('_descripcion_'), key: 'descripcion' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
-const sortBy: SortBy[] = [
-    { key: 'fecha', order: 'asc' },
-    { key: 'nombre', order: 'asc' },
-];
+const sortBy: SortBy[] = [{ key: 'nombre', order: 'asc' }];
 
 const opcionesAccion = [
     {
@@ -174,11 +168,6 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.fecha="{ value }">
-                            <div class="d-flex ga-2">
-                                {{ date.format(value, 'keyboardDate') }}
-                            </div>
-                        </template>
                     </Listado>
                 </v-window-item>
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->

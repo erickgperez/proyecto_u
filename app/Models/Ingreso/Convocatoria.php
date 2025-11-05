@@ -25,7 +25,6 @@ class Convocatoria extends Model
     protected $fillable = [
         'nombre',
         'descripcion',
-        'fecha',
         'cuerpo_mensaje',
         'afiche',
         'calendarizacion_id'

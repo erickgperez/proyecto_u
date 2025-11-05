@@ -59,9 +59,7 @@ class ConvocatoriaController extends Controller
         $request->validate([
             'nombre'  => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:255',
-            'fecha' => 'required|date',
             'cuerpo_mensaje' => 'nullable|string',
-            'afiche_file' => 'nullable|file|mimes:pdf',
             'afiche_file' => 'nullable|file|mimes:pdf',
             'carrerasSedes' => 'nullable',
             'flujo_id' => ['required', 'integer', Rule::exists('pgsql.workflow.flujo', 'id')],
@@ -83,7 +81,6 @@ class ConvocatoriaController extends Controller
         $convocatoria->nombre = $request->get('nombre');
         $convocatoria->descripcion = $request->get('descripcion');
         $convocatoria->flujo_id = $request->get('flujo_id');
-        $convocatoria->fecha = $request->get('fecha');
         $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
 
         if ($request->hasFile('afiche_file')) {
