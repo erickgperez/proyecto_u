@@ -76,13 +76,9 @@ class CarreraController extends Controller
         $carrera->padre()->associate($padre);
         $carrera->tipo()->associate($tipoCarrera);
 
-        /*$sedes = [];
-        foreach ($request->get('sedes') as $s) {
-            $sedes[] = $s['id'];
-        }*/
         $carrera->sedes()->sync($request->get('sedes') ?? []);
 
-        //$carrera->carrerasSecundaria()->sync($request->get('carrerasSecundaria') ?? []);
+        $carrera->carrerasSecundaria()->sync($request->get('carreras_secundaria') ?? []);
 
         $carrera->save();
 

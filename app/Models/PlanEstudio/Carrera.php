@@ -64,8 +64,8 @@ class Carrera extends Model
         return $this->morphMany(Estudio::class, 'carrera');
     }
 
-    public function carrerasSecundaria(): HasMany
+    public function carrerasSecundaria(): BelongsToMany
     {
-        return $this->hasMany(SecundariaCarrera::class, 'id');
+        return $this->belongsToMany(SecundariaCarrera::class, 'ingreso.relacion_carreras', 'carrera_universitaria_id', 'carrera_secundaria_id');
     }
 }
