@@ -40,7 +40,14 @@ class ConvocatoriaController extends Controller
     public function index(Request $request): Response
     {
 
-        $convocatorias = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion', 'flujo')->get();
+        $convocatorias = Convocatoria::with([
+            'carrerasSedes',
+            'creator',
+            'updater',
+            'configuracion',
+            'flujo',
+            'solicitud' => ['estado', 'etapa']
+        ])->get();
 
         $sedesCarreras = $this->getSedesCarreras();
         $tipoFlujo = TipoFlujo::where('codigo', 'INGRESO')->first();
@@ -115,7 +122,14 @@ class ConvocatoriaController extends Controller
         $solicitud->solicitante()->associate($convocatoria);
         $solicitud->save();
 
-        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'flujo')->find($convocatoria->id);
+        $convocatoriaData = Convocatoria::with([
+            'carrerasSedes',
+            'creator',
+            'updater',
+            'configuracion',
+            'flujo',
+            'solicitud' => ['estado', 'etapa']
+        ])->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
@@ -129,7 +143,14 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->save();
 
-        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'flujo')->find($convocatoria->id);
+        $convocatoriaData = Convocatoria::with([
+            'carrerasSedes',
+            'creator',
+            'updater',
+            'configuracion',
+            'flujo',
+            'solicitud' => ['estado', 'etapa']
+        ])->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
@@ -164,7 +185,14 @@ class ConvocatoriaController extends Controller
         $configuracion->prueba_bachillerato_id = $request->get('prueba_bachillerato_id');
         $configuracion->save();
 
-        $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'configuracion', 'flujo')->find($convocatoria->id);
+        $convocatoriaData = Convocatoria::with([
+            'carrerasSedes',
+            'creator',
+            'updater',
+            'configuracion',
+            'flujo',
+            'solicitud' => ['estado', 'etapa']
+        ])->find($convocatoria->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }

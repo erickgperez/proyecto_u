@@ -15,6 +15,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
+use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Convocatoria extends Model
 {
@@ -74,5 +75,10 @@ class Convocatoria extends Model
     public function configuracion(): HasOne
     {
         return $this->hasOne(ConvocatoriaConfiguracion::class);
+    }
+
+    public function solicitud(): MorphOne
+    {
+        return $this->morphOne(Solicitud::class, 'solicitante');
     }
 }
