@@ -32,7 +32,7 @@ const renderers = markRaw({
 <template>
     <VuePivottableUi
         :data="data"
-        :rows="['sector']"
+        :rows="['sexo']"
         :cols="['sede']"
         :renderers="renderers"
         renderer-name="Grouped Column Chart"
