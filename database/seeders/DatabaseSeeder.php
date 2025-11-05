@@ -9,6 +9,7 @@ use Database\Seeders\Documento\TipoSeeder;
 use Database\Seeders\PlanEstudio\Carrera2Seeder;
 use Database\Seeders\PlanEstudio\CarreraSeeder;
 use Database\Seeders\Ingreso\ConvocatoriaSeeder;
+use Database\Seeders\Ingreso\ConvocatoriaSolicitudSeeder;
 use Database\Seeders\PlanEstudio\GradoSeeder;
 use Database\Seeders\PlanEstudio\TipoCarreraSeeder;
 use Database\Seeders\Secundaria\PruebaBachilleratoSeeder;
@@ -54,6 +55,7 @@ class DatabaseSeeder extends Seeder
             SedeSeeder::class,
             CarreraSedeSeeder::class,
             ConvocatoriaSeeder::class,
+            ConvocatoriaSolicitudSeeder::class
         ]);
         User::factory()->create([
             'name' => 'Test User',

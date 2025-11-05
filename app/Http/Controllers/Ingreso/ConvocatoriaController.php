@@ -11,7 +11,9 @@ use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\PruebaBachillerato;
+use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
+use App\Models\Workflow\Solicitud;
 use App\Services\SolicitudService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -62,7 +64,7 @@ class ConvocatoriaController extends Controller
             'afiche_file' => 'nullable|file|mimes:pdf',
             'afiche_file' => 'nullable|file|mimes:pdf',
             'carrerasSedes' => 'nullable',
-            'flujo_id' => ['nullable', 'integer', Rule::exists('pgsql.workflow.flujo', 'id')],
+            'flujo_id' => ['required', 'integer', Rule::exists('pgsql.workflow.flujo', 'id')],
         ]);
 
         if ($request->get('id') === null) {
@@ -80,6 +82,7 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->nombre = $request->get('nombre');
         $convocatoria->descripcion = $request->get('descripcion');
+        $convocatoria->flujo_id = $request->get('flujo_id');
         $convocatoria->fecha = $request->get('fecha');
         $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
 
@@ -100,6 +103,18 @@ class ConvocatoriaController extends Controller
         }
 
         $convocatoria->save();
+
+        // Crear una solicitud para al llevar el flujo de ejecución de la convocatoria
+        $flujo = Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first();
+        $estado = Estado::where('codigo', 'INICIO')->first();
+        $etapa = $flujo->primeraEtapa();
+
+        $solicitud = new Solicitud();
+        $solicitud->flujo()->associate($flujo);
+        $solicitud->estado()->associate($estado);
+        $solicitud->etapa()->associate($etapa);
+        $solicitud->solicitante()->associate($convocatoria);
+        $solicitud->save();
 
         $convocatoriaData = Convocatoria::with('carrerasSedes', 'creator', 'updater', 'flujo')->find($convocatoria->id);
 
