@@ -128,6 +128,13 @@ watch(tipoSeleccion, () => {
                 </v-row>
             </v-col>
         </v-row>
+        <v-row v-if="convocatoria && convocatoria.solicitud && convocatoria.solicitud.etapa.codigo != 'SELECCION_ASPIRANTES'">
+            <v-col>
+                <v-alert border="top" border-color="warning" variant="tonal" type="warning" prominent>
+                    {{ $t('convocatoria._alerta_seleccion_aspirantes_') }}
+                </v-alert>
+            </v-col>
+        </v-row>
         <v-row>
             <v-col class="mt-6">
                 <v-expansion-panels v-if="props.solicitudes.length > 0">

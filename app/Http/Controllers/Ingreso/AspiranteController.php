@@ -42,7 +42,8 @@ class AspiranteController extends Controller
                 'carrera',
                 'sede',
             ],
-            'configuracion'
+            'configuracion',
+            'solicitud' => ['estado', 'etapa', 'historial' => ['etapa', 'estado', 'creator']]
         ])->orderBy('nombre', 'asc')
             ->get();
 

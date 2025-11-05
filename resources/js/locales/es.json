@@ -121,6 +121,7 @@
         "_alerta_configuracion_": "La convocatoria no se encuentra en la etapa de CONFIGURACION, se recomienda dicha etapa para realizar la configuración de la convocatoria",
         "_alerta_invitaciones_": "La convocatoria no se encuentra en la etapa de INVITACIONES, se recomienda dicha etapa para realizar el envío de invitaciones",
         "_alerta_invitaciones_no_data_": "No se pueden enviar invitaciones, no se han cargado datos de estudiantes de bachillerato. Cargue el archivo en el menú Convocatoria -> Cargar archivo",
+        "_alerta_seleccion_aspirantes_": "La convocatoria no se encuentra en la etapa de SELECCION_ASPIRANTES, se recomienda dicha etapa para realizar la selección",
         "_calendarizar_": "Programación de actividades",
         "_calendarizar_descripcion_": "Calendarizar las actividades que se realizán en la convocatoria",
         "_configuracion_": "Configuración",
