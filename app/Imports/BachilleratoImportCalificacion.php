@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Ingreso\Aspirante;
+use App\Models\Secundaria\DataBachillerato;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithBatchInserts;
@@ -23,6 +24,12 @@ class BachilleratoImportCalificacion implements ToCollection, WithHeadingRow, Wi
 
                 $aspirante->calificacion_bachillerato = $row['calificacion'] ?? $row['nota'];
                 $aspirante->save();
+            }
+
+            $bachiller = DataBachillerato::where('nie', $row['nie'])->first();
+            if ($bachiller) {
+                $bachiller->calificacion_bachillerato = $row['calificacion'] ?? $row['nota'];
+                $bachiller->save();
             }
         }
     }

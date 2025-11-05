@@ -52,12 +52,6 @@ class EtapaSeeder extends Seeder
                 'flujo_id' => Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first()->id
             ],
             [
-                'codigo' => 'CARGA_NOTA_PRUEBA_BACHILLERATO',
-                'nombre' => 'Carga de nota de bachillerato',
-                'indicaciones' => 'Cargue el archivo con la nota obtenida por los estudiantes en su prueba de bachillerato. Menú Aspirantes->Nota bachillerato',
-                'flujo_id' => Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first()->id
-            ],
-            [
                 'codigo' => 'SELECCION_ASPIRANTES',
                 'nombre' => 'Selección de aspirantes',
                 'indicaciones' => 'Realizar la selección de aspirantes que serán estudiantes de la universidada. Menú Aspirantes->Selección',

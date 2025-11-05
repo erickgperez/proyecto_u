@@ -65,6 +65,11 @@ class AspiranteService
             'persona_id' => $persona->id,
             'nie' => $dataBach->nie
         ]);
+
+        //Verificar si ya hay nota cargada
+        if ($dataBach->calificacion_bachillerato) {
+            $aspirante->calificacion_bachillerato = $dataBach->calificacion_bachillerato;
+        }
         $aspirante->save();
 
         //Buscar la invitación para ponerla como aceptada
