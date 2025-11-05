@@ -34,6 +34,7 @@ return new class extends Migration
             $table->string('codigo_distrito', length: 7)->nullable();
             $table->string('distrito', length: 100)->nullable();
             $table->string('opcion_bachillerato', length: 100)->nullable()->comment('Opción de bachillerato que estudia el alumno');
+            $table->float('calificacion_bachillerato', 5, 2)->nullable()->comment('Calificación obtenida en la prueba que se realiza en educación media');
         });
     }
 
