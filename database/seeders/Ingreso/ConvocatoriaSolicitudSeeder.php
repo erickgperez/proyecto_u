@@ -6,6 +6,7 @@ use App\Models\Ingreso\Convocatoria;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Etapa;
 use App\Models\Workflow\Flujo;
+use App\Models\Workflow\Historial;
 use App\Models\Workflow\Solicitud;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
@@ -17,7 +18,7 @@ class ConvocatoriaSolicitudSeeder extends Seeder
      */
     public function run(): void
     {
-        Solicitud::insert([
+        $solId = Solicitud::insertGetId(
             [
                 'solicitante_id' => Convocatoria::where('nombre', '01-2026')->first()->id,
                 'solicitante_type' => 'App\Models\Ingreso\Convocatoria',
@@ -25,6 +26,12 @@ class ConvocatoriaSolicitudSeeder extends Seeder
                 'etapa_id' => Etapa::where('codigo', 'OFERTA')->first()->id,
                 'estado_id' => Estado::where('codigo', 'INICIO')->first()->id,
             ],
+        );
+
+        Historial::insert([
+            'solicitud_id' => $solId,
+            'etapa_id' => Etapa::where('codigo', 'OFERTA')->first()->id,
+            'estado_id' => Estado::where('codigo', 'INICIO')->first()->id,
         ]);
     }
 }
