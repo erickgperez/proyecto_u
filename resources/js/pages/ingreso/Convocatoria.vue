@@ -113,20 +113,20 @@ const sortBy: SortBy[] = [{ key: 'nombre', order: 'asc' }];
 
 const opcionesAccion = [
     {
-        permiso: acc.configuracion,
-        title: t('convocatoria._configuracion_'),
-        text: t('convocatoria._configuracion_descripcion_'),
-        emitAction: 'configuracion',
-        color: 'indigo-darken-2',
-        icon: 'mdi-calendar-month-outline',
-    },
-    {
         permiso: acc.oferta,
         title: t('convocatoria._oferta_'),
         text: t('convocatoria._oferta_descripcion_'),
         emitAction: 'oferta',
         color: 'orange-darken-3',
         icon: 'mdi-format-list-text',
+    },
+    {
+        permiso: acc.configuracion,
+        title: t('convocatoria._configuracion_'),
+        text: t('convocatoria._configuracion_descripcion_'),
+        emitAction: 'configuracion',
+        color: 'indigo-darken-2',
+        icon: 'mdi-calendar-month-outline',
     },
     {
         permiso: acc.calendarizar,
