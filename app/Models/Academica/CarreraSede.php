@@ -2,19 +2,17 @@
 
 namespace App\Models\Academica;
 
-use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\User;
-use App\Models\Workflow\Solicitud;
 use App\Models\Workflow\SolicitudCarreraSede;
 use App\Traits\UserStamps;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 
-class CarreraSede extends Model
+class CarreraSede extends Pivot
 {
     use UserStamps;
 

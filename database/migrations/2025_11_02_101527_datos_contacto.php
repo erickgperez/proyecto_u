@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('datos_contacto', function (Blueprint $table) {
             $table->id();
             $table->comment('Datos de contacto asociados a persona)');
-            $table->string('email_principal', length: 100)->nullable();
+            $table->string('email_principal', length: 100)->nullable()->unique();
             $table->string('email_alternativo', length: 100)->nullable();
             $table->string('direccion_residencia', length: 500)->nullable();
             $table->foreignId('residencia_distrito_id')->nullable()->comment('Distrito de residencia');

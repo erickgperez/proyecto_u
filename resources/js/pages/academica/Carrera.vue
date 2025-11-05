@@ -47,6 +47,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    carrerasSecundaria: Array,
 });
 
 const itemVacio = ref<Item>({
@@ -106,7 +107,7 @@ const headers = [
 ];
 
 const sortBy: SortBy[] = [
-    { key: 'tipo_', order: 'desc' },
+    { key: 'tipo_', order: 'asc' },
     { key: 'padre_', order: 'asc' },
     { key: 'nombre', order: 'asc' },
 ];
@@ -179,6 +180,7 @@ const opcionesAccion = [
                             :carreras="props.items"
                             :tiposCarrera="props.tiposCarrera"
                             :sedes="props.sedes"
+                            :carrerasSecundaria="props.carrerasSecundaria"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
                         ></CarreraForm>
