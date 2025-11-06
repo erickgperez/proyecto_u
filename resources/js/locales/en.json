@@ -117,10 +117,10 @@
     "_confirmar_borrar_registro_": "Confirm to delete the selected record",
     "_continuar_": "Continue",
     "convocatoria": {
-        "_alerta_oferta_": "The application process is not currently in the OFERTA stage; this stage is recommended for making career offers.",
-        "_alerta_configuracion_": "The application process is not in the CONFIGURACION stage; it is recommended to enter this stage to configure the call for proposals.",
+        "_alerta_oferta_": "The application process is NOT currently in the OFERTA stage; this stage is recommended for making career offers.",
+        "_alerta_configuracion_": "The application process is NOT in the CONFIGURACION stage; it is recommended to enter this stage to configure the call for proposals.",
         "_alerta_invitaciones_no_data_": "Invitations cannot be sent; no data for high school students has been uploaded. Upload the file via the menu Applications process -> Upload file",
-        "_alerta_seleccion_aspirantes_": "The application process is not currently in the SELECCION_ASPIRANTES stage; this stage is recommended for conducting the selection process",
+        "_alerta_seleccion_aspirantes_": "The application process is NOT currently in the SELECCION_ASPIRANTES stage; this stage is recommended for conducting the selection process",
         "_calendarizar_": "Activities Programming",
         "_calendarizar_descripcion_": "Schedule the activities carried out in the application process",
         "_configuracion_": "Configuration",

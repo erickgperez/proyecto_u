@@ -121,6 +121,7 @@ class ConvocatoriaController extends Controller
         }
 
         $convocatoriaData = $this->convocatoriaBase()->find($convocatoria->id);
+        $convocatoriaData->etapa = $solicitud->etapa->codigo;
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
@@ -128,13 +129,25 @@ class ConvocatoriaController extends Controller
     public function ofertaSave($id, Request $request)
     {
 
+        $request->validate([
+            'carreras_sedes'  => 'required'
+        ]);
         $convocatoria = Convocatoria::find($id);
 
         $convocatoria->carrerasSedes()->sync($request->get('carreras_sedes') ?? []);
 
         $convocatoria->save();
 
+        //Verificar la solicitud
+        $solicitud = $convocatoria->solicitud;
+        if ($solicitud && $solicitud->etapa->codigo === 'OFERTA') {
+            $solicitud->pasarSiguienteEtapa();
+            $solicitud->save();
+            $solicitud->guardarHistorial();
+        }
+
         $convocatoriaData = $this->convocatoriaBase()->find($convocatoria->id);
+        $convocatoriaData->etapa = $solicitud->etapa->codigo;
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
@@ -169,7 +182,16 @@ class ConvocatoriaController extends Controller
         $configuracion->prueba_bachillerato_id = $request->get('prueba_bachillerato_id');
         $configuracion->save();
 
+        //Verificar la solicitud
+        $solicitud = $convocatoria->solicitud;
+        if ($solicitud && $solicitud->etapa->codigo === 'CONFIGURACION') {
+            $solicitud->pasarSiguienteEtapa();
+            $solicitud->save();
+            $solicitud->guardarHistorial();
+        }
+
         $convocatoriaData = $this->convocatoriaBase()->find($convocatoria->id);
+        $convocatoriaData->etapa = $solicitud->etapa->codigo;
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }
