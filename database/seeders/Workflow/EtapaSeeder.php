@@ -56,6 +56,12 @@ class EtapaSeeder extends Seeder
                 'nombre' => 'Selección de aspirantes',
                 'indicaciones' => 'Realizar la selección de aspirantes que serán estudiantes de la universidada. Menú Aspirantes->Selección',
                 'flujo_id' => Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first()->id
+            ],
+            [
+                'codigo' => 'FIN_CONVOCATORIA',
+                'nombre' => 'Finalización de convocatoria',
+                'indicaciones' => '',
+                'flujo_id' => Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first()->id
             ]
         ]);
     }
