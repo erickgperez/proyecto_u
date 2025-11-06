@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('descripcion', length: 255)->nullable()->comment('Texto detallado de la convocatoria');
             $table->text('cuerpo_mensaje')->nullable()->comment('Texto que se mostrará en las invitaciones que se enviarán por correo ');
             $table->string('afiche', length: 255)->nullable()->comment('Archivo del afiche informativo de la convocatoria, se adjuntará en la invitación enviada por correo');
+            $table->boolean('activa')->default(true)->comment('Indica si la convocatoria está activa y se puden realizar todos sus pasos');
             $table->foreignId('flujo_id')->comment('Flujo de proceso que seguirás las solicitudes de ingreso de esta convocatoria');
             $table->foreign('flujo_id')->references('id')->on('workflow.flujo')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
