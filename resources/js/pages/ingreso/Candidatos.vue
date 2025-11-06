@@ -210,7 +210,10 @@ function handleConvocatoria(newConvocatoria: Convocatoria) {
             </div>
             <v-dialog v-model="dialog" max-width="400" persistent>
                 <v-card>
-                    <v-card-text class="bg-surface-light pt-4">
+                    <v-alert border="top" type="error" variant="outlined" prominent v-if="localConvocatorias.length == 0">
+                        {{ $t('convocatoria._alerta_no_convocatorias_activas_') }}
+                    </v-alert>
+                    <v-card-text class="bg-surface-light pt-4" v-else>
                         <v-autocomplete
                             :label="$t('convocatoria._convocatoria_')"
                             :items="localConvocatorias"

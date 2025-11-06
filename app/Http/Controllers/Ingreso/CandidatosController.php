@@ -35,6 +35,7 @@ class CandidatosController extends Controller
             ->with([
                 'solicitud' => ['etapa']
             ])
+            ->where('activa', true)
             ->orderBy('nombre', 'asc')
             ->withCount([
                 'invitaciones as invitaciones',

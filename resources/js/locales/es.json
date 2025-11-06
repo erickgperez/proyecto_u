@@ -119,6 +119,7 @@
     "convocatoria": {
         "_activa_": "Activa",
         "_alerta_activa_": "La convocatoria NO está activa",
+        "_alerta_no_convocatorias_activas_": "No hay convocatorias activas",
         "_alerta_oferta_": "La convocatoria NO se encuentra en la etapa de OFERTA, se recomienda dicha etapa para realizar la oferta de carreras",
         "_alerta_configuracion_": "La convocatoria NO se encuentra en la etapa de CONFIGURACION, se recomienda dicha etapa para realizar la configuración de la convocatoria",
         "_alerta_invitaciones_": "La convocatoria NO se encuentra en la etapa de INVITACIONES, se recomienda dicha etapa para realizar el envío de invitaciones",

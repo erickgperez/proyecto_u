@@ -119,6 +119,7 @@
     "convocatoria": {
         "_activa_": "Active",
         "_alerta_activa_": "The application process is NOT currently active.",
+        "_alerta_no_convocatorias_activas_": "There are no active applications process",
         "_alerta_oferta_": "The application process is NOT currently in the OFERTA stage; this stage is recommended for making career offers.",
         "_alerta_configuracion_": "The application process is NOT in the CONFIGURACION stage; it is recommended to enter this stage to configure the call for proposals.",
         "_alerta_invitaciones_no_data_": "Invitations cannot be sent; no data for high school students has been uploaded. Upload the file via the menu Applications process -> Upload file",
