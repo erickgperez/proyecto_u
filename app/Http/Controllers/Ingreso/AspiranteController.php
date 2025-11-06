@@ -47,6 +47,7 @@ class AspiranteController extends Controller
         ])->where('activa', true)
             ->orderBy('nombre', 'asc')
             ->get();
+
         //Revisar las convocatorias que ya se cumplió la fecha de fin de recepción de solicitudes
         // para pasarla a etapa de SELECCION_ASPIRANTES (si está en etapa de INVITACIONES)
         $convocatorias_ = [];

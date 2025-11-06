@@ -47,8 +47,31 @@ class ConvocatoriaController extends Controller
         $flujos = Flujo::where('activo', true)->where('tipo_flujo_id', $tipoFlujo->id)->get();
         $pruebasBachillerato = PruebaBachillerato::orderBy('codigo', 'ASC')->get();
 
+        //Revisar las convocatorias que ya se cumplió la fecha de fin de recepción de solicitudes
+        // para pasarla a etapa de SELECCION_ASPIRANTES (si está en etapa de INVITACIONES)
+        $convocatorias_ = [];
+        $today = new \DateTime();
+        foreach ($convocatorias as $c) {
+            if ($c->activa) {
+                $solicitud = $c->solicitud;
+                if ($today > $c->fecha_fin_recepcion_solicitudes && $c->solicitud->etapa->codigo === 'INVITACIONES') {
+                    $solicitud->pasarSiguienteEtapa();
+                    $solicitud->save();
+                    $solicitud->guardarHistorial();
+                }
+
+                //Verificar si ya pasó la fecha de publicacion de resultados
+                if ($today > $c->fecha_publicacion_resultados && $c->solicitud->etapa->codigo === 'SELECCION_ASPIRANTES') {
+                    $solicitud->pasarSiguienteEtapa();
+                    $solicitud->save();
+                    $solicitud->guardarHistorial();
+                }
+                $convocatorias_[] = $c;
+            }
+        }
+
         return Inertia::render('ingreso/Convocatoria', [
-            'items'         => $convocatorias,
+            'items'         => $convocatorias_,
             'sedesCarreras' => $sedesCarreras,
             'flujos'        => $flujos,
             'pruebasBachillerato' => $pruebasBachillerato,
