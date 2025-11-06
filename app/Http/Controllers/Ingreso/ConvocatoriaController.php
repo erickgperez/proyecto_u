@@ -60,6 +60,7 @@ class ConvocatoriaController extends Controller
         // Aunque se ha validado del lado del cliente, validar aquí también
         $request->validate([
             'nombre'  => 'required|string|max:100',
+            'activa' => 'required',
             'descripcion' => 'nullable|string|max:255',
             'cuerpo_mensaje' => 'nullable|string',
             'afiche_file' => 'nullable|file|mimes:pdf',
@@ -83,6 +84,7 @@ class ConvocatoriaController extends Controller
         $convocatoria->nombre = $request->get('nombre');
         $convocatoria->descripcion = $request->get('descripcion');
         $convocatoria->flujo_id = $request->get('flujo_id');
+        $convocatoria->activa = ($request->get('activa') === 'true');
         $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');
 
         if ($request->hasFile('afiche_file')) {
@@ -121,7 +123,7 @@ class ConvocatoriaController extends Controller
         }
 
         $convocatoriaData = $this->convocatoriaBase()->find($convocatoria->id);
-        $convocatoriaData->etapa = $solicitud->etapa->codigo;
+        $convocatoriaData->etapa = $convocatoria->solicitud->etapa->codigo;
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'convocatoria' => $convocatoriaData]);
     }

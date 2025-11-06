@@ -43,6 +43,7 @@ function reset() {
 interface FormData {
     id: number | null;
     nombre: string;
+    activa: boolean;
     descripcion: string;
     flujo_id: number | null;
     cuerpo_mensaje: string;
@@ -57,6 +58,7 @@ const content = ref(props.item?.cuerpo_mensaje);
 const formData = ref<FormData>({
     id: null,
     nombre: '',
+    activa: true,
     descripcion: '',
     flujo_id: null,
     cuerpo_mensaje: '',
@@ -161,6 +163,7 @@ const extensions = [
                             counter="255"
                             :label="$t('_descripcion_')"
                         ></v-text-field>
+                        <v-checkbox v-model="formData.activa" :label="$t('convocatoria._activa_')"></v-checkbox>
                         <v-select
                             required
                             :rules="[rules.required]"

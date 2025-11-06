@@ -117,6 +117,7 @@
     "_confirmar_borrar_registro_": "Confirme para borrar el registro seleccionado",
     "_continuar_": "Continuar",
     "convocatoria": {
+        "_activa_": "Activa",
         "_alerta_oferta_": "La convocatoria NO se encuentra en la etapa de OFERTA, se recomienda dicha etapa para realizar la oferta de carreras",
         "_alerta_configuracion_": "La convocatoria NO se encuentra en la etapa de CONFIGURACION, se recomienda dicha etapa para realizar la configuración de la convocatoria",
         "_alerta_invitaciones_": "La convocatoria NO se encuentra en la etapa de INVITACIONES, se recomienda dicha etapa para realizar el envío de invitaciones",
