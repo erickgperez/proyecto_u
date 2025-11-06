@@ -110,6 +110,7 @@ const headers = [
     { title: t('convocatoria._fecha_creacion_'), key: 'created_at' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
     { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('convocatoria._activa_'), key: 'activa' },
     { title: t('etapa._singular_'), key: 'etapa' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
@@ -201,6 +202,12 @@ onMounted(() => {});
                         <template v-slot:item.created_at="{ value }">
                             <div class="d-flex ga-2" v-if="value">
                                 {{ date.format(value, 'keyboardDateTime12h') }}
+                            </div>
+                        </template>
+                        <template v-slot:item.activa="{ value }">
+                            <div class="d-flex ga-2">
+                                <v-icon icon="mdi-checkbox-marked-outline" color="success" v-if="value"></v-icon>
+                                <v-icon icon="mdi-close-box-outline" color="red" v-else></v-icon>
                             </div>
                         </template>
                     </Listado>
