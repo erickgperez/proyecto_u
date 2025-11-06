@@ -7,6 +7,7 @@ use App\Mail\CandidatoInvitado;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\Invitacion;
+use DateTime;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -47,13 +48,26 @@ class CandidatosController extends Controller
                 },
             ])
             ->get();
+        //Revisar las convocatorias que ya se cumplió la fecha de fin de recepción de solicitudes
+        // para pasarla a etapa de SELECCION_ASPIRANTES (si está en etapa de INVITACIONES)
+        $convocatorias_ = [];
+        $today = new \DateTime();
+        foreach ($convocatorias as $c) {
+            $solicitud = $c->solicitud;
+            if ($today > $c->fecha_fin_recepcion_solicitudes && $c->solicitud->etapa->codigo == 'INVITACIONES') {
+                $solicitud->pasarSiguienteEtapa();
+                $solicitud->save();
+                $solicitud->guardarHistorial();
+            }
+            $convocatorias_[] = $c;
+        }
 
         return Inertia::render('ingreso/Candidatos', [
             'status' => $request->session()->get('status'),
             //'componente' => 'seleccionCandidatos',            'titulo' => 'Seleccionar candidatos',
             'departamentos' => $departamentos,
             'opcionesBachillerato' => $opcionesBachillerato,
-            'convocatorias' => $convocatorias
+            'convocatorias' => $convocatorias_
         ]);
     }
 
