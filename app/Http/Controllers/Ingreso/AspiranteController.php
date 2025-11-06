@@ -47,9 +47,28 @@ class AspiranteController extends Controller
         ])->where('activa', true)
             ->orderBy('nombre', 'asc')
             ->get();
+        //Revisar las convocatorias que ya se cumplió la fecha de fin de recepción de solicitudes
+        // para pasarla a etapa de SELECCION_ASPIRANTES (si está en etapa de INVITACIONES)
+        $convocatorias_ = [];
+        $today = new \DateTime();
+        foreach ($convocatorias as $c) {
+            $solicitud = $c->solicitud;
+            if ($today > $c->fecha_fin_recepcion_solicitudes && $c->solicitud->etapa->codigo === 'INVITACIONES') {
+                $solicitud->pasarSiguienteEtapa();
+                $solicitud->save();
+                $solicitud->guardarHistorial();
+            }
 
+            //Verificar si ya pasó la fecha de publicacion de resultados
+            if ($today > $c->fecha_publicacion_resultados && $c->solicitud->etapa->codigo === 'SELECCION_ASPIRANTES') {
+                $solicitud->pasarSiguienteEtapa();
+                $solicitud->save();
+                $solicitud->guardarHistorial();
+            }
+            $convocatorias_[] = $c;
+        }
 
-        return Inertia::render('ingreso/Seleccion', ['convocatorias' => $convocatorias]);
+        return Inertia::render('ingreso/Seleccion', ['convocatorias' => $convocatorias_]);
     }
 
     public function aplicarSeleccion(int $id, $seleccionado = true, $idSolicitudCarreraSede = null)
