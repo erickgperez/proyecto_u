@@ -20,7 +20,9 @@ class ConvocatoriaSeeder extends Seeder
                 'activa' => true,
                 'descripcion' => 'Primera convocatoria de ingreso 2026 - PRUEBA',
                 'cuerpo_mensaje' => 'Te invitamos a participar en el proceso de ingreso a nuestras carreras',
-                'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id
+                'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id,
+                'created_at' => Carbon::now(),
+                'created_by' => 1,
             ],
         ]);
     }

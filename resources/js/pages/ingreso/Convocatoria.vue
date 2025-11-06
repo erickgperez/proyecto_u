@@ -28,6 +28,7 @@ const { t } = useI18n();
 interface Item {
     id: number | null;
     nombre: string;
+    activa: boolean;
     descripcion: string;
     cuerpo_mensaje: string;
     etapa: string;
@@ -35,6 +36,7 @@ interface Item {
     afiche: string | null;
     calendarizacion_id: number | null;
     carreras_sedes: [];
+    created_at: Date | null;
 }
 
 const props = defineProps({
@@ -50,6 +52,7 @@ const props = defineProps({
 const itemVacio = ref<Item>({
     id: null,
     nombre: '',
+    activa: true,
     descripcion: '',
     etapa: '',
     solicitud: null,
@@ -57,6 +60,7 @@ const itemVacio = ref<Item>({
     afiche: null,
     calendarizacion_id: null,
     carreras_sedes: [],
+    created_at: null,
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -103,6 +107,7 @@ const sheetName = ref('Listado_convocatorias');
 const fileName = ref('convocatorias');
 
 const headers = [
+    { title: t('convocatoria._fecha_creacion_'), key: 'created_at' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
     { title: t('_descripcion_'), key: 'descripcion' },
     { title: t('etapa._singular_'), key: 'etapa' },
@@ -191,6 +196,11 @@ onMounted(() => {});
                                         dialog = true;
                                     "
                                 ></v-icon>
+                            </div>
+                        </template>
+                        <template v-slot:item.created_at="{ value }">
+                            <div class="d-flex ga-2" v-if="value">
+                                {{ date.format(value, 'keyboardDateTime12h') }}
                             </div>
                         </template>
                     </Listado>

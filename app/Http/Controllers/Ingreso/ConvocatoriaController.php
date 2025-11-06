@@ -40,7 +40,7 @@ class ConvocatoriaController extends Controller
     public function index(Request $request): Response
     {
 
-        $convocatorias = $this->convocatoriaBase()->get();
+        $convocatorias = $this->convocatoriaBase()->orderBy('created_at', 'DESC')->get();
 
         $sedesCarreras = $this->getSedesCarreras();
         $tipoFlujo = TipoFlujo::where('codigo', 'INGRESO')->first();
