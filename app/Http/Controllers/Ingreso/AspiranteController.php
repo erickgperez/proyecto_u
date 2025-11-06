@@ -44,7 +44,8 @@ class AspiranteController extends Controller
             ],
             'configuracion',
             'solicitud' => ['estado', 'etapa', 'historial' => ['etapa', 'estado', 'creator']]
-        ])->orderBy('nombre', 'asc')
+        ])->where('activa', true)
+            ->orderBy('nombre', 'asc')
             ->get();
 
 

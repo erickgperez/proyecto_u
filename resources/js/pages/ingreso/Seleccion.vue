@@ -273,7 +273,10 @@ const handleInfoSede = (newInfoSede: any) => {
         icono="mdi-account-filter-outline"
     >
         <v-card v-if="hasPermission('MENU_INGRESO_SELECCION')" class="elevation-12 rounded-xl">
-            <v-layout>
+            <v-alert class="ma-4" border="top" type="error" variant="outlined" prominent v-if="props.convocatorias.length == 0">
+                {{ $t('convocatoria._alerta_no_convocatorias_activas_') }}
+            </v-alert>
+            <v-layout v-else>
                 <SeleccionAppBar
                     :convocatoria="convocatoria"
                     :sede="sede"
@@ -299,7 +302,7 @@ const handleInfoSede = (newInfoSede: any) => {
 
                 <v-window v-model="step">
                     <v-window-item :value="1">
-                        <v-layaout>
+                        <v-layout>
                             <SeleccionDrawerGraficos
                                 :info-sede="infoSede"
                                 :sede="sede"
@@ -309,7 +312,7 @@ const handleInfoSede = (newInfoSede: any) => {
                             <v-main class="w-100 overflow-y-scroll rounded-l-xl text-4xl" style="height: 91dvh">
                                 <SeleccionListado :solicitudes="solicitudes" @seleccionar="seleccionar"> </SeleccionListado>
                             </v-main>
-                        </v-layaout>
+                        </v-layout>
                     </v-window-item>
                     <v-window-item :value="2" class="pt-16" style="height: 91dvh">
                         <SeleccionGrafico :seleccionados="seleccionados"> </SeleccionGrafico>
