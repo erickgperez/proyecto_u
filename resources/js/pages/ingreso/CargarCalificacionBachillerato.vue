@@ -42,7 +42,9 @@ const submitForm = async () => {
                     'Content-Type': 'multipart/form-data',
                 },
             });
-            formRef.value!.reset();
+            if (formRef.value) {
+                formRef.value.reset();
+            }
             formData.archivo = null;
             formData.tipoCarga = 'incremental';
 

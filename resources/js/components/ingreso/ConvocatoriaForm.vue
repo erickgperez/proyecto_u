@@ -36,7 +36,9 @@ const formRef = ref<VForm | null>(null);
 const emit = defineEmits(['form-saved']);
 
 function reset() {
-    formRef.value!.reset();
+    if (formRef.value) {
+        formRef.value.reset();
+    }
     formData.value.afiche = null;
 }
 
