@@ -20,6 +20,8 @@ return new class extends Migration
             $table->foreign('certificacion_de')->references('id')->on('plan_estudio.carrera')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->foreignId('tipo_carrera_id');
             $table->foreign('tipo_carrera_id')->references('id')->on('plan_estudio.tipo_carrera')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->foreignId('estado_id');
+            $table->foreign('estado_id')->references('id')->on('academico.estado')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
