@@ -54,10 +54,13 @@ class CandidatosController extends Controller
         $today = new \DateTime();
         foreach ($convocatorias as $c) {
             $solicitud = $c->solicitud;
-            if ($today > $c->fecha_fin_recepcion_solicitudes && $c->solicitud->etapa->codigo == 'INVITACIONES') {
-                $solicitud->pasarSiguienteEtapa();
-                $solicitud->save();
-                $solicitud->guardarHistorial();
+            if ($c->configuracion != null) {
+                $fecha_fin_sol = new \DateTime($c->configuracion->fecha_fin_recepcion_solicitudes);
+                if ($today > $fecha_fin_sol && $solicitud->etapa->codigo === 'INVITACIONES') {
+                    $solicitud->pasarSiguienteEtapa();
+                    $solicitud->save();
+                    $solicitud->guardarHistorial();
+                }
             }
             $convocatorias_[] = $c;
         }

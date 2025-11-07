@@ -53,20 +53,24 @@ class AspiranteController extends Controller
         $convocatorias_ = [];
         $today = new \DateTime();
         foreach ($convocatorias as $c) {
-            $solicitud = $c->solicitud;
-            if ($today > $c->fecha_fin_recepcion_solicitudes && $c->solicitud->etapa->codigo === 'INVITACIONES') {
-                $solicitud->pasarSiguienteEtapa();
-                $solicitud->save();
-                $solicitud->guardarHistorial();
-            }
+            if ($c->configuracion != null) {
+                $solicitud = $c->solicitud;
+                $fecha_fin_sol = new \DateTime($c->configuracion->fecha_fin_recepcion_solicitudes);
+                if ($today > $fecha_fin_sol && $solicitud->etapa->codigo === 'INVITACIONES') {
+                    $solicitud->pasarSiguienteEtapa();
+                    $solicitud->save();
+                    $solicitud->guardarHistorial();
+                }
 
-            //Verificar si ya pasó la fecha de publicacion de resultados
-            if ($today > $c->fecha_publicacion_resultados && $c->solicitud->etapa->codigo === 'SELECCION_ASPIRANTES') {
-                $solicitud->pasarSiguienteEtapa();
-                $solicitud->save();
-                $solicitud->guardarHistorial();
+                //Verificar si ya pasó la fecha de publicacion de resultados
+                $fecha_pub = new \DateTime($c->configuracion->fecha_publicacion_resultados);
+                if ($today >  $fecha_pub && $solicitud->etapa->codigo === 'SELECCION_ASPIRANTES') {
+                    $solicitud->pasarSiguienteEtapa();
+                    $solicitud->save();
+                    $solicitud->guardarHistorial();
+                }
+                $convocatorias_[] = $c;
             }
-            $convocatorias_[] = $c;
         }
 
         return Inertia::render('ingreso/Seleccion', ['convocatorias' => $convocatorias_]);
