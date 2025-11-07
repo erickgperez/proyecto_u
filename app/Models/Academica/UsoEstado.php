@@ -2,11 +2,9 @@
 
 namespace App\Models\Academica;
 
-use App\Models\PlanEstudio\Carrera;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class UsoEstado extends Model
 {
