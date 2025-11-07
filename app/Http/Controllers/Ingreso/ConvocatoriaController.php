@@ -52,16 +52,19 @@ class ConvocatoriaController extends Controller
         $convocatorias_ = [];
         $today = new \DateTime();
         foreach ($convocatorias as $c) {
-            if ($c->activa) {
+            if ($c->activa && $c->configuracion != null) {
                 $solicitud = $c->solicitud;
-                if ($today > $c->fecha_fin_recepcion_solicitudes && $c->solicitud->etapa->codigo === 'INVITACIONES') {
+                $fecha_fin_sol = new \DateTime($c->configuracion->fecha_fin_recepcion_solicitudes);
+                if ($fecha_fin_sol !== null && $today > $fecha_fin_sol && $solicitud->etapa->codigo === 'INVITACIONES') {
                     $solicitud->pasarSiguienteEtapa();
                     $solicitud->save();
                     $solicitud->guardarHistorial();
                 }
 
                 //Verificar si ya pasó la fecha de publicacion de resultados
-                if ($today > $c->fecha_publicacion_resultados && $c->solicitud->etapa->codigo === 'SELECCION_ASPIRANTES') {
+                $fecha_pub = $c->configuracion->fecha_publicacion_resultados;
+                if ($fecha_pub !== null && $today >  $fecha_pub && $solicitud->etapa->codigo === 'SELECCION_ASPIRANTES') {
+                    dd($today);
                     $solicitud->pasarSiguienteEtapa();
                     $solicitud->save();
                     $solicitud->guardarHistorial();
