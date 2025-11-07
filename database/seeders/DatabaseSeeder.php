@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\PlanEstudio\TipoUnidadAcademica;
 use App\Models\User;
 use Database\Seeders\Academico\CarreraSedeSeeder;
 use Database\Seeders\Academico\EstadoSeeder as AcademicoEstadoSeeder;
@@ -14,6 +15,7 @@ use Database\Seeders\Ingreso\ConvocatoriaSeeder;
 use Database\Seeders\Ingreso\ConvocatoriaSolicitudSeeder;
 use Database\Seeders\PlanEstudio\GradoSeeder;
 use Database\Seeders\PlanEstudio\TipoCarreraSeeder;
+use Database\Seeders\PlanEstudio\TipoUnidadAcademicaSeeder;
 use Database\Seeders\Secundaria\PruebaBachilleratoSeeder;
 use Database\Seeders\Secundaria\SectorSeeder;
 use Database\Seeders\Workflow\EstadoSeeder;
@@ -45,6 +47,7 @@ class DatabaseSeeder extends Seeder
         });
 
         $this->call([
+            TipoUnidadAcademicaSeeder::class,
             UsoEstadoSeeder::class,
             AcademicoEstadoSeeder::class,
             PruebaBachilleratoSeeder::class,
