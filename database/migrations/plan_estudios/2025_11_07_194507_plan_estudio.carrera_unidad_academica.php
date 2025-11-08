@@ -16,7 +16,7 @@ return new class extends Migration
             $table->comment('Tabla para relacionar las unidades académicas que pertenecen a una carrera');
             $table->tinyInteger('semestre')->comment('Semestre en que se imparte la unidad academica');
             $table->boolean('obligatoria')->default(true)->comment('Indica si la unidad de estudio es obligatoria en la carrera');
-            $table->float('requisito_creditos', 2, 1)->nullable()->comment('Créditos otorgados por la unidad académica');
+            $table->float('requisito_creditos', 4, 1)->nullable()->comment('Créditos otorgados por la unidad académica');
 
             $table->foreignId('area_id')->nullable()->comment('Área a la que pertenece la unidad académica');
             $table->foreign('area_id')->references('id')->on('plan_estudio.area')->onDelete('RESTRICT')->onUpdate('CASCADE');
