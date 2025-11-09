@@ -60,9 +60,8 @@ async function submitForm() {
 
 onMounted(() => {
     reset();
-    if (props.accion === 'edit') {
-        formData.value = { ...props.item };
-    }
+
+    formData.value = { ...props.item };
 });
 </script>
 <template>
