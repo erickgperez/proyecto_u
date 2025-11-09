@@ -72,7 +72,7 @@ function remove() {
                 const resp = await axios.delete(route(props.rutaBorrar, { id: props.selectedItemId }));
 
                 if (resp.data.status == 'ok') {
-                    emit('action', 'detele');
+                    emit('action', 'delete');
                     mensajeExito(t('_registro_eliminado_correctamente_'));
                 } else {
                     throw new Error(resp.data.message);
