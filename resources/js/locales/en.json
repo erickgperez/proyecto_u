@@ -11,6 +11,17 @@
     "_anterior_": "Previous",
     "_archivo_actual_": "Current file",
     "_archivo_borrado_correctamente_": "File successfully deleted",
+    "area": {
+        "_administrar_": "Manage subject areas",
+        "_codigo_ya existe_": "The area code already exists in another record",
+        "_crear_": "Create area",
+        "_editar_": "Edit area",
+        "_singular_": "Area",
+        "_plural_": "Areas",
+        "_listado_": "List areas",
+        "_mostrar_": "Show area",
+        "_permite_gestionar_": "Allows you to manage subject area data"
+    },
     "aspirante": {
         "_nie_": "NIE",
         "_no_tiene_cupo_": "there is no quota",
@@ -413,6 +424,17 @@
         "_descripcion_": "Descripción"
     },
     "_tipo_carga_": "Type of load",
+    "tipoUnidadAcademica": {
+        "_administrar_": "Manage Academic Unit Types",
+        "_codigo_ya existe_": "The type code already exists in another record",
+        "_crear_": "Create Academic Unit Type",
+        "_editar_": "Edit Academic Unit Type",
+        "_singular_": "Academic Unit Type",
+        "_plural_": "Academic Unit Types",
+        "_listado_": "List of Academic Unit Types",
+        "_mostrar_": "Show Academic Unit Type",
+        "_permite_gestionar_": "Allows you to manage academic unit types"
+    },
     "_tipo_invitacion_": "Invitation type",
     "_tipo_grafico_": "Display type",
     "_todos_estudiantes_en_base_datos_": "All students in the database",

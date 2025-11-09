@@ -6,7 +6,7 @@ const date = useDate();
 const props = defineProps(['item', 'accion']);
 </script>
 <template>
-    <v-card :title="$t('area._mostrar_')">
+    <v-card :title="$t('tipoUnidadAcademica._mostrar_')">
         <template v-slot:text>
             <v-row>
                 <v-col cols="4">

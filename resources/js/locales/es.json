@@ -462,6 +462,17 @@
     },
     "_tipo_carga_": "Tipo de carga",
     "_tipo_invitacion_": "Tipo invitación",
+    "tipoUnidadAcademica": {
+        "_administrar_": "Administrar tipos de unidades académicas",
+        "_codigo_ya existe_": "El código del tipo ya existe en otro registro",
+        "_crear_": "Crear tipo de unidad académica",
+        "_editar_": "Editar tipo de unidad académica",
+        "_singular_": "Tipo unidad académica",
+        "_plural_": "Tipos de unidad académica",
+        "_listado_": "Listado tipos de unidad académica",
+        "_mostrar_": "Mostrar tipo de unidad académica",
+        "_permite_gestionar_": "Permite gestionar los tipos de unidad académica"
+    },
     "_tipo_visualizacion_": "Tipo de visualización",
     "_todos_estudiantes_en_base_datos_": "Todos los estudiantes en la base de datos",
     "transicion": {
