@@ -1,10 +1,10 @@
 <?php
 
+use App\Http\Controllers\Academica\AreaController;
 use App\Http\Controllers\Academica\CarreraController;
 use App\Http\Controllers\Academica\SedeController;
 use App\Http\Controllers\Academica\GradoController;
 use App\Http\Controllers\Academica\TipoCarreraController;
-use App\Models\PlanEstudio\TipoCarrera;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -24,4 +24,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/plan_estudio/carrera', [CarreraController::class, 'index'])->name('plan_estudio-carrera-index');
     Route::post('/plan_estudio/carrera/save', [CarreraController::class, 'save'])->name('plan_estudio-carrera-save');
     Route::delete('/plan_estudio/carrera/{id}/delete', [CarreraController::class, 'delete'])->name('plan_estudio-carrera-delete');
+
+    Route::get('/plan_estudio/area', [AreaController::class, 'index'])->name('plan_estudio-area-index');
+    Route::post('/plan_estudio/area/save', [AreaController::class, 'save'])->name('plan_estudio-area-save');
+    Route::delete('/plan_estudio/area/{id}/delete', [AreaController::class, 'delete'])->name('plan_estudio-area-delete');
 });

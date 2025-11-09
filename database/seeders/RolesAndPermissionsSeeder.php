@@ -145,11 +145,9 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_SEDE_BORRAR']);
 
         Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO']);
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_GRADO']);
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA']);
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA']);
 
         // GRADO
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_GRADO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_EXPORTAR']);
@@ -158,6 +156,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_BORRAR']);
 
         // TIPO_CARRERA
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EXPORTAR']);
@@ -166,12 +165,22 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_BORRAR']);
 
         // CARRERA
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EXPORTAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EDITAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_MOSTRAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_BORRAR']);
+
+        //AREA
+        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_AREA']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_TODO']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_CREAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_EDITAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_BORRAR']);
 
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();

@@ -374,6 +374,15 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
+                                    <Link :href="route('plan_estudio-area-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_AREA')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-group"
+                                            :title="$t('area._singular_')"
+                                            :class="$page.url === '/plan_estudio/area' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
                                 </v-list>
                             </v-menu>
                         </v-list-item>

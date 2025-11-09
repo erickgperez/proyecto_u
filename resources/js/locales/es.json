@@ -11,6 +11,17 @@
     "_anterior_": "Anterior",
     "_archivo_actual_": "Archivo actual",
     "_archivo_borrado_correctamente_": "Archivo borrado correctamente",
+    "area": {
+        "_administrar_": "Administrar áreas de asignaturas",
+        "_codigo_ya existe_": "El código del área ya existe en otro registro",
+        "_crear_": "Crear área",
+        "_editar_": "Editar área",
+        "_singular_": "Área",
+        "_plural_": "Áreas",
+        "_listado_": "Listado áreas",
+        "_mostrar_": "Mostrar área",
+        "_permite_gestionar_": "Permite gestionar los datos de las áreas de asignaturas"
+    },
     "aspirante": {
         "_nie_": "NIE",
         "_no_tiene_cupo_": "no tiene cupo",
