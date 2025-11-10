@@ -38,7 +38,7 @@ const search = ref('');
 const headers = [
     { title: '#', key: 'row_number', align: 'start' },
     { title: 'NIE', key: 'nie', align: 'start' },
-    { title: t('_estudiante_'), key: 'primer_nombre' },
+    { title: t('_estudiante_'), key: 'nombre_completo' },
     { title: t('_correo_'), key: 'correo' },
     { title: t('_sexo_'), key: 'sexo' },
     //{ title: 'Edad', key: 'edad', align: 'end' },
@@ -83,12 +83,6 @@ const exportToExcel = () => {
     // Create a Blob and save the file
     const data = new Blob([excelBuffer], { type: 'application/octet-stream' });
     saveAs(data, 'Listado-candidatos.xlsx');
-};
-
-const nombreCompleto = (item: any) => {
-    return [item.primer_nombre, item.segundo_nombre, item.tercer_nombre, item.primer_apellido, item.segundo_apellido, item.tercer_apellido]
-        .filter((x) => x != null)
-        .join(' ');
 };
 
 const emit = defineEmits(['convocatoria']);
@@ -239,7 +233,7 @@ function saveItem(campo: string) {
                             @click="exportToExcel"
                         ></v-btn>
                     </v-card-title>
-
+                    {{ search }}
                     <v-data-table
                         v-model:search="search"
                         :headers="headers"
@@ -253,9 +247,7 @@ function saveItem(campo: string) {
                         <template v-slot:item.row_number="{ index }">
                             {{ index + 1 }}
                         </template>
-                        <template v-slot:item.primer_nombre="{ item }">
-                            {{ nombreCompleto(item) }}
-                        </template>
+
                         <template v-slot:item.correo="{ item }">
                             <div v-if="editedItem?.nie === item.nie">
                                 <v-text-field

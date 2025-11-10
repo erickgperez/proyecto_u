@@ -94,7 +94,14 @@ class CandidatosController extends Controller
             $opciones = array_map(fn($opcion) => $opcion['opcion'], $opcionesBach);
             $query->whereIn('opcion_bachillerato', $opciones);
         }
-        return response()->json($query->get());
+        $listado_ = $query->get();
+        $listado = [];
+        foreach ($listado_ as $a) {
+            //$array = (array) $a;
+            $a->nombre_completo = preg_replace('/\\s+/', ' ', $a->primer_nombre . ' ' . $a->segundo_nombre . ' ' . $a->tercer_nombre . ' ' . $a->primer_apellido . ' ' . $a->segundo_apellido . ' ' . $a->tercer_apellido);
+            $listado[] = $a;
+        }
+        return response()->json($listado);
     }
 
 
