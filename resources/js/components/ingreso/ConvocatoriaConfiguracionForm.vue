@@ -73,7 +73,8 @@ async function submitForm() {
             }
         } catch (error: any) {
             console.log(error);
-            mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + (error.response.data.message ?? ''));
+            const msj = error instanceof Error ? t(error.message) : error.response.data.message;
+            mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + msj);
         }
     }
     loading.value = false;
