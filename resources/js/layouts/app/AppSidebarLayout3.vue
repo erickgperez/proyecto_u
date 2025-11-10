@@ -214,6 +214,19 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
+
+                                    <Link
+                                        :href="route('ingreso-convocatoria-seleccion-notificar-parametros')"
+                                        v-if="hasPermission('MENU_INGRESO_ASPIRANTES_SELECCION_NOTIFICAR')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-email-newsletter"
+                                            :title="$t('convocatoria._notificar_')"
+                                            :class="$page.url === '/ingreso/convocatoria/seleccion/notificar/parametros' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
                                 </v-list>
                             </v-menu>
                         </v-list-item>

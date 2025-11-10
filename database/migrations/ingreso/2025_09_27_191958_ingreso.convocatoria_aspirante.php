@@ -23,6 +23,7 @@ return new class extends Migration
             $table->foreign('aspirante_id')->references('id')->on('ingreso.aspirante')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->boolean('seleccionado')->default(false)->comment('Indica si el aspirante ha sido seleccionado como estudiante');
+            $table->dateTime('fecha_notificacion_seleccion')->nullable()->comment('Fecha en que se envía el correo de notificación de selección');
 
             $table->foreignId('solicitud_carrera_sede_id')->comment('Carrera sede en que fue seleccionada')->nullable();
             $table->foreign('solicitud_carrera_sede_id')->references('id')->on('workflow.solicitud_carrera_sede')->onDelete('CASCADE')->onUpdate('CASCADE');

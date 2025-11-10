@@ -160,6 +160,7 @@
         "_hora_inicio_recepcion_solicitudes_": "Application reception time",
         "_hora_fin_recepcion_solicitudes_": "Application deadline time",
         "_listado_actividades_": "List of activities of the application process",
+        "_notificar_": "Notify",
         "_mensaje_no_convocatorias_activas_": "There are no processes currently accepting applications for admission",
         "_oferta_": "Course offerings",
         "_oferta_descripcion_": "Select the locations with the respective courses that will be offered in the application process",

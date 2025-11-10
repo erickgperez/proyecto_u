@@ -81,6 +81,28 @@ class ConvocatoriaController extends Controller
         ]);
     }
 
+    public function notificarSeleccionParametros(): Response
+    {
+        $convocatorias = Convocatoria::select('id', 'nombre', 'descripcion')
+            ->where('activa', true)
+            ->orderBy('nombre', 'asc')
+            ->withCount([
+                'aspirantes as aspirantes_seleccionados_notificados' => function (Builder $query) {
+                    $query->where('seleccionado', true)
+                        ->whereNotNull('fecha_notificacion_seleccion');
+                },
+                'aspirantes as aspirantes_seleccionados_pendientes_notificacion' => function (Builder $query) {
+                    $query->where('seleccionado', true)
+                        ->whereNull('fecha_notificacion_seleccion');
+                },
+
+            ])
+            ->get();
+        return Inertia::render('ingreso/NotificarSeleccion', [
+            'convocatorias'     => $convocatorias,
+        ]);
+    }
+
     public function save(Request $request)
     {
         // Aunque se ha validado del lado del cliente, validar aquí también

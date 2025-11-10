@@ -24,6 +24,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/ingreso/convocatoria/{id}/oferta/save', [ConvocatoriaController::class, 'ofertaSave'])->name('ingreso-convocatoria-oferta-save');
     Route::post('/ingreso/convocatoria/{id}/configuracion/save', [ConvocatoriaController::class, 'configuracionSave'])->name('ingreso-convocatoria-configuracion-save');
     Route::get('/ingreso/convocatoria/{id}/sede/{idSede}/solicitudes', [ConvocatoriaController::class, 'solicitudes'])->name('ingreso-convocatoria-solicitudes');
+    Route::get('/ingreso/convocatoria/seleccion/notificar/parametros', [ConvocatoriaController::class, 'notificarSeleccionParametros'])->name('ingreso-convocatoria-seleccion-notificar-parametros');
 
 
     Route::get('/ingreso/afiche/download/{id}', [ConvocatoriaController::class, 'aficheDownload'])->name('ingreso-convocatoria-afiche-download');
