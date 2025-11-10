@@ -395,6 +395,18 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
+                                    <Link
+                                        :href="route('plan_estudio-unidad_academica-index')"
+                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-notebook-edit-outline"
+                                            :title="$t('unidadAcademica._singular_')"
+                                            :class="$page.url === '/plan_estudio/unidad-academica' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
                                 </v-list>
                             </v-menu>
                         </v-list-item>

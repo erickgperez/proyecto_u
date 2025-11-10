@@ -494,6 +494,20 @@
         "_estado_origen_": "Estado origen",
         "_estado_destino_": "Estado destino"
     },
+    "unidadAcademica": {
+        "_administrar_": "Administrar las unidades académicas",
+        "_codigo_ya existe_": "El código de la unidad ya existe en otro registro",
+        "_crear_": "Crear unidad académica",
+        "_editar_": "Editar unidad académica",
+        "_singular_": "Unidad académica",
+        "_plural_": "Unidades académicas",
+        "_listado_": "Listado unidades académicas",
+        "_mostrar_": "Mostrar unidad académica",
+        "_permite_gestionar_": "Gestionar los datos de las unidades académicas",
+
+        "_creditos_": "Créditos",
+        "_tipo_": "Tipo"
+    },
     "_updated_at_": "Actualizado en",
     "_updated_by_": "Actualizado por",
     "usuario": {

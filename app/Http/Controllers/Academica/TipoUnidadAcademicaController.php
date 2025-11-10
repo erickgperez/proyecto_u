@@ -35,7 +35,7 @@ class TipoUnidadAcademicaController extends Controller
             if ($tipoUnidadAcademicaCheck === null) {
                 $tipo = new TipoUnidadAcademica();
             } else {
-                return response()->json(['status' => 'error', 'message' => 'area._codigo_ya existe_']);
+                return response()->json(['status' => 'error', 'message' => 'tipoUnidadAcademica._codigo_ya existe_']);
             }
         } else {
             // Verificar que el nuevo código que ponga no esté utilizado por otro registro
@@ -46,7 +46,7 @@ class TipoUnidadAcademicaController extends Controller
             if ($tipoUnidadAcademicaCheck === null) {
                 $tipo = TipoUnidadAcademica::find($request->get('id'));
             } else {
-                return response()->json(['status' => 'error', 'message' => 'area._codigo_ya existe_']);
+                return response()->json(['status' => 'error', 'message' => 'tipoUnidadAcademica._codigo_ya existe_']);
             }
         }
 

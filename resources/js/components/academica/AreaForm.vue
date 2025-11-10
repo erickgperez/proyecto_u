@@ -66,7 +66,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('_editar_sede_') : $t('_crear_sede_')} `">
+    <v-card :title="`${isEditing ? $t('area._editar_') : $t('area._crear_')} `">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>

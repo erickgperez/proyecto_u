@@ -22,15 +22,19 @@ function reset() {
 interface FormData {
     id: number | null;
     codigo: string;
-    descripcion: string;
+    nombre: string;
+    creditos: number;
+    tipo_unidad_academica_id: number | null;
 }
 
-const props = defineProps(['item', 'accion']);
+const props = defineProps(['item', 'accion', 'tipos']);
 
 const formData = ref<FormData>({
     id: null,
     codigo: '',
-    descripcion: '',
+    nombre: '',
+    creditos: 0,
+    tipo_unidad_academica_id: null,
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -40,7 +44,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.post(route('plan_estudio-tipo_unidad_academica-save'), formData.value);
+            const resp = await axios.post(route('plan_estudio-unidad_academica-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();
@@ -63,10 +67,11 @@ onMounted(() => {
     reset();
 
     formData.value = { ...props.item };
+    formData.value.creditos = Number(props.item.creditos);
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('tipoUnidadAcademica._editar_') : $t('tipoUnidadAcademica._crear_')} `">
+    <v-card :title="`${isEditing ? $t('unidadAcademica._editar_') : $t('unidadAcademica._crear_')} `">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
@@ -85,11 +90,34 @@ onMounted(() => {
                             required
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
-                            v-model="formData.descripcion"
-                            :rules="[rules.required, rules.maxLength(255)]"
+                            v-model="formData.nombre"
+                            :rules="[rules.required]"
                             counter="100"
-                            :label="$t('_descripcion_') + ' *'"
+                            :label="$t('_nombre_') + ' *'"
                         ></v-text-field>
+                        <v-locale-provider locale="en">
+                            <v-number-input
+                                required
+                                icon-color="deep-orange"
+                                prepend-icon="mdi-form-textbox"
+                                v-model="formData.creditos"
+                                :rules="[rules.required]"
+                                :min="0"
+                                :precision="null"
+                                :label="$t('unidadAcademica._creditos_') + ' *'"
+                            ></v-number-input>
+                        </v-locale-provider>
+                        <v-autocomplete
+                            clearable
+                            :label="$t('unidadAcademica._tipo_') + ' *'"
+                            :items="props.tipos"
+                            v-model="formData.tipo_unidad_academica_id"
+                            :rules="[rules.required]"
+                            icon-color="deep-orange"
+                            item-title="descripcion"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                        ></v-autocomplete>
                     </v-col>
 
                     <v-col cols="12" align="right">

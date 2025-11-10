@@ -17,7 +17,7 @@ return new class extends Migration
             $table->comment('Las unidades académicas que componen las carreras');
             $table->string('codigo', length: 50)->unique()->comment('Código que identifica a la unidad académica');
             $table->text('nombre')->comment('Nombre de la unidad de estudio');
-            $table->float('creditos', 2, 1)->nullable()->comment('Cantidad de créditos que otorga la unidad de estudio al aprobarla');
+            $table->float('creditos', 2, 1)->default(0)->comment('Cantidad de créditos que otorga la unidad de estudio al aprobarla');
             $table->foreignId('tipo_unidad_academica_id')->comment('Identificador del tipo de unidad académica');
             $table->foreign('tipo_unidad_academica_id')->references('id')->on('plan_estudio.tipo_unidad_academica')->onDelete('RESTRICT')->onUpdate('CASCADE');
 

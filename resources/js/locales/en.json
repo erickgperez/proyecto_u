@@ -457,6 +457,20 @@
         "_estado_origen_": "State of origin",
         "_estado_destino_": "Destination state"
     },
+    "unidadAcademica": {
+        "_administrar_": "Manage academic units",
+        "_codigo_ya existe_": "The unit code already exists in another record",
+        "_crear_": "Create academic unit",
+        "_editar_": "Edit academic unit",
+        "_singular_": "Academic unit",
+        "_plural_": "Academic units",
+        "_listado_": "List academic units",
+        "_mostrar_": "Show academic unit",
+        "_permite_gestionar_": "Manage academic unit data",
+
+        "_creditos_": "Credits",
+        "_tipo_": "Type"
+    },
     "_updated_at_": "Updated at",
     "_updated_by_": "Actualizado por",
     "_ver_": "Show",
