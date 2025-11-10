@@ -55,7 +55,9 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
-const selectedItemLabel = computed(() => selectedItem.value?.semestre ?? '');
+const selectedItemLabel = computed(() =>
+    selectedItem.value ? selectedItem.value.carrera.nombreCompleto + ' - ' + selectedItem.value.unidad_academica.nombre : '',
+);
 const rutaBorrar = ref('plan_estudio-malla_curricular-delete');
 const mensajes = {
     titulo1: t('mallaCurricular._plural_'),
