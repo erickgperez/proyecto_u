@@ -51,6 +51,7 @@ class ConvocatoriaController extends Controller
         // para pasarla a etapa de SELECCION_ASPIRANTES (si está en etapa de INVITACIONES)
         $convocatorias_ = [];
         $today = new \DateTime();
+
         foreach ($convocatorias as $c) {
             if ($c->activa && $c->configuracion != null) {
                 $solicitud = $c->solicitud;
@@ -68,8 +69,8 @@ class ConvocatoriaController extends Controller
                     $solicitud->save();
                     $solicitud->guardarHistorial();
                 }
-                $convocatorias_[] = $c;
             }
+            $convocatorias_[] = $c;
         }
 
         return Inertia::render('ingreso/Convocatoria', [
