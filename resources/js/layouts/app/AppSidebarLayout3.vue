@@ -354,6 +354,30 @@ onMounted(() => {
                                         </v-list-item>
                                     </Link>
                                     <Link
+                                        :href="route('plan_estudio-unidad_academica-index')"
+                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-notebook-edit-outline"
+                                            :title="$t('unidadAcademica._singular_')"
+                                            :class="$page.url === '/plan_estudio/unidad-academica' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link
+                                        :href="route('plan_estudio-malla_curricular-index')"
+                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-select-group"
+                                            :title="$t('mallaCurricular._singular_')"
+                                            :class="$page.url === '/plan_estudio/malla-curricular' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link
                                         :href="route('plan_estudio-tipo_carrera-index')"
                                         v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO-TIPO_CARRERA')"
                                     >
@@ -392,18 +416,6 @@ onMounted(() => {
                                             prepend-icon="mdi-note-multiple-outline"
                                             :title="$t('tipoUnidadAcademica._singular_')"
                                             :class="$page.url === '/plan_estudio/tipo-unidad-academica' ? 'bg-blue-lighten-4' : ''"
-                                        >
-                                        </v-list-item>
-                                    </Link>
-                                    <Link
-                                        :href="route('plan_estudio-unidad_academica-index')"
-                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA')"
-                                    >
-                                        <v-list-item
-                                            link
-                                            prepend-icon="mdi-notebook-edit-outline"
-                                            :title="$t('unidadAcademica._singular_')"
-                                            :class="$page.url === '/plan_estudio/unidad-academica' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

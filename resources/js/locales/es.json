@@ -315,6 +315,21 @@
     "_listado_candidatos_": "Listado de candidatos",
     "_listado_convocatorias_": "Listado de convocatorias",
     "_longitud_maxima_": "Longitud máxima",
+    "mallaCurricular": {
+        "_administrar_": "Malla curricular de las carreras",
+        "_codigo_ya existe_": "La unidad académica ya pertenece a la carrera",
+        "_crear_": "Agregar unidad académica a carrera",
+        "_editar_": "Editar elemento de la malla curricular",
+        "_singular_": "Malla curricular",
+        "_plural_": "Unidades de estudio de la carrera",
+        "_listado_": "Listado de elementos de la malla curricular",
+        "_mostrar_": "Mostrar malla curricular",
+        "_permite_gestionar_": "Gestionar las unidades académicas asociadas a las carreras",
+
+        "_obligatoria_": "Obligatoria",
+        "_requisito_creditos_": "Requisito créditos",
+        "_semestre_": "Semestre"
+    },
     "modulo": {
         "_administracion_": "Administración",
         "_calificaciones_": "Calificaciones",

@@ -4,6 +4,7 @@ use App\Http\Controllers\Academica\AreaController;
 use App\Http\Controllers\Academica\CarreraController;
 use App\Http\Controllers\Academica\SedeController;
 use App\Http\Controllers\Academica\GradoController;
+use App\Http\Controllers\Academica\MallaCurricularController;
 use App\Http\Controllers\Academica\TipoCarreraController;
 use App\Http\Controllers\Academica\TipoUnidadAcademicaController;
 use App\Http\Controllers\Academica\UnidadAcademicaController;
@@ -39,4 +40,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/plan_estudio/unidad-academica', [UnidadAcademicaController::class, 'index'])->name('plan_estudio-unidad_academica-index');
     Route::post('/plan_estudio/unidad-academica/save', [UnidadAcademicaController::class, 'save'])->name('plan_estudio-unidad_academica-save');
     Route::delete('/plan_estudio/unidad-academica/{id}/delete', [UnidadAcademicaController::class, 'delete'])->name('plan_estudio-unidad_academica-delete');
+
+    Route::get('/plan_estudio/malla-curricular', [MallaCurricularController::class, 'index'])->name('plan_estudio-malla_curricular-index');
+    Route::post('/plan_estudio/malla-curricular/save', [MallaCurricularController::class, 'save'])->name('plan_estudio-malla_curricular-save');
+    Route::delete('/plan_estudio/malla-curricular/{id}/delete', [MallaCurricularController::class, 'delete'])->name('plan_estudio-malla_curricular-delete');
 });
