@@ -4,13 +4,16 @@ namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
 use App\Mail\CandidatoInvitado;
+use App\Mail\NotificacionSeleccion;
 use App\Models\Academica\CarreraSede;
 use App\Models\Academica\Sede;
 use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
+use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\PruebaBachillerato;
+use App\Models\User;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
 use App\Models\Workflow\Solicitud;
@@ -101,6 +104,52 @@ class ConvocatoriaController extends Controller
         return Inertia::render('ingreso/NotificarSeleccion', [
             'convocatorias'     => $convocatorias,
         ]);
+    }
+
+
+    public function notificarSeleccion(Request $request)
+    {
+        // Aunque se ha validado del lado del cliente, validar aquí también
+        $request->validate([
+            'tipoNotificacion'  => 'required|string',
+            'convocatoria' => ['required', 'integer', Rule::exists('pgsql.ingreso.convocatoria', 'id')],
+        ]);
+
+        $convocatoria  = Convocatoria::find($request->get('convocatoria'));
+        $tipoNotificacion = $request->get('tipoNotificacion');
+
+        if ($tipoNotificacion === 'reenviar') {
+            $aspirantes = $convocatoria->aspirantes()->wherePivot('seleccionado', true)->get();
+        } else {
+            $aspirantes = $convocatoria->aspirantes()->wherePivot('seleccionado', true)->wherePivotNull('fecha_notificacion_seleccion')->get();
+        }
+
+        foreach ($aspirantes as $a) {
+            $cc = [];
+            $persona = $a->persona;
+            $correoPrincipal = $persona->datosContacto->email_principal;
+            $correo2 = $persona->datosContacto->email_alternativo;
+            if ($correo2) {
+                $cc[] = $correo2;
+            }
+            $usuario = $persona->usuarios()->role(['aspirante'])->first();
+            if ($usuario->email != $correoPrincipal && $usuario->email != $correo2) {
+                $cc[] = $usuario->email;
+            }
+
+            $convocatoriaAspirante = ConvocatoriaAspirante::where('aspirante_id', $a->id)
+                ->where('convocatoria_id', $convocatoria->id)->first();
+
+            Mail::to($correoPrincipal)
+                ->cc($cc)
+                ->queue(
+                    new NotificacionSeleccion($convocatoriaAspirante)
+                );
+            $convocatoriaAspirante->fecha_notificacion_seleccion = new \DateTime();
+            $convocatoriaAspirante->save();
+        }
+
+        return response()->json(['status' => 'ok', 'message' => '', 'enviados' => count($aspirantes)]);
     }
 
     public function save(Request $request)

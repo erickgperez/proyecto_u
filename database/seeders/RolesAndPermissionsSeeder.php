@@ -201,7 +201,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_MOSTRAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_BORRAR']);
 
-        //UNIDAD ACADEMICA
+        // MALLA CURRICULAR
         Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_CREAR']);
