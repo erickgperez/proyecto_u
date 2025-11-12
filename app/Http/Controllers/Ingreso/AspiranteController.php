@@ -3,8 +3,12 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academica\Estado;
+use App\Models\Academica\Estudiante;
+use App\Models\Academica\EstudianteCarreraSede;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaAspirante;
+use App\Models\Workflow\Estado as WorkflowEstado;
 use App\Models\Workflow\Solicitud;
 use App\Services\SolicitudService;
 use Illuminate\Http\Request;
@@ -108,14 +112,33 @@ class AspiranteController extends Controller
             ->whereBelongsTo($solicitud->modelo)
             ->first();
 
-        dd($convocatoriaAspirante->solicitudCarreraSede->carreraSede->carrera);
+        //Crear el registro de estudiante
+        $estudiante = new Estudiante();
+        $estudiante->persona_id = $convocatoriaAspirante->aspirante->persona_id;
+        $estudiante->save();
+
+        //Agregar la carrera
+        $estado = Estado::where('codigo', 'ESTUDIANTE')->first();
+        $estudianteCarreraSede = new EstudianteCarreraSede();
+        $estudianteCarreraSede->estudiante()->associate($estudiante);
+        $estudianteCarreraSede->carreraSede()->associate($convocatoriaAspirante->solicitudCarreraSede->carreraSede);
+        $estudianteCarreraSede->fecha_inicio = new \DateTime();
+        $estudianteCarreraSede->estado()->associate($estado);
+        $estudianteCarreraSede->save();
+
+        //  Cambiarle rol al usuario
+        $usuario = $convocatoriaAspirante->aspirante->persona->usuarios()->role(['aspirante'])->first();
+        $usuario->assignRole('estudiante');
+        $usuario->removeRole('aspirante');
+        $usuario->save();
 
         $solicitud->pasarSiguienteEtapa();
+        //$estadoSolicitud = WorkflowEstado::where('codigo', 'APROBADA');
         $solicitud->save();
 
         //Guardar en el historial de solicitud
         $solicitud->guardarHistorial();
 
-        return response()->json(['status' => 'ok', 'message' => '']);
+        return redirect()->intended(route('home', absolute: false));
     }
 }

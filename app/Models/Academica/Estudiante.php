@@ -1,26 +1,22 @@
 <?php
 
-namespace App\Models\Ingreso;
+namespace App\Models\Academica;
 
 use App\Models\Persona;
-use App\Models\Workflow\Solicitud;
+use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Estudiante extends Model
 {
 
-    protected $table = "ingreso.estudiante";
+    use UserStamps;
+
+    protected $table = "academico.estudiante";
 
 
     public function persona(): BelongsTo
     {
         return $this->belongsTo(Persona::class);
-    }
-
-    public function solicitudes(): MorphMany
-    {
-        return $this->morphMany(Solicitud::class, 'solicitante');
     }
 }

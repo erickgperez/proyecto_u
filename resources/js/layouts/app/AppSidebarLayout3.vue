@@ -6,7 +6,7 @@ import { Link, router, usePage } from '@inertiajs/vue3';
 import { onMounted, ref, watch } from 'vue';
 import { useLocale } from 'vuetify';
 
-const { hasPermission, hasAnyPermission } = usePermissions();
+const { hasPermission } = usePermissions();
 
 const page = usePage();
 const user = page.props.auth.user as User;
