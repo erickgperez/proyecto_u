@@ -6,6 +6,8 @@ use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class CarreraUnidadAcademica extends Model
 {
@@ -28,6 +30,11 @@ class CarreraUnidadAcademica extends Model
     public function unidadAcademica(): BelongsTo
     {
         return $this->belongsTo(UnidadAcademica::class, 'unidad_academica_id');
+    }
+
+    public function requisitos(): BelongsToMany
+    {
+        return $this->belongsToMany(CarreraUnidadAcademica::class, 'plan_estudio.requisitos', 'carrera_unidad_academica_id', 'carrera_unidad_academica_requisito_id');
     }
 
     public function creator()

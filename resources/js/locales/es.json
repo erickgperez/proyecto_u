@@ -340,6 +340,7 @@
         "_permite_gestionar_": "Gestionar las unidades académicas asociadas a las carreras",
 
         "_obligatoria_": "Obligatoria",
+        "_prerrequisitos_": "Prerrequisitos",
         "_requisito_creditos_": "Requisito créditos",
         "_semestre_": "Semestre"
     },

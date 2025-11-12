@@ -15,10 +15,10 @@ return new class extends Migration
             $table->id();
             $table->comment('Tabla definir los requisitos de las unidades académicas');
 
-            $table->foreignId('unidad_academica_id');
-            $table->foreign('unidad_academica_id')->references('id')->on('plan_estudio.unidad_academica')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->foreignId('unidad_academica_requisito_id');
-            $table->foreign('unidad_academica_requisito_id')->references('id')->on('plan_estudio.unidad_academica')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->foreignId('carrera_unidad_academica_id');
+            $table->foreign('carrera_unidad_academica_id')->references('id')->on('plan_estudio.carrera_unidad_academica')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->foreignId('carrera_unidad_academica_requisito_id');
+            $table->foreign('carrera_unidad_academica_requisito_id')->references('id')->on('plan_estudio.carrera_unidad_academica')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->foreignId('tipo_requisito_id');
             $table->foreign('tipo_requisito_id')->references('id')->on('plan_estudio.tipo_requisito')->onDelete('RESTRICT')->onUpdate('CASCADE');
 

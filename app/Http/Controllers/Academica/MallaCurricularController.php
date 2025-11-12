@@ -6,9 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\PlanEstudio\Area;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\CarreraUnidadAcademica;
-use App\Models\PlanEstudio\TipoUnidadAcademica;
+use App\Models\PlanEstudio\TipoRequisito;
 use App\Models\PlanEstudio\UnidadAcademica;
-use Database\Seeders\PlanEstudio\TipoUnidadAcademicaSeeder;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -80,8 +79,18 @@ class MallaCurricularController extends Controller
         $carreraUnidadAcademica->carrera_id = $request->get('carrera_id');
         $carreraUnidadAcademica->area_id = $request->get('area_id');
         $carreraUnidadAcademica->unidad_academica_id = $request->get('unidad_academica_id');
-
         $carreraUnidadAcademica->save();
+
+        $requisitos = [];
+        $tipoPrerrequisito = TipoRequisito::where('codigo', 'PRERREQUISITO')->first();
+        $tipoCorrequisito = TipoRequisito::where('codigo', 'CORREQUISITO')->first();
+        foreach ($request->get('prerrequisitos') ?? [] as $pr) {
+            $requisitos[$pr] = ['tipo_requisito_id' => $tipoPrerrequisito->id];
+        }
+        foreach ($request->get('correquisitos') ?? [] as $pr) {
+            $requisitos[$pr] = ['tipo_requisito_id' => $tipoCorrequisito->id];
+        }
+        $carreraUnidadAcademica->requisitos()->sync($requisitos);
 
         //Obtener la información de las relaciones del item recién creado/actualizado
         $item = CarreraUnidadAcademica::with('creator', 'updater', 'area', 'unidadAcademica', 'carrera')->find($carreraUnidadAcademica->id);

@@ -179,6 +179,7 @@ const opcionesAccion = [
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :unidadesAcademicas="unidadesAcademicas"
+                            :items="items"
                             :areas="areas"
                             :carreras="carreras"
                             :accion="selectedAction"

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { onMounted, ref, toRef } from 'vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -27,9 +27,10 @@ interface FormData {
     area_id: number | null;
     unidad_academica_id: number | null;
     carrera_id: number | null;
+    prerrequisitos: Array<[]>;
 }
 
-const props = defineProps(['item', 'accion', 'areas', 'carreras', 'unidadesAcademicas']);
+const props = defineProps(['item', 'accion', 'areas', 'carreras', 'unidadesAcademicas', 'items']);
 
 const formData = ref<FormData>({
     id: null,
@@ -39,8 +40,20 @@ const formData = ref<FormData>({
     area_id: null,
     unidad_academica_id: null,
     carrera_id: null,
+    prerrequisitos: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
+
+const carreraUnidadesAcademicas = computed(() => {
+    console.log(props.items);
+    if (props.items) {
+        return props.items.filter(
+            (uc: any) => uc.carrera_id === formData.value.carrera_id && uc.unidad_academica_id != formData.value.unidad_academica_id,
+        );
+    } else {
+        return [];
+    }
+});
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -133,6 +146,17 @@ onMounted(() => {
                                 :label="$t('mallaCurricular._requisito_creditos_')"
                             ></v-number-input>
                         </v-locale-provider>
+                        <v-autocomplete
+                            clearable
+                            :label="$t('mallaCurricular._prerrequisitos_')"
+                            :items="carreraUnidadesAcademicas"
+                            v-model="formData.prerrequisitos"
+                            item-title="unidad_academica.nombreCompleto"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                            multiple
+                            chips
+                        ></v-autocomplete>
                     </v-col>
 
                     <v-col cols="12" align="right">

@@ -18,12 +18,12 @@ class Requisitos extends Model
 
     public function unidadAcademica(): BelongsTo
     {
-        return $this->belongsTo(UnidadAcademica::class, 'unidad_academica_id');
+        return $this->belongsTo(CarreraUnidadAcademica::class, 'carrera_unidad_academica_id');
     }
 
     public function unidadAcademicaRequisito(): BelongsTo
     {
-        return $this->belongsTo(UnidadAcademica::class, 'unidad_academica_requisito_id');
+        return $this->belongsTo(CarreraUnidadAcademica::class, 'carrera_unidad_academica_requisito_id');
     }
 
     public function tipo(): BelongsTo

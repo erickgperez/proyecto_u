@@ -314,6 +314,22 @@
     "_listado_candidatos_": "List of candidates",
     "_listado_convocatorias_": "List application process",
     "_longitud_maxima_": "Maximum length",
+    "mallaCurricular": {
+        "_administrar_": "Curriculum of the careers",
+        "_codigo_ya existe_": "The academic unit already belongs to the career",
+        "_crear_": "Add academic unit to career",
+        "_editar_": "Edit curriculum grid element",
+        "_singular_": "Curriculum",
+        "_plural_": "Study units of the degree",
+        "_listado_": "List of elements of the curriculum framework",
+        "_mostrar_": "Show curriculum",
+        "_permite_gestionar_": "Manage the academic units associated with the degree programs",
+
+        "_obligatoria_": "Mandatory",
+        "_prerrequisitos_": "Prerequisites",
+        "_requisito_creditos_": "Credit requirement",
+        "_semestre_": "Semester"
+    },
     "modulo": {
         "_administracion_": "Administration",
         "_calificaciones_": "Grades",
