@@ -53,7 +53,7 @@
                                                     <BR/>
 
                                                     Ha sido {{  ($conAsp->aspirante->persona->sexo->codigo == 'M') ? 'seleccionado' : 'seleccionada' }} en la carrrera: <B>{{ $conAsp->solicitudCarreraSede->carreraSede->carrera->nombreCompleto }}</B>, de la sede: <B>{{ $conAsp->solicitudCarreraSede->carreraSede->sede->nombre }}</B>
-                                                    Para aceptar la selección debe, ingresar al sistema a partir del {{ \Carbon\Carbon::parse($conAsp->convocatoria->configuracion->fecha_publicacion)->format('d/m/Y') }}
+                                                    Para aceptar la selección debe, ingresar al sistema a partir del {{ \Carbon\Carbon::parse($conAsp->convocatoria->configuracion->fecha_publicacion)->format('d/m/Y H:i') }}
 
 
                                             </p>

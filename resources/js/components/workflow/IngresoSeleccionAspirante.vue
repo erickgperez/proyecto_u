@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import axios from 'axios';
 import { computed } from 'vue';
-
 import { useI18n } from 'vue-i18n';
+import { useDate } from 'vuetify';
 
 const { t } = useI18n();
+const date = useDate();
 
 const emit = defineEmits(['form-saved']);
 
@@ -61,6 +62,9 @@ async function aceptarSeleccion() {
         <v-alert v-else border="top" type="warning" variant="outlined" prominent> No ha sido seleccionado </v-alert>
     </v-container>
     <v-container v-else>
-        <v-alert border="top" type="info" variant="outlined" prominent> {{ $t('aspirante._aun_no_publicado_resultados') }} </v-alert>
+        <v-alert border="top" type="info" variant="outlined" prominent>
+            {{ $t('aspirante._resultados_disponibles_desde_') }}
+            {{ date.format(props.solicitud.modelo.configuracion.fecha_publicacion_resultados, 'keyboardDateTime12h') }}
+        </v-alert>
     </v-container>
 </template>
