@@ -15,6 +15,7 @@ use Database\Seeders\Ingreso\ConvocatoriaSeeder;
 use Database\Seeders\Ingreso\ConvocatoriaSolicitudSeeder;
 use Database\Seeders\PlanEstudio\GradoSeeder;
 use Database\Seeders\PlanEstudio\TipoCarreraSeeder;
+use Database\Seeders\PlanEstudio\TipoRequisitoSeeder;
 use Database\Seeders\PlanEstudio\TipoUnidadAcademicaSeeder;
 use Database\Seeders\Secundaria\PruebaBachilleratoSeeder;
 use Database\Seeders\Secundaria\SectorSeeder;
@@ -59,6 +60,7 @@ class DatabaseSeeder extends Seeder
             SectorSeeder::class,
             GradoSeeder::class,
             TipoCarreraSeeder::class,
+            TipoRequisitoSeeder::class,
             CarreraSeeder::class,
             Carrera2Seeder::class,
             SexoSeeder::class,
