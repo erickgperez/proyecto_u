@@ -78,7 +78,7 @@ onMounted(() => {
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.codigo"
                             :rules="[rules.required, rules.maxLength(50)]"
-                            counter="20"
+                            counter="50"
                             :label="$t('_codigo_') + ' *'"
                         ></v-text-field>
 
@@ -88,7 +88,7 @@ onMounted(() => {
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion"
                             :rules="[rules.required, rules.maxLength(255)]"
-                            counter="100"
+                            counter="255"
                             :label="$t('_descripcion_') + ' *'"
                         ></v-text-field>
                     </v-col>

@@ -102,7 +102,7 @@ watch(
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.codigo"
                             :rules="[rules.required, rules.maxLength(30)]"
-                            counter="20"
+                            counter="30"
                             :label="$t('_codigo_') + ' *'"
                         ></v-text-field>
 

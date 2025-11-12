@@ -89,7 +89,7 @@ onMounted(() => {
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.descripcion"
                             :rules="[rules.required, rules.maxLength(50)]"
-                            counter="100"
+                            counter="50"
                             :label="$t('_descripcion_') + ' *'"
                         ></v-text-field>
 

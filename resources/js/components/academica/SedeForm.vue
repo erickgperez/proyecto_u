@@ -108,7 +108,7 @@ onMounted(() => {
                             prepend-icon="mdi-form-textbox"
                             v-model="formData.nombre"
                             :rules="[rules.required, rules.maxLength(255)]"
-                            counter="100"
+                            counter="255"
                             :label="$t('_nombre_') + ' *'"
                         ></v-text-field>
                         {{ $t('sede._carreras_ayuda_') }}
