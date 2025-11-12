@@ -85,7 +85,7 @@ const headers = [
     { title: t('flujo._codigo_'), key: 'codigo' },
     { title: t('flujo._nombre_'), key: 'nombre' },
     { title: t('flujo._activo_'), key: 'activo' },
-    { title: t('flujo._tipo_'), key: 'tipo' },
+    { title: t('flujo._tipo_'), key: 'tipo.codigo' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -132,9 +132,9 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.tipo="{ value }">
+                        <template v-slot:item.tipo.codigo="{ value, item }">
                             <div class="d-flex ga-2">
-                                {{ value.codigo }}
+                                {{ item.tipo.codigo }}
                             </div>
                         </template>
                         <template v-slot:item.activo="{ value }">

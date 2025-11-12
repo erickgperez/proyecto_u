@@ -127,6 +127,38 @@ const headersFiltered = computed(() => {
             hover
             striped="odd"
         >
+            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+                <tr>
+                    <template v-for="column in columns" :key="column.key">
+                        <th>
+                            <div
+                                class="d-flex align-center"
+                                :class="column.key == 'data-table-group' ? 'text-decoration-underline text-blue font-weight-black' : ''"
+                            >
+                                <span class="me-2 cursor-pointer" @click="toggleSort(column)" v-text="column.title"></span>
+                                <v-icon v-if="isSorted(column)" :icon="getSortIcon(column)" color="medium-emphasis"></v-icon>
+                            </div>
+                        </th>
+                    </template>
+                </tr>
+            </template>
+            <template v-slot:group-header="{ item, columns, toggleGroup, isGroupOpen }">
+                <tr>
+                    <td :colspan="columns.length" class="cursor-pointer" v-ripple @click="toggleGroup(item)">
+                        <div class="d-flex align-center">
+                            <v-btn
+                                :icon="isGroupOpen(item) ? '$expand' : '$next'"
+                                color="blue medium-emphasis"
+                                density="comfortable"
+                                size="small"
+                                variant="outlined"
+                            ></v-btn>
+
+                            <span class="text-indigo text-decoration-underline ms-4">{{ item.value }} ({{ item.items.length }})</span>
+                        </div>
+                    </td>
+                </tr>
+            </template>
             <template v-for="header in headersFiltered" v-slot:[`item.${header.key}`]="{ item }">
                 <slot :name="`item.${header.key}`" :value="item[header.key]" :item="item">
                     {{ item[header.key] }}
