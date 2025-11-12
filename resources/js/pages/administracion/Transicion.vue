@@ -92,14 +92,14 @@ const headers = [
     { title: t('_id_'), key: 'id' },
     { title: t('transicion._codigo_'), key: 'codigo' },
     { title: t('transicion._nombre_'), key: 'nombre' },
-    { title: t('flujo._singular_'), key: 'flujo' },
+    { title: t('flujo._singular_'), key: 'flujo.codigo' },
     { title: t('transicion._origen_'), key: 'etapa_origen' },
     { title: t('transicion._destino_'), key: 'etapa_destino' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
 const sortBy: SortBy[] = [
-    { key: 'flujo', order: 'asc' },
+    { key: 'flujo.codigo', order: 'asc' },
     { key: 'id', order: 'asc' },
 ];
 
@@ -144,9 +144,9 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.flujo="{ value }">
+                        <template v-slot:item.flujo.codigo="{ value, item }">
                             <div class="d-flex ga-2">
-                                {{ value.codigo }}
+                                {{ item.flujo.codigo }}
                             </div>
                         </template>
                         <template v-slot:item.etapa_origen="{ value, item }">
