@@ -89,10 +89,10 @@ const sheetName = ref('Listado_transiciones');
 const fileName = ref('transiciones');
 
 const headers = [
+    { key: 'data-table-group', title: t('flujo._singular_') },
     { title: t('_id_'), key: 'id' },
     { title: t('transicion._codigo_'), key: 'codigo' },
     { title: t('transicion._nombre_'), key: 'nombre' },
-    { title: t('flujo._singular_'), key: 'flujo.codigo' },
     { title: t('transicion._origen_'), key: 'etapa_origen' },
     { title: t('transicion._destino_'), key: 'etapa_destino' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
@@ -102,6 +102,7 @@ const sortBy: SortBy[] = [
     { key: 'flujo.codigo', order: 'asc' },
     { key: 'id', order: 'asc' },
 ];
+const groupBy = ref([{ key: 'flujo.codigo', order: 'asc' }]);
 
 const opcionesAccion = [
     {
@@ -138,17 +139,13 @@ const opcionesAccion = [
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
+                        :groupBy="groupBy"
                         :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.flujo.codigo="{ value, item }">
-                            <div class="d-flex ga-2">
-                                {{ item.flujo.codigo }}
-                            </div>
-                        </template>
                         <template v-slot:item.etapa_origen="{ value, item }">
                             <div class="d-flex ga-2">{{ value.codigo }} ({{ item.estado_origen.codigo }})</div>
                         </template>

@@ -51,6 +51,7 @@ const props = defineProps({
         required: true,
         default: () => '',
     },
+    groupBy: Array,
 });
 
 const search = ref('');
@@ -119,6 +120,7 @@ const headersFiltered = computed(() => {
             border="primary thin"
             class="w-100"
             :sort-by="sortBy"
+            :group-by="groupBy"
             density="compact"
             fixed-header
             multi-sort

@@ -81,14 +81,15 @@ const sheetName = ref('Listado_etapas');
 const fileName = ref('etapas');
 
 const headers = [
+    { key: 'data-table-group', title: t('flujo._singular_') },
     { title: t('_id_'), key: 'id' },
     { title: t('etapa._codigo_'), key: 'codigo' },
     { title: t('etapa._nombre_'), key: 'nombre' },
-    { title: t('flujo._singular_'), key: 'flujo.codigo' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
 const sortBy: SortBy[] = [{ key: 'flujo.codigo', order: 'asc' }];
+const groupBy = ref([{ key: 'flujo.codigo', order: 'asc' }]);
 
 const opcionesAccion = [
     {
@@ -125,6 +126,7 @@ const opcionesAccion = [
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
+                        :groupBy="groupBy"
                         :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
