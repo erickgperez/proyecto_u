@@ -109,7 +109,7 @@ onMounted(() => {
                             v-model="formData.unidad_academica_id"
                             :rules="[rules.required]"
                             icon-color="deep-orange"
-                            item-title="nombre"
+                            item-title="nombreCompleto"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
                         ></v-autocomplete>

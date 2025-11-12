@@ -14,6 +14,13 @@ class UnidadAcademica extends Model
 
     protected $table = 'plan_estudio.unidad_academica';
 
+    protected $appends = ['nombreCompleto'];
+
+
+    public function getNombreCompletoAttribute(): string
+    {
+        return (string) "({$this->codigo}) {$this->nombre}";
+    }
 
     public function tipo(): BelongsTo
     {
