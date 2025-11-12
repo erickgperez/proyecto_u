@@ -27,6 +27,7 @@
         "_no_tiene_cupo_": "there is no quota",
         "_no_tiene_cupo_sector_": " You have already filled your quota for the sector",
         "_no_cupo_ninguna_carrera_elegida_aspirante_": "There is no space in any of the courses chosen by the applicant",
+        "_no_seleccionado_msj_": "You have not been selected",
         "_nota_": "Grade",
         "_opciones_": "Options",
         "_plural_": "Applicants",

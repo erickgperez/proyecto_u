@@ -59,7 +59,7 @@ async function aceptarSeleccion() {
                 $t('aspirante._aceptar_ingreso_')
             }}</v-btn>
         </v-alert>
-        <v-alert v-else border="top" type="warning" variant="outlined" prominent> No ha sido seleccionado </v-alert>
+        <v-alert v-else border="top" type="warning" variant="outlined" prominent> {{ $t('aspirante._no_seleccionado_msj_') }} </v-alert>
     </v-container>
     <v-container v-else>
         <v-alert border="top" type="info" variant="outlined" prominent>
