@@ -35,6 +35,15 @@ class TransicionSeeder extends Seeder
                 'etapa_destino_id' => Etapa::where('codigo', 'SELECCION_ASPIRANTE')->first()->id,
                 'estado_destino_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
             ],
+            [
+                'codigo' => 'ACEPTAR_SELECCION',
+                'nombre' => 'Aceptar selección',
+                'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id,
+                'etapa_origen_id' => Etapa::where('codigo', 'SELECCION_ASPIRANTE')->first()->id,
+                'estado_origen_id' => Estado::where('codigo', 'EN_TRAMITE')->first()->id,
+                'etapa_destino_id' => Etapa::where('codigo', 'FIN_SOLICITUD_INGRESO')->first()->id,
+                'estado_destino_id' => Estado::where('codigo', 'APROBADA')->first()->id,
+            ],
 
             //Transiciones del proceso CONFIGURACION_CONVOCATORIA
             [

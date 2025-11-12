@@ -32,6 +32,12 @@ class EtapaSeeder extends Seeder
                 'indicaciones' => 'Su solicitud se ha creado, y se está pendiente del proceso de selección. En caso de ser seleccionado/a como estudiante, se le enviará un correo electrónico notificándole.',
                 'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id
             ],
+            [
+                'codigo' => 'FIN_SOLICITUD_INGRESO',
+                'nombre' => 'Finalización de la solicitud de ingreso',
+                'indicaciones' => '',
+                'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id
+            ],
             //Ejemplo de etapas del proceso CONFIGURACION_CONVOCATORIA
             [
                 'codigo' => 'OFERTA',
