@@ -432,6 +432,18 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
+                                    <Link
+                                        :href="route('plan_estudio-tipo_requisito-index')"
+                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-calendar-text-outline"
+                                            :title="$t('tipoRequisito._singular_')"
+                                            :class="$page.url === '/plan_estudio/tipo-requisito' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
                                 </v-list>
                             </v-menu>
                         </v-list-item>

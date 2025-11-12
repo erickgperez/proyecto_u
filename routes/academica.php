@@ -6,9 +6,10 @@ use App\Http\Controllers\Academica\SedeController;
 use App\Http\Controllers\Academica\GradoController;
 use App\Http\Controllers\Academica\MallaCurricularController;
 use App\Http\Controllers\Academica\TipoCarreraController;
+use App\Http\Controllers\Academica\TipoRequisitoController;
 use App\Http\Controllers\Academica\TipoUnidadAcademicaController;
 use App\Http\Controllers\Academica\UnidadAcademicaController;
-use App\Models\PlanEstudio\TipoUnidadAcademica;
+use App\Models\PlanEstudio\TipoRequisito;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -32,6 +33,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/plan_estudio/area', [AreaController::class, 'index'])->name('plan_estudio-area-index');
     Route::post('/plan_estudio/area/save', [AreaController::class, 'save'])->name('plan_estudio-area-save');
     Route::delete('/plan_estudio/area/{id}/delete', [AreaController::class, 'delete'])->name('plan_estudio-area-delete');
+
+    Route::get('/plan_estudio/tipo-tipo-requisito', [TipoRequisitoController::class, 'index'])->name('plan_estudio-tipo_requisito-index');
+    Route::post('/plan_estudio/tipo-tipo-requisito/save', [TipoRequisitoController::class, 'save'])->name('plan_estudio-tipo_requisito-save');
+    Route::delete('/plan_estudio/tipo-tipo-requisito/{id}/delete', [TipoRequisitoController::class, 'delete'])->name('plan_estudio-tipo_requisito-delete');
 
     Route::get('/plan_estudio/tipo-unidad-academica', [TipoUnidadAcademicaController::class, 'index'])->name('plan_estudio-tipo_unidad_academica-index');
     Route::post('/plan_estudio/tipo-unidad-academica/save', [TipoUnidadAcademicaController::class, 'save'])->name('plan_estudio-tipo_unidad_academica-save');
