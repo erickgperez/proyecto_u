@@ -89,14 +89,15 @@ const sheetName = ref('Listado_malla_curricular');
 const fileName = ref('malla_curricular');
 
 const headers = [
-    { title: t('carrera._singular_'), key: 'carrera' },
+    { key: 'data-table-group', title: t('carrera._singular_') },
     { title: t('mallaCurricular._semestre_'), key: 'semestre' },
-    { title: t('unidadAcademica._singular_'), key: 'unidad_academica' },
-    { title: t('area._singular_'), key: 'area' },
+    { title: t('unidadAcademica._singular_'), key: 'unidad_academica.nombreCompleto' },
+    { title: t('area._singular_'), key: 'area.descripcion' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
 const sortBy: SortBy[] = [];
+const groupBy = ref([{ key: 'carrera.nombreCompleto', order: 'asc' }]);
 
 const opcionesAccion = [
     {
@@ -133,27 +134,13 @@ const opcionesAccion = [
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
+                        :groupBy="groupBy"
                         :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.carrera="{ value }">
-                            <div class="d-flex ga-2" v-if="value">
-                                {{ value.nombreCompleto }}
-                            </div>
-                        </template>
-                        <template v-slot:item.area="{ value }">
-                            <div class="d-flex ga-2" v-if="value">
-                                {{ value.descripcion }}
-                            </div>
-                        </template>
-                        <template v-slot:item.unidad_academica="{ value }">
-                            <div class="d-flex ga-2" v-if="value">
-                                {{ value.nombre }}
-                            </div>
-                        </template>
                     </Listado>
                 </v-window-item>
 

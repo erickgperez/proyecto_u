@@ -80,7 +80,7 @@ const headers = [
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_nombre_'), key: 'nombre' },
     { title: t('unidadAcademica._creditos_'), key: 'creditos' },
-    { title: t('unidadAcademica._tipo_'), key: 'tipo' },
+    { title: t('unidadAcademica._tipo_'), key: 'tipo.descripcion' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -127,11 +127,6 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.tipo="{ value }">
-                            <div class="d-flex ga-2" v-if="value">
-                                {{ value.descripcion }}
-                            </div>
-                        </template>
                     </Listado>
                 </v-window-item>
 
