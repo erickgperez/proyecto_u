@@ -22,6 +22,8 @@ return new class extends Migration
             $table->boolean('completado')->default(false)->comment('Indica si el evento se ha completado');
             $table->foreignId('calendarizacion_id');
             $table->foreign('calendarizacion_id')->references('id')->on('public.calendarizacion')->onDelete('CASCADE')->onUpdate('CASCADE');
+            $table->foreignId('tipo_evento_id');
+            $table->foreign('tipo_evento_id')->references('id')->on('public.tipo_evento')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

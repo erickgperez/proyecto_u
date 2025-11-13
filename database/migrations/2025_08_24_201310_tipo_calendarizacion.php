@@ -11,15 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('calendarizacion', function (Blueprint $table) {
+        Schema::create('tipo_calendarizacion', function (Blueprint $table) {
             $table->id();
 
             $table->comment('Permite crear calendarizaciones para asignar a procesos');
-            $table->string('codigo', length: 50)->unique()->comment('Código de la calendarización, normalmente llevará el código del proceso al que está asociado el calendario');
-            $table->string('descripcion', length: 100)->unique()->comment('Texto, por si se necesita ampliar la descripción del calendario');
-
-            $table->foreignId('tipo_calendarizacion_id')->comment('Tipo de calendario, se usará para identificar el proceso en que se usará el calendario');
-            $table->foreign('tipo_calendarizacion_id')->references('id')->on('public.tipo_calendarizacion')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->string('codigo', length: 100)->unique()->comment('Código para identificar el proceso en que se usará un calendario');
+            $table->string('descripcion', length: 255)->unique()->comment('Texto descriptivo del tipo de calendarización');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
@@ -35,6 +32,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('calendarizacion');
+        Schema::dropIfExists('tipo_calendarizacion');
     }
 };
