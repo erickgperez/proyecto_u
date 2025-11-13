@@ -93,8 +93,8 @@ const headers = [
     { title: t('_id_'), key: 'id' },
     { title: t('transicion._codigo_'), key: 'codigo' },
     { title: t('transicion._nombre_'), key: 'nombre' },
-    { title: t('transicion._origen_'), key: 'etapa_origen' },
-    { title: t('transicion._destino_'), key: 'etapa_destino' },
+    { title: t('transicion._origen_'), key: 'etapa_origen', value: (item) => `${item.etapa_origen.codigo} (${item.estado_origen.codigo})` },
+    { title: t('transicion._destino_'), key: 'etapa_destino', value: (item) => `${item.etapa_destino.codigo} (${item.estado_destino.codigo})` },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -146,13 +146,6 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.etapa_origen="{ value, item }">
-                            <div class="d-flex ga-2">{{ value.codigo }} ({{ item.estado_origen.codigo }})</div>
-                        </template>
-
-                        <template v-slot:item.etapa_destino="{ value, item }">
-                            <div class="d-flex ga-2">{{ value.codigo }} ({{ item.estado_destino.codigo }})</div>
-                        </template>
                     </Listado>
                 </v-window-item>
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->

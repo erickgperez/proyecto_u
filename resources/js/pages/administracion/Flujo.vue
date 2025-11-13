@@ -132,12 +132,6 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.tipo.codigo="{ value, item }">
-                            <div class="d-flex ga-2">
-                                {{ item.tipo.codigo }}
-                            </div>
-                        </template>
-
                         <template v-slot:item.activo="{ value }">
                             <div class="d-flex ga-2">
                                 <v-icon icon="mdi-checkbox-marked-outline" color="success" v-if="value"></v-icon>

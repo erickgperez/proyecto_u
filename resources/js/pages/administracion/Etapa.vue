@@ -133,9 +133,6 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <template v-slot:item.flujo.codigo="{ value, item }">
-                            <div class="d-flex ga-2">{{ item.flujo.codigo }}</div>
-                        </template>
                     </Listado>
                 </v-window-item>
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->

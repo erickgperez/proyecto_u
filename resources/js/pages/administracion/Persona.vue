@@ -91,7 +91,7 @@ const headers = [
     { title: t('_id_'), key: 'id' },
     { title: t('persona._nombre_'), key: 'nombre', align: 'start' },
     { title: t('persona._apellidos_'), key: 'apellidos', align: 'start' },
-    { title: t('persona._sexo_'), key: 'sexo' },
+    { title: t('persona._sexo_'), key: 'sexo.descripcion' },
     { title: t('persona._fecha_nacimiento_'), key: 'fecha_nacimiento' },
     { title: t('persona._edad_'), key: 'edad', align: 'end' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
@@ -154,11 +154,6 @@ const opcionesAccion = [
                         <template v-slot:item.fecha_nacimiento="{ value }">
                             <div class="d-flex ga-2">
                                 {{ value !== null ? date.format(value, 'keyboardDate') : '' }}
-                            </div>
-                        </template>
-                        <template v-slot:item.sexo="{ value }">
-                            <div class="d-flex ga-2">
-                                {{ value.descripcion }}
                             </div>
                         </template>
                     </Listado>
