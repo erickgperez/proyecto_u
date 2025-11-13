@@ -34,7 +34,7 @@ class CarreraUnidadAcademica extends Model
 
     public function requisitos(): BelongsToMany
     {
-        return $this->belongsToMany(CarreraUnidadAcademica::class, 'plan_estudio.requisitos', 'carrera_unidad_academica_id', 'carrera_unidad_academica_requisito_id');
+        return $this->belongsToMany(CarreraUnidadAcademica::class, 'plan_estudio.requisitos', 'carrera_unidad_academica_id', 'carrera_unidad_academica_requisito_id')->withPivot('tipo_requisito_id');
     }
 
     public function creator()

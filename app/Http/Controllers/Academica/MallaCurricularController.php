@@ -22,19 +22,29 @@ class MallaCurricularController extends Controller
     public function index(): Response
     {
 
-        $items = CarreraUnidadAcademica::with('creator', 'updater', 'area', 'unidadAcademica', 'carrera')
+        $items = CarreraUnidadAcademica::with([
+            'creator',
+            'updater',
+            'area',
+            'unidadAcademica',
+            'carrera',
+            'requisitos' => ['unidadAcademica']
+        ])
             ->orderBy('carrera_id')
             ->orderBy('semestre')
             ->get();
+
         $areas = Area::orderBy('codigo')->get();
         $unidadesAcademicas = UnidadAcademica::orderBy('nombre')->get();
         $carreras = Carrera::orderBy('nombre')->get();
+        $tiposRequisitos = TipoRequisito::orderBy('descripcion')->get();
 
         return Inertia::render('academica/CarreraUnidadAcademica', [
             'items' => $items,
             'areas' => $areas,
             'unidadesAcademicas' => $unidadesAcademicas,
-            'carreras' => $carreras
+            'carreras' => $carreras,
+            'tiposRequisitos' => $tiposRequisitos
         ]);
     }
 
@@ -94,7 +104,14 @@ class MallaCurricularController extends Controller
         $carreraUnidadAcademica->requisitos()->sync($requisitos);
 
         //Obtener la información de las relaciones del item recién creado/actualizado
-        $item = CarreraUnidadAcademica::with('creator', 'updater', 'area', 'unidadAcademica', 'carrera')->find($carreraUnidadAcademica->id);
+        $item = CarreraUnidadAcademica::with([
+            'creator',
+            'updater',
+            'area',
+            'unidadAcademica',
+            'carrera',
+            'requisitos' => ['unidadAcademica']
+        ])->find($carreraUnidadAcademica->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $item]);
     }

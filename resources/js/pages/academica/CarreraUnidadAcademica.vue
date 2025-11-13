@@ -38,6 +38,7 @@ const props = defineProps({
     areas: Array,
     unidadesAcademicas: Array,
     carreras: Array,
+    tiposRequisitos: Array,
 });
 
 const itemVacio = ref<Item>({
@@ -169,6 +170,7 @@ const opcionesAccion = [
                             :items="localItems"
                             :areas="props.areas"
                             :carreras="props.carreras"
+                            :tiposRequisitos="props.tiposRequisitos"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
                         ></CarreraUnidadAcademicaForm>

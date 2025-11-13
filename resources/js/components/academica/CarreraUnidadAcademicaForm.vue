@@ -28,9 +28,10 @@ interface FormData {
     unidad_academica_id: number | null;
     carrera_id: number | null;
     prerrequisitos: Array<[]>;
+    correquisitos: Array<[]>;
 }
 
-const props = defineProps(['item', 'accion', 'areas', 'carreras', 'unidadesAcademicas', 'items']);
+const props = defineProps(['item', 'accion', 'areas', 'carreras', 'unidadesAcademicas', 'items', 'tiposRequisitos']);
 
 const formData = ref<FormData>({
     id: null,
@@ -41,6 +42,7 @@ const formData = ref<FormData>({
     unidad_academica_id: null,
     carrera_id: null,
     prerrequisitos: [],
+    correquisitos: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -86,6 +88,13 @@ onMounted(() => {
 
     formData.value = { ...props.item };
     formData.value.requisito_creditos = Number(props.item.requisito_creditos);
+    if (isEditing.value) {
+        const tipoPrerrequisito = props.tiposRequisitos.find((tipo) => tipo.codigo === 'PRERREQUISITO');
+        const tipoCorrequisito = props.tiposRequisitos.find((tipo) => tipo.codigo === 'CORREQUISITO');
+
+        formData.value.prerrequisitos = props.item.requisitos.filter((req) => req.pivot.tipo_requisito_id === tipoPrerrequisito.id);
+        formData.value.correquisitos = props.item.requisitos.filter((req) => req.pivot.tipo_requisito_id === tipoCorrequisito.id);
+    }
 });
 </script>
 <template>
@@ -169,7 +178,7 @@ onMounted(() => {
                             clearable
                             :label="$t('mallaCurricular._correquisitos_')"
                             :items="carreraUnidadesAcademicas"
-                            v-model="formData.prerrequisitos"
+                            v-model="formData.correquisitos"
                             item-title="unidad_academica.nombreCompleto"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
