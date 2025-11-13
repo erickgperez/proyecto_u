@@ -165,12 +165,13 @@ const opcionesAccion = [
                         <CarreraUnidadAcademicaForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                            :unidadesAcademicas="unidadesAcademicas"
-                            :items="items"
+                            :unidadesAcademicas="localUnidadesAcademicas"
+                            :items="localItems"
                             :areas="areas"
                             :carreras="carreras"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
+                            @update-unidades-academicas="handleUpdateUnidadesAcademicas"
                         ></CarreraUnidadAcademicaForm>
                         <CarreraUnidadAcademicaShow
                             v-if="selectedAction == 'show'"
