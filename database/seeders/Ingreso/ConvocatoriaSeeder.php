@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Ingreso;
 
+use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Workflow\Flujo;
 use Carbon\Carbon;
@@ -14,6 +15,11 @@ class ConvocatoriaSeeder extends Seeder
      */
     public function run(): void
     {
+        //Agregarle un calendario a la convocatoria
+        Calendarizacion::insert([
+            'nombre' => '01-2026'
+        ]);
+
         Convocatoria::insert([
             [
                 'nombre' => '01-2026',
@@ -21,6 +27,7 @@ class ConvocatoriaSeeder extends Seeder
                 'descripcion' => 'Primera convocatoria de ingreso 2026 - PRUEBA',
                 'cuerpo_mensaje' => 'Te invitamos a participar en el proceso de ingreso a nuestras carreras',
                 'flujo_id' => Flujo::where('codigo', 'INGRESO_01')->first()->id,
+                'calendarizacion_id' => Calendarizacion::where('nombre', '01-2026')->first()->id,
                 'created_at' => Carbon::now(),
                 'created_by' => 1,
             ],
