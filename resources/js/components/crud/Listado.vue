@@ -1,11 +1,14 @@
 <script setup lang="ts">
+import { useDeepFilter } from '@/composables/useDeepFilter';
 import { usePermissions } from '@/composables/usePermissions';
 import type { Header, SortBy } from '@/types/tipos';
 import { saveAs } from 'file-saver';
-import { computed, PropType, ref } from 'vue';
+import { PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
-const { hasPermission, hasAnyPermission } = usePermissions();
+const { hasPermission } = usePermissions();
+// Usa modo "AND" (todas las palabras deben aparecer) modo 'OR' cumple alguna de las palabras
+const { deepFilter } = useDeepFilter({ multiWordMode: 'AND' });
 
 const emit = defineEmits(['action', 'selectItem']);
 
@@ -72,10 +75,6 @@ const exportToExcel = () => {
 function emitirAccion(accion: string) {
     emit('action', accion);
 }
-
-const headersFiltered = computed(() => {
-    return props.headers.filter((header: Header) => header.key != 'actions');
-});
 </script>
 <template>
     <v-card>
@@ -122,6 +121,7 @@ const headersFiltered = computed(() => {
             :sort-by="sortBy"
             :group-by="groupBy"
             density="compact"
+            :custom-filter="deepFilter"
             fixed-header
             multi-sort
             hover
