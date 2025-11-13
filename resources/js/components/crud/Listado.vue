@@ -159,10 +159,14 @@ const headersFiltered = computed(() => {
                     </td>
                 </tr>
             </template>
-            <template v-for="header in headersFiltered" v-slot:[`item.${header.key}`]="{ item }">
+
+            <!--<template v-for="header in headersFiltered" v-slot:[`item.${header.key}`]="{ item }">
                 <slot :name="`item.${header.key}`" :value="item[header.key]" :item="item">
                     {{ item[header.key] }}
                 </slot>
+            </template>-->
+            <template v-for="(_, name) in $slots" v-slot:[name]="slotProps">
+                <slot :name="name" v-bind="slotProps"></slot>
             </template>
             <template v-slot:item.actions="{ item }">
                 <div class="d-flex ga-2 justify-center">
