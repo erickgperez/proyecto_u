@@ -17,7 +17,7 @@ class TipoUnidadAcademicaSeeder extends Seeder
             ['codigo' => 'ASIGNATURA', 'descripcion' => 'Asignatura'],
             ['codigo' => 'CURSO', 'descripcion' => 'Curso'],
             ['codigo' => 'MODULO', 'descripcion' => 'Módulo'],
-            ['codigo' => 'PROCESO_GRADUACION', 'descripcion' => 'Proceso de graduación'],
+            ['codigo' => 'PROYECTO_INTEGRADOR', 'descripcion' => 'Proyecto integrador'],
         ]);
     }
 }

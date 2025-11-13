@@ -5,7 +5,14 @@ export function useFunciones() {
     const { t } = useI18n();
 
     const rules = {
-        required: (value: any) => !!value || t('_campo_requerido_'),
+        required: (value: any) => {
+            // Si se permite multiple, verificar el arreglo
+            if (Array.isArray(value)) {
+                return value.length > 0 || t('_campo_requerido_');
+            }
+            // para valores simples
+            return !!value || t('_campo_requerido_');
+        },
         email: (value: any) => {
             const pattern =
                 /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;

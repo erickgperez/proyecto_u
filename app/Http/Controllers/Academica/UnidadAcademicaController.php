@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Models\PlanEstudio\TipoUnidadAcademica;
 use App\Models\PlanEstudio\UnidadAcademica;
 use Illuminate\Http\Request;
-use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -31,7 +30,7 @@ class UnidadAcademicaController extends Controller
             'codigo' => 'required|string|max:50',
             'nombre' => 'required|string',
             'creditos' => 'required|numeric|min:0',
-            'tipo_unidad_academica_id' => ['required', 'integer', Rule::exists('pgsql.plan_estudio.tipo_unidad_academica', 'id')],
+            'tipo_unidad_academica_id' => 'required',
         ]);
 
         if ($request->get('id') === null) {
@@ -58,7 +57,9 @@ class UnidadAcademicaController extends Controller
         $unidadAcademica->codigo = $request->get('codigo');
         $unidadAcademica->nombre = $request->get('nombre');
         $unidadAcademica->creditos = $request->get('creditos');
-        $unidadAcademica->tipo_unidad_academica_id = $request->get('tipo_unidad_academica_id');
+
+        $tipo = $request->get('tipo_unidad_academica_id');
+        $unidadAcademica->tipo_unidad_academica_id = $tipo['id'];
 
         $unidadAcademica->save();
 

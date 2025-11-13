@@ -68,7 +68,18 @@ onMounted(() => {
     reset();
 
     formData.value = { ...props.item };
-    formData.value.creditos = Number(props.item.creditos);
+
+    if (isEditing.value) {
+        formData.value.creditos = Number(props.item.creditos);
+        formData.value.tipo_unidad_academica_id = props.item.tipo;
+    } else {
+        const tipoAsignatura = props.tipos.filter((t) => t.codigo === 'ASIGNATURA');
+        if (tipoAsignatura.length === 1) {
+            formData.value.tipo_unidad_academica_id = tipoAsignatura[0];
+        }
+    }
+
+    /**/
 });
 </script>
 <template>
@@ -124,10 +135,9 @@ onMounted(() => {
                             selected-class="v-chip--selected v-chip--variant-tonal text-deep-purple-accent-3"
                             variant="outlined"
                             mandatory
-                            :rules="[rules.required]"
                             v-model="formData.tipo_unidad_academica_id"
                         >
-                            <v-chip v-for="tipo in props.tipos" :key="tipo.id" :text="tipo.descripcion" :value="tipo.id" filter></v-chip>
+                            <v-chip v-for="tipo in props.tipos" :key="tipo.id" :text="tipo.descripcion" :value="tipo" filter></v-chip>
                         </v-chip-group>
                     </v-col>
 
