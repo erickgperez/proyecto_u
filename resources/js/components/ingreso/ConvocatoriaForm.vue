@@ -108,7 +108,7 @@ async function submitForm() {
             }
         } catch (error: any) {
             console.log(error);
-            const msj = error instanceof Error ? t(error.message) : error.response.data.message;
+            const msj = axios.isAxiosError(error) ? error.response.data.message : t(error.message);
             mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + msj);
         }
     }

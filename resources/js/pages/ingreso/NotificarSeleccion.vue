@@ -53,7 +53,7 @@ const submitForm = async () => {
             }
         } catch (error: any) {
             console.log(error);
-            const msj = error instanceof Error ? t(error.message) : error.response.data.message;
+            const msj = axios.isAxiosError(error) ? error.response.data.message : t(error.message);
             mensajeError(t('convocatoria._notificaciones_no_enviadas_') + '. ' + msj);
         }
     }

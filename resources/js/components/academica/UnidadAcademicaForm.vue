@@ -53,11 +53,11 @@ async function submitForm() {
                 //localItem.value.afiche = resp.data.convocatoria.afiche;
                 mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
+                console.log(resp.data.message);
                 throw new Error(resp.data.message);
             }
         } catch (error: any) {
-            console.log(error);
-            const msj = error instanceof Error ? t(error.message) : error.response.data.message;
+            const msj = axios.isAxiosError(error) ? error.response.data.message : t(error.message);
             mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + msj);
         }
     }
@@ -107,7 +107,7 @@ onMounted(() => {
                                 :label="$t('unidadAcademica._creditos_') + ' *'"
                             ></v-number-input>
                         </v-locale-provider>
-                        <v-autocomplete
+                        <!--<v-autocomplete
                             clearable
                             :label="$t('unidadAcademica._tipo_') + ' *'"
                             :items="props.tipos"
@@ -117,7 +117,18 @@ onMounted(() => {
                             item-title="descripcion"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
-                        ></v-autocomplete>
+                        ></v-autocomplete>-->
+                        <span class="subheading ml-10">{{ $t('unidadAcademica._tipo_') + ' *' }}</span>
+                        <v-chip-group
+                            class="ml-10"
+                            selected-class="v-chip--selected v-chip--variant-tonal text-deep-purple-accent-3"
+                            variant="outlined"
+                            mandatory
+                            :rules="[rules.required]"
+                            v-model="formData.tipo_unidad_academica_id"
+                        >
+                            <v-chip v-for="tipo in props.tipos" :key="tipo.id" :text="tipo.descripcion" :value="tipo.id" filter></v-chip>
+                        </v-chip-group>
                     </v-col>
 
                     <v-col cols="12" align="right">
