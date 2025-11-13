@@ -41,7 +41,7 @@ class FlujoController extends Controller
         }
 
         $flujo->codigo = $request->get('codigo');
-        $flujo->descripcion = $request->get('nombre');
+        $flujo->nombre = $request->get('nombre');
         $flujo->activo = $request->get('activo');
         $flujo->tipo_flujo_id = $request->get('tipo_flujo_id');
 

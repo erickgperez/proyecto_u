@@ -98,7 +98,7 @@ onMounted(() => {
                         <v-checkbox
                             icon-color="deep-orange"
                             class="ml-8"
-                            :model-value="formData.activo"
+                            v-model="formData.activo"
                             color="primary"
                             :label="$t('flujo._activo_') + ' *'"
                         ></v-checkbox>

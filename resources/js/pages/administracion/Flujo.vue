@@ -137,9 +137,11 @@ const opcionesAccion = [
                                 {{ item.tipo.codigo }}
                             </div>
                         </template>
+
                         <template v-slot:item.activo="{ value }">
                             <div class="d-flex ga-2">
-                                <v-checkbox :model-value="value" readonly color="primary"></v-checkbox>
+                                <v-icon icon="mdi-checkbox-marked-outline" color="success" v-if="value"></v-icon>
+                                <v-icon icon="mdi-close-box-outline" color="red" v-else></v-icon>
                             </div>
                         </template>
                     </Listado>
