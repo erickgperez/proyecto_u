@@ -102,7 +102,7 @@ class MallaCurricularController extends Controller
     public function delete(int $id)
     {
         //Verificar si es requisito de obligatoria
-        $requisito = Requisitos::where('carrera_unidad_academica_requisito_id', $id);
+        $requisito = Requisitos::where('carrera_unidad_academica_requisito_id', $id)->first();
         if ($requisito) {
             return response()->json(['status' => 'error', 'message' => 'mallaCurricular._no_borrar_es_requisito_']);
         }
