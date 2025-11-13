@@ -75,7 +75,7 @@ function remove() {
                     emit('action', 'delete');
                     mensajeExito(t('_registro_eliminado_correctamente_'));
                 } else {
-                    throw new Error(resp.data.message);
+                    throw new Error(t(resp.data.message));
                 }
             } catch (error: any) {
                 console.log(error);

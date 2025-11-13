@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\PlanEstudio\Area;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\CarreraUnidadAcademica;
+use App\Models\PlanEstudio\Requisitos;
 use App\Models\PlanEstudio\TipoRequisito;
 use App\Models\PlanEstudio\UnidadAcademica;
 use Illuminate\Http\Request;
@@ -100,6 +101,12 @@ class MallaCurricularController extends Controller
 
     public function delete(int $id)
     {
+        //Verificar si es requisito de obligatoria
+        $requisito = Requisitos::where('carrera_unidad_academica_requisito_id', $id);
+        if ($requisito) {
+            return response()->json(['status' => 'error', 'message' => 'mallaCurricular._no_borrar_es_requisito_']);
+        }
+
         $delete = CarreraUnidadAcademica::destroy($id);
 
         if ($delete == 0) {

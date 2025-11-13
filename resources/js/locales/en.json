@@ -325,6 +325,7 @@
         "_mostrar_": "Show curriculum",
         "_permite_gestionar_": "Manage the academic units associated with the degree programs",
 
+        "_no_borrar_es_requisito_": "It cannot be deleted; it is a requirement of another academic unit.",
         "_obligatoria_": "Mandatory",
         "_prerrequisitos_": "Prerequisites",
         "_requisito_creditos_": "Credit requirement",
