@@ -135,7 +135,8 @@ onMounted(() => {
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
                         ></v-autocomplete>
-                        <v-checkbox v-model="formData.obligatoria" :label="$t('mallaCurricular._obligatoria_')"></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" md="6">
                         <v-locale-provider locale="en">
                             <v-number-input
                                 icon-color="deep-orange"
@@ -146,9 +147,27 @@ onMounted(() => {
                                 :label="$t('mallaCurricular._requisito_creditos_')"
                             ></v-number-input>
                         </v-locale-provider>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-checkbox v-model="formData.obligatoria" :label="$t('mallaCurricular._obligatoria_')"></v-checkbox>
+                    </v-col>
+                    <v-col cols="12" md="6">
                         <v-autocomplete
                             clearable
                             :label="$t('mallaCurricular._prerrequisitos_')"
+                            :items="carreraUnidadesAcademicas"
+                            v-model="formData.prerrequisitos"
+                            item-title="unidad_academica.nombreCompleto"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                            multiple
+                            chips
+                        ></v-autocomplete>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-autocomplete
+                            clearable
+                            :label="$t('mallaCurricular._correquisitos_')"
                             :items="carreraUnidadesAcademicas"
                             v-model="formData.prerrequisitos"
                             item-title="unidad_academica.nombreCompleto"

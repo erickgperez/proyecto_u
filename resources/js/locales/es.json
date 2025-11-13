@@ -339,6 +339,7 @@
         "_mostrar_": "Mostrar malla curricular",
         "_permite_gestionar_": "Gestionar las unidades académicas asociadas a las carreras",
 
+        "_correquisitos_": "Correquisitos",
         "_no_borrar_es_requisito_": "No se puede borrar, es requisito de otra unidad académica",
         "_obligatoria_": "Obligatoria",
         "_prerrequisitos_": "Prerrequisitos",
