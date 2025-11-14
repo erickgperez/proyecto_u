@@ -12,7 +12,6 @@ use App\Http\Controllers\Administracion\TipoEventoController;
 use App\Http\Controllers\Administracion\TipoFlujoController;
 use App\Http\Controllers\Administracion\TransicionController;
 use App\Http\Controllers\Administracion\UsuarioController;
-use App\Models\Workflow\Etapa;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {

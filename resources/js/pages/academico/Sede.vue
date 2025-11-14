@@ -66,16 +66,16 @@ const mensajes = {
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ACADEMICA_SEDE_EDITAR',
-    mostrar: 'ACADEMICA_SEDE_MOSTRAR',
-    borrar: 'ACADEMICA_SEDE_BORRAR',
+    editar: 'ACADEMICO_SEDE_EDITAR',
+    mostrar: 'ACADEMICO_SEDE_MOSTRAR',
+    borrar: 'ACADEMICO_SEDE_BORRAR',
 };
-const permisoAny = 'ACADEMICA_SEDE_';
+const permisoAny = 'ACADEMICO_SEDE_';
 // Permisos requeridos por la interfaz
 const permisos = {
     listado: 'MENU_ACADEMICO_SEDES',
-    crear: 'ACADEMICA_SEDE_CREAR',
-    exportar: 'ACADEMICA_SEDE_EXPORTAR',
+    crear: 'ACADEMICO_SEDE_CREAR',
+    exportar: 'ACADEMICO_SEDE_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,

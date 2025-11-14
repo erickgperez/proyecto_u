@@ -156,86 +156,86 @@ class RolesAndPermissionsSeeder extends Seeder
         //***** GESTION ACADEMICA
         // SEDES
         Permission::create(['name' => 'MENU_ACADEMICO_SEDES']);
-        Permission::create(['name' => 'ACADEMICA_SEDE_TODO']);
-        Permission::create(['name' => 'ACADEMICA_SEDE_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_SEDE_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_SEDE_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_SEDE_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_SEDE_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_SEDE_TODO']);
+        Permission::create(['name' => 'ACADEMICO_SEDE_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_SEDE_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_SEDE_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_SEDE_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_SEDE_BORRAR']);
 
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO']);
 
         // GRADO
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_GRADO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_TODO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_GRADO_TODO']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_GRADO_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_GRADO_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_GRADO_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_GRADO_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_GRADO_BORRAR']);
 
         // TIPO_CARRERA
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_TODO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA_TODO']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA_BORRAR']);
 
         // CARRERA
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_CARRERA']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_TODO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_CARRERA_TODO']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_CARRERA_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_CARRERA_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_CARRERA_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_CARRERA_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_CARRERA_BORRAR']);
 
         //AREA
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_AREA']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_TODO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_AREA_TODO']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_AREA_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_AREA_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_AREA_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_AREA_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_AREA_BORRAR']);
 
         //TIPO UNIDAD ACADEMICA
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_TODO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_TODO']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_BORRAR']);
 
         //UNIDAD ACADEMICA
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICA']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_TODO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICO_TODO']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICO_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICO_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICO_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICO_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICO_BORRAR']);
 
         // MALLA CURRICULAR
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_TODO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR_TODO']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR_BORRAR']);
 
         //TIPO REQUISITO
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_TODO']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_CREAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_EXPORTAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_EDITAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_MOSTRAR']);
-        Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO_TODO']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO_BORRAR']);
 
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
@@ -250,10 +250,10 @@ class RolesAndPermissionsSeeder extends Seeder
                 'MENU_ACADEMICO_PLAN-ESTUDIO_GRADO',
                 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA',
                 'MENU_ACADEMICO_PLAN-ESTUDIO_CARRERA',
-                'ACADEMICA_SEDE_TODO',
-                'ACADEMICA_PLAN-ESTUDIO_GRADO_TODO',
-                'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_TODO',
-                'ACADEMICA_PLAN-ESTUDIO_CARRERA_TODO',
+                'ACADEMICO_SEDE_TODO',
+                'ACADEMICO_PLAN-ESTUDIO_GRADO_TODO',
+                'ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA_TODO',
+                'ACADEMICO_PLAN-ESTUDIO_CARRERA_TODO',
             ]);
 
 

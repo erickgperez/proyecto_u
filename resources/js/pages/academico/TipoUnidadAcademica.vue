@@ -55,16 +55,16 @@ const mensajes = {
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EDITAR',
-    mostrar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_MOSTRAR',
-    borrar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_BORRAR',
+    editar: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_EDITAR',
+    mostrar: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_MOSTRAR',
+    borrar: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_BORRAR',
 };
-const permisoAny = 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_';
+const permisoAny = 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_';
 // Permisos requeridos por la interfaz
 const permisos = {
     listado: 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA',
-    crear: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_CREAR',
-    exportar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EXPORTAR',
+    crear: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_CREAR',
+    exportar: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICO_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
