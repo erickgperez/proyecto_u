@@ -505,6 +505,17 @@
         "_mostrar_": "Mostrar tipo calendarización",
         "_permite_gestionar_": "Gestionar los datos del tipo de calendarización"
     },
+    "tipoEvento": {
+        "_administrar_": "Administrar tipos de eventos",
+        "_codigo_ya existe_": "El código del tipo de evento ya existe en otro registro",
+        "_crear_": "Crear tipo de evento",
+        "_editar_": "Editar tipo de evento",
+        "_singular_": "Tipo evento",
+        "_plural_": "Tipos de eventos",
+        "_listado_": "Listado de tipos de eventos",
+        "_mostrar_": "Mostrar tipo evento",
+        "_permite_gestionar_": "Gestionar los datos del tipo de evento"
+    },
     "tipoUnidadAcademica": {
         "_administrar_": "Administrar tipos de unidades académicas",
         "_codigo_ya existe_": "El código del tipo ya existe en otro registro",

@@ -6,7 +6,7 @@ const date = useDate();
 const props = defineProps(['item', 'accion']);
 </script>
 <template>
-    <v-card :title="$t('tipoCalendarizacion._mostrar_')">
+    <v-card :title="$t('tipoEvento._mostrar_')">
         <template v-slot:text>
             <v-row>
                 <v-col cols="4">
@@ -30,6 +30,15 @@ const props = defineProps(['item', 'accion']);
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.descripcion }}
+                </v-col>
+            </v-row>
+
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('tipoCalendarizacion._singular_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.tipo_calendarizacion.codigo }}
                 </v-col>
             </v-row>
 

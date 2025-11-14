@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TipoCalendarizacionForm from '@/components/administracion/TipoCalendarizacionForm.vue';
-import TipoCalendarizacionShow from '@/components/administracion/TipoCalendarizacionShow.vue';
+import TipoEventoForm from '@/components/administracion/TipoEventoForm.vue';
+import TipoEventoShow from '@/components/administracion/TipoEventoShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -24,6 +24,7 @@ interface Item {
     id: number | null;
     codigo: string;
     descripcion: string;
+    tipo_calendarizacion: number | null;
 }
 const props = defineProps({
     items: {
@@ -31,12 +32,14 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    tiposCalendarizacion: Array,
 });
 
 const itemVacio = ref<Item>({
     id: null,
     codigo: '',
     descripcion: '',
+    tipo_calendarizacion: null,
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -45,26 +48,26 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
 );
 
 const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
-const rutaBorrar = ref('calendarizacion-tipo-delete');
+const rutaBorrar = ref('calendarizacion-tipo_evento-delete');
 const mensajes = {
-    titulo1: t('tipoCalendarizacion._plural_'),
-    titulo2: t('tipoCalendarizacion._administrar_'),
-    subtitulo: t('tipoCalendarizacion._permite_gestionar_'),
-    tituloListado: t('tipoCalendarizacion._listado_'),
+    titulo1: t('tipoEvento._plural_'),
+    titulo2: t('tipoEvento._administrar_'),
+    subtitulo: t('tipoEvento._permite_gestionar_'),
+    tituloListado: t('tipoEvento._listado_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ADMINISTRACION_CALENDARIZACION_TIPO_EDITAR',
-    mostrar: 'ADMINISTRACION_CALENDARIZACION_TIPO_MOSTRAR',
-    borrar: 'ADMINISTRACION_CALENDARIZACION_TIPO_BORRAR',
+    editar: 'ADMINISTRACION_CALENDARIZACION_TIPO-EVENTO_EDITAR',
+    mostrar: 'ADMINISTRACION_CALENDARIZACION_TIPO-EVENTO_MOSTRAR',
+    borrar: 'ADMINISTRACION_CALENDARIZACION_TIPO-EVENTO_BORRAR',
 };
-const permisoAny = 'ADMINISTRACION_CALENDARIZACION_TIPO_';
+const permisoAny = 'ADMINISTRACION_CALENDARIZACION_TIPO-EVENTO_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ADMINISTRACION_CALENDARIZACION_TIPO',
-    crear: 'ADMINISTRACION_CALENDARIZACION_TIPO_CREAR',
-    exportar: 'ADMINISTRACION_CALENDARIZACION_TIPO_EXPORTAR',
+    listado: 'MENU_ADMINISTRACION_CALENDARIZACION_TIPO-EVENTO',
+    crear: 'ADMINISTRACION_CALENDARIZACION_TIPO-EVENTO_CREAR',
+    exportar: 'ADMINISTRACION_CALENDARIZACION_TIPO-EVENTO_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -72,16 +75,17 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_tipos_calendarizacion');
-const fileName = ref('tipos_calendarizacion');
+const sheetName = ref('Listado_tipos_eventos');
+const fileName = ref('tipos_eventos');
 
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('tipoCalendarizacion._singular_'), key: 'tipo_calendarizacion.codigo' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
-const sortBy: SortBy[] = [{ key: 'codigo', order: 'asc' }];
+const sortBy: SortBy[] = [{ key: 'tipo_calendarizacion.codigo', order: 'asc' }];
 
 const opcionesAccion = [
     {
@@ -107,7 +111,7 @@ const opcionesAccion = [
     ************************************************************************************
     -->
     <Head :title="mensajes.titulo1"> </Head>
-    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-calendar-multiple">
+    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-calendar-week-outline">
         <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12 pa-2 rounded-xl">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
@@ -144,17 +148,14 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <TipoCalendarizacionForm
+                        <TipoEventoForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
+                            :tipos-calendarizacion="props.tiposCalendarizacion"
                             @form-saved="handleFormSave"
-                        ></TipoCalendarizacionForm>
-                        <TipoCalendarizacionShow
-                            v-if="selectedAction == 'show'"
-                            :item="selectedItem"
-                            :accion="selectedAction"
-                        ></TipoCalendarizacionShow>
+                        ></TipoEventoForm>
+                        <TipoEventoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></TipoEventoShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>

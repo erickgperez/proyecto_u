@@ -352,9 +352,21 @@ onMounted(() => {
                                     >
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-card-account-details-outline"
+                                            prepend-icon="mdi-calendar-multiple"
                                             :title="$t('tipoCalendarizacion._singular_')"
                                             :class="$page.url === '/calendarizacion/tipo' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link
+                                        :href="route('calendarizacion-tipo_evento-index')"
+                                        v-if="hasPermission('MENU_ADMINISTRACION_CALENDARIZACION_TIPO-EVENTO')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-calendar-week-outline"
+                                            :title="$t('tipoEvento._singular_')"
+                                            :class="$page.url === '/calendarizacion/tipo-evento' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>
