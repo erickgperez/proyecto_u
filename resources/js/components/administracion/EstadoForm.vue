@@ -52,7 +52,7 @@ async function submitForm() {
             }
         } catch (error: any) {
             console.log(error);
-            const msj = axios.isAxiosError(error) ? error.response.data.message : t(error.message);
+            const msj = axios.isAxiosError(error) ? error.response?.data.message : t(error.message);
             mensajeError(t('_no_se_pudo_guardar_formulario_') + '. ' + msj);
         }
     }
