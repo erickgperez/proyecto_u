@@ -7,8 +7,6 @@ import { computed, PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
 const { hasPermission } = usePermissions();
-// Usa modo "AND" (todas las palabras deben aparecer) modo 'OR' cumple alguna de las palabras
-const { deepFilter } = useDeepFilter({ multiWordMode: 'AND' });
 
 const emit = defineEmits(['action', 'selectItem']);
 
@@ -59,6 +57,9 @@ const props = defineProps({
 
 const search = ref('');
 
+// Usa modo "AND" (todas las palabras deben aparecer) modo 'OR' cumple alguna de las palabras
+const { deepFilter, getByPath } = useDeepFilter({ multiWordMode: 'AND', headers: props.headers });
+
 const exportToExcel = () => {
     const worksheet = XLSX.utils.json_to_sheet(props.items);
     const workbook = XLSX.utils.book_new();
@@ -77,14 +78,6 @@ function emitirAccion(accion: string) {
 }
 
 const localItems = ref(props.items);
-
-function getByPath(obj: any, path: string) {
-    if (obj == null || !path) return undefined;
-    return path.split('.').reduce((acc: any, seg: string) => {
-        if (acc == null) return undefined;
-        return acc[seg];
-    }, obj);
-}
 
 // Build unique options per group
 const groupOptions = computed(() => {
@@ -189,7 +182,8 @@ const filteredByGroups = computed(() => {
             hover
             striped="odd"
         >
-            <!--<template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+            <!--
+        <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
                 <tr>
                     <template v-for="column in columns" :key="column.key">
                         <th>
