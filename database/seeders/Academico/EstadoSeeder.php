@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Academico;
 
-use App\Models\Academica\UsoEstado;
+use App\Models\Academico\UsoEstado;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 

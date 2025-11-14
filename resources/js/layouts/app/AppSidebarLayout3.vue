@@ -375,17 +375,17 @@ onMounted(() => {
                         </v-list-item>
                     </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION-ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
-                        <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede-index')">
+                        <Link v-if="hasPermission('MENU_ACADEMICO_SEDES')" :href="route('academico-sede-index')">
                             <v-list-item
                                 link
                                 prepend-icon="mdi-office-building-cog-outline"
-                                :class="$page.url === '/academica/sede' ? 'bg-blue-lighten-4' : ''"
+                                :class="$page.url === '/academico/sede' ? 'bg-blue-lighten-4' : ''"
                             >
                                 {{ $t('sede._sedes_') }}
                             </v-list-item>
                         </Link>
                         <v-list-item
-                            v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO')"
+                            v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO')"
                             prepend-icon="mdi-collage"
                             append-icon="mdi-menu-right"
                             class="text-body-1 text-none text-left"
@@ -393,90 +393,96 @@ onMounted(() => {
                             {{ $t('_plan_estudio_') }}
                             <v-menu activator="parent">
                                 <v-list class="bg-blue-grey-darken-2">
-                                    <Link :href="route('plan_estudio-carrera-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA')">
+                                    <Link
+                                        :href="route('academico-plan_estudio-carrera-index')"
+                                        v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_CARRERA')"
+                                    >
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-certificate-outline"
                                             :title="$t('carrera._singular_')"
-                                            :class="$page.url === '/plan_estudio/carrera' ? 'bg-blue-lighten-4' : ''"
+                                            :class="$page.url === '/academico/plan_estudio/carrera' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>
                                     <Link
-                                        :href="route('plan_estudio-unidad_academica-index')"
-                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA')"
+                                        :href="route('academico-plan_estudio-unidad_academica-index')"
+                                        v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICA')"
                                     >
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-notebook-edit-outline"
                                             :title="$t('unidadAcademica._singular_')"
-                                            :class="$page.url === '/plan_estudio/unidad-academica' ? 'bg-blue-lighten-4' : ''"
+                                            :class="$page.url === '/academico/plan_estudio/unidad-academica' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>
                                     <Link
-                                        :href="route('plan_estudio-malla_curricular-index')"
-                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR')"
+                                        :href="route('academico-plan_estudio-malla_curricular-index')"
+                                        v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR')"
                                     >
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-select-group"
                                             :title="$t('mallaCurricular._singular_')"
-                                            :class="$page.url === '/plan_estudio/malla-curricular' ? 'bg-blue-lighten-4' : ''"
+                                            :class="$page.url === '/academico/plan_estudio/malla-curricular' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>
                                     <Link
-                                        :href="route('plan_estudio-tipo_carrera-index')"
-                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO-TIPO_CARRERA')"
+                                        :href="route('academico-plan_estudio-tipo_carrera-index')"
+                                        v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO-TIPO_CARRERA')"
                                     >
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-map-legend"
                                             :title="$t('tipoCarrera._tipo_carrera_')"
-                                            :class="$page.url === '/plan_estudio/tipo_carrera' ? 'bg-blue-lighten-4' : ''"
-                                        >
-                                        </v-list-item>
-                                    </Link>
-                                    <Link :href="route('plan_estudio-grado-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_GRADO')">
-                                        <v-list-item
-                                            link
-                                            prepend-icon="mdi-checkbook"
-                                            :title="$t('grado._grado_')"
-                                            :class="$page.url === '/plan_estudio/grado' ? 'bg-blue-lighten-4' : ''"
-                                        >
-                                        </v-list-item>
-                                    </Link>
-                                    <Link :href="route('plan_estudio-area-index')" v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_AREA')">
-                                        <v-list-item
-                                            link
-                                            prepend-icon="mdi-group"
-                                            :title="$t('area._singular_')"
-                                            :class="$page.url === '/plan_estudio/area' ? 'bg-blue-lighten-4' : ''"
+                                            :class="$page.url === '/academico/plan_estudio/tipo_carrera' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>
                                     <Link
-                                        :href="route('plan_estudio-tipo_unidad_academica-index')"
-                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA')"
+                                        :href="route('academico-plan_estudio-grado-index')"
+                                        v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_GRADO')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-checkbook"
+                                            :title="$t('grado._grado_')"
+                                            :class="$page.url === '/academico/plan_estudio/grado' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link :href="route('academico-plan_estudio-area-index')" v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_AREA')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-group"
+                                            :title="$t('area._singular_')"
+                                            :class="$page.url === '/academico/plan_estudio/area' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link
+                                        :href="route('academico-plan_estudio-tipo_unidad_academica-index')"
+                                        v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA')"
                                     >
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-note-multiple-outline"
                                             :title="$t('tipoUnidadAcademica._singular_')"
-                                            :class="$page.url === '/plan_estudio/tipo-unidad-academica' ? 'bg-blue-lighten-4' : ''"
+                                            :class="$page.url === '/academico/plan_estudio/tipo-unidad-academica' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>
                                     <Link
-                                        :href="route('plan_estudio-tipo_requisito-index')"
-                                        v-if="hasPermission('MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO')"
+                                        :href="route('academico-plan_estudio-tipo_requisito-index')"
+                                        v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO')"
                                     >
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-calendar-text-outline"
                                             :title="$t('tipoRequisito._singular_')"
-                                            :class="$page.url === '/plan_estudio/tipo-requisito' ? 'bg-blue-lighten-4' : ''"
+                                            :class="$page.url === '/academico/plan_estudio/tipo-requisito' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

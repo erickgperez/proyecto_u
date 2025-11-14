@@ -46,7 +46,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.post(route('academica-sede-save'), formData.value);
+            const resp = await axios.post(route('academico-sede-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();

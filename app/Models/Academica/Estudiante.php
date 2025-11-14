@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Academica;
+namespace App\Models\Academico;
 
 use App\Models\Persona;
 use App\Traits\UserStamps;

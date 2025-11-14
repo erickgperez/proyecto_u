@@ -2,7 +2,7 @@
 
 namespace App\Models\Workflow;
 
-use App\Models\Academica\CarreraSede;
+use App\Models\Academico\CarreraSede;
 use App\Models\User;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;

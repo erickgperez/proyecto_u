@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Academica;
+namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
-use App\Models\PlanEstudio\TipoUnidadAcademica;
+use App\Models\PlanEstudio\Area;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class TipoUnidadAcademicaController extends Controller
+class AreaController extends Controller
 {
     /**
      *
@@ -16,9 +16,9 @@ class TipoUnidadAcademicaController extends Controller
     public function index(): Response
     {
 
-        $tipos = TipoUnidadAcademica::with('creator', 'updater')->orderBy('codigo')->get();
+        $areas = Area::with('creator', 'updater')->orderBy('codigo')->get();
 
-        return Inertia::render('academica/TipoUnidadAcademica', ['items' => $tipos]);
+        return Inertia::render('academico/Area', ['items' => $areas]);
     }
 
     public function save(Request $request)
@@ -31,39 +31,39 @@ class TipoUnidadAcademicaController extends Controller
 
         if ($request->get('id') === null) {
             // Está agregando uno nuevo, verificar que no exista el código
-            $tipoUnidadAcademicaCheck = TipoUnidadAcademica::where('codigo', $request->get('codigo'))->first();
-            if ($tipoUnidadAcademicaCheck === null) {
-                $tipo = new TipoUnidadAcademica();
+            $areaCheck = Area::where('codigo', $request->get('codigo'))->first();
+            if ($areaCheck === null) {
+                $area = new Area();
             } else {
-                return response()->json(['status' => 'error', 'message' => 'tipoUnidadAcademica._codigo_ya existe_']);
+                return response()->json(['status' => 'error', 'message' => 'area._codigo_ya existe_']);
             }
         } else {
             // Verificar que el nuevo código que ponga no esté utilizado por otro registro
-            $tipoUnidadAcademicaCheck = TipoUnidadAcademica::where('codigo', $request->get('codigo'))
+            $areaCheck = Area::where('codigo', $request->get('codigo'))
                 ->where('id', '!=', $request->get('id'))
                 ->first();
 
-            if ($tipoUnidadAcademicaCheck === null) {
-                $tipo = TipoUnidadAcademica::find($request->get('id'));
+            if ($areaCheck === null) {
+                $area = Area::find($request->get('id'));
             } else {
-                return response()->json(['status' => 'error', 'message' => 'tipoUnidadAcademica._codigo_ya existe_']);
+                return response()->json(['status' => 'error', 'message' => 'area._codigo_ya existe_']);
             }
         }
 
-        $tipo->codigo = $request->get('codigo');
-        $tipo->descripcion = $request->get('descripcion');
+        $area->codigo = $request->get('codigo');
+        $area->descripcion = $request->get('descripcion');
 
-        $tipo->save();
+        $area->save();
 
         //Obtener la información de las relaciones del item recién creado/actualizado
-        $item = TipoUnidadAcademica::with('creator', 'updater')->find($tipo->id);
+        $item = Area::with('creator', 'updater')->find($area->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $item]);
     }
 
     public function delete(int $id)
     {
-        $delete = TipoUnidadAcademica::destroy($id);
+        $delete = Area::destroy($id);
 
         if ($delete == 0) {
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);

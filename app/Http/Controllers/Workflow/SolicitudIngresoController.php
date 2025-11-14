@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Workflow;
 
 use App\Http\Controllers\Controller;
-use App\Models\Academica\CarreraSede;
-use App\Models\Academica\Sede;
+use App\Models\Academico\CarreraSede;
+use App\Models\Academico\Sede;
 use App\Models\Ingreso\Aspirante;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Persona;

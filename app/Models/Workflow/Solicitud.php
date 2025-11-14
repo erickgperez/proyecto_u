@@ -2,7 +2,7 @@
 
 namespace App\Models\Workflow;
 
-use App\Models\Academica\Sede;
+use App\Models\Academico\Sede;
 use App\Models\Persona;
 use App\Models\Rol;
 use App\Models\User;

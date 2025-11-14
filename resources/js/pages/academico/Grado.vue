@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TipoUnidadAcademicaForm from '@/components/academica/TipoUnidadAcademicaForm.vue';
-import TipoUnidadAcademicaShow from '@/components/academica/TipoUnidadAcademicaShow.vue';
+import GradoForm from '@/components/academico/GradoForm.vue';
+import GradoShow from '@/components/academico/GradoShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -23,7 +23,8 @@ const { t } = useI18n();
 interface Item {
     id: number | null;
     codigo: string;
-    descripcion: string;
+    descripcion_masculino: string;
+    descripcion_femenino: string;
 }
 const props = defineProps({
     items: {
@@ -36,7 +37,8 @@ const props = defineProps({
 const itemVacio = ref<Item>({
     id: null,
     codigo: '',
-    descripcion: '',
+    descripcion_masculino: '',
+    descripcion_femenino: '',
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -45,26 +47,26 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
 );
 
 const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
-const rutaBorrar = ref('plan_estudio-tipo_unidad_academica-delete');
+const rutaBorrar = ref('academico-plan_estudio-grado-delete');
 const mensajes = {
-    titulo1: t('tipoUnidadAcademica._plural_'),
-    titulo2: t('tipoUnidadAcademica._administrar_'),
-    subtitulo: t('tipoUnidadAcademica._permite_gestionar_'),
-    tituloListado: t('tipoUnidadAcademica._listado_'),
+    titulo1: t('grado._grados_'),
+    titulo2: t('grado._administrar_grados_'),
+    subtitulo: t('grado._permite_gestionar_grados_'),
+    tituloListado: t('grado._listado_grados_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EDITAR',
-    mostrar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_MOSTRAR',
-    borrar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_BORRAR',
+    editar: 'ACADEMICA_PLAN-ESTUDIO_GRADO_EDITAR',
+    mostrar: 'ACADEMICA_PLAN-ESTUDIO_GRADO_MOSTRAR',
+    borrar: 'ACADEMICA_PLAN-ESTUDIO_GRADO_BORRAR',
 };
-const permisoAny = 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_';
+const permisoAny = 'ACADEMICA_PLAN-ESTUDIO_GRADO_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA',
-    crear: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_CREAR',
-    exportar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EXPORTAR',
+    listado: 'MENU_ACADEMICO_PLAN-ESTUDIO_GRADO',
+    crear: 'ACADEMICA_PLAN-ESTUDIO_GRADO_CREAR',
+    exportar: 'ACADEMICA_PLAN-ESTUDIO_GRADO_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -72,12 +74,13 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_tipos_unidades_academicas');
-const fileName = ref('tipos_unidades_academicas');
+const sheetName = ref('Listado_grados');
+const fileName = ref('grados');
 
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
-    { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('grado._descripcion_masculino_'), key: 'descripcion_masculino' },
+    { title: t('grado._descripcion_femenino_'), key: 'descripcion_femenino' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -144,17 +147,13 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <TipoUnidadAcademicaForm
+                        <GradoForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
-                        ></TipoUnidadAcademicaForm>
-                        <TipoUnidadAcademicaShow
-                            v-if="selectedAction == 'show'"
-                            :item="selectedItem"
-                            :accion="selectedAction"
-                        ></TipoUnidadAcademicaShow>
+                        ></GradoForm>
+                        <GradoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></GradoShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>

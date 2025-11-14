@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\Academico;
 
-use App\Models\Academica\Estado;
-use App\Models\Academica\Sede;
+use App\Models\Academico\Estado;
+use App\Models\Academico\Sede;
 use App\Models\PlanEstudio\Carrera;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;

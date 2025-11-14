@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Academica;
+namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
-use App\Models\Academica\Sede;
+use App\Models\Academico\Sede;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
 use App\Models\Secundaria\Carrera as SecundariaCarrera;
@@ -34,7 +34,7 @@ class CarreraController extends Controller
             $items[] = $item;
         }
 
-        return Inertia::render('academica/Carrera', ['items' => $items, 'tiposCarrera' => $tiposCarrera, 'sedes' => $sedes, 'carrerasSecundaria' => $carrerasSecundaria]);
+        return Inertia::render('academico/Carrera', ['items' => $items, 'tiposCarrera' => $tiposCarrera, 'sedes' => $sedes, 'carrerasSecundaria' => $carrerasSecundaria]);
     }
 
     public function save(Request $request)

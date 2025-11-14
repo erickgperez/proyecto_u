@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Academica;
+namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\PlanEstudio\Grado;
@@ -21,7 +21,7 @@ class TipoCarreraController extends Controller
         $items = TipoCarrera::with('grado')->orderBy('descripcion')->get();
         $grados = Grado::orderBy('codigo')->get();
 
-        return Inertia::render('academica/TipoCarrera', ['items' => $items, 'grados' => $grados]);
+        return Inertia::render('academico/TipoCarrera', ['items' => $items, 'grados' => $grados]);
     }
 
     public function save(Request $request)

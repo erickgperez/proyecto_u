@@ -22,7 +22,8 @@ function reset() {
 interface FormData {
     id: number | null;
     codigo: string;
-    descripcion: string;
+    descripcion_masculino: string;
+    descripcion_femenino: string;
 }
 
 const props = defineProps(['item', 'accion']);
@@ -30,7 +31,8 @@ const props = defineProps(['item', 'accion']);
 const formData = ref<FormData>({
     id: null,
     codigo: '',
-    descripcion: '',
+    descripcion_masculino: '',
+    descripcion_femenino: '',
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -40,13 +42,13 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.post(route('plan_estudio-area-save'), formData.value);
+            const resp = await axios.postForm(route('academico-plan_estudio-grado-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();
                 }
                 emit('form-saved', resp.data.item);
-                //localItem.value.afiche = resp.data.convocatoria.afiche;
+
                 mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
                 throw new Error(resp.data.message);
@@ -62,23 +64,22 @@ async function submitForm() {
 
 onMounted(() => {
     reset();
-
     formData.value = { ...props.item };
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('area._editar_') : $t('area._crear_')} `">
+    <v-card :title="`${isEditing ? $t('grado._editar_grado_') : $t('grado._crear_grado_')} `">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
                     <v-col cols="12">
                         <v-text-field
                             required
-                            icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
+                            icon-color="deep-orange"
                             v-model="formData.codigo"
-                            :rules="[rules.required, rules.maxLength(50)]"
-                            counter="50"
+                            :rules="[rules.required, rules.maxLength(15)]"
+                            counter="15"
                             :label="$t('_codigo_') + ' *'"
                         ></v-text-field>
 
@@ -86,10 +87,20 @@ onMounted(() => {
                             required
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
-                            v-model="formData.descripcion"
-                            :rules="[rules.required, rules.maxLength(255)]"
-                            counter="255"
-                            :label="$t('_descripcion_') + ' *'"
+                            v-model="formData.descripcion_masculino"
+                            :rules="[rules.required, rules.maxLength(100)]"
+                            counter="100"
+                            :label="$t('grado._descripcion_masculino_') + ' *'"
+                        ></v-text-field>
+
+                        <v-text-field
+                            required
+                            icon-color="deep-orange"
+                            prepend-icon="mdi-form-textbox"
+                            v-model="formData.descripcion_femenino"
+                            :rules="[rules.required, rules.maxLength(100)]"
+                            counter="100"
+                            :label="$t('grado._descripcion_femenino_') + ' *'"
                         ></v-text-field>
                     </v-col>
 

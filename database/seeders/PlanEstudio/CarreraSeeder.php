@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\PlanEstudio;
 
-use App\Models\Academica\Estado;
+use App\Models\Academico\Estado;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
 use Illuminate\Database\Seeder;

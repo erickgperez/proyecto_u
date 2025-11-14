@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Academica;
+namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\PlanEstudio\Grado;
@@ -18,7 +18,7 @@ class GradoController extends Controller
 
         $items = Grado::orderBy('codigo')->get();
 
-        return Inertia::render('academica/Grado', ['items' => $items]);
+        return Inertia::render('academico/Grado', ['items' => $items]);
     }
 
     public function save(Request $request)

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import UnidadAcademicaForm from '@/components/academica/UnidadAcademicaForm.vue';
-import UnidadAcademicaShow from '@/components/academica/UnidadAcademicaShow.vue';
+import CarreraUnidadAcademicaForm from '@/components/academico/CarreraUnidadAcademicaForm.vue';
+import CarreraUnidadAcademicaShow from '@/components/academico/CarreraUnidadAcademicaShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -22,8 +22,12 @@ const { t } = useI18n();
 // *************************************************************************************************************
 interface Item {
     id: number | null;
-    codigo: string;
-    descripcion: string;
+    semestre: number | null;
+    obligatoria: boolean;
+    requisito_creditos: number;
+    area_id: number | null;
+    unidad_academica_id: number | null;
+    carrera_id: number | null;
 }
 const props = defineProps({
     items: {
@@ -31,13 +35,20 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    tipos: Array,
+    areas: Array,
+    unidadesAcademicas: Array,
+    carreras: Array,
+    tiposRequisitos: Array,
 });
 
 const itemVacio = ref<Item>({
     id: null,
-    codigo: '',
-    descripcion: '',
+    semestre: null,
+    obligatoria: true,
+    requisito_creditos: 0,
+    area_id: null,
+    unidad_academica_id: null,
+    carrera_id: null,
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -45,27 +56,29 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
-const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
-const rutaBorrar = ref('plan_estudio-unidad_academica-delete');
+const selectedItemLabel = computed(() =>
+    selectedItem.value ? selectedItem.value.carrera.nombreCompleto + ' - ' + selectedItem.value.unidad_academica.nombre : '',
+);
+const rutaBorrar = ref('academico-plan_estudio-malla_curricular-delete');
 const mensajes = {
-    titulo1: t('unidadAcademica._plural_'),
-    titulo2: t('unidadAcademica._administrar_'),
-    subtitulo: t('unidadAcademica._permite_gestionar_'),
-    tituloListado: t('unidadAcademica._listado_'),
+    titulo1: t('mallaCurricular._plural_'),
+    titulo2: t('mallaCurricular._administrar_'),
+    subtitulo: t('mallaCurricular._permite_gestionar_'),
+    tituloListado: t('mallaCurricular._listado_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_EDITAR',
-    mostrar: 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_MOSTRAR',
-    borrar: 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_BORRAR',
+    editar: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_EDITAR',
+    mostrar: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_MOSTRAR',
+    borrar: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_BORRAR',
 };
-const permisoAny = 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_';
+const permisoAny = 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA',
-    crear: 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_CREAR',
-    exportar: 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_EXPORTAR',
+    listado: 'MENU_ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR',
+    crear: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_CREAR',
+    exportar: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -73,18 +86,19 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_unidades_academicas');
-const fileName = ref('unidades_academicas');
+const sheetName = ref('Listado_malla_curricular');
+const fileName = ref('malla_curricular');
 
 const headers = [
-    { title: t('_codigo_'), key: 'codigo' },
-    { title: t('_nombre_'), key: 'nombre' },
-    { title: t('unidadAcademica._creditos_'), key: 'creditos' },
-    { title: t('unidadAcademica._tipo_'), key: 'tipo.descripcion' },
+    { key: 'data-table-group', title: t('carrera._singular_') },
+    { title: t('mallaCurricular._semestre_'), key: 'semestre' },
+    { title: t('unidadAcademica._singular_'), key: 'unidad_academica.nombreCompleto' },
+    { title: t('area._singular_'), key: 'area.descripcion' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
-const sortBy: SortBy[] = [{ key: 'nombre', order: 'asc' }];
+const sortBy: SortBy[] = [];
+const groupBy = ref([{ key: 'carrera.nombreCompleto', order: 'asc' }]);
 
 const opcionesAccion = [
     {
@@ -121,6 +135,7 @@ const opcionesAccion = [
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
+                        :groupBy="groupBy"
                         :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
@@ -148,14 +163,22 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <UnidadAcademicaForm
+                        <CarreraUnidadAcademicaForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                            :tipos="tipos"
+                            :unidadesAcademicas="props.unidadesAcademicas"
+                            :items="localItems"
+                            :areas="props.areas"
+                            :carreras="props.carreras"
+                            :tiposRequisitos="props.tiposRequisitos"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
-                        ></UnidadAcademicaForm>
-                        <UnidadAcademicaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></UnidadAcademicaShow>
+                        ></CarreraUnidadAcademicaForm>
+                        <CarreraUnidadAcademicaShow
+                            v-if="selectedAction == 'show'"
+                            :item="selectedItem"
+                            :accion="selectedAction"
+                        ></CarreraUnidadAcademicaShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>

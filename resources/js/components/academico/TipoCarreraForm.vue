@@ -42,7 +42,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.post(route('plan_estudio-tipo_carrera-save'), formData.value);
+            const resp = await axios.post(route('academico-plan_estudio-tipo_carrera-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();

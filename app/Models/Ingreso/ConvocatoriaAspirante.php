@@ -2,7 +2,7 @@
 
 namespace App\Models\Ingreso;
 
-use App\Models\Academica\CarreraSede;
+use App\Models\Academico\CarreraSede;
 use App\Models\User;
 use App\Models\Workflow\SolicitudCarreraSede;
 use App\Traits\UserStamps;

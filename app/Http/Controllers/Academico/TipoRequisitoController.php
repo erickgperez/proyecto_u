@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Academica;
+namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\PlanEstudio\TipoRequisito;
@@ -18,7 +18,7 @@ class TipoRequisitoController extends Controller
 
         $tipos = TipoRequisito::with('creator', 'updater')->orderBy('codigo')->get();
 
-        return Inertia::render('academica/TipoRequisito', ['items' => $tipos]);
+        return Inertia::render('academico/TipoRequisito', ['items' => $tipos]);
     }
 
     public function save(Request $request)

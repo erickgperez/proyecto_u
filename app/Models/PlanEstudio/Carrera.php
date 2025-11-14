@@ -2,8 +2,8 @@
 
 namespace App\Models\PlanEstudio;
 
-use App\Models\Academica\CarreraSede;
-use App\Models\Academica\Sede;
+use App\Models\Academico\CarreraSede;
+use App\Models\Academico\Sede;
 use App\Models\Estudio;
 use App\Models\Secundaria\Carrera as SecundariaCarrera;
 use App\Models\User;

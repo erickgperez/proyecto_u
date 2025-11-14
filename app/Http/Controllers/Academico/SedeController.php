@@ -1,9 +1,9 @@
 <?php
 
-namespace App\Http\Controllers\Academica;
+namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
-use App\Models\Academica\Sede;
+use App\Models\Academico\Sede;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
 use Illuminate\Http\Request;
@@ -32,7 +32,7 @@ class SedeController extends Controller
         }
         $tipos = array_values($tipos);
 
-        return Inertia::render('academica/Sede', [
+        return Inertia::render('academico/Sede', [
             'items'         => $sedes,
             'tipos'         => $tipos,
             'carrerasCupo'  => $carrerasCupo,

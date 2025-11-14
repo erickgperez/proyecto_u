@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Academica;
+namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\PlanEstudio\TipoUnidadAcademica;
@@ -20,7 +20,7 @@ class UnidadAcademicaController extends Controller
         $unidadesAcademica = UnidadAcademica::with('creator', 'updater', 'tipo')->orderBy('nombre')->get();
         $tipos = TipoUnidadAcademica::orderBy('codigo')->get();
 
-        return Inertia::render('academica/UnidadAcademica', ['items' => $unidadesAcademica, 'tipos' => $tipos]);
+        return Inertia::render('academico/UnidadAcademica', ['items' => $unidadesAcademica, 'tipos' => $tipos]);
     }
 
     public function save(Request $request)

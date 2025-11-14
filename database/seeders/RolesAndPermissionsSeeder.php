@@ -155,7 +155,7 @@ class RolesAndPermissionsSeeder extends Seeder
 
         //***** GESTION ACADEMICA
         // SEDES
-        Permission::create(['name' => 'MENU_ACADEMICA_SEDES']);
+        Permission::create(['name' => 'MENU_ACADEMICO_SEDES']);
         Permission::create(['name' => 'ACADEMICA_SEDE_TODO']);
         Permission::create(['name' => 'ACADEMICA_SEDE_CREAR']);
         Permission::create(['name' => 'ACADEMICA_SEDE_EXPORTAR']);
@@ -163,10 +163,10 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_SEDE_MOSTRAR']);
         Permission::create(['name' => 'ACADEMICA_SEDE_BORRAR']);
 
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO']);
 
         // GRADO
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_GRADO']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_GRADO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_EXPORTAR']);
@@ -175,7 +175,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_GRADO_BORRAR']);
 
         // TIPO_CARRERA
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EXPORTAR']);
@@ -184,7 +184,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_BORRAR']);
 
         // CARRERA
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_CARRERA']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_EXPORTAR']);
@@ -193,7 +193,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_CARRERA_BORRAR']);
 
         //AREA
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_AREA']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_AREA']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_EXPORTAR']);
@@ -202,7 +202,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_AREA_BORRAR']);
 
         //TIPO UNIDAD ACADEMICA
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EXPORTAR']);
@@ -211,7 +211,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_BORRAR']);
 
         //UNIDAD ACADEMICA
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_UNIDAD-ACADEMICA']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_EXPORTAR']);
@@ -220,7 +220,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_UNIDAD-ACADEMICA_BORRAR']);
 
         // MALLA CURRICULAR
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_MALLA-CURRICULAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_EXPORTAR']);
@@ -229,7 +229,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_BORRAR']);
 
         //TIPO REQUISITO
-        Permission::create(['name' => 'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO']);
+        Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_TODO']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_CREAR']);
         Permission::create(['name' => 'ACADEMICA_PLAN-ESTUDIO_TIPO-REQUISITO_EXPORTAR']);
@@ -245,11 +245,11 @@ class RolesAndPermissionsSeeder extends Seeder
         Role::create(['name' => 'gestor-academico'])
             ->givePermissionTo([
                 'MODULO_GESTION-ACADEMICA',
-                'MENU_ACADEMICA_SEDES',
-                'MENU_ACADEMICA_PLAN-ESTUDIO',
-                'MENU_ACADEMICA_PLAN-ESTUDIO_GRADO',
-                'MENU_ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA',
-                'MENU_ACADEMICA_PLAN-ESTUDIO_CARRERA',
+                'MENU_ACADEMICO_SEDES',
+                'MENU_ACADEMICO_PLAN-ESTUDIO',
+                'MENU_ACADEMICO_PLAN-ESTUDIO_GRADO',
+                'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA',
+                'MENU_ACADEMICO_PLAN-ESTUDIO_CARRERA',
                 'ACADEMICA_SEDE_TODO',
                 'ACADEMICA_PLAN-ESTUDIO_GRADO_TODO',
                 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_TODO',

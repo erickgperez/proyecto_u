@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Academica;
+namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\PlanEstudio\Area;
@@ -39,7 +39,7 @@ class MallaCurricularController extends Controller
         $carreras = Carrera::orderBy('nombre')->get();
         $tiposRequisitos = TipoRequisito::orderBy('descripcion')->get();
 
-        return Inertia::render('academica/CarreraUnidadAcademica', [
+        return Inertia::render('academico/CarreraUnidadAcademica', [
             'items' => $items,
             'areas' => $areas,
             'unidadesAcademicas' => $unidadesAcademicas,

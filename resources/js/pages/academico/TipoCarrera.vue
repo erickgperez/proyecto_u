@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import CarreraUnidadAcademicaForm from '@/components/academica/CarreraUnidadAcademicaForm.vue';
-import CarreraUnidadAcademicaShow from '@/components/academica/CarreraUnidadAcademicaShow.vue';
+import TipoCarreraForm from '@/components/academico/TipoCarreraForm.vue';
+import TipoCarreraShow from '@/components/academico/TipoCarreraShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -8,7 +8,7 @@ import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { SortBy } from '@/types/tipos';
+import type { Grado, SortBy } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -20,35 +20,32 @@ const { t } = useI18n();
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
+
 interface Item {
     id: number | null;
-    semestre: number | null;
-    obligatoria: boolean;
-    requisito_creditos: number;
-    area_id: number | null;
-    unidad_academica_id: number | null;
-    carrera_id: number | null;
+    codigo: string;
+    descripcion: string;
+    grado: Grado | null;
 }
+
 const props = defineProps({
     items: {
         type: Array as PropType<Item[]>,
         required: true,
         default: () => [],
     },
-    areas: Array,
-    unidadesAcademicas: Array,
-    carreras: Array,
-    tiposRequisitos: Array,
+    grados: {
+        type: Array as PropType<Grado[]>,
+        required: true,
+        default: () => [],
+    },
 });
 
 const itemVacio = ref<Item>({
     id: null,
-    semestre: null,
-    obligatoria: true,
-    requisito_creditos: 0,
-    area_id: null,
-    unidad_academica_id: null,
-    carrera_id: null,
+    codigo: '',
+    descripcion: '',
+    grado: null,
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -56,29 +53,27 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
-const selectedItemLabel = computed(() =>
-    selectedItem.value ? selectedItem.value.carrera.nombreCompleto + ' - ' + selectedItem.value.unidad_academica.nombre : '',
-);
-const rutaBorrar = ref('plan_estudio-malla_curricular-delete');
+const selectedItemLabel = computed(() => selectedItem.value?.descripcion ?? '');
+const rutaBorrar = ref('academico-plan_estudio-tipo_carrera-delete');
 const mensajes = {
-    titulo1: t('mallaCurricular._plural_'),
-    titulo2: t('mallaCurricular._administrar_'),
-    subtitulo: t('mallaCurricular._permite_gestionar_'),
-    tituloListado: t('mallaCurricular._listado_'),
+    titulo1: t('tipoCarrera._tipos_carrera_'),
+    titulo2: t('tipoCarrera._administrar_tipo_carrera_'),
+    subtitulo: t('tipoCarrera._permite_gestionar_tipos_carrera_'),
+    tituloListado: t('tipoCarrera._listado_tipos_carrera_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_EDITAR',
-    mostrar: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_MOSTRAR',
-    borrar: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_BORRAR',
+    editar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EDITAR',
+    mostrar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_MOSTRAR',
+    borrar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_BORRAR',
 };
-const permisoAny = 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_';
+const permisoAny = 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR',
-    crear: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_CREAR',
-    exportar: 'ACADEMICA_PLAN-ESTUDIO_MALLA-CURRICULAR_EXPORTAR',
+    listado: 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-CARRERA',
+    crear: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_CREAR',
+    exportar: 'ACADEMICA_PLAN-ESTUDIO_TIPO-CARRERA_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -86,19 +81,17 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_malla_curricular');
-const fileName = ref('malla_curricular');
+const sheetName = ref('Listado_tipos_carreras');
+const fileName = ref('tipos_carrera');
 
 const headers = [
-    { key: 'data-table-group', title: t('carrera._singular_') },
-    { title: t('mallaCurricular._semestre_'), key: 'semestre' },
-    { title: t('unidadAcademica._singular_'), key: 'unidad_academica.nombreCompleto' },
-    { title: t('area._singular_'), key: 'area.descripcion' },
+    { title: t('_codigo_'), key: 'codigo' },
+    { title: t('_descripcion_'), key: 'descripcion', align: 'start' },
+    { title: t('grado._grado_'), key: 'grado.descripciones' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
-const sortBy: SortBy[] = [];
-const groupBy = ref([{ key: 'carrera.nombreCompleto', order: 'asc' }]);
+const sortBy: SortBy[] = [{ key: 'nombre', order: 'asc' }];
 
 const opcionesAccion = [
     {
@@ -124,7 +117,7 @@ const opcionesAccion = [
     ************************************************************************************
     -->
     <Head :title="mensajes.titulo1"> </Head>
-    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-checkbook">
+    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-map-legend">
         <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12 pa-2 rounded-xl">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
@@ -135,14 +128,12 @@ const opcionesAccion = [
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
-                        :groupBy="groupBy"
                         :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
                         :fileName="fileName"
-                    >
-                    </Listado>
+                    ></Listado>
                 </v-window-item>
 
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
@@ -163,22 +154,14 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <CarreraUnidadAcademicaForm
+                        <TipoCarreraForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                            :unidadesAcademicas="props.unidadesAcademicas"
-                            :items="localItems"
-                            :areas="props.areas"
-                            :carreras="props.carreras"
-                            :tiposRequisitos="props.tiposRequisitos"
+                            :grados="props.grados"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
-                        ></CarreraUnidadAcademicaForm>
-                        <CarreraUnidadAcademicaShow
-                            v-if="selectedAction == 'show'"
-                            :item="selectedItem"
-                            :accion="selectedAction"
-                        ></CarreraUnidadAcademicaShow>
+                        ></TipoCarreraForm>
+                        <TipoCarreraShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></TipoCarreraShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>
