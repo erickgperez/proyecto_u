@@ -1,0 +1,36 @@
+<?php
+
+namespace App\Models\Academico;
+
+use App\Models\PlanEstudio\CarreraUnidadAcademica;
+use App\Models\User;
+use App\Traits\UserStamps;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class Oferta extends Model
+{
+    use UserStamps;
+
+    protected $table = "academico.oferta";
+
+    public function creator()
+    {
+        return $this->belongsTo(User::class, 'created_by');
+    }
+
+    public function updater()
+    {
+        return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function carreraUnidadAcademica(): BelongsTo
+    {
+        return $this->belongsTo(CarreraUnidadAcademica::class);
+    }
+
+    public function semestre(): BelongsTo
+    {
+        return $this->belongsTo(Semestre::class);
+    }
+}
