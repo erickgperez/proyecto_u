@@ -3,7 +3,7 @@ import { useDeepFilter } from '@/composables/useDeepFilter';
 import { usePermissions } from '@/composables/usePermissions';
 import type { Header, SortBy } from '@/types/tipos';
 import { saveAs } from 'file-saver';
-import { PropType, ref } from 'vue';
+import { computed, PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
 const { hasPermission } = usePermissions();
@@ -75,6 +75,50 @@ const exportToExcel = () => {
 function emitirAccion(accion: string) {
     emit('action', accion);
 }
+
+const localItems = ref(props.items);
+
+function getByPath(obj: any, path: string) {
+    if (obj == null || !path) return undefined;
+    return path.split('.').reduce((acc: any, seg: string) => {
+        if (acc == null) return undefined;
+        return acc[seg];
+    }, obj);
+}
+
+// Build unique options per group
+const groupOptions = computed(() => {
+    return props.groupBy?.map((g: any) => {
+        const key = g.key;
+        const values = new Set<string>();
+
+        for (const item of props.items) {
+            const raw = getByPath(item, key);
+            if (raw != null) values.add(String(raw));
+        }
+
+        return { key, values: [...Array.from(values).sort()], title: g.title };
+    });
+});
+
+// selección del usuario por grupo (multi-select)
+const selectedGroups = ref<Record<string, string[] | null>>({});
+
+// filtrado por las selecciones de grupo (usa getByPath)
+const filteredByGroups = computed(() => {
+    if (props.groupBy) {
+        return localItems.value.filter((item) => {
+            return props.groupBy?.every((g) => {
+                const sel = selectedGroups.value[g.key];
+                if (!sel || sel.length === 0) return true;
+                const value = getByPath(item, g.key);
+                return sel.includes(String(value));
+            });
+        });
+    } else {
+        return localItems.value;
+    }
+});
 </script>
 <template>
     <v-card>
@@ -110,16 +154,34 @@ function emitirAccion(accion: string) {
                 :title="$t('_exportar_')"
                 @click="exportToExcel"
             ></v-btn>
+            <!-- Control de grupo arriba -->
         </v-card-title>
-
+        <v-card-text>
+            <v-row>
+                <v-col cols="12">
+                    <div class="d-flex ga-4 flex-wrap">
+                        <div v-for="group in groupOptions" :key="group.key" class="d-flex flex-column">
+                            <v-autocomplete
+                                v-model="selectedGroups[group.key]"
+                                :items="group.values"
+                                :label="`Filtrar por ${group.title}`"
+                                multiple
+                                clearable
+                                chips
+                                density="compact"
+                            />
+                        </div>
+                    </div>
+                </v-col>
+            </v-row>
+        </v-card-text>
         <v-data-table
             v-model:search="search"
             :headers="headers"
-            :items="props.items"
+            :items="filteredByGroups"
             border="primary thin"
             class="w-100"
             :sort-by="sortBy"
-            :group-by="groupBy"
             density="compact"
             :custom-filter="deepFilter"
             fixed-header
@@ -127,7 +189,7 @@ function emitirAccion(accion: string) {
             hover
             striped="odd"
         >
-            <template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
+            <!--<template v-slot:headers="{ columns, isSorted, getSortIcon, toggleSort }">
                 <tr>
                     <template v-for="column in columns" :key="column.key">
                         <th>
@@ -158,7 +220,7 @@ function emitirAccion(accion: string) {
                         </div>
                     </td>
                 </tr>
-            </template>
+            </template>-->
 
             <!--<template v-for="header in headersFiltered" v-slot:[`item.${header.key}`]="{ item }">
                 <slot :name="`item.${header.key}`" :value="item[header.key]" :item="item">
