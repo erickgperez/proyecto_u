@@ -449,6 +449,17 @@
     },
     "_sector_": "Sector",
     "_seguridad_": "Seguridad",
+    "semestre": {
+        "_administrar_": "Administrar semestres académicos",
+        "_codigo_ya existe_": "El código del semestre ya existe",
+        "_crear_": "Agregar semestre",
+        "_editar_": "Editar semestre",
+        "_singular_": "Semestre",
+        "_plural_": "Semestres",
+        "_listado_": "Listado de semestres",
+        "_mostrar_": "Mostrar semestre",
+        "_permite_gestionar_": "Gestionar los semestres académicos"
+    },
     "_seleccion_candidatos_": "Selección de candidatos",
     "_sexo_": "Sexo",
     "_si_": "Sí",

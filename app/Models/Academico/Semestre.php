@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\Ingreso;
+namespace App\Models\Academico;
 
 use App\Models\Calendarizacion;
 use App\Models\User;

@@ -5,6 +5,7 @@ use App\Http\Controllers\Academico\CarreraController;
 use App\Http\Controllers\Academico\SedeController;
 use App\Http\Controllers\Academico\GradoController;
 use App\Http\Controllers\Academico\MallaCurricularController;
+use App\Http\Controllers\Academico\SemestreController;
 use App\Http\Controllers\Academico\TipoCarreraController;
 use App\Http\Controllers\Academico\TipoRequisitoController;
 use App\Http\Controllers\Academico\TipoUnidadAcademicaController;
@@ -48,4 +49,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/plan_estudio/malla-curricular', [MallaCurricularController::class, 'index'])->name('academico-plan_estudio-malla_curricular-index');
     Route::post('/academico/plan_estudio/malla-curricular/save', [MallaCurricularController::class, 'save'])->name('academico-plan_estudio-malla_curricular-save');
     Route::delete('/academico/plan_estudio/malla-curricular/{id}/delete', [MallaCurricularController::class, 'delete'])->name('academico-plan_estudio-malla_curricular-delete');
+
+    Route::get('/academico/semestre', [SemestreController::class, 'index'])->name('academico-semestre-index');
+    Route::post('/academico/semestre/save', [SemestreController::class, 'save'])->name('academico-semestre-save');
+    Route::delete('/academico/semestre/{id}/delete', [SemestreController::class, 'delete'])->name('academico-semestre-delete');
 });

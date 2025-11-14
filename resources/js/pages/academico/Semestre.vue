@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SedeForm from '@/components/academico/SedeForm.vue';
-import SedeShow from '@/components/academico/SedeShow.vue';
+import SemestreForm from '@/components/academico/SemestreForm.vue';
+import SemestreShow from '@/components/academico/SemestreShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -8,46 +8,41 @@ import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { SortBy, TipoCarrera } from '@/types/tipos';
+import type { SortBy } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useDate } from 'vuetify';
 
 const { hasPermission } = usePermissions();
 const { accionEditObject, accionShowObject, accionDeleteObject } = useAccionesObject();
 const { t } = useI18n();
+const date = useDate();
 
 // *************************************************************************************************************
 // **************** Sección que se debe adecuar para cada CRUD específico***************************************
 // *************************************************************************************************************
-
 interface Item {
     id: number | null;
     codigo: string;
-    nombre: string;
-    carreras: [];
+    descripcion: string;
+    fecha_inicio: Date | null;
+    fecha_fin: Date | null;
 }
-
 const props = defineProps({
     items: {
         type: Array as PropType<Item[]>,
         required: true,
         default: () => [],
     },
-    tiposCarrera: {
-        type: Array as PropType<TipoCarrera[]>,
-        required: true,
-        default: () => [],
-    },
-    tipos: Array,
-    carrerasCupo: Array,
 });
 
 const itemVacio = ref<Item>({
     id: null,
     codigo: '',
-    nombre: '',
-    carreras: [],
+    descripcion: '',
+    fecha_inicio: null,
+    fecha_fin: null,
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -55,27 +50,27 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
-const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
-const rutaBorrar = ref('academico-sede-delete');
+const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
+const rutaBorrar = ref('academico-semestre-delete');
 const mensajes = {
-    titulo1: t('sede._sedes_'),
-    titulo2: t('sede._administrar_sedes_'),
-    subtitulo: t('sede._permite_gestionar_sedes_'),
-    tituloListado: t('sede._listado_sedes_'),
+    titulo1: t('semestre._plural_'),
+    titulo2: t('semestre._administrar_'),
+    subtitulo: t('semestre._permite_gestionar_'),
+    tituloListado: t('semestre._listado_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ACADEMICO_SEDE_EDITAR',
-    mostrar: 'ACADEMICO_SEDE_MOSTRAR',
-    borrar: 'ACADEMICO_SEDE_BORRAR',
+    editar: 'ACADEMICO_SEMESTRE_EDITAR',
+    mostrar: 'ACADEMICO_SEMESTRE_MOSTRAR',
+    borrar: 'ACADEMICO_SEMESTRE_BORRAR',
 };
-const permisoAny = 'ACADEMICO_SEDE_';
+const permisoAny = 'ACADEMICO_SEMESTRE_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ACADEMICO_SEDE',
-    crear: 'ACADEMICO_SEDE_CREAR',
-    exportar: 'ACADEMICO_SEDE_EXPORTAR',
+    listado: 'MENU_ACADEMICO_SEMESTRE',
+    crear: 'ACADEMICO_SEMESTRE_CREAR',
+    exportar: 'ACADEMICO_SEMESTRE_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -83,17 +78,26 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_sedes');
-const fileName = ref('sedes');
+const sheetName = ref('Listado_semestres');
+const fileName = ref('semestres');
 
 const headers = [
     { title: t('_codigo_'), key: 'codigo' },
-    { title: t('_nombre_'), key: 'nombre', align: 'start' },
-    //{ title: t('sede._carreras_'), key: 'carreras', align: 'start' },
+    { title: t('_descripcion_'), key: 'descripcion' },
+    {
+        title: t('_fecha_inicio_'),
+        key: 'fecha_inicio',
+        value: (item) => (item.fecha_inicio ? date.format(item.fecha_inicio, 'keyboardDate') : ''),
+    },
+    {
+        title: t('_fecha_fin_'),
+        key: 'fecha_fin',
+        value: (item) => (item.fecha_fin ? date.format(item.fecha_fin, 'keyboardDate') : ''),
+    },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
-const sortBy: SortBy[] = [{ key: 'nombre', order: 'asc' }];
+const sortBy: SortBy[] = [{ key: 'codigo', order: 'asc' }];
 
 const opcionesAccion = [
     {
@@ -119,7 +123,7 @@ const opcionesAccion = [
     ************************************************************************************
     -->
     <Head :title="mensajes.titulo1"> </Head>
-    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-office-building-cog-outline">
+    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-checkbook">
         <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12 pa-2 rounded-xl">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
@@ -136,11 +140,6 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <!--<template v-slot:item.carreras="{ value }">
-                            <div class="d-flex ga-2">
-                                <v-list density="compact" class="transparent-list" :items="carrerasAgrupadasVList(tiposCarrera, value)"> </v-list>
-                            </div>
-                        </template>-->
                     </Listado>
                 </v-window-item>
 
@@ -162,20 +161,13 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <SedeForm
+                        <SemestreForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                            :tipos="props.tipos"
-                            :carrerasCupo="props.carrerasCupo"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
-                        ></SedeForm>
-                        <SedeShow
-                            v-if="selectedAction == 'show'"
-                            :item="selectedItem"
-                            :accion="selectedAction"
-                            :tiposCarrera="tiposCarrera"
-                        ></SedeShow>
+                        ></SemestreForm>
+                        <SemestreShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SemestreShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>
@@ -192,8 +184,3 @@ const opcionesAccion = [
         </v-alert>
     </AppLayout>
 </template>
-<style scoped>
-.transparent-list {
-    background-color: transparent !important;
-}
-</style>

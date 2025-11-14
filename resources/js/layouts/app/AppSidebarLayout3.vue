@@ -375,7 +375,16 @@ onMounted(() => {
                         </v-list-item>
                     </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION-ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
-                        <Link v-if="hasPermission('MENU_ACADEMICO_SEDES')" :href="route('academico-sede-index')">
+                        <Link v-if="hasPermission('MENU_ACADEMICO_SEMESTRE')" :href="route('academico-semestre-index')">
+                            <v-list-item
+                                link
+                                prepend-icon="mdi-calendar-text-outline"
+                                :class="$page.url === '/academico/semestre' ? 'bg-blue-lighten-4' : ''"
+                            >
+                                {{ $t('semestre._plural_') }}
+                            </v-list-item>
+                        </Link>
+                        <Link v-if="hasPermission('MENU_ACADEMICO_SEDE')" :href="route('academico-sede-index')">
                             <v-list-item
                                 link
                                 prepend-icon="mdi-office-building-cog-outline"

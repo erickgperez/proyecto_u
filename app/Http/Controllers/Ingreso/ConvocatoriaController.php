@@ -13,6 +13,7 @@ use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\PruebaBachillerato;
+use App\Models\TipoCalendarizacion;
 use App\Models\User;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
@@ -168,8 +169,10 @@ class ConvocatoriaController extends Controller
         if ($request->get('id') === null) {
             $convocatoria = new Convocatoria();
             //Crear el calendario de actividades
+            $tipoCalendario = TipoCalendarizacion::where('codigo', 'CONVOCATORIA')->first();
             $calendarizacion = new Calendarizacion();
-            $calendarizacion->nombre = $request->get('nombre'); //llevará el mismo nombre que la convocatoria
+            $calendarizacion->codigo = substr($request->get('nombre'), 0, 50); //llevará el mismo nombre que la convocatoria
+            $calendarizacion->tipo()->associate($tipoCalendario);
             $calendarizacion->save();
 
             //Asociar el calendario a la convocatoria
