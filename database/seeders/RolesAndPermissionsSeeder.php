@@ -33,6 +33,15 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_PERMISOS_MOSTRAR']);
         Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_PERMISOS_BORRAR']);
 
+        // TIPO CALENDARIZACION
+        Permission::create(['name' => 'MENU_ADMINISTRACION_CALENDARIZACION_TIPO']);
+        Permission::create(['name' => 'ADMINISTRACION_CALENDARIZACION_TIPO_TODO']);
+        Permission::create(['name' => 'ADMINISTRACION_CALENDARIZACION_TIPO_CREAR']);
+        Permission::create(['name' => 'ADMINISTRACION_CALENDARIZACION_TIPO_EXPORTAR']);
+        Permission::create(['name' => 'ADMINISTRACION_CALENDARIZACION_TIPO_EDITAR']);
+        Permission::create(['name' => 'ADMINISTRACION_CALENDARIZACION_TIPO_MOSTRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_CALENDARIZACION_TIPO_BORRAR']);
+
         //Roles
         Permission::create(['name' => 'MENU_ADMINISTRACION_SEGURIDAD_ROLES']);
         Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_ROLES_TODO']);

@@ -87,7 +87,8 @@
     "calendario": {
         "_agregar_actividad_": "Agregar nueva actividad",
         "_editar_actividad_": "Editar actividad",
-        "_borrar_actividad_": "Borrar actividad"
+        "_borrar_actividad_": "Borrar actividad",
+        "_calendario_": "Calendario"
     },
     "_cambiar_": "Cambiar",
     "_cambiar_convocatoria_": "Cambiar convocatoria",
@@ -493,6 +494,17 @@
     },
     "_tipo_carga_": "Tipo de carga",
     "_tipo_invitacion_": "Tipo invitación",
+    "tipoCalendarizacion": {
+        "_administrar_": "Administrar tipos de calendarización",
+        "_codigo_ya existe_": "El código del tipo de calendarización ya existe en otro registro",
+        "_crear_": "Crear tipo de calendarización",
+        "_editar_": "Editar tipo de calendarización",
+        "_singular_": "Tipo calendarización",
+        "_plural_": "Tipos de calendarización",
+        "_listado_": "Listado de tipos de calendarización",
+        "_mostrar_": "Mostrar tipo calendarización",
+        "_permite_gestionar_": "Gestionar los datos del tipo de calendarización"
+    },
     "tipoUnidadAcademica": {
         "_administrar_": "Administrar tipos de unidades académicas",
         "_codigo_ya existe_": "El código del tipo ya existe en otro registro",

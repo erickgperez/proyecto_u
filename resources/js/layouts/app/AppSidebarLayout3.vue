@@ -337,6 +337,30 @@ onMounted(() => {
                                 </v-list>
                             </v-menu>
                         </v-list-item>
+                        <v-list-item
+                            v-if="hasPermission('MENU_ADMINISTRACION_CALENDARIZACION_')"
+                            prepend-icon="mdi-calendar-month-outline"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('calendario._calendario_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link
+                                        :href="route('calendarizacion-tipo-index')"
+                                        v-if="hasPermission('MENU_ADMINISTRACION_CALENDARIZACION_TIPO')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-card-account-details-outline"
+                                            :title="$t('tipoCalendarizacion._singular_')"
+                                            :class="$page.url === '/calendarizacion/tipo' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
                     </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION-ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
                         <Link v-if="hasPermission('MENU_ACADEMICA_SEDES')" :href="route('academica-sede-index')">

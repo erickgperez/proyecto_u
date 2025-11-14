@@ -7,6 +7,7 @@ use App\Http\Controllers\Administracion\PermisosController;
 use App\Http\Controllers\Administracion\PersonaController;
 use App\Http\Controllers\Administracion\RolesController;
 use App\Http\Controllers\Administracion\SimulacionController;
+use App\Http\Controllers\Administracion\TipoCalendarizacionController;
 use App\Http\Controllers\Administracion\TipoFlujoController;
 use App\Http\Controllers\Administracion\TransicionController;
 use App\Http\Controllers\Administracion\UsuarioController;
@@ -54,4 +55,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/proceso/transicion/{id}/delete', [TransicionController::class, 'delete'])->name('proceso-transicion-delete');
 
     Route::get('/administracion/simulacion/{cantidad}', [SimulacionController::class, 'index'])->name('administracion-simulacion-index');
+
+    Route::get('/calendarizacion/tipo', [TipoCalendarizacionController::class, 'index'])->name('calendarizacion-tipo-index');
+    Route::post('/calendarizacion/tipo/save', [TipoCalendarizacionController::class, 'save'])->name('calendarizacion-tipo-save');
+    Route::delete('/calendarizacion/tipo/{id}/delete', [TipoCalendarizacionController::class, 'delete'])->name('calendarizacion-tipo-delete');
 });
