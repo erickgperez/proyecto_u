@@ -49,6 +49,8 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             TipoUnidadAcademicaSeeder::class,
+            TipoCalendarizacionSeeder::class,
+            CalendarizacionSeeder::class,
             UsoEstadoSeeder::class,
             AcademicoEstadoSeeder::class,
             PruebaBachilleratoSeeder::class,
