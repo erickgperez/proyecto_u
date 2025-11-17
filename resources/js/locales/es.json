@@ -461,7 +461,9 @@
         "_permite_gestionar_": "Gestionar los semestres académicos",
 
         "_oferta_": "Oferta académica",
-        "_oferta_descripcion_": "Seleccionar las unidades académicas que se impartirán en el semestre"
+        "_oferta_semestre_": "Oferta académica semestre",
+        "_oferta_descripcion_": "Seleccionar las unidades académicas que se impartirán en el semestre",
+        "_ofertar_": "Ofertar"
     },
     "_seleccion_candidatos_": "Selección de candidatos",
     "_sexo_": "Sexo",

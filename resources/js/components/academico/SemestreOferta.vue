@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -28,14 +28,28 @@ async function getOferta() {
     }
 }
 
+const selected = computed(() => {
+    if (!active.value.length > 0) return undefined;
+
+    return active.value[0];
+});
+
 onMounted(() => {
     //reset();
     getOferta();
     //formData.value = { ...props.item };
 });
+
+watch(selected, (newVal) => {
+    if (newVal && newVal.tipo === 'unidad') {
+        console.log(newVal);
+    }
+});
 </script>
 <template>
     <v-container fluid>
+        <span class="text-h5">{{ $t('semestre._oferta_semestre_') }}: {{ item.codigo }} </span>
+        <v-divider class="ma-2"></v-divider>
         <v-row justify="space-between" dense>
             <v-col cols="12" md="5">
                 <v-treeview
@@ -60,16 +74,19 @@ onMounted(() => {
 
             <v-col class="d-flex text-center" cols="12" md="7">
                 <v-card
-                    class="text-h6 align-center flex-1-1 d-flex justify-center"
-                    v-if="active.length > 0"
+                    class="text-h6 flex-1-1 d-flex justify-center"
+                    v-if="selected && selected.tipo === 'unidad'"
                     color="surface-light"
                     height="100%"
                     flat
                     rounded
                 >
                     <template v-slot:text>
-                        <template v-if="active[0].tipo === 'unidad'">
-                            {{ active }}
+                        <v-btn v-if="!selected.ofertada" prepend-icon="mdi-publish" stacked variant="outlined" color="primary">
+                            {{ $t('semestre._ofertar_') }}
+                        </v-btn>
+                        <template v-else>
+                            Hola
                             <!--<h3 class="text-h5">{{ active.name }}</h3>
 
                             <div class="text-medium-emphasis">{{ selected.email }}</div>
