@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import SemestreForm from '@/components/academico/SemestreForm.vue';
+import SemestreOferta from '@/components/academico/SemestreOferta.vue';
 import SemestreShow from '@/components/academico/SemestreShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
@@ -64,6 +65,7 @@ const acc = {
     editar: 'ACADEMICO_SEMESTRE_EDITAR',
     mostrar: 'ACADEMICO_SEMESTRE_MOSTRAR',
     borrar: 'ACADEMICO_SEMESTRE_BORRAR',
+    oferta: 'ACADEMICO_SEMESTRE_OFERTA',
 };
 const permisoAny = 'ACADEMICO_SEMESTRE_';
 // Permisos requeridos por la interfaz
@@ -103,6 +105,14 @@ const opcionesAccion = [
     {
         permiso: acc.editar,
         ...accionEditObject,
+    },
+    {
+        permiso: acc.oferta,
+        title: t('semestre._oferta_'),
+        text: t('semestre._oferta_descripcion_'),
+        emitAction: 'oferta',
+        color: 'orange-darken-3',
+        icon: 'mdi-format-list-text',
     },
     {
         permiso: acc.mostrar,
@@ -167,6 +177,7 @@ const opcionesAccion = [
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
                         ></SemestreForm>
+                        <SemestreOferta v-if="selectedAction === 'oferta'" :item="selectedItem" :accion="selectedAction"></SemestreOferta>
                         <SemestreShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SemestreShow>
                     </v-sheet>
                 </v-window-item>

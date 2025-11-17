@@ -6,6 +6,7 @@ use App\Http\Controllers\Academico\SedeController;
 use App\Http\Controllers\Academico\GradoController;
 use App\Http\Controllers\Academico\MallaCurricularController;
 use App\Http\Controllers\Academico\SemestreController;
+use App\Http\Controllers\Academico\OfertaController;
 use App\Http\Controllers\Academico\TipoCarreraController;
 use App\Http\Controllers\Academico\TipoRequisitoController;
 use App\Http\Controllers\Academico\TipoUnidadAcademicaController;
@@ -53,4 +54,6 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/semestre', [SemestreController::class, 'index'])->name('academico-semestre-index');
     Route::post('/academico/semestre/save', [SemestreController::class, 'save'])->name('academico-semestre-save');
     Route::delete('/academico/semestre/{id}/delete', [SemestreController::class, 'delete'])->name('academico-semestre-delete');
+
+    Route::get('/academico/semestre/{id}/oferta', [OfertaController::class, 'index'])->name('academico-semestre-oferta-index');
 });

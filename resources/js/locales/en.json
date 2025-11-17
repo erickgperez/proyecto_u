@@ -421,7 +421,8 @@
         "_plural_": "Semesters",
         "_listado_": "List of semesters",
         "_mostrar_": "Show semester",
-        "_permite_gestionar_": "Manage academic semesters"
+        "_permite_gestionar_": "Manage academic semesters",
+        "_gestion_": "Semester Management"
     },
     "_seleccion_candidatos_": "Candidate Selection",
     "_sexo_": "Sex",

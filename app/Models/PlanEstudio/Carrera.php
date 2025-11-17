@@ -3,6 +3,7 @@
 namespace App\Models\PlanEstudio;
 
 use App\Models\Academico\CarreraSede;
+use App\Models\Academico\Estado;
 use App\Models\Academico\Sede;
 use App\Models\Estudio;
 use App\Models\Secundaria\Carrera as SecundariaCarrera;
@@ -39,6 +40,11 @@ class Carrera extends Model
         return $this->belongsTo(TipoCarrera::class, 'tipo_carrera_id');
     }
 
+    public function estado(): BelongsTo
+    {
+        return $this->belongsTo(Estado::class, 'estado_id');
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -67,5 +73,10 @@ class Carrera extends Model
     public function carrerasSecundaria(): BelongsToMany
     {
         return $this->belongsToMany(SecundariaCarrera::class, 'ingreso.relacion_carreras', 'carrera_universitaria_id', 'carrera_secundaria_id');
+    }
+
+    public function unidadesAcademicas(): HasMany
+    {
+        return $this->hasMany(CarreraUnidadAcademica::class, 'carrera_id');
     }
 }

@@ -458,7 +458,10 @@
         "_plural_": "Semestres",
         "_listado_": "Listado de semestres",
         "_mostrar_": "Mostrar semestre",
-        "_permite_gestionar_": "Gestionar los semestres académicos"
+        "_permite_gestionar_": "Gestionar los semestres académicos",
+
+        "_oferta_": "Oferta académica",
+        "_oferta_descripcion_": "Seleccionar las unidades académicas que se impartirán en el semestre"
     },
     "_seleccion_candidatos_": "Selección de candidatos",
     "_sexo_": "Sexo",

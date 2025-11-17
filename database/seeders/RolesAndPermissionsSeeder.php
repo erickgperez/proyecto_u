@@ -171,6 +171,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICO_SEMESTRE_EDITAR']);
         Permission::create(['name' => 'ACADEMICO_SEMESTRE_MOSTRAR']);
         Permission::create(['name' => 'ACADEMICO_SEMESTRE_BORRAR']);
+        Permission::create(['name' => 'ACADEMICO_SEMESTRE_OFERTA']);
 
         Permission::create(['name' => 'MENU_ACADEMICO_PLAN-ESTUDIO']);
 
