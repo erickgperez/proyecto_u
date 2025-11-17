@@ -38,16 +38,6 @@ class SemestreController extends Controller
             $semestreCheck = Semestre::where('codigo', $request->get('codigo'))->first();
             if ($semestreCheck === null) {
                 $semestre = new Semestre();
-
-                //Crear el calendario de actividades
-                $tipoCalendario = TipoCalendarizacion::where('codigo', 'SEMESTRE')->first();
-                $calendarizacion = new Calendarizacion();
-                $calendarizacion->codigo = substr($request->get('codigo'), 0, 50); //llevará el mismo nombre que la convocatoria
-                $calendarizacion->tipo()->associate($tipoCalendario);
-                $calendarizacion->save();
-
-                //Asociar el calendario a la convocatoria
-                $semestre->calendario()->associate($calendarizacion);
             } else {
                 return response()->json(['status' => 'error', 'message' => 'semestre._codigo_ya existe_']);
             }
