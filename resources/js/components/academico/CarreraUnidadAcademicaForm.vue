@@ -148,7 +148,6 @@ onMounted(() => {
                     <v-col cols="12" md="6">
                         <v-locale-provider locale="en">
                             <v-number-input
-                                icon-color="deep-orange"
                                 prepend-icon="mdi-form-textbox"
                                 v-model="formData.requisito_creditos"
                                 :min="0"
