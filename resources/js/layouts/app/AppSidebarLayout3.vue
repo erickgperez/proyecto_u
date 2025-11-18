@@ -373,6 +373,15 @@ onMounted(() => {
                                 </v-list>
                             </v-menu>
                         </v-list-item>
+                        <Link v-if="hasPermission('MENU_ADMINISTRACION_TIPO-DOCUMENTO')" :href="route('administracion-documento-tipo-index')">
+                            <v-list-item
+                                link
+                                prepend-icon="mdi-file-document-outline"
+                                :class="$page.url === '/administracion/documento/tipo' ? 'bg-blue-lighten-4' : ''"
+                            >
+                                {{ $t('tipoDocumento._singular_') }}
+                            </v-list-item>
+                        </Link>
                     </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_GESTION-ACADEMICA') && moduloActual?.codigo == 'gestion-academica'">
                         <Link v-if="hasPermission('MENU_ACADEMICO_SEMESTRE')" :href="route('academico-semestre-index')">

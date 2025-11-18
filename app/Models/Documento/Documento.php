@@ -24,7 +24,7 @@ class Documento extends Model
 
     public function tipo(): BelongsTo
     {
-        return $this->belongsTo(Tipo::class);
+        return $this->belongsTo(TipoDocumento::class);
     }
 
     public function creator()
