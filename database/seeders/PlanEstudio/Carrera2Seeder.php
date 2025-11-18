@@ -16,26 +16,41 @@ class Carrera2Seeder extends Seeder
     {
         $estadoId = Estado::where('codigo', 'VIGENTE')->first()->id;
         Carrera::insert([
-            ['codigo' => 'MI-S', 'nombre' => 'Soldadura', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'MI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'MI-CR', 'nombre' => 'Climatización y Refrigeración', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'MI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'MI-MP', 'nombre' => 'Mecanizado de piezas', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'MI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'EE-C4', 'nombre' => 'Electricista Categoría 4', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'EE')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'EE-C3', 'nombre' => 'Electricista Categoría 3', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'EE')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'EE-SF', 'nombre' => 'Sistemas Fotovoltaicos', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'EE')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'TI-BD', 'nombre' => 'Gestor de Bases de Datos', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'TI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'TI-RI', 'nombre' => 'Redes e Infraestructura', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'TI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'TI-PA', 'nombre' => 'Programador Analista', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'TI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'TUR-GH', 'nombre' => 'Gestión Hotelera', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'TUR')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'TUR-GA', 'nombre' => 'Gastronomía', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'TUR')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'ALI-CE', 'nombre' => 'Cereales', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'ALI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'ALI-FH', 'nombre' => 'Frutas y Hortalizas', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'ALI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'ALI-CA', 'nombre' => 'Carnes', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'ALI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'ALI-LA', 'nombre' => 'Lácteos', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'ALI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'ALI-AN', 'nombre' => 'Concentrados para animales', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => Carrera::where('codigo', 'ALI')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'NE-MK', 'nombre' => 'Marketing de Vanguardia para Negocios', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => null, 'estado_id' => $estadoId],
-            ['codigo' => 'TEC-CON', 'nombre' => 'Construcción', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => null, 'estado_id' => $estadoId],
-            ['codigo' => 'NE-FD', 'nombre' => 'Fabricación Digital para Emprendedores', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => null, 'estado_id' => $estadoId],
-            ['codigo' => 'TEC-PL', 'nombre' => 'Plásticos', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'certificacion_de' => null, 'estado_id' => $estadoId],
+            //Certificaciones de Tecnologías de la Información
+            ['codigo' => 'MCABD01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Administración y gestión de bases de datos', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCDFS01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Desarrollador Full Stack', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCSRI01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Soporte en redes informáticas', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCREC01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Redes de Enrutamiento y Conmutación', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCSIN01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Seguridad Informática ', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCANU01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Arquitecturas de nube', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCGIV01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Gestión de infraestructuras virtualizadas', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCIOT01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Fundamentos de Internet de las Cosas', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCARI01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Administración de Redes Inalámbricas', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+
+            //Certificaciones de Mantenimiento Industrial
+            ['codigo' => 'MCIME02', 'certificacion_de' => Carrera::where('codigo', '02')->first()->id, 'nombre' => 'Instalación y mantenimiento eléctrico básico', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCPFC02', 'certificacion_de' => Carrera::where('codigo', '02')->first()->id, 'nombre' => 'Procesos de fabricación convencionales', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCSIN02', 'certificacion_de' => Carrera::where('codigo', '02')->first()->id, 'nombre' => 'Soldadura industrial', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCMAR02', 'certificacion_de' => Carrera::where('codigo', '02')->first()->id, 'nombre' => 'Mantenimiento de sistemas de aire acondicionado y refrigeración', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCTMP02', 'certificacion_de' => Carrera::where('codigo', '02')->first()->id, 'nombre' => 'Técnicas de Mantenimiento predictivo', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+
+            //Certificaciones de Industrias Alimentarias
+            ['codigo' => 'MCACC05', 'certificacion_de' => Carrera::where('codigo', '03')->first()->id, 'nombre' => 'Acreditación de cuarta categoría', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCATC05', 'certificacion_de' => Carrera::where('codigo', '03')->first()->id, 'nombre' => 'Acreditación tercera categoría', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCSEL05', 'certificacion_de' => Carrera::where('codigo', '03')->first()->id, 'nombre' => 'Certificación en seguridad eléctrica', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCTAL05', 'certificacion_de' => Carrera::where('codigo', '03')->first()->id, 'nombre' => 'Certificación para trabajo en alturas', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+
+            //Certificaciones de Turismo
+            ['codigo' => 'MCIPT04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Información y Promoción Turística Local', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCOST04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Operación de Servicios Turísticos y Atención al Cliente', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCOAG04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Operaciones de Alojamiento y Gastronomía Turística', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCEPP04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Identificación y Promoción de Productos y Destinos Turísticos', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCOSE04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Operación Sostenible y Experiencia Turística de Calidad', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCIPC04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Innovación, Promoción y Comercialización Turística', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCGID05', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Gestión Integral del Turismo y Desarrollo de Destinos Sostenibles', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+
+            //Certificaciones de Eficiencia Energética
+
         ]);
     }
 }
