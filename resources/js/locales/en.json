@@ -367,6 +367,8 @@
         "_datos_personales_": "Personal data",
         "_datos_contacto_": "Contact information",
         "_datos_contacto_descripcion_": "Ways to contact the person",
+        "_documentos_": "Documents",
+        "_documentos_descripcion_": "Person's documents",
         "_email_principal_": "Primary email",
         "_email_alternativo_": "Alternative email address",
         "_direccion_residencia_": "Residential address",

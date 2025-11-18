@@ -391,6 +391,8 @@
         "_datos_personales_": "Datos personales",
         "_datos_contacto_": "Datos de contacto",
         "_datos_contacto_descripcion_": "Formas de contacto con la persona",
+        "_documentos_": "Documentos",
+        "_documentos_descripcion_": "Documentos de la persona",
         "_email_principal_": "Email principal",
         "_email_alternativo_": "Email alternativo",
         "_direccion_residencia_": "Dirección residencia",
@@ -520,6 +522,16 @@
         "_listado_": "Listado de tipos de calendarización",
         "_mostrar_": "Mostrar tipo calendarización",
         "_permite_gestionar_": "Gestionar los datos del tipo de calendarización"
+    },
+    "tipoDocumento": {
+        "_singular_": "Tipo documento",
+        "_administrar_": "Administrar tipos de documentos",
+        "_crear_": "Crear nuevo tipo de documento",
+        "_editar_": "Editar tipo documento",
+        "_mostrar_": "Mostrar tipo documento",
+        "_listado_": "Listado tipos de documentos",
+        "_permite_gestionar_datos_": "Permite gestionar los tipos de documentos",
+        "_plural_": "Tipos documento"
     },
     "tipoEvento": {
         "_administrar_": "Administrar tipos de eventos",
