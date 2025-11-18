@@ -16,6 +16,7 @@ class TipoCarreraSeeder extends Seeder
         DB::table('plan_estudio.tipo_carrera')->insert([
             ['codigo' => 'TECNICA', 'descripcion' => 'Carrera Técnica', 'grado_id' => Grado::where('codigo', '02')->first()->id],
             ['codigo' => 'CERTIFICACION', 'descripcion' => 'Certificación', 'grado_id' => null],
+            ['codigo' => 'MICROCERTIFICACION', 'descripcion' => 'Microcertificación', 'grado_id' => null],
         ]);
     }
 }
