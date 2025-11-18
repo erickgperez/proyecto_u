@@ -55,7 +55,7 @@ class CarreraSedeSeeder extends Seeder
             ['sede_id' => $sedeSS, 'carrera_id' => Carrera::where('codigo', 'MCEPP04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
             ['sede_id' => $sedeSS, 'carrera_id' => Carrera::where('codigo', 'MCOSE04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
             ['sede_id' => $sedeSS, 'carrera_id' => Carrera::where('codigo', 'MCIPC04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
-            ['sede_id' => $sedeSS, 'carrera_id' => Carrera::where('codigo', 'MCGID05')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
+            ['sede_id' => $sedeSS, 'carrera_id' => Carrera::where('codigo', 'MCGID04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
 
 
             //Sede Sonsonate
@@ -81,7 +81,7 @@ class CarreraSedeSeeder extends Seeder
             ['sede_id' => $sedeSO, 'carrera_id' => Carrera::where('codigo', 'MCEPP04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
             ['sede_id' => $sedeSO, 'carrera_id' => Carrera::where('codigo', 'MCOSE04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
             ['sede_id' => $sedeSO, 'carrera_id' => Carrera::where('codigo', 'MCIPC04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
-            ['sede_id' => $sedeSO, 'carrera_id' => Carrera::where('codigo', 'MCGID05')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
+            ['sede_id' => $sedeSO, 'carrera_id' => Carrera::where('codigo', 'MCGID04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
 
 
             // Sede Chalatenango
@@ -140,7 +140,7 @@ class CarreraSedeSeeder extends Seeder
             ['sede_id' => $sedeMO, 'carrera_id' => Carrera::where('codigo', 'MCEPP04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
             ['sede_id' => $sedeMO, 'carrera_id' => Carrera::where('codigo', 'MCOSE04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
             ['sede_id' => $sedeMO, 'carrera_id' => Carrera::where('codigo', 'MCIPC04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
-            ['sede_id' => $sedeMO, 'carrera_id' => Carrera::where('codigo', 'MCGID05')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
+            ['sede_id' => $sedeMO, 'carrera_id' => Carrera::where('codigo', 'MCGID04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
 
 
 
@@ -174,11 +174,7 @@ class CarreraSedeSeeder extends Seeder
             ['sede_id' => $sedeLU, 'carrera_id' => Carrera::where('codigo', 'MCEPP04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
             ['sede_id' => $sedeLU, 'carrera_id' => Carrera::where('codigo', 'MCOSE04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
             ['sede_id' => $sedeLU, 'carrera_id' => Carrera::where('codigo', 'MCIPC04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
-            ['sede_id' => $sedeLU, 'carrera_id' => Carrera::where('codigo', 'MCGID05')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
-
-
-
-
+            ['sede_id' => $sedeLU, 'carrera_id' => Carrera::where('codigo', 'MCGID04')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],
 
         ]);
     }

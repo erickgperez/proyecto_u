@@ -47,7 +47,7 @@ class Carrera2Seeder extends Seeder
             ['codigo' => 'MCEPP04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Identificación y Promoción de Productos y Destinos Turísticos', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
             ['codigo' => 'MCOSE04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Operación Sostenible y Experiencia Turística de Calidad', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
             ['codigo' => 'MCIPC04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Innovación, Promoción y Comercialización Turística', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
-            ['codigo' => 'MCGID05', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Gestión Integral del Turismo y Desarrollo de Destinos Sostenibles', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
+            ['codigo' => 'MCGID04', 'certificacion_de' => Carrera::where('codigo', '04')->first()->id, 'nombre' => 'Gestión Integral del Turismo y Desarrollo de Destinos Sostenibles', 'tipo_carrera_id' => TipoCarrera::where('codigo', 'CERTIFICACION')->first()->id, 'estado_id' => $estadoId],
 
             //Certificaciones de Eficiencia Energética
 

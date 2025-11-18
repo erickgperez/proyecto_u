@@ -13,6 +13,7 @@ use Database\Seeders\PlanEstudio\Carrera2Seeder;
 use Database\Seeders\PlanEstudio\CarreraSeeder;
 use Database\Seeders\Ingreso\ConvocatoriaSeeder;
 use Database\Seeders\Ingreso\ConvocatoriaSolicitudSeeder;
+use Database\Seeders\PlanEstudio\CarreraUnidadAcademicaSeeder;
 use Database\Seeders\PlanEstudio\GradoSeeder;
 use Database\Seeders\PlanEstudio\TipoCarreraSeeder;
 use Database\Seeders\PlanEstudio\TipoRequisitoSeeder;
@@ -67,6 +68,7 @@ class DatabaseSeeder extends Seeder
             CarreraSeeder::class,
             Carrera2Seeder::class,
             UnidadAcademicaSeeder::class,
+            CarreraUnidadAcademicaSeeder::class,
             SexoSeeder::class,
             PaisSeeder::class,
             TipoFlujoSeeder::class,
