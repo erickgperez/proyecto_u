@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('documento.archivo', function (Blueprint $table) {
             $table->id();
-            $table->comment('Guarda los diferentes documentos');
-            $table->string('nombre_original', length: 255)->comment('Nombre del archivo original');
-            $table->string('tipo', length: 100)->comment('Se utilizará para guardar el tipo del documento, tomado de la extensión del archivo');
-            $table->string('descripcion', length: 255)->comment('Descripción o comentario del archivo');
+            $table->comment('Guarda los archivos que se suben');
+            $table->string('nombre_original', length: 255)->comment('Nombre original del archivo');
+            $table->string('tipo', length: 100)->comment('Se utilizará para guardar el tipo mime archivo');
+            $table->string('descripcion', length: 255)->nullable()->comment('Descripción o comentario del archivo');
+            $table->integer('tamanio')->nullable()->comment('Tamaño en bytes del archivo');
             $table->text('ruta')->nullable()->comment('Ruta donde está guardado el archivo');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');

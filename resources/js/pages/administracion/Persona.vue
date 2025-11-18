@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PersonaDatosContactoForm from '@/components/administracion/PersonaDatosContactoForm.vue';
+import PersonaDocumentos from '@/components/administracion/PersonaDocumentos.vue';
 import PersonaForm from '@/components/administracion/PersonaForm.vue';
 import PersonaShow from '@/components/administracion/PersonaShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
@@ -40,6 +41,7 @@ const props = defineProps({
     },
     sexos: Array,
     distritosTree: Array,
+    tiposDocumento: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -70,6 +72,7 @@ const acc = {
     mostrar: 'ADMINISTRACION_PERSONA_MOSTRAR',
     borrar: 'ADMINISTRACION_PERSONA_BORRAR',
     datos_contacto: 'ADMINISTRACION_PERSONA_DATOS-CONTACTO',
+    documentos: 'ADMINISTRACION_PERSONA_DATOS-DOCUMENTOS',
 };
 const permisoAny = 'ADMINISTRACION_PERSONA_';
 // Permisos requeridos por la interfaz
@@ -110,6 +113,14 @@ const opcionesAccion = [
         emitAction: 'datos-contacto',
         color: 'purple-darken-4',
         icon: 'mdi-calendar-month-outline',
+    },
+    {
+        permiso: acc.documentos,
+        title: t('persona._documentos_'),
+        text: t('persona._documentos_descripcion_'),
+        emitAction: 'documentos',
+        color: 'brown-darken-1',
+        icon: 'mdi-file-document-outline',
     },
     {
         permiso: acc.editar,
@@ -191,6 +202,12 @@ const opcionesAccion = [
                             @form-saved="handleFormSave"
                         ></PersonaForm>
                         <PersonaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></PersonaShow>
+                        <PersonaDocumentos
+                            v-if="selectedAction == 'documentos'"
+                            :item="selectedItem"
+                            :accion="selectedAction"
+                            :tipos-documento="tiposDocumento"
+                        ></PersonaDocumentos>
                     </v-sheet>
                 </v-window-item>
             </v-window>

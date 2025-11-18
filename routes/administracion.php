@@ -1,5 +1,6 @@
 <?php
 
+
 use App\Http\Controllers\Administracion\EstadoController;
 use App\Http\Controllers\Administracion\EtapaController;
 use App\Http\Controllers\Administracion\FlujoController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\Administracion\TipoEventoController;
 use App\Http\Controllers\Administracion\TipoFlujoController;
 use App\Http\Controllers\Administracion\TransicionController;
 use App\Http\Controllers\Administracion\UsuarioController;
+use App\Http\Controllers\Documento\DocumentoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -21,6 +23,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/administracion/persona/{id}/datos-contacto/save', [PersonaController::class, 'datosContactoSave'])->name('administracion-persona-datos-contacto-save');
     Route::get('/administracion/persona/{id}/info', [PersonaController::class, 'personaInfo'])->name('administracion-persona-info');
     Route::delete('/administracion/persona/{id}/delete', [PersonaController::class, 'delete'])->name('administracion-persona-delete');
+
+    Route::get('/administracion/persona/{id}/documentos', [DocumentoController::class, 'documentosPersona'])->name('administracion-persona-documentos');
+    Route::post('/administracion/documento/save', [DocumentoController::class, 'documentoSave'])->name('administracion-documento-save');
+    Route::get('/administracion/documento/{id}/descargar', [DocumentoController::class, 'documentoDescargar'])->name('administracion-documento-descargar');
 
     Route::get('/seguridad/permisos', [PermisosController::class, 'index'])->name('seguridad-permisos-index');
     Route::post('/seguridad/permisos/save', [PermisosController::class, 'save'])->name('seguridad-permisos-save');

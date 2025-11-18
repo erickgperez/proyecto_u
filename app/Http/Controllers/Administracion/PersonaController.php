@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Administracion;
 
 use App\Http\Controllers\Controller;
 use App\Models\DatosContacto;
+use App\Models\Documento\TipoDocumento;
 use App\Models\Persona;
 use App\Models\Sexo;
 use App\Services\DistritoService;
@@ -29,9 +30,10 @@ class PersonaController extends Controller
 
         $personas = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->get();
         $sexos = Sexo::all();
+        $tiposDocumento = TipoDocumento::orderBy('codigo')->get();
         $distritosTree = $this->distritoService->distritosLikeTree();
 
-        return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos, 'distritosTree' => $distritosTree]);
+        return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos, 'distritosTree' => $distritosTree, 'tiposDocumento' => $tiposDocumento]);
     }
 
     public function personaInfo($id, Request $request)
@@ -111,8 +113,6 @@ class PersonaController extends Controller
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }
-
-
 
     public function delete(int $id)
     {
