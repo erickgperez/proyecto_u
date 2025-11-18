@@ -4,7 +4,6 @@ namespace Database\Seeders\PlanEstudio;
 
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\CarreraUnidadAcademica;
-use App\Models\PlanEstudio\TipoUnidadAcademica;
 use App\Models\PlanEstudio\UnidadAcademica;
 use Illuminate\Database\Seeder;
 

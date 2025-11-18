@@ -4,8 +4,6 @@ namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academico\Semestre;
-use App\Models\Calendarizacion;
-use App\Models\TipoCalendarizacion;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;

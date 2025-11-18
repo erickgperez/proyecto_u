@@ -14,7 +14,6 @@ use App\Models\Ingreso\ConvocatoriaConfiguracion;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\Secundaria\PruebaBachillerato;
 use App\Models\TipoCalendarizacion;
-use App\Models\User;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
 use App\Models\Workflow\Solicitud;
