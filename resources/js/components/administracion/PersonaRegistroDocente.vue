@@ -80,7 +80,6 @@ onMounted(() => {
             carrerasSedesPlain.value = response.data.carrerasSedesPlain;
         })
         .catch(function (error) {
-            // handle error
             console.error('Error fetching data:', error);
         });
     axios
@@ -95,7 +94,6 @@ onMounted(() => {
             }
         })
         .catch(function (error) {
-            // handle error
             console.error('Error fetching data:', error);
         });
 

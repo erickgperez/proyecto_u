@@ -52,7 +52,7 @@ const props = defineProps(['item', 'accion', 'tiposCarrera']);
                     {{ $t('_created_at_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ date.format(props.item.created_at, 'keyboardDateTime12h') }}
+                    {{ props.item.created_at ? date.format(props.item.created_at, 'keyboardDateTime12h') : '' }}
                 </v-col>
             </v-row>
             <v-row>
@@ -68,7 +68,7 @@ const props = defineProps(['item', 'accion', 'tiposCarrera']);
                     {{ $t('_updated_at_') }}
                 </v-col>
                 <v-col cols="8">
-                    {{ date.format(props.item.updated_at, 'keyboardDateTime12h') }}
+                    {{ props.item.updated_at ? date.format(props.item.updated_at, 'keyboardDateTime12h') : '' }}
                 </v-col>
             </v-row>
             <v-row>
