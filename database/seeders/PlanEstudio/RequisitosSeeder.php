@@ -489,7 +489,7 @@ class RequisitosSeeder extends Seeder
             Requisitos::insert([
                 [
                     'carrera_unidad_academica_id' => $r['unidad'],
-                    'carrera_unidad_academica_re_id' => $r['requisito'],
+                    'carrera_unidad_academica_requisito_id' => $r['requisito'],
                     'tipo_requisito_id' => $tipo
                 ],
             ]);
