@@ -10,8 +10,8 @@ const { rules, mensajeExito, mensajeError } = useFunciones();
 const props = defineProps(['item', 'accion']);
 
 const items = ref([]);
-const oferta = ref([]);
 const active = ref([]);
+const detalleOferta = ref();
 
 async function getOferta() {
     try {
@@ -28,11 +28,27 @@ async function getOferta() {
     }
 }
 
+async function getDetalleOferta(item) {
+    try {
+        const resp = await axios.get(route('academico-semestre-oferta-detalle', { id: props.item.id, idCarreraUnidadAcademica: item.id }));
+        if (resp.data.status == 'ok') {
+            detalleOferta.value = resp.data.detalleOferta;
+        } else {
+            console.log(resp.data.message);
+            throw new Error(resp.data.message);
+        }
+    } catch (error: any) {
+        const msj = axios.isAxiosError(error) ? error.response?.data.message : t(error.message);
+        mensajeError(t('_error_') + '. ' + msj);
+    }
+}
+
 async function ofertar(item) {
     try {
         const resp = await axios.post(route('academico-semestre-ofertar', { id: props.item.id, idCarreraUnidadAcademica: item.id }));
         if (resp.data.status == 'ok') {
             item.ofertada = !item.ofertada;
+            item.ofertaId = resp.data.ofertaId;
         } else {
             console.log(resp.data.message);
             throw new Error(resp.data.message);
@@ -58,6 +74,10 @@ onMounted(() => {
 watch(selected, (newVal) => {
     if (newVal && newVal.tipo === 'unidad') {
         console.log(newVal);
+        if (newVal.ofertada) {
+            //Recuperar el detalle de la oferta
+            getDetalleOferta(newVal);
+        }
     }
 });
 </script>
@@ -88,64 +108,29 @@ watch(selected, (newVal) => {
             </v-col>
 
             <v-col class="d-flex text-center" cols="12" md="7">
-                <v-card
-                    class="text-h6 flex-1-1 d-flex justify-center"
-                    v-if="selected && selected.tipo === 'unidad'"
-                    color="surface-light"
-                    height="100%"
-                    flat
-                    rounded
-                >
-                    <template v-slot:text>
-                        <h3 class="text-h5" v-if="!selected.ofertada">{{ $t('semestre._no_ofertada_') }}</h3>
-                        <template v-else>
-                            Hola
-                            <!--<h3 class="text-h5">{{ active.name }}</h3>
+                <v-container class="justify-center" v-if="selected && selected.tipo == 'unidad'">
+                    <v-sheet v-if="!selected.ofertada">
+                        <h3 class="text-h5">{{ $t('semestre._no_ofertada_') }}</h3>
+                    </v-sheet>
+                    <v-row v-else>
+                        <v-col cols="12" md="6" v-for="detalle in detalleOferta" :key="detalle.id">
+                            <v-card rounded>
+                                <template v-slot:text>
+                                    <h3 class="text-h5">{{ detalle.sede }}</h3>
 
-                            <div class="text-medium-emphasis">{{ selected.email }}</div>
+                                    <div class="text-medium-emphasis">
+                                        <span v-if="detalle.ofertada">{{ $t('semestre._ofertada_') }}</span>
+                                        <span v-else>{{ $t('semestre._no_ofertada_') }}</span>
+                                        <v-icon v-if="detalle.ofertada" icon="mdi-check" color="success"></v-icon>
+                                        <v-icon v-else icon="mdi-close" color="error"></v-icon>
+                                    </div>
 
-                            <div class="text-medium-emphasis font-weight-bold">{{ selected.username }}</div>
-
-                            <v-divider class="my-4"></v-divider>
-
-                            <v-text-field
-                                :model-value="selected.company.name"
-                                class="mx-auto mb-2"
-                                density="compact"
-                                max-width="250"
-                                prefix="Company:"
-                                variant="solo"
-                                flat
-                                hide-details
-                                readonly
-                            ></v-text-field>
-
-                            <v-text-field
-                                :model-value="selected.website"
-                                class="mx-auto mb-2"
-                                density="compact"
-                                max-width="250"
-                                prefix="Website:"
-                                variant="solo"
-                                flat
-                                hide-details
-                                readonly
-                            ></v-text-field>
-
-                            <v-text-field
-                                :model-value="selected.phone"
-                                class="mx-auto"
-                                density="compact"
-                                max-width="250"
-                                prefix="Phone:"
-                                variant="solo"
-                                flat
-                                hide-details
-                                readonly
-                            ></v-text-field>-->
-                        </template>
-                    </template>
-                </v-card>
+                                    <div class="text-medium-emphasis font-weight-bold">{{ $t('_cupo_') }} {{ detalle.cupo }}</div>
+                                </template>
+                            </v-card>
+                        </v-col>
+                    </v-row>
+                </v-container>
             </v-col>
         </v-row>
     </v-container>

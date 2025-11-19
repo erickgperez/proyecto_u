@@ -58,4 +58,5 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/academico/semestre/{id}/oferta', [OfertaController::class, 'index'])->name('academico-semestre-oferta-index');
     Route::post('/academico/semestre/{id}/ofertar/{idCarreraUnidadAcademica}', [OfertaController::class, 'ofertar'])->name('academico-semestre-ofertar');
+    Route::get('/academico/semestre/{id}/oferta/{idCarreraUnidadAcademica}/detalle', [OfertaController::class, 'getOfertaDetalle'])->name('academico-semestre-oferta-detalle');
 });

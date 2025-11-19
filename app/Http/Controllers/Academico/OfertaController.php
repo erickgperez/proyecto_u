@@ -3,12 +3,12 @@
 namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academico\CarreraSede;
+use App\Models\Academico\Imparte;
 use App\Models\Academico\Oferta;
 use App\Models\Academico\Semestre;
-use App\Models\Calendarizacion;
 use App\Models\PlanEstudio\Carrera;
-use App\Models\TipoCalendarizacion;
-use Illuminate\Http\Request;
+use App\Models\PlanEstudio\CarreraUnidadAcademica;
 
 
 class OfertaController extends Controller
@@ -62,8 +62,42 @@ class OfertaController extends Controller
             $oferta->carrera_unidad_academica_id = $idCarreraUnidadAcademica;
 
             $oferta->save();
+
+            //Agregar la oferta por sede
+            $carreraUnidadAcademica = CarreraUnidadAcademica::find($idCarreraUnidadAcademica);
+            $carrerasSedes = CarreraSede::where('carrera_id', $carreraUnidadAcademica->carrera_id)->get();
+            foreach ($carrerasSedes as $cs) {
+                $imparte = new Imparte();
+                $imparte->carreraSede()->associate($cs);
+                $imparte->oferta()->associate($oferta);
+                $imparte->ofertada = true;
+                $imparte->cupo = $cs->cupo;
+
+                $imparte->save();
+            }
         }
 
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
+        return response()->json(['status' => 'ok', 'message' => '']);
+    }
+
+    public function getOfertaDetalle($id, $idCarreraUnidadAcademica)
+    {
+        $oferta = Oferta::where('semestre_id', $id)->where('carrera_unidad_academica_id', $idCarreraUnidadAcademica)->first();
+        $imparte = Imparte::where('oferta_id', $oferta->id)->get();
+
+        $detalleOferta = [];
+        foreach ($imparte as $i) {
+
+            $detalleOferta[] = [
+                'id' => $i->id,
+                'sede' => $i->carreraSede->sede->nombre,
+                'ofertada' => $i->ofertada,
+                'cupo' => $i->cupo,
+                'docente_id' => $i->docente_id,
+                'docentes' => $i->carreraSede->docentes()->with('persona')->get()
+            ];
+        }
+
+        return response()->json(['status' => 'ok', 'message' => '', 'detalleOferta' => $detalleOferta]);
     }
 }

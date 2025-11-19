@@ -63,7 +63,7 @@ interface Docente {
 const carrerasSedes = ref([]);
 const carrerasSedesPlain = ref([]);
 const carrerasSedesSeleccionadas = computed(() => {
-    return carrerasSedesPlain.value.filter((cs: any) => formData.value.carreras_sedes.includes(cs.id));
+    return carrerasSedesPlain.value.filter((cs: any) => formData.value.carreras_sedes?.includes(cs.id));
 });
 
 const docente = ref<Docente>({
@@ -86,9 +86,9 @@ onMounted(() => {
         .get(route('administracion-persona-docente-data', { id: props.item.id }))
         .then(function (response) {
             docente.value = response.data.docente;
-            formData.value.carreras_sedes = docente.value.carreras_sedes.map((cs: any) => cs.id);
+            formData.value.carreras_sedes = docente.value?.carreras_sedes.map((cs: any) => cs.id);
 
-            const principal = docente.value.carreras_sedes.filter((cs) => cs.pivot.principal === true);
+            const principal = docente.value?.carreras_sedes.filter((cs) => cs.pivot.principal === true) ?? [];
             if (principal.length > 0) {
                 formData.value.carrera_sede_principal_id = principal[0].id;
             }
