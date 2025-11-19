@@ -20,7 +20,7 @@ class OfertaController extends Controller
         $carreras = Carrera::with(['unidadesAcademicas' => ['unidadAcademica']])
             ->whereHas('estado', function ($query) {
                 $query->where('codigo', 'VIGENTE');
-            })->orderBy('tipo_carrera_id')->orderBy('nombre')->get();
+            })->orderBy('tipo_carrera_id')->orderBy('codigo')->orderBy('nombre')->get();
 
         $oferta = Oferta::with('semestre', 'carreraUnidadAcademica')
             ->where('semestre_id', $semestre->id)->get();
@@ -31,14 +31,14 @@ class OfertaController extends Controller
         $items = [];
         foreach ($carreras as $c) {
 
-            $unidades = $c->unidadesAcademicas;
+            $unidades = $c->unidadesAcademicas()->orderBy('semestre')->get();
 
             $children = [];
             foreach ($unidades as $u) {
                 $children[] = [
                     'id' => $u->id,
                     'tipo' => 'unidad',
-                    'nombreCompleto' => $u->unidadAcademica->nombreCompleto,
+                    'nombreCompleto' => '(' . $u->semestre . ') ' . $u->unidadAcademica->nombreCompleto,
                     'semestre' => $u->semestre,
                     'ofertada' => in_array($u->id, $ofertadas)
                 ];
