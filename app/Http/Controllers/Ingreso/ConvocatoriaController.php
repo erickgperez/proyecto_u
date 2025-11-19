@@ -18,10 +18,10 @@ use App\Models\Workflow\Estado;
 use App\Models\Workflow\Flujo;
 use App\Models\Workflow\Solicitud;
 use App\Models\Workflow\TipoFlujo;
+use App\Services\CarreraSedeService;
 use App\Services\SolicitudService;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Validation\Rule;
@@ -31,10 +31,12 @@ use Inertia\Response;
 class ConvocatoriaController extends Controller
 {
     protected $solicitudService;
+    protected $carreraSedeService;
 
-    public function __construct(SolicitudService $solicitudService)
+    public function __construct(SolicitudService $solicitudService, CarreraSedeService $carreraSedeService)
     {
         $this->solicitudService = $solicitudService;
+        $this->carreraSedeService = $carreraSedeService;
     }
 
     /**
@@ -45,7 +47,7 @@ class ConvocatoriaController extends Controller
 
         $convocatorias = $this->convocatoriaBase()->orderBy('created_at', 'DESC')->get();
 
-        $sedesCarreras = $this->getSedesCarreras();
+        $sedesCarreras = $this->carreraSedeService->getSedesCarreras();
         $tipoFlujo = TipoFlujo::where('codigo', 'INGRESO')->first();
         $flujos = Flujo::where('activo', true)->where('tipo_flujo_id', $tipoFlujo->id)->get();
         $pruebasBachillerato = PruebaBachillerato::orderBy('codigo', 'ASC')->get();
@@ -394,53 +396,7 @@ class ConvocatoriaController extends Controller
         return response()->json(['status' => 'ok', 'oferta' => $oferta]);
     }
 
-    private function getSedesCarreras(?Convocatoria $convocatoria = null)
-    {
-        $query = DB::table('academico.carrera_sede as cs')
-            ->select(
-                's.id as sede_id',
-                's.nombre as sede_nombre',
-                'tc.id as tipo_carrera_id',
-                'tc.descripcion as tipo_carrera',
-                'cs.id as id',
-                'c.nombre as nombre_carrera',
-                'c.codigo as codigo_carrera'
-            )
-            ->join('plan_estudio.carrera as c', 'cs.carrera_id', '=', 'c.id')
-            ->join('academico.sede as s', 'cs.sede_id', '=', 's.id')
-            ->join('plan_estudio.tipo_carrera as tc', 'c.tipo_carrera_id', '=', 'tc.id')
-            ->orderBy('s.nombre')
-            ->orderBy('tc.descripcion')
-            ->orderBy('c.nombre');
 
-        if ($convocatoria != null) {
-            $query->join('ingreso.convocatoria_carrera_sede as ccs', 'cs.id', '=', 'ccs.carrera_sede_id')
-                ->where('ccs.convocatoria_id', $convocatoria->id);
-        }
-        $carrerasSedes = $query->get();
-
-        $sedesCarreras = [];
-
-        foreach ($carrerasSedes as $cs) {
-            $sedesCarreras[$cs->sede_id]['id'] = 's-' . $cs->sede_id;
-            $sedesCarreras[$cs->sede_id]['title'] = $cs->sede_nombre;
-            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['id'] = $cs->sede_id . '-' . $cs->tipo_carrera_id;
-            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['title'] = $cs->tipo_carrera;
-            $sedesCarreras[$cs->sede_id]['childrenn'][$cs->tipo_carrera_id]['children'][] = ['id' => $cs->id, 'title' => '(' . $cs->codigo_carrera . ') ' . $cs->nombre_carrera];
-        }
-
-        $items = [];
-        foreach ($sedesCarreras as $sc) {
-            $sc_ = $sc;
-            foreach ($sc['childrenn'] as $c) {
-                $sc_['children'][] = $c;
-            }
-            unset($sc_['childrenn']);
-            $items[] = $sc_;
-        }
-
-        return $items;
-    }
 
     public function solicitudes(int $id, int $idSede)
     {
