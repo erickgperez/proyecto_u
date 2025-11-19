@@ -28,6 +28,21 @@ async function getOferta() {
     }
 }
 
+async function ofertar(item) {
+    try {
+        const resp = await axios.post(route('academico-semestre-ofertar', { id: props.item.id, idCarreraUnidadAcademica: item.id }));
+        if (resp.data.status == 'ok') {
+            item.ofertada = !item.ofertada;
+        } else {
+            console.log(resp.data.message);
+            throw new Error(resp.data.message);
+        }
+    } catch (error: any) {
+        const msj = axios.isAxiosError(error) ? error.response?.data.message : t(error.message);
+        mensajeError(t('_error_') + '. ' + msj);
+    }
+}
+
 const selected = computed(() => {
     if (!active.value.length > 0) return undefined;
 
@@ -66,8 +81,8 @@ watch(selected, (newVal) => {
                     open-on-click
                 >
                     <template v-slot:prepend="{ item }">
-                        <v-icon v-if="!item.children && item.ofertada" icon="mdi-check" color="success"></v-icon>
-                        <v-icon v-if="!item.children && !item.ofertada" icon="mdi-close" color="error"></v-icon>
+                        <v-icon v-if="!item.children && item.ofertada" icon="mdi-check" color="success" @click.stop="ofertar(item)"></v-icon>
+                        <v-icon v-if="!item.children && !item.ofertada" icon="mdi-close" color="error" @click.stop="ofertar(item)"></v-icon>
                     </template>
                 </v-treeview>
             </v-col>
@@ -82,9 +97,7 @@ watch(selected, (newVal) => {
                     rounded
                 >
                     <template v-slot:text>
-                        <v-btn v-if="!selected.ofertada" prepend-icon="mdi-publish" stacked variant="outlined" color="primary">
-                            {{ $t('semestre._ofertar_') }}
-                        </v-btn>
+                        <h3 class="text-h5" v-if="!selected.ofertada">{{ $t('semestre._no_ofertada_') }}</h3>
                         <template v-else>
                             Hola
                             <!--<h3 class="text-h5">{{ active.name }}</h3>

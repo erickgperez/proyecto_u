@@ -452,7 +452,8 @@
         "_oferta_": "Academic Offer",
         "_oferta_semestre_": "Academic Offer Semester",
         "_oferta_descripcion_": "Select the academic units that will be taught in the semester",
-        "_ofertar_": "Add to offer"
+        "_ofertar_": "Add to offer",
+        "_no_ofertada_": "Not offered"
     },
     "_seleccion_candidatos_": "Candidate Selection",
     "_sexo_": "Sex",

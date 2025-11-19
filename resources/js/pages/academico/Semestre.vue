@@ -111,7 +111,7 @@ const opcionesAccion = [
         title: t('semestre._oferta_'),
         text: t('semestre._oferta_descripcion_'),
         emitAction: 'oferta',
-        color: 'orange-darken-3',
+        color: 'brown-darken-1',
         icon: 'mdi-format-list-text',
     },
     {

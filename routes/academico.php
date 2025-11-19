@@ -57,4 +57,5 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/academico/semestre/{id}/delete', [SemestreController::class, 'delete'])->name('academico-semestre-delete');
 
     Route::get('/academico/semestre/{id}/oferta', [OfertaController::class, 'index'])->name('academico-semestre-oferta-index');
+    Route::post('/academico/semestre/{id}/ofertar/{idCarreraUnidadAcademica}', [OfertaController::class, 'ofertar'])->name('academico-semestre-ofertar');
 });
