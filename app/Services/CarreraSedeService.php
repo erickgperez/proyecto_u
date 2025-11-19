@@ -24,6 +24,7 @@ class CarreraSedeService
             ->join('plan_estudio.tipo_carrera as tc', 'c.tipo_carrera_id', '=', 'tc.id')
             ->orderBy('s.nombre')
             ->orderBy('tc.descripcion')
+            ->orderBy('c.codigo')
             ->orderBy('c.nombre');
 
         if ($convocatoria != null) {
