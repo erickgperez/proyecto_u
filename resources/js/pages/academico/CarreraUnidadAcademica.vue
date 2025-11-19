@@ -90,7 +90,7 @@ const sheetName = ref('Listado_malla_curricular');
 const fileName = ref('malla_curricular');
 
 const headers = [
-    { key: 'data-table-group', title: t('carrera._singular_') },
+    { title: t('carrera._singular_'), key: 'carrera.nombreCompleto' },
     { title: t('mallaCurricular._semestre_'), key: 'semestre' },
     { title: t('unidadAcademica._singular_'), key: 'unidad_academica.nombreCompleto' },
     { title: t('area._singular_'), key: 'area.descripcion' },
