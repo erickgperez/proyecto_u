@@ -18,7 +18,7 @@ class CarreraSede extends Pivot
 
     protected $table = "academico.carrera_sede";
 
-    protected $appends = ['titulo'];
+    protected $appends = ['titulo', 'tituloAbr'];
 
     protected $fillable = [
         'carrera_id',
@@ -58,6 +58,11 @@ class CarreraSede extends Pivot
     public function getTituloAttribute(): string
     {
         return (string) "{$this->sede->nombre} -- {$this->carrera->nombreCompleto}";
+    }
+
+    public function getTituloAbrAttribute(): string
+    {
+        return (string) "{$this->sede->codigo} -- {$this->carrera->nombreCompleto}";
     }
 
     public function docentes(): BelongsToMany

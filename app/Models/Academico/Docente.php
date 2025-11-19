@@ -32,6 +32,6 @@ class Docente extends Model
 
     public function carrerasSedes(): BelongsToMany
     {
-        return $this->belongsToMany(CarreraSede::class, 'academico.asignado', 'docente_id', 'carrera_sede_id');
+        return $this->belongsToMany(CarreraSede::class, 'academico.asignado', 'docente_id', 'carrera_sede_id')->withPivot('principal');
     }
 }

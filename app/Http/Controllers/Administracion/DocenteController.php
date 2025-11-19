@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administracion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academico\Asignado;
 use App\Models\Academico\Docente;
 use App\Models\Persona;
 use Illuminate\Http\Request;
@@ -35,6 +36,15 @@ class DocenteController extends Controller
         }
 
         $docente->carrerasSedes()->sync($request->get('carreras_sedes') ?? []);
+
+        //Si tiene asignación principal
+        if ($request->get('carrera_sede_principal_id')) {
+            $asignado = Asignado::where('docente_id', $docente->id)
+                ->where('carrera_sede_id', $request->get('carrera_sede_principal_id'))
+                ->first();
+            $asignado->principal = true;
+            $asignado->save();
+        }
 
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);

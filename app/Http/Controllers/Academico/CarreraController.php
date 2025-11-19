@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academico\CarreraSede;
 use App\Models\Academico\Sede;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
@@ -111,7 +112,16 @@ class CarreraController extends Controller
 
     public function getCarreraSede()
     {
-        $sedesCarreras = $this->carreraSedeService->getSedesCarreras();
-        return response()->json(['status' => 'ok', 'message' => '', 'sedesCarreras' => $sedesCarreras]);
+        //Obtener las carreras/sedes agrupadas para formar el control de árbol
+        $carrerasSedes = $this->carreraSedeService->getSedesCarreras();
+
+        //Obtener las carreras sedes sin agrupar
+        $carrerasSedesPlain = CarreraSede::with('carrera', 'sede')->get();
+        return response()->json([
+            'status' => 'ok',
+            'message' => '',
+            'carrerasSedes' => $carrerasSedes,
+            'carrerasSedesPlain' => $carrerasSedesPlain,
+        ]);
     }
 }

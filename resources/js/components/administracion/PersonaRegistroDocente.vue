@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { onMounted, ref, toRef } from 'vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -22,6 +22,7 @@ function reset() {
 interface FormData {
     id: number | null;
     carreras_sedes: [];
+    carrera_sede_principal_id: number | null;
 }
 
 const props = defineProps(['item', 'accion']);
@@ -29,6 +30,7 @@ const props = defineProps(['item', 'accion']);
 const formData = ref<FormData>({
     id: null,
     carreras_sedes: [],
+    carrera_sede_principal_id: null,
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -40,9 +42,6 @@ async function submitForm() {
         try {
             const resp = await axios.postForm(route('administracion-persona-docente-asignacion-save', { id: props.item.id }), formData.value);
             if (resp.data.status == 'ok') {
-                if (!isEditing.value) {
-                    reset();
-                }
                 //emit('form-saved', resp.data.convocatoria);
                 mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
@@ -56,15 +55,29 @@ async function submitForm() {
     loading.value = false;
 }
 
-const sedesCarreras = ref([]);
-const docente = ref(null);
+interface Docente {
+    id: number | null;
+    carreras_sedes: Array<[]>;
+}
+
+const carrerasSedes = ref([]);
+const carrerasSedesPlain = ref([]);
+const carrerasSedesSeleccionadas = computed(() => {
+    return carrerasSedesPlain.value.filter((cs: any) => formData.value.carreras_sedes.includes(cs.id));
+});
+
+const docente = ref<Docente>({
+    id: null,
+    carreras_sedes: [],
+});
 
 onMounted(() => {
     reset();
     axios
         .get(route('academico-plan_estudio-carrera-sede'))
         .then(function (response) {
-            sedesCarreras.value = response.data.sedesCarreras;
+            carrerasSedes.value = response.data.carrerasSedes;
+            carrerasSedesPlain.value = response.data.carrerasSedesPlain;
         })
         .catch(function (error) {
             // handle error
@@ -74,13 +87,19 @@ onMounted(() => {
         .get(route('administracion-persona-docente-data', { id: props.item.id }))
         .then(function (response) {
             docente.value = response.data.docente;
+            formData.value.carreras_sedes = docente.value.carreras_sedes.map((cs: any) => cs.id);
+
+            const principal = docente.value.carreras_sedes.filter((cs) => cs.pivot.principal === true);
+            if (principal.length > 0) {
+                formData.value.carrera_sede_principal_id = principal[0].id;
+            }
         })
         .catch(function (error) {
             // handle error
             console.error('Error fetching data:', error);
         });
 
-    //formData.value.carreras_sedes = props.item.carreras_sedes.map((cs: any) => cs.id);
+    //
 });
 </script>
 <template>
@@ -95,29 +114,43 @@ onMounted(() => {
                             </v-toolbar>
 
                             <v-card-text>
-                                <div class="font-weight-bold ms-1 mb-2">{{ $t('persona._asignado_en_indicaciones_') }}</div>
-
-                                <v-treeview
-                                    v-model:selected="formData.carreras_sedes"
-                                    :items="sedesCarreras"
-                                    item-value="id"
-                                    select-strategy="classic"
-                                    selectable
-                                    :indent-lines="true"
-                                >
-                                    <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
-                                        <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
-                                            <template v-slot:badge>
-                                                <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                <v-row>
+                                    <v-col cols="12" md="6">
+                                        <v-select
+                                            :label="$t('persona._asignacion_principal_')"
+                                            :items="carrerasSedesSeleccionadas"
+                                            v-model="formData.carrera_sede_principal_id"
+                                            item-title="tituloAbr"
+                                            item-value="id"
+                                            prepend-icon="mdi-form-dropdown"
+                                            chips
+                                        ></v-select>
+                                    </v-col>
+                                    <v-col cols="12" md="6">
+                                        <div class="font-weight-bold ms-1 mb-2">{{ $t('persona._asignado_en_indicaciones_') }}</div>
+                                        <v-treeview
+                                            v-model:selected="formData.carreras_sedes"
+                                            :items="carrerasSedes"
+                                            item-value="id"
+                                            select-strategy="classic"
+                                            selectable
+                                            :indent-lines="true"
+                                        >
+                                            <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
+                                                <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
+                                                    <template v-slot:badge>
+                                                        <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                                    </template>
+                                                    <v-btn
+                                                        v-bind="toggleProps"
+                                                        :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
+                                                        :variant="isOpen ? 'outlined' : 'tonal'"
+                                                    ></v-btn>
+                                                </v-badge>
                                             </template>
-                                            <v-btn
-                                                v-bind="toggleProps"
-                                                :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
-                                                :variant="isOpen ? 'outlined' : 'tonal'"
-                                            ></v-btn>
-                                        </v-badge>
-                                    </template>
-                                </v-treeview>
+                                        </v-treeview>
+                                    </v-col>
+                                </v-row>
                             </v-card-text>
                         </v-card>
                     </v-col>

@@ -47,7 +47,6 @@ const formData = ref<FormData>({
 const isEditing = toRef(() => props.accion === 'edit');
 
 const carreraUnidadesAcademicas = computed(() => {
-    console.log(props.items);
     if (props.items) {
         return props.items.filter(
             (uc: any) => uc.carrera_id === formData.value.carrera_id && uc.unidad_academica_id != formData.value.unidad_academica_id,
