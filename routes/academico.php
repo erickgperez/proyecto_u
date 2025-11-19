@@ -30,6 +30,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/plan_estudio/carrera', [CarreraController::class, 'index'])->name('academico-plan_estudio-carrera-index');
     Route::post('/academico/plan_estudio/carrera/save', [CarreraController::class, 'save'])->name('academico-plan_estudio-carrera-save');
     Route::delete('/academico/plan_estudio/carrera/{id}/delete', [CarreraController::class, 'delete'])->name('academico-plan_estudio-carrera-delete');
+    Route::get('/academico/plan_estudio/carrera/sedes', [CarreraController::class, 'getCarreraSede'])->name('academico-plan_estudio-carrera-sede');
 
     Route::get('/academico/plan_estudio/area', [AreaController::class, 'index'])->name('academico-plan_estudio-area-index');
     Route::post('/academico/plan_estudio/area/save', [AreaController::class, 'save'])->name('academico-plan_estudio-area-save');

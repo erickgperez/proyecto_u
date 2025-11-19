@@ -7,6 +7,7 @@ use App\Models\Academico\Sede;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
 use App\Models\Secundaria\Carrera as SecundariaCarrera;
+use App\Services\CarreraSedeService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -14,6 +15,13 @@ use Inertia\Response;
 
 class CarreraController extends Controller
 {
+    protected $carreraSedeService;
+
+    public function __construct(CarreraSedeService $carreraSedeService)
+    {
+        $this->carreraSedeService = $carreraSedeService;
+    }
+
     /**
      *
      */
@@ -99,5 +107,11 @@ class CarreraController extends Controller
         } else {
             return response()->json(['status' => 'ok', 'message' => $id]);
         }
+    }
+
+    public function getCarreraSede()
+    {
+        $sedesCarreras = $this->carreraSedeService->getSedesCarreras();
+        return response()->json(['status' => 'ok', 'message' => '', 'sedesCarreras' => $sedesCarreras]);
     }
 }
