@@ -435,7 +435,12 @@
         "_segundo_apellido_": "Segundo apellido",
         "_tercer_apellido_": "Tercer apellido",
         "_sexo_": "Sexo",
-        "_singular_": "Persona"
+        "_singular_": "Persona",
+
+        "_registro_docente_": "Registro docente",
+        "_registro_docente_descripcion_": "Crear registro como docente",
+        "_asignado_en_": "Asignado en",
+        "_asignado_en_indicaciones_": "Elija las sedes/carreras en que está asignado el docente"
     },
     "_plan_estudio_": "Plan de estudio",
     "_procesos_": "Procesos",

@@ -1,6 +1,6 @@
 <?php
 
-
+use App\Http\Controllers\Administracion\DocenteController;
 use App\Http\Controllers\Administracion\EstadoController;
 use App\Http\Controllers\Administracion\EtapaController;
 use App\Http\Controllers\Administracion\FlujoController;
@@ -23,6 +23,9 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/administracion/persona/{id}/datos-contacto/save', [PersonaController::class, 'datosContactoSave'])->name('administracion-persona-datos-contacto-save');
     Route::get('/administracion/persona/{id}/info', [PersonaController::class, 'personaInfo'])->name('administracion-persona-info');
     Route::delete('/administracion/persona/{id}/delete', [PersonaController::class, 'delete'])->name('administracion-persona-delete');
+
+    Route::get('/administracion/persona/{id}/docente/data', [DocenteController::class, 'data'])->name('administracion-persona-docente-data');
+    Route::post('/administracion/persona/{id}/docente/asignacion/save', [DocenteController::class, 'asignacionSave'])->name('administracion-persona-docente-asignacion-save');
 
     Route::get('/administracion/persona/{id}/documentos', [DocumentoController::class, 'documentosPersona'])->name('administracion-persona-documentos');
     Route::post('/administracion/documento/save', [DocumentoController::class, 'documentoSave'])->name('administracion-documento-save');

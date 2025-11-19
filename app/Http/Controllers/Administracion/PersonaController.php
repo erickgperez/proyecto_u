@@ -33,14 +33,20 @@ class PersonaController extends Controller
         $tiposDocumento = TipoDocumento::orderBy('codigo')->get();
         $distritosTree = $this->distritoService->distritosLikeTree();
 
-        return Inertia::render('administracion/Persona', ['items' => $personas, 'sexos' => $sexos, 'distritosTree' => $distritosTree, 'tiposDocumento' => $tiposDocumento]);
+
+        return Inertia::render('administracion/Persona', [
+            'items' => $personas,
+            'sexos' => $sexos,
+            'distritosTree' => $distritosTree,
+            'tiposDocumento' => $tiposDocumento,
+        ]);
     }
 
     public function personaInfo($id, Request $request)
     {
 
         $persona = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->find($id);
-        $sexos = Sexo::all();
+
         $distritosTree = $this->distritoService->distritosLikeTree();
 
         return response()->json(['status' => 'ok', 'message' => '', 'persona' => $persona, 'distritosTree' => $distritosTree]);
@@ -116,7 +122,6 @@ class PersonaController extends Controller
 
     public function delete(int $id)
     {
-        $convocatoria = Persona::find($id);
 
         $delete = Persona::destroy($id);
 

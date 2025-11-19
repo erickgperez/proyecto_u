@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Academico\Docente;
 use App\Models\Documento\Documento;
 use App\Models\Ingreso\Aspirante;
 use App\Models\Sexo;
@@ -104,5 +105,10 @@ class Persona extends Model
     public function datosContacto(): HasOne
     {
         return $this->hasOne(DatosContacto::class, 'persona_id');
+    }
+
+    public function docente(): HasOne
+    {
+        return $this->hasOne(Docente::class, 'persona_id');
     }
 }

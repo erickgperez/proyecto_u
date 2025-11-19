@@ -11,8 +11,6 @@ const { rules, mensajeExito, mensajeError } = useFunciones();
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
 
-const emit = defineEmits(['form-saved']);
-
 function reset() {
     if (formRef.value) {
         formRef.value.reset();

@@ -2,6 +2,7 @@
 import PersonaDatosContactoForm from '@/components/administracion/PersonaDatosContactoForm.vue';
 import PersonaDocumentos from '@/components/administracion/PersonaDocumentos.vue';
 import PersonaForm from '@/components/administracion/PersonaForm.vue';
+import PersonaRegistroDocente from '@/components/administracion/PersonaRegistroDocente.vue';
 import PersonaShow from '@/components/administracion/PersonaShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
@@ -72,7 +73,8 @@ const acc = {
     mostrar: 'ADMINISTRACION_PERSONA_MOSTRAR',
     borrar: 'ADMINISTRACION_PERSONA_BORRAR',
     datos_contacto: 'ADMINISTRACION_PERSONA_DATOS-CONTACTO',
-    documentos: 'ADMINISTRACION_PERSONA_DATOS-DOCUMENTOS',
+    documentos: 'ADMINISTRACION_PERSONA_DOCUMENTOS',
+    registro_docente: 'ADMINISTRACION_PERSONA_REGISTRO-DOCENTE',
 };
 const permisoAny = 'ADMINISTRACION_PERSONA_';
 // Permisos requeridos por la interfaz
@@ -121,6 +123,14 @@ const opcionesAccion = [
         emitAction: 'documentos',
         color: 'brown-darken-1',
         icon: 'mdi-file-document-outline',
+    },
+    {
+        permiso: acc.registro_docente,
+        title: t('persona._registro_docente_'),
+        text: t('persona._registro_docente_descripcion_'),
+        emitAction: 'registro-docente',
+        color: 'brown-lighten-1',
+        icon: 'mdi-human-male-board',
     },
     {
         permiso: acc.editar,
@@ -208,6 +218,11 @@ const opcionesAccion = [
                             :accion="selectedAction"
                             :tipos-documento="tiposDocumento"
                         ></PersonaDocumentos>
+                        <PersonaRegistroDocente
+                            v-if="selectedAction == 'registro-docente'"
+                            :item="selectedItem"
+                            :accion="selectedAction"
+                        ></PersonaRegistroDocente>
                     </v-sheet>
                 </v-window-item>
             </v-window>

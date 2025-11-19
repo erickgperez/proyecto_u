@@ -411,7 +411,12 @@
         "_segundo_apellido_": "Second last name",
         "_tercer_apellido_": "Third last name",
         "_sexo_": "Sex",
-        "_singular_": "Person"
+        "_singular_": "Person",
+
+        "_registro_docente_": "Teacher registration",
+        "_registro_docente_descripcion_": "Create a teacher registration",
+        "_asignado_en_": "Assigned to",
+        "_asignado_en_indicaciones_": "Choose the campuses/programs where the teacher is assigned"
     },
     "_plan_estudio_": "Syllabus",
     "_procesos_": "processes",

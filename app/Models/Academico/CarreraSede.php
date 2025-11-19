@@ -59,4 +59,9 @@ class CarreraSede extends Pivot
     {
         return (string) "{$this->sede->nombre} -- {$this->carrera->nombreCompleto}";
     }
+
+    public function docentes(): BelongsToMany
+    {
+        return $this->belongsToMany(Docente::class, 'academico.asignado', 'carrera_sede_id', 'docente_id');
+    }
 }
