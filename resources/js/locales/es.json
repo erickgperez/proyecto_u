@@ -491,7 +491,9 @@
         "_ofertar_": "Ofertar",
         "_no_ofertada_": "No ofertada",
         "_ofertada_": "Ofertada",
-        "_responsable_": "Responsable"
+        "_responsable_": "Responsable",
+        "_calendarizar_": "Calendarización de actividades",
+        "_calendarizar_descripcion_": "Programación de las actividades que se realizarán en el semestre"
     },
     "_seleccion_candidatos_": "Selección de candidatos",
     "_sexo_": "Sexo",

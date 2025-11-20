@@ -5,6 +5,7 @@ import SemestreShow from '@/components/academico/SemestreShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
+import Evento from '@/components/Evento.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
@@ -66,6 +67,7 @@ const acc = {
     mostrar: 'ACADEMICO_SEMESTRE_MOSTRAR',
     borrar: 'ACADEMICO_SEMESTRE_BORRAR',
     oferta: 'ACADEMICO_SEMESTRE_OFERTA',
+    calendarizar: 'ACADEMICO_SEMESTRE_CALENDARIZAR',
 };
 const permisoAny = 'ACADEMICO_SEMESTRE_';
 // Permisos requeridos por la interfaz
@@ -111,8 +113,16 @@ const opcionesAccion = [
         title: t('semestre._oferta_'),
         text: t('semestre._oferta_descripcion_'),
         emitAction: 'oferta',
-        color: 'brown-darken-1',
+        color: 'indigo-darken-2',
         icon: 'mdi-format-list-text',
+    },
+    {
+        permiso: acc.calendarizar,
+        title: t('semestre._calendarizar_'),
+        text: t('semestre._calendarizar_descripcion_'),
+        emitAction: 'calendarizar',
+        color: 'brown',
+        icon: 'mdi-calendar-month-outline',
     },
     {
         permiso: acc.mostrar,
@@ -179,6 +189,7 @@ const opcionesAccion = [
                         ></SemestreForm>
                         <SemestreOferta v-if="selectedAction === 'oferta'" :item="selectedItem" :accion="selectedAction"></SemestreOferta>
                         <SemestreShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></SemestreShow>
+                        <Evento v-if="selectedAction == 'calendarizar'" :idCalendario="selectedItem.calendarizacion_id"></Evento>
                     </v-sheet>
                 </v-window-item>
             </v-window>

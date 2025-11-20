@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('carrera_unidad_academica_id')->references('id')->on('plan_estudio.carrera_unidad_academica')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('semestre_id')->comment('Id del semestre en que se está ofertando la unidad académica');
-            $table->foreign('semestre_id')->references('id')->on('academico.semestre')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->foreign('semestre_id')->references('id')->on('academico.semestre')->onDelete('CASCADE')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

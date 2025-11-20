@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academico\Semestre;
+use App\Models\Calendarizacion;
+use App\Models\TipoCalendarizacion;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -36,6 +38,16 @@ class SemestreController extends Controller
             $semestreCheck = Semestre::where('codigo', $request->get('codigo'))->first();
             if ($semestreCheck === null) {
                 $semestre = new Semestre();
+
+                $tipoCalendario = TipoCalendarizacion::where('codigo', 'SEMESTRE')->first();
+                $calendarizacion = new Calendarizacion();
+                $calendarizacion->codigo = substr($request->get('codigo'), 0, 50); //llevará el mismo código que el semestre
+                $calendarizacion->descripcion = substr('Actividades del semestre: ' . $request->get('codigo'), 0, 255);
+                $calendarizacion->tipo()->associate($tipoCalendario);
+                $calendarizacion->save();
+
+                //Asociar el calendario a la convocatoria
+                $semestre->calendario()->associate($calendarizacion);
             } else {
                 return response()->json(['status' => 'error', 'message' => 'semestre._codigo_ya existe_']);
             }

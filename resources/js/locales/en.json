@@ -455,7 +455,9 @@
         "_ofertar_": "Add to offer",
         "_no_ofertada_": "Not offered",
         "_ofertada_": "Offered",
-        "_responsable_": "Attendant"
+        "_responsable_": "Attendant",
+        "_calendarizar_": "Activity scheduling",
+        "_calendarizar_descripcion_": "Schedule of activities to be carried out during the semester"
     },
     "_seleccion_candidatos_": "Candidate Selection",
     "_sexo_": "Sex",
