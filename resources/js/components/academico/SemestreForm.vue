@@ -94,7 +94,7 @@ onMounted(() => {
                                 required
                                 icon-color="deep-orange"
                                 v-model="formData.fecha_inicio"
-                                :rules="[(v) => !!v || $t('_fecha_requerida_')]"
+                                :rules="[rules.required]"
                                 :label="$t('_fecha_inicio_') + ' *'"
                             ></v-date-input>
                         </v-locale-provider>
@@ -104,7 +104,7 @@ onMounted(() => {
                                 required
                                 icon-color="deep-orange"
                                 v-model="formData.fecha_fin"
-                                :rules="[(v) => !!v || $t('_fecha_requerida_')]"
+                                :rules="[rules.required]"
                                 :label="$t('_fecha_fin_') + ' *'"
                             ></v-date-input>
                         </v-locale-provider>
