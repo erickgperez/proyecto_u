@@ -9,7 +9,7 @@ use App\Models\Academico\Oferta;
 use App\Models\Academico\Semestre;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\CarreraUnidadAcademica;
-
+use Illuminate\Http\Request;
 
 class OfertaController extends Controller
 {
@@ -83,7 +83,12 @@ class OfertaController extends Controller
     public function getOfertaDetalle($id, $idCarreraUnidadAcademica)
     {
         $oferta = Oferta::where('semestre_id', $id)->where('carrera_unidad_academica_id', $idCarreraUnidadAcademica)->first();
-        $imparte = Imparte::where('oferta_id', $oferta->id)->get();
+        $imparte = Imparte::from('academico.imparte as i')
+            ->select(['i.*'])
+            ->join('academico.carrera_sede as cs', 'i.carrera_sede_id', 'cs.id')
+            ->join('academico.sede as s', 'cs.sede_id', 's.id')
+            ->where('oferta_id', $oferta->id)
+            ->orderBy('s.nombre')->get();
 
         $detalleOferta = [];
         foreach ($imparte as $i) {
@@ -94,10 +99,24 @@ class OfertaController extends Controller
                 'ofertada' => $i->ofertada,
                 'cupo' => $i->cupo,
                 'docente_id' => $i->docente_id,
-                'docentes' => $i->carreraSede->docentes()->with('persona')->get()
+                'docente' => $i->docente()->with('persona')->first(),
+                'docentes' => $i->carreraSede->docentes()->with('persona')->get(),
+                'editando' => false
             ];
         }
 
         return response()->json(['status' => 'ok', 'message' => '', 'detalleOferta' => $detalleOferta]);
+    }
+
+    public function ofertaDetalleSave(Request $request)
+    {
+
+        $imparte = Imparte::find($request->get('id'));
+        $imparte->ofertada = $request->get('ofertada');
+        $imparte->docente_id = $request->get('docente_id');
+
+        $imparte->save();
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
     }
 }

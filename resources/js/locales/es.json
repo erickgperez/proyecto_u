@@ -490,7 +490,8 @@
         "_oferta_descripcion_": "Seleccionar las unidades académicas que se impartirán en el semestre",
         "_ofertar_": "Ofertar",
         "_no_ofertada_": "No ofertada",
-        "_ofertada_": "Ofertada"
+        "_ofertada_": "Ofertada",
+        "_responsable_": "Responsable"
     },
     "_seleccion_candidatos_": "Selección de candidatos",
     "_sexo_": "Sexo",
