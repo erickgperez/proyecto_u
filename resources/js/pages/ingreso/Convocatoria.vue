@@ -132,7 +132,7 @@ const opcionesAccion = [
         text: t('convocatoria._configuracion_descripcion_'),
         emitAction: 'configuracion',
         color: 'indigo-darken-2',
-        icon: 'mdi-calendar-month-outline',
+        icon: 'mdi-cog',
     },
     {
         permiso: acc.calendarizar,
