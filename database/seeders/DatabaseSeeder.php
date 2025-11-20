@@ -54,6 +54,7 @@ class DatabaseSeeder extends Seeder
             TipoUnidadAcademicaSeeder::class,
             TipoCalendarizacionSeeder::class,
             CalendarizacionSeeder::class,
+            TipoEventoSeeder::class,
             UsoEstadoSeeder::class,
             AcademicoEstadoSeeder::class,
             PruebaBachilleratoSeeder::class,
