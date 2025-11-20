@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
 
             $table->comment('Permite catalogar los eventos según el proceso en que se vayan a utilizar');
-            $table->string('codigo', length: 100)->unique()->comment('Código para identificar el tipo de evento');
-            $table->string('descripcion', length: 255)->unique()->comment('Texto descriptivo del tipo de evento');
+            $table->string('codigo', length: 100)->comment('Código para identificar el tipo de evento');
+            $table->string('descripcion', length: 255)->comment('Texto descriptivo del tipo de evento');
             $table->foreignId('tipo_calendarizacion_id')->comment('Para identificar el proceso o tipo de calendario en que se puede usar el evento');
             $table->foreign('tipo_calendarizacion_id')->references('id')->on('public.tipo_calendarizacion')->onDelete('RESTRICT')->onUpdate('CASCADE');
 

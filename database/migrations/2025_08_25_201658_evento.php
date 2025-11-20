@@ -19,9 +19,9 @@ return new class extends Migration
             $table->string('nombre', length: 100)->nullable()->comment('Nombre descriptivo del evento');
             $table->text('indicaciones')->nullable()->comment('Si el evento requiere indicaciones adicionales');
             $table->boolean('completado')->default(false)->comment('Indica si el evento se ha completado');
-            $table->foreignId('calendarizacion_id');
+            $table->foreignId('calendarizacion_id')->comment('Identificador del calendario al que pertenece el evento');
             $table->foreign('calendarizacion_id')->references('id')->on('public.calendarizacion')->onDelete('CASCADE')->onUpdate('CASCADE');
-            $table->foreignId('tipo_evento_id');
+            $table->foreignId('tipo_evento_id')->nullable()->comment('Tipo de evento');
             $table->foreign('tipo_evento_id')->references('id')->on('public.tipo_evento')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');

@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
 
             $table->comment('Permite crear calendarizaciones para asignar a procesos');
-            $table->string('codigo', length: 50)->unique()->comment('Código de la calendarización, normalmente llevará el código del proceso al que está asociado el calendario');
+            $table->string('codigo', length: 100)->comment('Código de la calendarización, normalmente llevará el código del proceso al que está asociado el calendario');
             $table->string('descripcion', length: 255)->nullable()->comment('Texto, por si se necesita ampliar la descripción del calendario');
 
             $table->foreignId('tipo_calendarizacion_id')->comment('Tipo de calendario, se usará para identificar el proceso en que se usará el calendario');
