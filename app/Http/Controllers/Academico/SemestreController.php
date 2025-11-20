@@ -41,8 +41,8 @@ class SemestreController extends Controller
 
                 $tipoCalendario = TipoCalendarizacion::where('codigo', 'SEMESTRE')->first();
                 $calendarizacion = new Calendarizacion();
-                $calendarizacion->codigo = substr($request->get('codigo'), 0, 50); //llevará el mismo código que el semestre
-                $calendarizacion->descripcion = substr('Actividades del semestre: ' . $request->get('codigo'), 0, 255);
+                $calendarizacion->codigo = substr('Semestre-' . $request->get('codigo'), 0, 100); //llevará el mismo código que el semestre
+                $calendarizacion->descripcion = substr('Actividades del semestre: ' . $request->get('descripcion'), 0, 255);
                 $calendarizacion->tipo()->associate($tipoCalendario);
                 $calendarizacion->save();
 

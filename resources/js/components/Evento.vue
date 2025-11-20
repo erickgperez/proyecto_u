@@ -24,7 +24,7 @@ import { useDate } from 'vuetify';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
-const { mensajeExito, mensajeError } = useFunciones();
+const { rules, mensajeExito, mensajeError } = useFunciones();
 
 const date = useDate();
 
@@ -37,7 +37,7 @@ const getColor = (item: any, tipo: string): string => {
         _color = 'grey-lighten-1';
     } else if (date.isAfter(currentDate, date.date(item.fecha_inicio)) && date.isBefore(currentDate, date.date(item.fecha_fin))) {
         //Eventos en curso
-        _color = 'green-lighten-1';
+        _color = 'green-darken-2';
     } else {
         _color = 'red-lighten-2';
     }
@@ -50,6 +50,8 @@ interface Evento {
     id: number | null;
     step: string;
     nombre: string;
+    tipo: object | null;
+    tipo_evento_id: number | null;
     indicaciones: string;
     fecha_inicio: Date | null;
     fecha_fin: Date | null;
@@ -60,6 +62,8 @@ const eventoVacio = ref<Evento>({
     id: null,
     step: '',
     nombre: '',
+    tipo: null,
+    tipo_evento_id: null,
     fecha_inicio: null,
     fecha_fin: null,
     indicaciones: '',
@@ -73,7 +77,11 @@ interface Props {
 const props = defineProps<Props>();
 
 const eventos = ref<Evento[]>([]);
-
+const tipoEvento = ref([]);
+const calendario = ref(null);
+const tab = ref(null);
+const value = ref('');
+const calendar = ref();
 const dialog = ref(false);
 
 const formData = ref<Evento>(eventoVacio.value);
@@ -159,11 +167,29 @@ const extensions = [
     Image.configure({ allowBase64: true }),
 ];
 
+function getEventColor(event) {
+    return getColor(event, '');
+}
+function prev() {
+    calendar.value.prev();
+}
+function next() {
+    calendar.value.next();
+}
+
+function showEvent(nativeEvent, { event }) {
+    formData.value = event;
+    dialog.value = true;
+    nativeEvent.stopPropagation();
+}
+
 onMounted(() => {
     axios
         .get(route('general-actividad-index', { id: props.idCalendario }))
         .then(function (response) {
             eventos.value = response.data.items;
+            calendario.value = response.data.calendario;
+            tipoEvento.value = response.data.tipoEvento;
         })
         .catch(function (error) {
             // handle error
@@ -174,12 +200,13 @@ onMounted(() => {
 
 <template>
     <v-layout>
-        <v-app-bar color="primary" class="bg-transparent" density="compact" rounded="t-lg">
-            <v-toolbar-title>{{ $t('convocatoria._listado_actividades_') }}</v-toolbar-title>
+        <v-app-bar class="bg-transparent">
+            <v-toolbar-title>{{ calendario?.descripcion }}</v-toolbar-title>
 
             <template v-slot:append>
                 <v-btn
                     icon="mdi-calendar-plus"
+                    color="primary"
                     :title="$t('calendario._agregar_actividad_')"
                     @click="
                         formData = eventoVacio;
@@ -190,70 +217,132 @@ onMounted(() => {
         </v-app-bar>
 
         <v-main>
-            <v-container>
-                <v-timeline align="start" v-if="eventos.length > 0">
-                    <v-timeline-item v-for="(item, i) in eventos" :key="i" :dot-color="getColor(item, '')" fill-dot :icon="item.icon">
-                        <template v-slot:opposite>
-                            <div :class="getColor(item, 'text')" class="headline font-weight-bold pt-1">{{ item.step }} : {{ item.nombre }}</div>
-                        </template>
-                        <v-card>
-                            <v-card-title class="text-h6" :class="getColor(item, 'bg')">
-                                {{ $t('_desde_') + ' ' }} {{ date.format(item.fecha_inicio, 'keyboardDate') }} {{ $t('_hasta_') + ' ' }}
-                                {{ date.format(item.fecha_fin, 'keyboardDate') }}
-                            </v-card-title>
-                            <v-card-text class="text--primary bg-white">
-                                <p v-html="item.indicaciones"></p>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-btn icon="mdi-delete-alert-outline" :title="$t('calendario._borrar_actividad_')" @click="remove(item)"></v-btn>
-                                <v-spacer></v-spacer>
-                                <v-btn
-                                    icon="mdi-calendar-edit"
-                                    :title="$t('calendario._editar_actividad_')"
-                                    @click="
-                                        formData = item;
-                                        dialog = true;
-                                    "
-                                ></v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-timeline-item>
-                </v-timeline>
-            </v-container>
+            <v-tabs v-model="tab" align-tabs="center" color="deep-purple-accent-4">
+                <v-tab value="1">{{ $t('calendario._linea_tiempo_') }}</v-tab>
+                <v-tab value="2">{{ $t('calendario._calendario_') }}</v-tab>
+            </v-tabs>
+
+            <v-tabs-window v-model="tab">
+                <v-tabs-window-item value="1">
+                    <v-container fluid>
+                        <v-timeline align="start" v-if="eventos.length > 0">
+                            <v-timeline-item v-for="(item, i) in eventos" :key="i" :dot-color="getColor(item, '')" fill-dot :icon="item.icon">
+                                <template v-slot:opposite>
+                                    <div :class="getColor(item, 'text')" class="headline font-weight-bold pt-1">
+                                        {{ item.step }} : {{ item.tipo.codigo }}
+                                    </div>
+                                </template>
+                                <v-card>
+                                    <v-card-title class="text-h6" :class="getColor(item, 'bg')">
+                                        {{ $t('_desde_') + ' ' }} {{ date.format(item.fecha_inicio, 'keyboardDate') }} {{ $t('_hasta_') + ' ' }}
+                                        {{ date.format(item.fecha_fin, 'keyboardDate') }}
+                                    </v-card-title>
+                                    <v-card-text class="text--primary bg-white">
+                                        <p>{{ item.nombre ?? item.tipo.descripcion }}</p>
+                                        <p v-html="item.indicaciones"></p>
+                                    </v-card-text>
+                                    <v-card-actions>
+                                        <v-btn
+                                            icon="mdi-delete-alert-outline"
+                                            :title="$t('calendario._borrar_actividad_')"
+                                            @click="remove(item)"
+                                        ></v-btn>
+                                        <v-spacer></v-spacer>
+                                        <v-btn
+                                            icon="mdi-calendar-edit"
+                                            :title="$t('calendario._editar_actividad_')"
+                                            @click="
+                                                formData = item;
+                                                dialog = true;
+                                            "
+                                        ></v-btn>
+                                    </v-card-actions>
+                                </v-card>
+                            </v-timeline-item>
+                        </v-timeline>
+                    </v-container>
+                </v-tabs-window-item>
+                <v-tabs-window-item value="2">
+                    <v-row>
+                        <v-col cols="12" md="2"></v-col>
+                        <v-col cols="12" md="8">
+                            <v-sheet>
+                                <v-toolbar flat>
+                                    <v-btn class="ma-2" variant="text" icon @click="prev">
+                                        <v-icon>mdi-chevron-left</v-icon>
+                                    </v-btn>
+                                    <v-toolbar-title v-if="calendar">
+                                        {{ calendar.title }}
+                                    </v-toolbar-title>
+                                    <v-spacer></v-spacer>
+                                    <v-btn class="ma-2" variant="text" icon @click="next">
+                                        <v-icon>mdi-chevron-right</v-icon>
+                                    </v-btn>
+                                </v-toolbar>
+                            </v-sheet>
+                            <v-sheet>
+                                <v-calendar
+                                    v-model="value"
+                                    ref="calendar"
+                                    type="month"
+                                    :event-color="getEventColor"
+                                    :events="eventos"
+                                    event-overlap-mode="stack"
+                                    event-overlap-threshold="2"
+                                    event-start="fecha_inicio"
+                                    event-end="fecha_fin"
+                                    @click:event="showEvent"
+                                ></v-calendar>
+                            </v-sheet>
+                        </v-col>
+                        <v-col cols="12" md="2"></v-col>
+                    </v-row>
+                </v-tabs-window-item>
+            </v-tabs-window>
+            <v-container rounded="a-xl"> </v-container>
         </v-main>
     </v-layout>
-    <v-dialog v-model="dialog" width="70%">
+    <v-dialog v-model="dialog" width="50%">
         <v-card prepend-icon="mdi-update" :title="$t('actividad._actividad_')">
             <template v-slot:text>
                 <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                     <v-row>
                         <v-col cols="12">
+                            <v-select
+                                icon-color="deep-orange"
+                                :rules="[rules.required]"
+                                :label="$t('tipoEvento._singular_') + ' *'"
+                                :items="tipoEvento"
+                                v-model="formData.tipo_evento_id"
+                                item-title="descripcion"
+                                item-value="id"
+                                prepend-icon="mdi-form-dropdown"
+                            ></v-select>
                             <v-text-field
                                 prepend-icon="mdi-form-textbox"
                                 v-model="formData.nombre"
-                                :rules="[
-                                    (v) => !!v || $t('_campo_requerido_'),
-                                    (v) => !v || v.length <= 15 || $t('_longitud_maxima_') + ': 15 ' + $t('_caracteres_'),
-                                ]"
+                                :rules="[rules.maxLength(100)]"
                                 counter="15"
-                                :label="$t('_nombre_') + ' *'"
+                                :label="$t('_nombre_')"
                             ></v-text-field>
 
                             <v-locale-provider locale="es">
                                 <v-date-input
                                     clearable
+                                    icon-color="deep-orange"
                                     required
                                     v-model="formData.fecha_inicio"
-                                    :rules="[(v) => !!v || $t('_fecha_requerida_')]"
+                                    :rules="[rules.required]"
                                     :label="$t('_fecha_inicio_') + ' *'"
                                 ></v-date-input>
                             </v-locale-provider>
                             <v-locale-provider locale="es">
                                 <v-date-input
                                     clearable
+                                    icon-color="deep-orange"
                                     required
                                     v-model="formData.fecha_fin"
-                                    :rules="[(v) => !!v || $t('_fecha_requerida_')]"
+                                    :rules="[rules.required]"
                                     :label="$t('_fecha_fin_') + ' *'"
                                 ></v-date-input>
                             </v-locale-provider>

@@ -18,10 +18,10 @@ import { createVuetify } from 'vuetify';
 import { en, es } from 'vuetify/locale';
 import 'vuetify/styles';
 
+import { VCalendar } from 'vuetify/labs/VCalendar';
 import { VDateInput } from 'vuetify/labs/VDateInput';
 import { VPie } from 'vuetify/labs/VPie';
 import { VStepperVertical } from 'vuetify/labs/VStepperVertical';
-
 import i18n from './plugins/i18n'; // Adjust path as needed
 
 // Register Vuetify as plugin
@@ -49,6 +49,7 @@ const vuetify = createVuetify({
         VDateInput,
         VStepperVertical,
         VPie,
+        VCalendar,
     },
     locale: {
         locale: 'es', // or 'en-CA'

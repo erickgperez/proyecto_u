@@ -87,7 +87,8 @@
         "_agregar_actividad_": "Add new activity",
         "_editar_actividad_": "Edit activity",
         "_borrar_actividad_": "Delete activity",
-        "_calendario_": "Calendar"
+        "_calendario_": "Calendar",
+        "_linea_tiempo_": "Timeline"
     },
 
     "_cambiar_": "Change",

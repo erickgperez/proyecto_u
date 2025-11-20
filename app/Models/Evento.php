@@ -26,4 +26,9 @@ class Evento extends Model
     {
         return $this->belongsTo(Calendarizacion::class, 'calendarizacion_id');
     }
+
+    public function tipo(): BelongsTo
+    {
+        return $this->belongsTo(TipoEvento::class, 'tipo_evento_id');
+    }
 }

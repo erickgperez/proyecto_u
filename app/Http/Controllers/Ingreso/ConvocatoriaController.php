@@ -172,8 +172,8 @@ class ConvocatoriaController extends Controller
             //Crear el calendario de actividades
             $tipoCalendario = TipoCalendarizacion::where('codigo', 'CONVOCATORIA')->first();
             $calendarizacion = new Calendarizacion();
-            $calendarizacion->codigo = substr($request->get('nombre'), 0, 50); //llevará el mismo nombre que la convocatoria
-            $calendarizacion->descripcion = substr('Actividades de convocatoria: ' . $request->get('nombre'), 0, 255);
+            $calendarizacion->codigo = substr('Convocatoria-' . $request->get('nombre'), 0, 100); //llevará el mismo nombre que la convocatoria
+            $calendarizacion->descripcion = substr('Actividades de convocatoria: ' . $request->get('descripcion'), 0, 255);
             $calendarizacion->tipo()->associate($tipoCalendario);
             $calendarizacion->save();
 
