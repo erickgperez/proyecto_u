@@ -63,7 +63,7 @@ class PersonaController extends Controller
             'segundo_apellido' => 'nullable|string|max:100',
             'tercer_apellido' => 'nullable|string|max:100',
             'fecha_nacimiento' => 'nullable|date',
-            'sexo_id' => ['required', 'integer', Rule::exists('sexo', 'id')],
+            'sexo_id' => ['nullable', 'integer', Rule::exists('sexo', 'id')],
         ]);
 
         if ($request->get('id') === null) {
@@ -120,10 +120,10 @@ class PersonaController extends Controller
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
 
-        $delete = Persona::destroy($id);
+        $delete = Persona::where('uuid', $id)->first()->delete();
 
         if ($delete == 0) {
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);

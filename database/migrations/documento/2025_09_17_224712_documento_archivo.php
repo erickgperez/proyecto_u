@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('documento.documento_archivo', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Relación de muchos a muchos entre documento y archivo');
 
             $table->foreignId('documento_id')->comment('Id del documento al que pertenece el archivo');

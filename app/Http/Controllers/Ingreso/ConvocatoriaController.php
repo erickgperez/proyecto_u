@@ -312,7 +312,7 @@ class ConvocatoriaController extends Controller
         ]);
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
         $convocatoria = Convocatoria::find($id);
 
@@ -321,7 +321,7 @@ class ConvocatoriaController extends Controller
         if ($filePath != null && Storage::exists($filePath)) {
             Storage::delete($filePath);
         }
-        $delete = Convocatoria::destroy($id);
+        $delete = Convocatoria::where('uuid', $id)->first()->delete();
 
         if ($delete == 0) {
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);

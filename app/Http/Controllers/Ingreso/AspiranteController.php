@@ -28,7 +28,7 @@ class AspiranteController extends Controller
 
     public function save(Request $request) {}
 
-    public function delete(int $id) {}
+    public function delete($id) {}
 
     public function datosPersonalesRestringido()
     {

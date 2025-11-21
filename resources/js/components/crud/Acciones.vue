@@ -35,7 +35,7 @@ const props = defineProps({
         default: () => '',
     },
     selectedItemId: {
-        type: Number,
+        type: String,
         required: true,
     },
     rutaBorrar: {

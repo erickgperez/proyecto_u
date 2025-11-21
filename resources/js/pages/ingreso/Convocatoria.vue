@@ -220,7 +220,7 @@ onMounted(() => {});
                         :acciones="opcionesAccion"
                         :selectedItemLabel="selectedItemLabel"
                         :rutaBorrar="rutaBorrar"
-                        :selectedItemId="selectedItem.id"
+                        :selectedItemId="selectedItem.uuid"
                     ></Acciones>
                     <v-alert v-else border="top" type="warning" variant="outlined" prominent>
                         {{ $t('_no_tiene_permiso_para_realizar_ninguna_accion_') }}

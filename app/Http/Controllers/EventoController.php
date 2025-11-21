@@ -62,12 +62,12 @@ class EventoController extends Controller
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'items' => $_eventos]);
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
         $evento = Evento::find($id);
         $calendario = $evento->calendario()->first();
 
-        $delete = Evento::destroy($id);
+        $delete = Evento::where('uuid', $id)->first()->delete();
 
         $eventos = $calendario->eventos()->with('tipo')->orderBy('fecha_inicio', 'ASC')->get();
 

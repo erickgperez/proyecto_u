@@ -54,17 +54,17 @@ class DocumentoController extends Controller
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => '']);
     }
 
-    public function documentosPersona(int $id)
+    public function documentosPersona($id)
     {
-        $persona = Persona::where('id', $id)->with(['documentos' => ['archivos', 'tipo']])->first();
+        $persona = Persona::where('uuid', $id)->with(['documentos' => ['archivos', 'tipo']])->first();
 
         $documentos = $persona->documentos;
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'documentos' => $documentos]);
     }
 
-    public function documentoDescargar(int $id)
+    public function documentoDescargar($id)
     {
-        $documento = Documento::find($id);
+        $documento = Documento::where('uuid', $id)->first();
         $archivo = $documento->archivos[0];
         $filePath = $archivo->ruta;
 

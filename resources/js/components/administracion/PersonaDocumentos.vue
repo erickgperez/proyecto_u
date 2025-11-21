@@ -79,7 +79,7 @@ onMounted(() => {
 
     // Recuperar los documentos de la persona
     axios
-        .get(route('administracion-persona-documentos', { id: props.item.id }))
+        .get(route('administracion-persona-documentos', { id: props.item.uuid }))
         .then(function (response) {
             if (response.data.status === 'ok') {
                 documentos.value = response.data.documentos;
@@ -109,7 +109,7 @@ onMounted(() => {
                         <v-btn
                             color="primary"
                             :text="$t('_descargar_')"
-                            :href="`/administracion/documento/${doc.id}/descargar`"
+                            :href="`/administracion/documento/${doc.uuid}/descargar`"
                             target="_blank"
                         ></v-btn>
                     </v-card-actions>

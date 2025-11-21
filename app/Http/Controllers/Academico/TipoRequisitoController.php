@@ -61,9 +61,9 @@ class TipoRequisitoController extends Controller
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $item]);
     }
 
-    public function delete(int $id)
+    public function delete($id)
     {
-        $delete = TipoRequisito::destroy($id);
+        $delete = TipoRequisito::where('uuid', $id)->first()->delete();
 
         if ($delete == 0) {
             return response()->json(['status' => 'error', 'message' => '_no_se_encontro_registro_']);
