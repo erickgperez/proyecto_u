@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('secundaria.carrera', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->after('id');
+
             $table->comment('Las diferentes opciones de bachillerato');
             $table->string('codigo', length: 10)->nullable()->unique()->comment('Código que identifica la opción de bachillerato');
             $table->string('descripcion', length: 255)->nullable()->comment('Nombre de la opción de bachillerato');
