@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ingreso.aspirante', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Tabla de aspirantes a una convocatoria de ingreso');
             $table->string('nie', length: 30)->unique()->nullable()->comment('Número de identificación de estudiante');

@@ -7,7 +7,8 @@ use App\Models\Documento\Documento;
 use App\Models\Ingreso\Aspirante;
 use App\Models\Sexo;
 use App\Models\User;
-use App\Models\Workflow\Solicitud;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,7 +17,7 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Persona extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = "persona";
 

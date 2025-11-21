@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.solicitud_carrera_sede', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('La carrera y sede para la cual se está realizando la solicitud');
 

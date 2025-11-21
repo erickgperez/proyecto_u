@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.grado', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Contine el grado otorgado por un tipo de carrera');
             $table->string('codigo', length: 15)->unique();
             $table->string('descripcion_masculino', length: 100)->comment('grado que se le otorga a un hombre por finalizar la carrera.Ej.: Técnico');

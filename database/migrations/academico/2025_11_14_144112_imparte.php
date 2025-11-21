@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.imparte', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Para asignar el docente que impartida la unidad académica ofertada en una sede');
 
             $table->boolean('ofertada')->nullable()->default(true)->comment('Indicará que no se debe ofertar la unidad academica, en esa carrera/sede');

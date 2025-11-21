@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.etapa', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Las etapas por las que pasa un flujo');
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.tipo_carrera_sede_solicitud', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Catálogo para identificar el papel de la carrera sede en la solicitud, si será carrera origen o carrera destino. Utilizado en los procesos como cambio de carrera. En procesos de ingreso, si la carrera es primera, segunda o tercera opción');
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sexo', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Catálogo de sexo de la persona');
             $table->string('codigo', length: 5)->unique()->comment('Código que representa el sexo');
             $table->string('descripcion', length: 50)->nullable();

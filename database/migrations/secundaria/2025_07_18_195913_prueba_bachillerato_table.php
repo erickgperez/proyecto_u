@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('secundaria.prueba_bachillerato', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Nombre de la prueba que realizan para egresar de educación media');
             $table->string('codigo', length: 30)->unique();
             $table->string('descripcion', length: 200)->nullable();

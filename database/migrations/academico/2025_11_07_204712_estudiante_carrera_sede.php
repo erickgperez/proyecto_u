@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.estudiante_carrera_sede', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Relación para definir las carreras que cursa el estudiante');
             $table->timestamp('fecha_inicio')->nullable()->comment('Fecha en que empezó la carrera');
 

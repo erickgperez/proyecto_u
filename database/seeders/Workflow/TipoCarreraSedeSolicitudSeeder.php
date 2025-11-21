@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\Workflow;
 
+use App\Models\Workflow\TipoCarreraSedeSolicitud;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TipoCarreraSedeSolicitudSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class TipoCarreraSedeSolicitudSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('workflow.tipo_carrera_sede_solicitud')->insert([
+        TipoCarreraSedeSolicitud::createMany([
             ['codigo' => 'ORIGEN', 'descripcion' => 'La carrera será el origen'],
             ['codigo' => 'DESTINO', 'descripcion' => 'La carrera será el destino al aprobarse la solicitud'],
             ['codigo' => 'PRIMERA_OPCION', 'descripcion' => 'La carrera principal en el proceso de ingreso'],

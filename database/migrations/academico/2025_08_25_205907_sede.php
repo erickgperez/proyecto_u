@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.sede', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Registro de las sedes');
             $table->string('codigo', length: 20)->unique()->comment('Código de identificación de la sede');
             $table->string('nombre', length: 255)->nullable()->comment('Nombre descriptivo de la sede');

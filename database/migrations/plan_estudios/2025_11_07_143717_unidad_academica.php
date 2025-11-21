@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.unidad_academica', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Las unidades académicas que componen las carreras');
             $table->string('codigo', length: 50)->unique()->comment('Código que identifica a la unidad académica');

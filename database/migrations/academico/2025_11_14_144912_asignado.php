@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.asignado', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Especifica en qué carreras/sedes está asignado un docente');
 
             $table->boolean('principal')->nullable()->default(false)->comment('Indica que está destacada principalmente en esta sede/carrera');

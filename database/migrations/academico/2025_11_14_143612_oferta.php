@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.oferta', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Oferta académica del semestre');
 
             $table->foreignId('carrera_unidad_academica_id')->comment('la unidad académica que se ofertará');

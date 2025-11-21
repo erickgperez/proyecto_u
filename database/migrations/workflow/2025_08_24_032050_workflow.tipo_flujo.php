@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.tipo_flujo', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Catálogo para tipos de flujo');
 

@@ -4,13 +4,15 @@ namespace App\Models\Academico;
 
 use App\Models\PlanEstudio\CarreraUnidadAcademica;
 use App\Models\User;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Oferta extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = "academico.oferta";
 

@@ -5,6 +5,8 @@ namespace App\Models;
 use App\Models\Documento\Documento;
 use App\Models\PlanEstudio\Grado;
 use App\Models\User;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -12,7 +14,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Estudio extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = "estudio";
 

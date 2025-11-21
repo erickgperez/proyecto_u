@@ -2,13 +2,15 @@
 
 namespace App\Models;
 
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Evento extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = 'public.evento';
 

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\PlanEstudio;
 
+use App\Models\PlanEstudio\TipoRequisito;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TipoRequisitoSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class TipoRequisitoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('plan_estudio.tipo_requisito')->insert([
+        TipoRequisito::createMany([
             ['codigo' => 'PRERREQUISITO', 'descripcion' => 'Prerrequisito'],
             ['codigo' => 'CORREQUISITO', 'descripcion' => 'Correquisito'],
         ]);

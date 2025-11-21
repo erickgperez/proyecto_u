@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('secundaria.institucion', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Instituciones de educación media');
             $table->string('codigo', length: 20)->unique()->comment('Código que identifica a la institución');
             $table->string('nombre', length: 255)->comment('Nombre de la institución de bachillerato');

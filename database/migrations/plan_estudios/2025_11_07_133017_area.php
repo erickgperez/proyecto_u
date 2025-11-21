@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.area', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Catálogo de áreas a las que pertenecen las unidades de estudio');
             $table->string('codigo', length: 50)->unique('Código del área');

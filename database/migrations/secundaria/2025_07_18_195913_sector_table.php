@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('secundaria.sector', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Sector al que pertenece la institución educativa: Público(PU) o Privado(PR)');
             $table->string('codigo', length: 10)->unique();
             $table->string('descripcion', length: 50)->nullable();

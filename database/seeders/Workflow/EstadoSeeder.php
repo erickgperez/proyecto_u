@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Workflow;
 
+use App\Models\Workflow\Estado;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +13,7 @@ class EstadoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('workflow.estado')->insert([
+        Estado::createMany([
             ['codigo' => 'INICIO', 'descripcion' => 'Solicitud iniciada'],
             ['codigo' => 'EN_TRAMITE', 'descripcion' => 'Solicitud está en trámite'],
             ['codigo' => 'REVISION', 'descripcion' => 'La solicitud está siendo revisada'],

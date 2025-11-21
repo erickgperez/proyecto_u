@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('datos_contacto', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Datos de contacto asociados a persona)');
             $table->string('email_principal', length: 100)->nullable()->unique();
             $table->string('email_alternativo', length: 100)->nullable();

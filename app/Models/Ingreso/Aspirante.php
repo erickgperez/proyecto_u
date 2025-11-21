@@ -4,6 +4,8 @@ namespace App\Models\Ingreso;
 
 use App\Models\Persona;
 use App\Models\Workflow\Solicitud;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -13,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 class Aspirante extends Model
 {
 
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = "ingreso.aspirante";
 

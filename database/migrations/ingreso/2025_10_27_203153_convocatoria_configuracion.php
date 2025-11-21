@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ingreso.convocatoria_configuracion', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Los parámetros de configuración de la convocatoria');
 
             $table->tinyInteger('cuota_sector_publico')->nullable()->unsigned()->comment('Porcentaje de cupo asignado al sector público');

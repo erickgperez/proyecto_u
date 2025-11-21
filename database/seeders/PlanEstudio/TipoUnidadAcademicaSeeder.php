@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\PlanEstudio;
 
-use App\Models\PlanEstudio\Grado;
+use App\Models\PlanEstudio\TipoUnidadAcademica;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -13,7 +13,7 @@ class TipoUnidadAcademicaSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('plan_estudio.tipo_unidad_academica')->insert([
+        TipoUnidadAcademica::createMany([
             ['codigo' => 'ASIGNATURA', 'descripcion' => 'Asignatura'],
             ['codigo' => 'CURSO', 'descripcion' => 'Curso'],
             ['codigo' => 'MODULO', 'descripcion' => 'Módulo'],

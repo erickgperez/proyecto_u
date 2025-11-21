@@ -5,8 +5,9 @@ namespace Database\Seeders\Workflow;
 use App\Models\Workflow\Estado;
 use App\Models\Workflow\Etapa;
 use App\Models\Workflow\Flujo;
+use App\Models\Workflow\Transicion;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+
 
 class TransicionSeeder extends Seeder
 {
@@ -15,7 +16,7 @@ class TransicionSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('workflow.transicion')->insert([
+        Transicion::createMany([
             [
                 'codigo' => 'SELECCIONAR_CARRERA',
                 'nombre' => 'Seleccionar carrera',

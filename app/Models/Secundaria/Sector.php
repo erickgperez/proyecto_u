@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Models;
+namespace App\Models\Secundaria;
 
 use App\Traits\HasCreateMany;
 use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 
-class Sexo extends Model
+class Sector extends Model
 {
     use HasUuid, HasCreateMany;
 
-    protected $table = 'public.sexo';
+    protected $table = "secundaria.sector";
 }

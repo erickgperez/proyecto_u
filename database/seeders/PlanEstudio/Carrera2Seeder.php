@@ -16,7 +16,7 @@ class Carrera2Seeder extends Seeder
     {
         $estadoId = Estado::where('codigo', 'VIGENTE')->first()->id;
         $tipoId = TipoCarrera::where('codigo', 'MICROCERTIFICACION')->first()->id;
-        Carrera::insert([
+        Carrera::createMany([
             //Certificaciones de Tecnologías de la Información
             ['codigo' => 'MCABD01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Administración y gestión de bases de datos', 'tipo_carrera_id' => $tipoId, 'estado_id' => $estadoId],
             ['codigo' => 'MCDFS01', 'certificacion_de' => Carrera::where('codigo', '01')->first()->id, 'nombre' => 'Desarrollador Full Stack', 'tipo_carrera_id' => $tipoId, 'estado_id' => $estadoId],

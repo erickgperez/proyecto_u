@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\Academico;
 
+use App\Models\Academico\Sede;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SedeSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class SedeSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('academico.sede')->insert([
+        Sede::createMany([
             ['codigo' => 'S-SS', 'nombre' => 'SAN SALVADOR'],
             ['codigo' => 'S-SO', 'nombre' => 'SONSONATE'],
             ['codigo' => 'S-CH', 'nombre' => 'CHALATENANGO'],

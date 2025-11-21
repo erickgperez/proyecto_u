@@ -8,6 +8,8 @@ use App\Models\Academico\Sede;
 use App\Models\Estudio;
 use App\Models\Secundaria\Carrera as SecundariaCarrera;
 use App\Models\User;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -17,7 +19,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Carrera extends Model
 {
 
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = 'plan_estudio.carrera';
 

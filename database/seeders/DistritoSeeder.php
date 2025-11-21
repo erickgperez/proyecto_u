@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Distrito;
 use App\Models\Municipio;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ class DistritoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('distrito')->insert([
+        Distrito::insert([
             ['codigo' => '0101', 'descripcion' => 'Ahuachapán', 'municipio_id' => Municipio::where('codigo', '0101')->first()->id],
             ['codigo' => '0102', 'descripcion' => 'Apaneca', 'municipio_id' => Municipio::where('codigo', '0101')->first()->id],
             ['codigo' => '0104', 'descripcion' => 'Concepción de Ataco', 'municipio_id' => Municipio::where('codigo', '0101')->first()->id],

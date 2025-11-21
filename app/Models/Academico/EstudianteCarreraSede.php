@@ -3,13 +3,15 @@
 namespace App\Models\Academico;
 
 use App\Models\User;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class EstudianteCarreraSede extends Pivot
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = "academico.estudiante_carrera_sede";
 

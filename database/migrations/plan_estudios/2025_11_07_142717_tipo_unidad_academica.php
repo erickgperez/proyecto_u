@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.tipo_unidad_academica', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Identifica el tipo de la unidad académica: Asignatura, Módulo, Curso...');
             $table->string('codigo', length: 50)->unique();

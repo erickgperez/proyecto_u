@@ -15,7 +15,7 @@ class ConvocatoriaSeeder extends Seeder
      */
     public function run(): void
     {
-        Convocatoria::insert([
+        Convocatoria::createMany([
             [
                 'nombre' => '01-2026',
                 'activa' => true,

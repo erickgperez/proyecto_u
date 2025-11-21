@@ -6,6 +6,8 @@ use App\Models\Academico\Sede;
 use App\Models\Persona;
 use App\Models\Rol;
 use App\Models\User;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -14,7 +16,7 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 
 class Solicitud extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = 'workflow.solicitud';
 

@@ -8,6 +8,8 @@ use App\Models\Secundaria\Invitacion;
 use App\Models\User;
 use App\Models\Workflow\Flujo;
 use App\Models\Workflow\Solicitud;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -19,7 +21,7 @@ use Illuminate\Database\Eloquent\Relations\MorphOne;
 
 class Convocatoria extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = "ingreso.convocatoria";
 

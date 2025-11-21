@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('persona', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Almacena la información general de las personas (aspirantes, estudiantes, docentes y otros)');
             $table->string('primer_nombre', length: 100);
             $table->string('segundo_nombre', length: 100)->nullable();

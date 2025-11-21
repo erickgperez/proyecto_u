@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Workflow;
 
+use App\Models\Workflow\Etapa;
 use App\Models\Workflow\Flujo;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
@@ -13,7 +14,7 @@ class EtapaSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('workflow.etapa')->insert([
+        Etapa::createMany([
             [
                 'codigo' => 'SELECCION_CARRERA',
                 'nombre' => 'Selección carrera/sede',

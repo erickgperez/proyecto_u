@@ -14,7 +14,7 @@ class UnidadAcademicaSeeder extends Seeder
     public function run(): void
     {
         $tipoId = TipoUnidadAcademica::where('codigo', 'ASIGNATURA')->first()->id;
-        UnidadAcademica::insert([
+        UnidadAcademica::createMany([
             //Asignaturas de Tecnologías de la Información
             ['codigo' => 'FTI0101', 'nombre' => 'FUNDAMENTOS DE TECNOLOGÍAS DE LA INFORMACIÓN', 'creditos' => 0, 'tipo_unidad_academica_id' => $tipoId],
             ['codigo' => 'LDI0101', 'nombre' => 'LÓGICA DIGITAL', 'creditos' => 0, 'tipo_unidad_academica_id' => $tipoId],

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('documento.documento', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Guarda la información de los documentos subidos al sistema');
             $table->string('numero', length: 100)->nullable()->comment('Número del documento. Ej.: número de DUI, número de partida de nacimiento, entre otros');
             $table->timestamp('fecha_emision')->nullable()->comment('Fecha en que se emitió el documento');

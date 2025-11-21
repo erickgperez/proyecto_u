@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Sexo;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SexoSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class SexoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('sexo')->insert([
+        Sexo::createMany([
             ['codigo' => 'M', 'descripcion' => 'Masculino'],
             ['codigo' => 'F', 'descripcion' => 'Femenino'],
         ]);

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\Workflow;
 
+use App\Models\Workflow\TipoFlujo;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TipoFlujoSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class TipoFlujoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('workflow.tipo_flujo')->insert([
+        TipoFlujo::createMany([
             ['codigo' => 'INGRESO', 'descripcion' => 'Proceso de ingreso universitario'],
             ['codigo' => 'CONFIGURACION_CONVOCATORIA', 'descripcion' => 'Proceso de configuración de convocatoria'],
         ]);

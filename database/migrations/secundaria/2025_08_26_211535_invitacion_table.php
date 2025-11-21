@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('secundaria.invitacion', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Invitaciones enviadas a los estudiantes de bachillerato');
             $table->string('nie', length: 15)->unique()->comment('Número de identificación de estudiante');
             $table->string('codigo', length: 15)->nullable()->comment('Código de invitación, se usará junto al nie para que el estudiante se registre');

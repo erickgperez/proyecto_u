@@ -2,9 +2,9 @@
 
 namespace Database\Seeders\Academico;
 
+use App\Models\Academico\Estado;
 use App\Models\Academico\UsoEstado;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class EstadoSeeder extends Seeder
 {
@@ -13,7 +13,7 @@ class EstadoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('academico.estado')->insert([
+        Estado::createMany([
             ['codigo' => 'ESTUDIANTE', 'descripcion' => 'Estudiante activo', 'uso_estado_id' => UsoEstado::where('codigo', 'ESTUDIANTE_CARRERA_SEDE')->first()->id],
             ['codigo' => 'EGRESADO', 'descripcion' => 'Egresado de la carrera', 'uso_estado_id' => UsoEstado::where('codigo', 'ESTUDIANTE_CARRERA_SEDE')->first()->id],
             ['codigo' => 'GRADUADO', 'descripcion' => 'Estudiante graduado', 'uso_estado_id' => UsoEstado::where('codigo', 'ESTUDIANTE_CARRERA_SEDE')->first()->id],

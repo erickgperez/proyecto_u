@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.solicitud', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Solicitudes realizadas por la persona');
 

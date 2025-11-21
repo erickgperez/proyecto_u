@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.semestre', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Los semestres o periodos académicos');
             $table->string('codigo', length: 100)->unique()->comment('Código identificador del semestre');
             $table->string('descripcion', length: 255)->nullable()->comment('Texto descriptivo del semestre');

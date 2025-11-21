@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('documento.archivo', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Guarda los archivos que se suben');
             $table->string('nombre_original', length: 255)->comment('Nombre original del archivo');
             $table->string('tipo', length: 100)->comment('Se utilizará para guardar el tipo mime archivo');

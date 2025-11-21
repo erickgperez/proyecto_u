@@ -2,10 +2,14 @@
 
 namespace App\Models\PlanEstudio;
 
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use Illuminate\Database\Eloquent\Model;
 
 class Grado extends Model
 {
+
+    use HasUuid, HasCreateMany;
 
     protected $table = 'plan_estudio.grado';
 

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('documento.persona_documento', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Relación de muchos a muchos entre persona y documento');
 
             $table->foreignId('persona_id')->comment('Id de la persona a quien pertenece el documento');

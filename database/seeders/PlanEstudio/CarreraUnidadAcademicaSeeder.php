@@ -16,7 +16,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
     {
         $carrera = Carrera::where('codigo', '01')->first()->id;
         //Asignaturas de Tecnologías de la Información
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'FTI0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'LDI0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IRE0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -40,57 +40,57 @@ class CarreraUnidadAcademicaSeeder extends Seeder
         ]);
         //Certificaciones de TI
         $carrera = Carrera::where('codigo', 'MCABD01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'BDA0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'BDN0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'ABD0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCDFS01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'PRO0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'PMO0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'DFS0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCSRI01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IRE0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'SOP0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCREC01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'RCR0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IRI0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCSIN01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'FSE0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'ISR0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCANU01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'ANU0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'DRN0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCGIV01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'ANU0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'VIR0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCIOT01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'RCR0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'ICO0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCARI01')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IRE0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IRI0101')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
@@ -98,7 +98,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
 
         $carrera = Carrera::where('codigo', '02')->first()->id;
         //Asignaturas de Mantenimiento Industrial
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MTA0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MIN0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IMI0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -122,14 +122,14 @@ class CarreraUnidadAcademicaSeeder extends Seeder
         ]);
 
         $carrera = Carrera::where('codigo', 'MCIME02')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MEM0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'SHI0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'EAM0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCPFC02')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MIN0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MEM0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'SRM0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -138,7 +138,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
         ]);
 
         $carrera = Carrera::where('codigo', 'MCSIN02')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MIN0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MEM0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'SRM0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -147,7 +147,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
         ]);
 
         $carrera = Carrera::where('codigo', 'MCMAR02')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'FFT0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'SHI0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'EAM0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -155,7 +155,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
         ]);
 
         $carrera = Carrera::where('codigo', 'MCTMP02')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IMI0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'TEM0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'TMP0201')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -164,7 +164,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
 
         $carrera = Carrera::where('codigo', '03')->first()->id;
         //Asignaturas de Industrias Alimentarias
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MAP0301')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'QGE0301')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'BGE0301')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -191,7 +191,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
 
         $carrera = Carrera::where('codigo', '04')->first()->id;
         //Asignaturas de Turismo
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'TIC0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'HSE0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'GTU0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -216,7 +216,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
         ]);
 
         $carrera = Carrera::where('codigo', 'MCIPT04')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'TIC0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'HSE0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'GTU0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -224,38 +224,38 @@ class CarreraUnidadAcademicaSeeder extends Seeder
         ]);
 
         $carrera = Carrera::where('codigo', 'MCOST04')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'PNC0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IAL0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'GSC0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCOAG04')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'OGA0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'OAL0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCEPP04')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'AOT0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'RPT0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCOSE04')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IBP0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCIPC04')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'AOT0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'MTU0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'RPT0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
         ]);
 
         $carrera = Carrera::where('codigo', 'MCGID04')->first()->id;
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'AOT0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'IBP0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'RPT0401')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
@@ -265,7 +265,7 @@ class CarreraUnidadAcademicaSeeder extends Seeder
 
         $carrera = Carrera::where('codigo', '05')->first()->id;
         //Asignaturas de Eficiencia Energética
-        CarreraUnidadAcademica::insert([
+        CarreraUnidadAcademica::createMany([
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'PRE0501')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'SEN0501')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],
             ['carrera_id' => $carrera, 'unidad_academica_id' => UnidadAcademica::where('codigo', 'SOC0501')->first()->id, 'semestre' => 1, 'obligatoria' => true, 'requisito_creditos' => 0],

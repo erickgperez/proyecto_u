@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
+use App\Models\Departamento;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class DepartamentoSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class DepartamentoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('departamento')->insert([
+        Departamento::insert([
             ['codigo' => '01', 'descripcion' => 'AHUACHAPAN'],
             ['codigo' => '02', 'descripcion' => 'SANTA ANA'],
             ['codigo' => '03', 'descripcion' => 'SONSONATE'],

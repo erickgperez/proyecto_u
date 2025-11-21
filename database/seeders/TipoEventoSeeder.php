@@ -13,7 +13,7 @@ class TipoEventoSeeder extends Seeder
      */
     public function run(): void
     {
-        TipoEvento::insert([
+        TipoEvento::createMany([
             ['codigo' => 'ACTIVIDAD', 'descripcion' => 'Actividad general', 'tipo_calendarizacion_id' => null],
             ['codigo' => 'INSCRIPCION', 'descripcion' => 'Periodo de inscripción de asignaturas', 'tipo_calendarizacion_id' => TipoCalendarizacion::where('codigo', 'SEMESTRE')->first()->id],
             ['codigo' => 'RETIRO_ASIGNATURAS', 'descripcion' => 'Periodo de retiro de asignaturas', 'tipo_calendarizacion_id' => TipoCalendarizacion::where('codigo', 'SEMESTRE')->first()->id],

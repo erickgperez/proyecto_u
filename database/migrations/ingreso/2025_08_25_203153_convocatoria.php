@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('ingreso.convocatoria', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Las convocatorias que se realizarán en ingreso universitario');
             $table->string('nombre', length: 100)->comment('Nombre identificador de la convocatoria');
             $table->string('descripcion', length: 255)->nullable()->comment('Texto detallado de la convocatoria');

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('documento.tipo', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Catálogo de tipos de documentos');
             $table->string('codigo', length: 50)->unique();
             $table->string('descripcion', length: 255)->nullable();

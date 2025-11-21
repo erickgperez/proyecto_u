@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('evento', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Eventos que se darán en una calendarización');
             $table->timestamp('fecha_inicio')->comment('Fecha en que inicia el evento');
             $table->timestamp('fecha_fin')->nullable()->comment('Fecha en que finaliza el evento');

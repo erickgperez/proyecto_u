@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tipo_evento', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Permite catalogar los eventos según el proceso en que se vayan a utilizar');
             $table->string('codigo', length: 100)->comment('Código para identificar el tipo de evento');

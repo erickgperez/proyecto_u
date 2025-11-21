@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.docente', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Tabla de docentes');
 

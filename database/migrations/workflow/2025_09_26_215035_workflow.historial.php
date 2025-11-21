@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.historial', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Historial de las etapas por las que ha pasado la solicitud');
 

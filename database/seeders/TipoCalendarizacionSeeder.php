@@ -12,7 +12,7 @@ class TipoCalendarizacionSeeder extends Seeder
      */
     public function run(): void
     {
-        TipoCalendarizacion::insert([
+        TipoCalendarizacion::createMany([
             ['codigo' => 'CONVOCATORIA', 'descripcion' => 'Para identificar calendarios de convocatorias'],
             ['codigo' => 'SEMESTRE', 'descripcion' => 'Identifica calendarios de semestre académico'],
         ]);

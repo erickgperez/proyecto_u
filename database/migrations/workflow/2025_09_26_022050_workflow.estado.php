@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.estado', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Catálogo de estados de la solicitud');
 

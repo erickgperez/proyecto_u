@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.flujo', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Para la creación de los procesos que se realizarán');
 

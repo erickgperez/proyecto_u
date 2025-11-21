@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\PlanEstudio;
 
+use App\Models\PlanEstudio\Grado;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class GradoSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class GradoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('plan_estudio.grado')->insert([
+        Grado::createMany([
             ['codigo' => '01', 'descripcion_masculino' => 'Bachiller', 'descripcion_femenino' => 'Bachiller'],
             ['codigo' => '02', 'descripcion_masculino' => 'Técnico', 'descripcion_femenino' => 'Técnica'],
         ]);

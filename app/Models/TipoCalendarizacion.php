@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 
 class TipoCalendarizacion extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = 'public.tipo_calendarizacion';
 

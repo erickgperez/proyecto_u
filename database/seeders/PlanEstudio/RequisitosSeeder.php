@@ -486,7 +486,7 @@ class RequisitosSeeder extends Seeder
 
 
         foreach ($requisitosConsolidados as $r) {
-            Requisitos::insert([
+            Requisitos::createMany([
                 [
                     'carrera_unidad_academica_id' => $r['unidad'],
                     'carrera_unidad_academica_requisito_id' => $r['requisito'],

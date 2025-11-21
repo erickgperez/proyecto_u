@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.estado', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Clasificación de estados');
             $table->string('codigo', length: 50)->unique()->comment('Código del estado');
             $table->string('descripcion', length: 255)->nullable()->comment('Nombre descriptivo del estado');

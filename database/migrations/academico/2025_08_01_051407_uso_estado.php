@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('academico.uso_estado', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Clasificación del uso que se le dará a los estados');
             $table->string('codigo', length: 50)->unique()->comment('Código de identificación del uso del estado');
             $table->string('descripcion', length: 255)->nullable()->comment('Nombre descriptivo del uso en que se aplicará el estado');

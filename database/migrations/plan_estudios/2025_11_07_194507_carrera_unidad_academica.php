@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.carrera_unidad_academica', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Tabla para relacionar las unidades académicas que pertenecen a una carrera');
             $table->tinyInteger('semestre')->comment('Semestre en que se imparte la unidad academica');
             $table->boolean('obligatoria')->default(true)->comment('Indica si la unidad de estudio es obligatoria en la carrera');

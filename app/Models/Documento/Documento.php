@@ -4,6 +4,8 @@ namespace App\Models\Documento;
 
 use App\Models\Persona;
 use App\Models\User;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +13,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Documento extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
     protected $table = 'documento.documento';
 
     protected $fillable = [

@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.tipo_requisito', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Catálogo de tipos de requisitos');
             $table->string('codigo', length: 50)->unique();
             $table->string('descripcion', length: 150)->comment('Descripción del tipo de requisito');

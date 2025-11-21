@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Academico;
 
+use App\Models\Academico\CarreraSede;
 use App\Models\Academico\Estado;
 use App\Models\Academico\Sede;
 use App\Models\PlanEstudio\Carrera;
@@ -23,7 +24,7 @@ class CarreraSedeSeeder extends Seeder
         $sedeMO = Sede::where('codigo', 'S-MO')->first()->id;
         $sedeLU = Sede::where('codigo', 'S-LU')->first()->id;
 
-        DB::table('academico.carrera_sede')->insert([
+        CarreraSede::createMany([
             //Sede San Salvador
             //***carreras
             ['sede_id' => $sedeSS, 'carrera_id' => Carrera::where('codigo', '01')->first()->id, 'cupo' => 10, 'estado_id' => $estadoId],

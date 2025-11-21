@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('estudio', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Los estudios realizados por una persona');
             $table->string('nombre_titulo', length: 255)->nullable()->comment('Nombre del título obtenido');
             $table->string('nombre_institucion', length: 255)->nullable()->comment('Nombre de la institución donde se realizó');

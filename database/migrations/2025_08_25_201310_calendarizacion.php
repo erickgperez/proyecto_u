@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('calendarizacion', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Permite crear calendarizaciones para asignar a procesos');
             $table->string('codigo', length: 100)->comment('Código de la calendarización, normalmente llevará el código del proceso al que está asociado el calendario');

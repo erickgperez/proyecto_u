@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\Secundaria;
 
+use App\Models\Secundaria\Sector;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class SectorSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class SectorSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('secundaria.sector')->insert([
+        Sector::createMany([
             ['codigo' => '01', 'descripcion' => 'Público'],
             ['codigo' => '02', 'descripcion' => 'Privado'],
         ]);

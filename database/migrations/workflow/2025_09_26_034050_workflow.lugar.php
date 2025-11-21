@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('workflow.lugar', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Identifica los lugares físicos donde se encuentra una etapa');
 

@@ -19,7 +19,7 @@ class ConvocatoriaSolicitudSeeder extends Seeder
      */
     public function run(): void
     {
-        $solId = Solicitud::insertGetId(
+        $solicitud = Solicitud::create(
             [
                 'solicitante_id' => Convocatoria::where('nombre', '01-2026')->first()->id,
                 'solicitante_type' => 'App\Models\Ingreso\Convocatoria',
@@ -31,8 +31,8 @@ class ConvocatoriaSolicitudSeeder extends Seeder
             ],
         );
 
-        Historial::insert([
-            'solicitud_id' => $solId,
+        Historial::create([
+            'solicitud_id' => $solicitud->id,
             'etapa_id' => Etapa::where('codigo', 'OFERTA')->first()->id,
             'estado_id' => Estado::where('codigo', 'INICIO')->first()->id,
             'created_at' => Carbon::now(),

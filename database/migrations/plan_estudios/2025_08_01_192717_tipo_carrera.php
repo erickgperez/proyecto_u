@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.tipo_carrera', function (Blueprint $table) {
             $table->id();
+            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Tipo de la carrera, por ejemplo: Técnica, Ingeniería, Licenciatura...');
             $table->string('codigo', length: 20)->unique();

@@ -2,8 +2,8 @@
 
 namespace Database\Seeders\Documento;
 
+use App\Models\Documento\TipoDocumento;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class TipoSeeder extends Seeder
 {
@@ -12,7 +12,7 @@ class TipoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('documento.tipo')->insert([
+        TipoDocumento::createMany([
             ['codigo' => 'DUI', 'descripcion' => 'Documento único de identidad'],
             ['codigo' => 'TITULO_BACHILLER', 'descripcion' => 'Título de bachillerato'],
             ['codigo' => 'PARTIDA_NACIMIENTO', 'descripcion' => 'Partida de nacimiento'],

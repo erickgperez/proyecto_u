@@ -2,6 +2,7 @@
 
 namespace Database\Seeders\Secundaria;
 
+use App\Models\Secundaria\PruebaBachillerato;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 
@@ -12,7 +13,7 @@ class PruebaBachilleratoSeeder extends Seeder
      */
     public function run(): void
     {
-        DB::table('secundaria.prueba_bachillerato')->insert([
+        PruebaBachillerato::createMany([
             ['codigo' => 'AVANZO', 'descripcion' => ''],
         ]);
     }

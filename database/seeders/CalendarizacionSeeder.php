@@ -14,7 +14,7 @@ class CalendarizacionSeeder extends Seeder
     public function run(): void
     {
         //Agregarle un calendario a la convocatoria
-        Calendarizacion::insert([
+        Calendarizacion::create([
             'codigo' => '01-2026',
             'descripcion' => 'Calendario asociado a convocatoria de prueba',
             'tipo_calendarizacion_id' => TipoCalendarizacion::where('codigo', 'CONVOCATORIA')->first()->id,

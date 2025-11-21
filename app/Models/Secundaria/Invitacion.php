@@ -4,13 +4,15 @@ namespace App\Models\Secundaria;
 
 use App\Models\Ingreso\Convocatoria;
 use App\Models\User;
+use App\Traits\HasCreateMany;
+use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Invitacion extends Model
 {
-    use UserStamps;
+    use UserStamps, HasUuid, HasCreateMany;
     //
     protected $table = "secundaria.invitacion";
 
