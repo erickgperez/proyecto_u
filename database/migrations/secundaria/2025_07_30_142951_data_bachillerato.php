@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('secundaria.data_bachillerato', function (Blueprint $table) {
             //$table->id();
-            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Tabla para subir temporalmente los datos leídos desde el archivo de excel');
             $table->string('nie', length: 15)->unique()->comment('Número de identificación de estudiante');
             $table->string('correo', length: 150)->nullable()->comment('Correo electrónico que se usará para contactar al estudiante');
