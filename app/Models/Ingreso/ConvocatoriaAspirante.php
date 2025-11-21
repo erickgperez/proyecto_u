@@ -2,18 +2,15 @@
 
 namespace App\Models\Ingreso;
 
-use App\Models\Academico\CarreraSede;
 use App\Models\User;
 use App\Models\Workflow\SolicitudCarreraSede;
-use App\Traits\HasCreateMany;
-use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ConvocatoriaAspirante extends Model
 {
-    use UserStamps, HasUuid, HasCreateMany;
+    use UserStamps;
 
     protected $table = "ingreso.convocatoria_aspirante";
 

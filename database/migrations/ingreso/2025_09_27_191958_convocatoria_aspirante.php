@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('ingreso.convocatoria_aspirante', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Relación de muchos a muchos entre convocatoria y aspirante');
 
