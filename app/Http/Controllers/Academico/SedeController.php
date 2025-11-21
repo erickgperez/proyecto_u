@@ -26,7 +26,7 @@ class SedeController extends Controller
         $carrerasCupo = [];
         $tipos = [];
         foreach ($carreras_ as $c) {
-            $c->cupo =  1;
+            $c->cupo =  10;
             $tipos[$c->tipo->codigo] = $c->tipo->codigo;
             $carrerasCupo[] = $c;
         }

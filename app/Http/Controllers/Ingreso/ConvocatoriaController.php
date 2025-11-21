@@ -393,7 +393,7 @@ class ConvocatoriaController extends Controller
     public function ofertaCarreras(int $id)
     {
         $convocatoria = Convocatoria::find($id);
-        $oferta = $this->getSedesCarreras($convocatoria);
+        $oferta = $this->carreraSedeService->getSedesCarreras();
         return response()->json(['status' => 'ok', 'oferta' => $oferta]);
     }
 
