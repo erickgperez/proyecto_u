@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('persona_usuario', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Relación de muchos a muchos entre usuario y persona');
             $table->foreignId('persona_id');
