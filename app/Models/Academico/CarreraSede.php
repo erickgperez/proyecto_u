@@ -7,7 +7,6 @@ use App\Models\PlanEstudio\Carrera;
 use App\Models\User;
 use App\Models\Workflow\SolicitudCarreraSede;
 use App\Traits\HasCreateMany;
-use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
@@ -16,7 +15,7 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 
 class CarreraSede extends Pivot
 {
-    use UserStamps, HasUuid, HasCreateMany;
+    use UserStamps, HasCreateMany;
 
     protected $table = "academico.carrera_sede";
 

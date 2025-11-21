@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('plan_estudio.requisitos', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Tabla definir los requisitos de las unidades académicas');
 
             $table->foreignId('carrera_unidad_academica_id');

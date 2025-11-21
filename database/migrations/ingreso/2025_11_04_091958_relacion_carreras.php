@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('ingreso.relacion_carreras', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Relación para definir relaciones entre carreras universitarias y carreras de bachillerato');
 

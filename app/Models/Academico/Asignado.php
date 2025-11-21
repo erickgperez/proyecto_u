@@ -4,14 +4,13 @@ namespace App\Models\Academico;
 
 use App\Models\User;
 use App\Traits\HasCreateMany;
-use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Asignado extends Model
 {
-    use UserStamps, HasUuid, HasCreateMany;
+    use UserStamps, HasCreateMany;
 
     protected $table = "academico.asignado";
 
