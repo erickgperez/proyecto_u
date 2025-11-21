@@ -16,7 +16,7 @@ class OfertaController extends Controller
 
     public function index($id)
     {
-        $semestre = Semestre::find($id);
+        $semestre = Semestre::where('uuid', $id)->first();
         $carreras = Carrera::with(['unidadesAcademicas' => ['unidadAcademica']])
             ->whereHas('estado', function ($query) {
                 $query->where('codigo', 'VIGENTE');
@@ -37,6 +37,7 @@ class OfertaController extends Controller
             foreach ($unidades as $u) {
                 $children[] = [
                     'id' => $u->id,
+                    'uuid' => $u->uuid,
                     'tipo' => 'unidad',
                     'nombreCompleto' => '(' . $u->semestre . ') ' . $u->unidadAcademica->nombreCompleto,
                     'semestre' => $u->semestre,
@@ -52,19 +53,23 @@ class OfertaController extends Controller
     {
 
 
-        $oferta = Oferta::where('semestre_id', $id)->where('carrera_unidad_academica_id', $idCarreraUnidadAcademica)->first();
+        $semestre = Semestre::where('uuid', $id)->first();
+        $carreraUnidadAcademica = CarreraUnidadAcademica::where('uuid', $idCarreraUnidadAcademica)->first();
+
+        $oferta = Oferta::where('semestre_id', $semestre->id)
+            ->where('carrera_unidad_academica_id', $carreraUnidadAcademica->id)
+            ->first();
 
         if ($oferta) {
             $oferta->delete();
         } else {
             $oferta = new Oferta();
-            $oferta->semestre_id = $id;
-            $oferta->carrera_unidad_academica_id = $idCarreraUnidadAcademica;
+            $oferta->semestre_id = $semestre->id;
+            $oferta->carrera_unidad_academica_id = $carreraUnidadAcademica->id;
 
             $oferta->save();
 
             //Agregar la oferta por sede
-            $carreraUnidadAcademica = CarreraUnidadAcademica::find($idCarreraUnidadAcademica);
             $carrerasSedes = CarreraSede::where('carrera_id', $carreraUnidadAcademica->carrera_id)->get();
             foreach ($carrerasSedes as $cs) {
                 $imparte = new Imparte();
@@ -82,7 +87,13 @@ class OfertaController extends Controller
 
     public function getOfertaDetalle($id, $idCarreraUnidadAcademica)
     {
-        $oferta = Oferta::where('semestre_id', $id)->where('carrera_unidad_academica_id', $idCarreraUnidadAcademica)->first();
+        $semestre = Semestre::where('uuid', $id)->first();
+        $carreraUnidadAcademica = CarreraUnidadAcademica::where('uuid', $idCarreraUnidadAcademica)->first();
+
+        $oferta = Oferta::where('semestre_id', $semestre->id)
+            ->where('carrera_unidad_academica_id', $carreraUnidadAcademica->id)
+            ->first();
+
         $imparte = Imparte::from('academico.imparte as i')
             ->select(['i.*'])
             ->join('academico.carrera_sede as cs', 'i.carrera_sede_id', 'cs.id')
@@ -95,6 +106,7 @@ class OfertaController extends Controller
 
             $detalleOferta[] = [
                 'id' => $i->id,
+                'uuid' => $i->uuid,
                 'sede' => $i->carreraSede->sede->nombre,
                 'ofertada' => $i->ofertada,
                 'cupo' => $i->cupo,

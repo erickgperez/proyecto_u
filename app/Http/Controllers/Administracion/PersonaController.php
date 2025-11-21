@@ -45,7 +45,7 @@ class PersonaController extends Controller
     public function personaInfo($id, Request $request)
     {
 
-        $persona = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->find($id);
+        $persona = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->where('uuid', $id)->first();
 
         $distritosTree = $this->distritoService->distritosLikeTree();
 
@@ -90,7 +90,7 @@ class PersonaController extends Controller
 
     public function datosContactoSave($id, Request $request)
     {
-        $persona = Persona::find($id);
+        $persona = Persona::where('uuid', $id)->first();
         $datosContacto = $persona->datosContacto;
 
         if (!$datosContacto) {

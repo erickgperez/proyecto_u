@@ -63,7 +63,7 @@ async function submitForm() {
                 formData.value.residencia_distrito_id = formData.value.residencia_distrito[0].id;
             }
 
-            const resp = await axios.post(route('administracion-persona-datos-contacto-save', { id: props.item.id }), formData.value);
+            const resp = await axios.post(route('administracion-persona-datos-contacto-save', { id: props.item.uuid }), formData.value);
             if (resp.data.status == 'ok') {
                 emit('form-saved', resp.data.item);
                 mensajeExito(t('_datos_subidos_correctamente_'));

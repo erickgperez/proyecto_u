@@ -83,7 +83,7 @@ onMounted(() => {
             console.error('Error fetching data:', error);
         });
     axios
-        .get(route('administracion-persona-docente-data', { id: props.item.id }))
+        .get(route('administracion-persona-docente-data', { id: props.item.uuid }))
         .then(function (response) {
             docente.value = response.data.docente;
             formData.value.carreras_sedes = docente.value?.carreras_sedes.map((cs: any) => cs.id);

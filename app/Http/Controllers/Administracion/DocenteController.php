@@ -15,8 +15,9 @@ class DocenteController extends Controller
     public function data($id, Request $request)
     {
 
+        $persona = Persona::where('uuid', $id)->first();
         $docente = Docente::with('carrerasSedes')
-            ->where('persona_id', $id)->first();
+            ->where('persona_id', $persona->id)->first();
 
         return response()->json(['status' => 'ok', 'message' => '', 'docente' => $docente]);
     }

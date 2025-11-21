@@ -29,7 +29,7 @@ const formData = ref<FormData>({
 
 async function getOferta() {
     try {
-        const resp = await axios.get(route('academico-semestre-oferta-index', { id: props.item.id }));
+        const resp = await axios.get(route('academico-semestre-oferta-index', { id: props.item.uuid }));
         if (resp.data.status == 'ok') {
             items.value = resp.data.items;
         } else {
@@ -44,7 +44,7 @@ async function getOferta() {
 
 async function getDetalleOferta(item) {
     try {
-        const resp = await axios.get(route('academico-semestre-oferta-detalle', { id: props.item.id, idCarreraUnidadAcademica: item.id }));
+        const resp = await axios.get(route('academico-semestre-oferta-detalle', { id: props.item.uuid, idCarreraUnidadAcademica: item.uuid }));
         if (resp.data.status == 'ok') {
             detalleOferta.value = resp.data.detalleOferta;
         } else {
@@ -59,7 +59,7 @@ async function getDetalleOferta(item) {
 
 async function ofertar(item) {
     try {
-        const resp = await axios.post(route('academico-semestre-ofertar', { id: props.item.id, idCarreraUnidadAcademica: item.id }));
+        const resp = await axios.post(route('academico-semestre-ofertar', { id: props.item.uuid, idCarreraUnidadAcademica: item.uuid }));
         if (resp.data.status == 'ok') {
             item.ofertada = !item.ofertada;
             item.ofertaId = resp.data.ofertaId;

@@ -136,11 +136,6 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
-                        <!--<template v-slot:item.carreras="{ value }">
-                            <div class="d-flex ga-2">
-                                <v-list density="compact" class="transparent-list" :items="carrerasAgrupadasVList(tiposCarrera, value)"> </v-list>
-                            </div>
-                        </template>-->
                     </Listado>
                 </v-window-item>
 

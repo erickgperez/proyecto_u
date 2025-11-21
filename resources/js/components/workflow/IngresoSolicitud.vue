@@ -26,7 +26,7 @@ onMounted(() => {
     form1Data.value.fecha_nacimiento = props.solicitud.solicitante.persona.fecha_nacimiento;
 
     axios
-        .get(route('administracion-persona-info', { id: props.solicitud.solicitante.persona.id }))
+        .get(route('administracion-persona-info', { id: props.solicitud.solicitante.persona.uuid }))
         .then(function (response) {
             distritosTree.value = response.data.distritosTree;
             persona.value = response.data.persona;
