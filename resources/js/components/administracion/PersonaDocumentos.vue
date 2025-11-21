@@ -94,24 +94,19 @@ onMounted(() => {
     <v-card>
         <v-tabs v-model="tab" align-tabs="center" color="deep-purple-accent-4">
             <v-tab value="1">{{ $t('documento._plural_') }}</v-tab>
-            <v-tab value="2">{{ $t('documento._crear_') }}</v-tab>
+            <v-tab value="2">{{ $t('documento._agregar_') }}</v-tab>
         </v-tabs>
 
         <v-tabs-window v-model="tab">
             <v-tabs-window-item value="1">
-                <v-card class="pa-4 mb-8" max-width="300" v-for="doc in documentos" :key="doc.id">
+                <v-card class="pa-4 mb-8" max-width="300" v-for="doc in documentos" :key="doc.id" variant="outlined">
                     <!--<v-img height="200px" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-img>-->
 
                     <v-card-title> {{ doc.tipo.codigo }} </v-card-title>
 
                     <v-card-subtitle> {{ doc.archivos[0].tipo }}</v-card-subtitle>
                     <v-card-actions>
-                        <v-btn
-                            color="primary"
-                            :text="$t('_descargar_')"
-                            :href="`/administracion/documento/${doc.uuid}/descargar`"
-                            target="_blank"
-                        ></v-btn>
+                        <v-btn color="primary" :text="$t('_ver_')" :href="`/administracion/documento/${doc.uuid}/descargar`" target="_blank"></v-btn>
                     </v-card-actions>
                 </v-card>
             </v-tabs-window-item>

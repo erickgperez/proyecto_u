@@ -214,6 +214,7 @@
         "_permite_gestionar_datos_": "It allows you to manage documents",
         "_plural_": "Documents",
 
+        "_agregar_": "Add new document",
         "_numero_": "Number",
         "_fecha_emision_": "Date of issue",
         "_fecha_expiracion_": "Expiration date",
