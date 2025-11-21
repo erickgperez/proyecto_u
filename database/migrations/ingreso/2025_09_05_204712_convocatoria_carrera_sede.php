@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('ingreso.convocatoria_carrera_sede', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Relación para definir las carreras (por sede) para las cuales se hará la convocatoria');
 
             $table->foreignId('convocatoria_id')->comment('Id de la convocatoria a la que se le asigna la carrera/sede');
