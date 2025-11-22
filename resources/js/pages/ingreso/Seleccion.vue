@@ -301,8 +301,8 @@ const handleInfoSede = (newInfoSede: any) => {
                 </SeleccionDrawerParametros>
 
                 <v-window v-model="step">
-                    <v-window-item :value="1">
-                        <v-layout>
+                    <v-window-item :value="1" class="pt-6">
+                        <v-layout class="pt-10">
                             <SeleccionDrawerGraficos
                                 :info-sede="infoSede"
                                 :sede="sede"

@@ -14,8 +14,8 @@ defineProps({
 });
 </script>
 <template>
-    <v-navigation-drawer location="right" permanent class="rounded-r-xl" width="360">
-        <v-list density="compact" nav>
+    <v-navigation-drawer location="right" permanent class="rounded-r-xl pt-8" width="360">
+        <v-list density="compact" nav class="pt-6">
             <div class="text-center" v-for="sede_ in infoSede" :key="sede_.nombre">
                 <v-card :title="$t('convocatoria._consolidado_sede_')" class="elevation-4 mb-1 border-2" v-if="sede_.seleccionados > 0">
                     <v-card-text>
