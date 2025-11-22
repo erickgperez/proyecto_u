@@ -51,7 +51,9 @@ class DocumentoController extends Controller
 
         $documento->archivos()->sync([$archivo->id]);
 
-        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => '']);
+        $documentos = $persona->documentos()->with(['archivos', 'tipo'])->get();
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'documentos' => $documentos]);
     }
 
     public function documentosPersona($id)

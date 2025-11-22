@@ -10,11 +10,14 @@ const { rules, mensajeExito, mensajeError } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
+const tab = ref('');
+const documentos = ref([]);
 
 function reset() {
     if (formRef.value) {
         formRef.value.reset();
     }
+    formData.value.archivo_file = null;
 }
 
 interface FormData {
@@ -51,11 +54,10 @@ async function submitForm() {
                 },
             });
             if (resp.data.status == 'ok') {
-                //if (!isEditing.value) {
                 reset();
-                //}
-                //emit('form-saved', resp.data.item);
+                documentos.value = resp.data.documentos;
                 mensajeExito(t('_datos_subidos_correctamente_'));
+                tab.value = '1';
             } else {
                 throw new Error(resp.data.message);
             }
@@ -67,9 +69,6 @@ async function submitForm() {
     }
     loading.value = false;
 }
-
-const tab = ref(null);
-const documentos = ref([]);
 
 onMounted(() => {
     reset();
@@ -99,16 +98,23 @@ onMounted(() => {
 
         <v-tabs-window v-model="tab">
             <v-tabs-window-item value="1">
-                <v-card class="pa-4 mb-8" max-width="300" v-for="doc in documentos" :key="doc.id" variant="outlined">
-                    <!--<v-img height="200px" src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg" cover></v-img>-->
+                <v-row class="pt-2">
+                    <v-col v-for="doc in documentos" :key="doc.id" cols="12" md="4">
+                        <v-card class="pa-2" max-width="500" variant="outlined">
+                            <v-card-title> {{ doc.tipo.codigo }} </v-card-title>
 
-                    <v-card-title> {{ doc.tipo.codigo }} </v-card-title>
-
-                    <v-card-subtitle> {{ doc.archivos[0].tipo }}</v-card-subtitle>
-                    <v-card-actions>
-                        <v-btn color="primary" :text="$t('_ver_')" :href="`/administracion/documento/${doc.uuid}/descargar`" target="_blank"></v-btn>
-                    </v-card-actions>
-                </v-card>
+                            <v-card-subtitle> {{ doc.archivos[0].tipo }}</v-card-subtitle>
+                            <v-card-actions>
+                                <v-btn
+                                    color="primary"
+                                    :text="$t('_ver_')"
+                                    :href="`/administracion/documento/${doc.uuid}/descargar`"
+                                    target="_blank"
+                                ></v-btn>
+                            </v-card-actions>
+                        </v-card>
+                    </v-col>
+                </v-row>
             </v-tabs-window-item>
             <v-tabs-window-item value="2">
                 <v-sheet class="pa-5">
