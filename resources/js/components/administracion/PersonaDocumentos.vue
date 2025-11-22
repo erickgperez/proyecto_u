@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -12,6 +12,7 @@ const loading = ref(false);
 const formRef = ref<VForm | null>(null);
 const tab = ref('');
 const documentos = ref([]);
+const isEditing = ref(false);
 
 function reset() {
     if (formRef.value) {
@@ -45,6 +46,7 @@ const formData = ref<FormData>({
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
     loading.value = true;
+    formData.value.persona_id = props.item.id;
 
     if (valid) {
         try {
@@ -70,11 +72,15 @@ async function submitForm() {
     loading.value = false;
 }
 
+function editDocumento(documento) {
+    console.log(documento);
+    formData.value = { ...documento };
+    tab.value = '2';
+    isEditing.value = true;
+}
+
 onMounted(() => {
     reset();
-
-    //formData.value = { ...props.item };
-    formData.value.persona_id = props.item.id;
 
     // Recuperar los documentos de la persona
     axios
@@ -87,6 +93,12 @@ onMounted(() => {
         .catch(function (error) {
             console.log(error);
         });
+});
+watch(tab, (newVal) => {
+    if (newVal == '1') {
+        isEditing.value = false;
+        reset();
+    }
 });
 </script>
 <template>
@@ -111,6 +123,8 @@ onMounted(() => {
                                     :href="`/administracion/documento/${doc.uuid}/descargar`"
                                     target="_blank"
                                 ></v-btn>
+                                <v-spacer></v-spacer>
+                                <v-btn color="primary" :text="$t('_actualizar_')" @click="editDocumento(doc)"></v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-col>
@@ -130,6 +144,9 @@ onMounted(() => {
                                     item-title="descripcion"
                                     item-value="id"
                                     prepend-icon="mdi-form-dropdown"
+                                    :readonly="isEditing"
+                                    :hint="isEditing ? $t('documento._no_puede_cambiar_tipo_doc_') : ''"
+                                    persistent-hint
                                 ></v-select>
                             </v-col>
                             <v-col cols="6">
@@ -160,6 +177,7 @@ onMounted(() => {
                                     :label="$t('documento._archivo_formato_imagen_pdf_')"
                                     accept="image/*, application/pdf"
                                     :rules="[rules.required]"
+                                    icon-color="deep-orange"
                                     clearable
                                     v-model="formData.archivo_file"
                                     @input="formData.archivo_file = $event.target.files[0]"

@@ -23,17 +23,32 @@ class DocumentoController extends Controller
         ]);
 
         $persona = Persona::find($request->get('persona_id'));
-
         $file = $request->file('archivo_file');
         $mimeType = $file->getMimeType();
         $fileName = $file->getClientOriginalName();
         $fileSize = $file->getSize();
         $path = $file->store('documents/personas');
 
-        //Crear el documento
-        $documento = new Documento();
+        if ($request->get('id') === null) {
+            //Está agregando uno nuevo
+            $documento = new Documento();
+            $documento->tipo_id = $request->get('tipo_id');
+        } else {
+            // Está editando
+            $documento = Documento::find($request->get('id'));
+
+            //Borrar el archivo anterior
+            $archivos = $documento->archivos;
+
+            foreach ($archivos as $file) {
+                if ($file->ruta != null && Storage::exists($file->ruta)) {
+                    Storage::delete($file->ruta);
+                }
+                $file->delete();
+            }
+        }
+
         $documento->numero = $request->get('numero');
-        $documento->tipo_id = $request->get('tipo_id');
         $documento->fecha_emision = $request->get('fecha_emision');
         $documento->fecha_expiracion = $request->get('fecha_expiracion');
         $documento->save();

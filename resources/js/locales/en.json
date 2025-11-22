@@ -4,6 +4,7 @@
     "actividad": {
         "_actividad_": "Activity"
     },
+    "_actualizar_": "Update",
     "_afiche_": "Poster",
     "_administrar_convocatoria_": "Manage application process",
     "_afiche_formato_pdf_": "Poster in PDF format",
@@ -219,7 +220,8 @@
         "_fecha_emision_": "Date of issue",
         "_fecha_expiracion_": "Expiration date",
         "_tipo_": "Document type",
-        "_archivo_formato_pdf_": "Image file or PDF"
+        "_archivo_formato_pdf_": "Image file or PDF",
+        "_no_puede_cambiar_tipo_doc_": "You cannot change the document type"
     },
     "_editar_": "Edit",
     "_editar_convocatoria_": "Edit application process",
