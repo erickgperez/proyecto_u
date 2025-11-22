@@ -64,10 +64,10 @@ class EventoController extends Controller
 
     public function delete($id)
     {
-        $evento = Evento::find($id);
+        $evento = Evento::where('uuid', $id)->first();
         $calendario = $evento->calendario()->first();
 
-        $delete = Evento::where('uuid', $id)->first()->delete();
+        $delete = $evento->delete();
 
         $eventos = $calendario->eventos()->with('tipo')->orderBy('fecha_inicio', 'ASC')->get();
 

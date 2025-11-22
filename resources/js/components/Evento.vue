@@ -48,6 +48,7 @@ const loading = ref(false);
 const formRef = ref<VForm | null>(null);
 interface Evento {
     id: number | null;
+    uuid: string;
     step: string;
     nombre: string;
     tipo: object | null;
@@ -60,6 +61,7 @@ interface Evento {
 
 const eventoVacio = ref<Evento>({
     id: null,
+    uuid: '',
     step: '',
     nombre: '',
     tipo: null,
@@ -96,6 +98,9 @@ async function submitForm() {
             if (resp.data.status == 'ok') {
                 eventos.value = resp.data.items;
                 dialog.value = false;
+                if (formRef.value) {
+                    formRef.value.reset();
+                }
                 mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
                 throw new Error(resp.data.message);
@@ -124,7 +129,7 @@ function remove(item: Evento) {
     }).then(async (result) => {
         if (result.isConfirmed) {
             try {
-                const resp = await axios.delete(route('general-actividad-delete', { id: item.id }));
+                const resp = await axios.delete(route('general-actividad-delete', { id: item.uuid }));
 
                 if (resp.data.status == 'ok') {
                     eventos.value = resp.data.items;
@@ -177,6 +182,13 @@ function next() {
     calendar.value.next();
 }
 
+function addEvento() {
+    formRef.value?.reset();
+    formData.value = eventoVacio.value;
+
+    dialog.value = true;
+}
+
 function showEvent(nativeEvent, { event }) {
     formData.value = event;
     dialog.value = true;
@@ -204,15 +216,7 @@ onMounted(() => {
             <v-toolbar-title>{{ calendario?.descripcion }}</v-toolbar-title>
 
             <template v-slot:append>
-                <v-btn
-                    icon="mdi-calendar-plus"
-                    color="primary"
-                    :title="$t('calendario._agregar_actividad_')"
-                    @click="
-                        formData = eventoVacio;
-                        dialog = true;
-                    "
-                ></v-btn>
+                <v-btn icon="mdi-calendar-plus" color="primary" :title="$t('calendario._agregar_actividad_')" @click="addEvento"></v-btn>
             </template>
         </v-app-bar>
 
