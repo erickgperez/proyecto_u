@@ -98,7 +98,7 @@ const headers = [
 ];
 
 const sortBy: SortBy[] = [];
-const groupBy = ref([{ key: 'carrera.nombreCompleto', order: 'asc' }]);
+const groupBy = ref([{ key: 'carrera.nombreCompleto', order: 'asc', title: t('carrera._singular_') }]);
 
 const opcionesAccion = [
     {
