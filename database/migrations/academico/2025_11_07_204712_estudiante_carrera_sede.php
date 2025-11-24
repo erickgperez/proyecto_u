@@ -20,7 +20,7 @@ return new class extends Migration
             $table->foreignId('carrera_sede_id')->comment('Sede y carrera que cursa el estudiante');
             $table->foreign('carrera_sede_id')->references('id')->on('academico.carrera_sede')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
-            $table->foreignId('estudiante_id')->comment('Id de la sede en la que se imparte la carrera');
+            $table->foreignId('estudiante_id')->comment('Id del estudiante ');
             $table->foreign('estudiante_id')->references('id')->on('academico.estudiante')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('estado_id')->comment('Id del estado del curso de la carrera');
