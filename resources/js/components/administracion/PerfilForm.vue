@@ -29,6 +29,8 @@ interface FormData {
     tercer_apellido: string;
     fecha_nacimiento: Date | null;
     sexo_id: number | null;
+    email_cuenta_usuario: string;
+    perfil: string;
 }
 
 const props = defineProps(['item', 'accion', 'sexos', 'perfil']);
@@ -43,6 +45,8 @@ const formData = ref<FormData>({
     tercer_apellido: '',
     fecha_nacimiento: null,
     sexo_id: null,
+    email_cuenta_usuario: '',
+    perfil: props.perfil,
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -138,6 +142,19 @@ onMounted(() => {
                             :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('perfil._tercer_apellido_')"
+                        ></v-text-field>
+                    </v-col>
+                    <v-col cols="12" md="6">
+                        <v-text-field
+                            required
+                            icon-color="deep-orange"
+                            prepend-icon="mdi-at"
+                            v-model="formData.email_cuenta_usuario"
+                            :rules="[rules.required, rules.email, rules.maxLength(100)]"
+                            counter="100"
+                            :label="$t('perfil._email_cuenta_usuario_') + ' *'"
+                            :hint="$t('perfil._email_cuenta_usuario_hint_')"
+                            persistent-hint
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12">

@@ -7,6 +7,7 @@ use App\Models\DatosContacto;
 use App\Models\Documento\TipoDocumento;
 use App\Models\Persona;
 use App\Models\Sexo;
+use App\Models\User;
 use App\Services\DistritoService;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -32,7 +33,6 @@ class PerfilController extends Controller
         $tiposDocumento = TipoDocumento::orderBy('codigo')->get();
         $distritosTree = $this->distritoService->distritosLikeTree();
 
-
         return Inertia::render('administracion/Perfil', [
             'items' => $perfiles,
             'perfil' => $perfil,
@@ -44,11 +44,16 @@ class PerfilController extends Controller
 
     public function indexAspirante(): Response
     {
-        $aspirantes = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])
-            ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
+        $aspirantes = $this->personaBase();
+        $aspirantes = $aspirantes->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
             ->get();
 
         return $this->index('aspirante', $aspirantes);
+    }
+
+    protected function personaBase()
+    {
+        return Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia'], 'usuarios']);
     }
 
     public function personaInfo($id, Request $request)
@@ -72,6 +77,7 @@ class PerfilController extends Controller
             'segundo_apellido' => 'nullable|string|max:100',
             'tercer_apellido' => 'nullable|string|max:100',
             'fecha_nacimiento' => 'nullable|date',
+            'perfil' => 'nullable|string|max:100',
             'sexo_id' => ['nullable', 'integer', Rule::exists('sexo', 'id')],
         ]);
 
@@ -91,8 +97,25 @@ class PerfilController extends Controller
         $persona->sexo_id = $request->get('sexo_id');
 
         $persona->save();
+        if ($request->get('id') === null) {
+            $userCheck = User::where('codigo', $request->get('codigo'))->first();
+            if ($userCheck !== null) {
+                return response()->json(['status' => 'error', 'message' => 'perfil._correo_cuenta existe_']);
+            }
+            $usuario = new User();
+            $usuario->name = $persona->primer_nombre . ' ' . $persona->primer_apellido;
+            $usuario->email = $request->get('email_cuenta_usuario');
+            $usuario->assignRole('aspirante');
+            $usuario->save();
 
-        $personaData = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->find($persona->id);
+            $persona->usuarios()->syncWithoutDetaching([$usuario->id]);
+        }
+
+        $persona_ = $this->personaBase();
+        if ($request->get('perfil') === 'aspirante') {
+            $persona_->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id');
+        }
+        $personaData = $persona_->find($persona->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }
