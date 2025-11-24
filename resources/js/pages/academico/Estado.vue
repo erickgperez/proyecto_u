@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import TipoUnidadAcademicaForm from '@/components/academico/TipoUnidadAcademicaForm.vue';
-import TipoUnidadAcademicaShow from '@/components/academico/TipoUnidadAcademicaShow.vue';
+import EstadoForm from '@/components/academico/EstadoForm.vue';
+import EstadoShow from '@/components/academico/EstadoShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -45,26 +45,26 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
 );
 
 const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
-const rutaBorrar = ref('academico-plan_estudio-tipo_unidad_academica-delete');
+const rutaBorrar = ref('academico-estado-delete');
 const mensajes = {
-    titulo1: t('tipoUnidadAcademica._plural_'),
-    titulo2: t('tipoUnidadAcademica._administrar_'),
-    subtitulo: t('tipoUnidadAcademica._permite_gestionar_'),
-    tituloListado: t('tipoUnidadAcademica._listado_'),
+    titulo1: t('estadoAcademico._plural_'),
+    titulo2: t('estadoAcademico._administrar_'),
+    subtitulo: t('estadoAcademico._permite_gestionar_'),
+    tituloListado: t('estadoAcademico._listado_'),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EDITAR',
-    mostrar: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_MOSTRAR',
-    borrar: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_BORRAR',
+    editar: 'ACADEMICO_ESTADO_EDITAR',
+    mostrar: 'ACADEMICO_ESTADO_MOSTRAR',
+    borrar: 'ACADEMICO_ESTADO_BORRAR',
 };
-const permisoAny = 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_';
+const permisoAny = 'ACADEMICO_ESTADO_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA',
-    crear: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_CREAR',
-    exportar: 'ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA_EXPORTAR',
+    listado: 'MENU_ACADEMICO_ESTADO',
+    crear: 'ACADEMICO_ESTADO_CREAR',
+    exportar: 'ACADEMICO_ESTADO_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -72,16 +72,22 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_tipos_unidades_academicas');
-const fileName = ref('tipos_unidades_academicas');
+const sheetName = ref('Listado_estados');
+const fileName = ref('estados');
 
 const headers = [
+    { title: t('usoEstado._singular_'), key: 'uso.codigo' },
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_descripcion_'), key: 'descripcion' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
-const sortBy: SortBy[] = [{ key: 'codigo', order: 'asc' }];
+const sortBy: SortBy[] = [
+    { key: 'uso.codigo', order: 'asc' },
+    { key: 'codigo', order: 'asc' },
+];
+
+const groupBy = ref([{ key: 'uso.codigo', order: 'asc', title: t('usoEstado._singular_') }]);
 
 const opcionesAccion = [
     {
@@ -107,7 +113,7 @@ const opcionesAccion = [
     ************************************************************************************
     -->
     <Head :title="mensajes.titulo1"> </Head>
-    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-note-multiple-outline">
+    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-format-list-bulleted-type">
         <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12 pa-2 rounded-xl">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
@@ -118,6 +124,7 @@ const opcionesAccion = [
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
+                        :groupBy="groupBy"
                         :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
@@ -144,17 +151,13 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <TipoUnidadAcademicaForm
+                        <EstadoForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
                             @form-saved="handleFormSave"
-                        ></TipoUnidadAcademicaForm>
-                        <TipoUnidadAcademicaShow
-                            v-if="selectedAction == 'show'"
-                            :item="selectedItem"
-                            :accion="selectedAction"
-                        ></TipoUnidadAcademicaShow>
+                        ></EstadoForm>
+                        <EstadoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></EstadoShow>
                     </v-sheet>
                 </v-window-item>
             </v-window>

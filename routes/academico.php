@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Academico\AreaController;
 use App\Http\Controllers\Academico\CarreraController;
+use App\Http\Controllers\Academico\EstadoController;
 use App\Http\Controllers\Academico\SedeController;
 use App\Http\Controllers\Academico\GradoController;
 use App\Http\Controllers\Academico\MallaCurricularController;
@@ -70,4 +71,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/uso-estado', [UsoEstadoController::class, 'index'])->name('academico-uso_estado-index');
     Route::post('/academico/uso-estado/save', [UsoEstadoController::class, 'save'])->name('academico-uso_estado-save');
     Route::delete('/academico/uso-estado/{uuid}/delete', [UsoEstadoController::class, 'delete'])->name('academico-uso_estado-delete');
+
+    Route::get('/academico/estado', [EstadoController::class, 'index'])->name('academico-estado-index');
+    Route::post('/academico/estado/save', [EstadoController::class, 'save'])->name('academico-estado-save');
+    Route::delete('/academico/estado/{uuid}/delete', [EstadoController::class, 'delete'])->name('academico-estado-delete');
 });

@@ -498,7 +498,7 @@ onMounted(() => {
                                     >
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-calendar-text-outline"
+                                            prepend-icon="mdi-resistor-nodes"
                                             :title="$t('tipoRequisito._singular_')"
                                             :class="$page.url === '/academico/plan_estudio/tipo-requisito' ? 'bg-blue-lighten-4' : ''"
                                         >
@@ -508,7 +508,7 @@ onMounted(() => {
                             </v-menu>
                         </v-list-item>
                         <v-list-item
-                            v-if="hasAnyPermission(['MENU_ACADEMICO_TIPO-CURSO', 'MENU_ACADEMICO_USO-ESTADO'])"
+                            v-if="hasAnyPermission(['MENU_ACADEMICO_TIPO-CURSO', 'MENU_ACADEMICO_USO-ESTADO', 'MENU_ACADEMICO_ESTADO'])"
                             prepend-icon="mdi-library-shelves"
                             append-icon="mdi-menu-right"
                             class="text-body-1 text-none text-left"
@@ -522,6 +522,15 @@ onMounted(() => {
                                             prepend-icon="mdi-bookshelf"
                                             :title="$t('tipoCurso._singular_')"
                                             :class="$page.url === '/academico/tipo-curso' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link :href="route('academico-estado-index')" v-if="hasPermission('MENU_ACADEMICO_ESTADO')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-format-list-bulleted-type"
+                                            :title="$t('estado._singular_')"
+                                            :class="$page.url === '/academico/estado' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

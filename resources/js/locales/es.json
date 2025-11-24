@@ -249,6 +249,16 @@
         "_codigo_": "Código",
         "_descripcion_": "Descripción"
     },
+    "estadoAcademico": {
+        "_singular_": "Estado",
+        "_administrar_": "Administrar estados",
+        "_crear_": "Crear un nuevo estado",
+        "_editar_": "Editar estado",
+        "_mostrar_": "Mostrar estado",
+        "_listado_": "Listado de estados",
+        "_permite_gestionar_datos_": "Permite gestionar los estados de asignaturas, carreras, entre otros",
+        "_plural_": "Estados"
+    },
     "_estudiante_": "Estudiante",
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
     "etapa": {

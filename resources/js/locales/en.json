@@ -249,6 +249,16 @@
         "_codigo_": "Code",
         "_descripcion_": "Description"
     },
+    "estadoAcademico": {
+        "_singular_": "Status",
+        "_administrar_": "Manage status",
+        "_crear_": "Create a new status",
+        "_editar_": "Edit status",
+        "_mostrar_": "Show status",
+        "_listado_": "List of status",
+        "_permite_gestionar_datos_": "It allows you to manage the status of subjects, degrees, among others",
+        "_plural_": "Statuses"
+    },
     "_estudiante_": "Student",
     "_estudiantes_candidatos_carrera_universitaria_": "Students who are candidates to study in university courses",
     "etapa": {
