@@ -113,6 +113,7 @@
         "_sedes_ayuda_": "Sedes en donde se imparte la carrera",
         "_tipo_": "Tipo de carrera"
     },
+    "_catalogos_": "Catálogos",
     "_crear_convocatoria_": "Crear convocatoria",
     "_crear_nuevo_registro_": "Crear nuevo registro",
     "_crear_sede_": "Crear sede",
@@ -528,6 +529,17 @@
         "_listado_tipos_carrera_": "Listado de tipos de carrera",
         "_mostrar_": "Mostrar tipo carrera",
         "_permite_gestionar_tipos_carrera_": "Permite gestionar los datos del tipo de carrera"
+    },
+    "tipoCurso": {
+        "_singular_": "Tipo curso",
+        "_plural_": "Tipos curso",
+        "_administrar_": "Administrar el catálogo tipo curso",
+        "_codigo_ya existe_": "El código del tipo curso ya existe en otro registro",
+        "_crear_": "Crear tipo curso",
+        "_editar_": "Editar tipo curso",
+        "_listado_": "Listado de tipos de curso",
+        "_mostrar_": "Mostrar tipo curso",
+        "_permite_gestionar_": "Permite gestionar las formas en que se puede cursar una asignatura"
     },
     "tipoFlujo": {
         "_singular_": "Tipo proceso",

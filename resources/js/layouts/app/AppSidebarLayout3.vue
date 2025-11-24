@@ -6,7 +6,7 @@ import { Link, router, usePage } from '@inertiajs/vue3';
 import { onMounted, ref, watch } from 'vue';
 import { useLocale } from 'vuetify';
 
-const { hasPermission } = usePermissions();
+const { hasPermission, hasAnyPermission } = usePermissions();
 
 const page = usePage();
 const user = page.props.auth.user as User;
@@ -501,6 +501,27 @@ onMounted(() => {
                                             prepend-icon="mdi-calendar-text-outline"
                                             :title="$t('tipoRequisito._singular_')"
                                             :class="$page.url === '/academico/plan_estudio/tipo-requisito' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
+                        <v-list-item
+                            v-if="hasAnyPermission(['MENU_ACADEMICO_TIPO-CURSO'])"
+                            prepend-icon="mdi-library-shelves"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('_catalogos_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link :href="route('academico-tipo_curso-index')" v-if="hasPermission('MENU_ACADEMICO_TIPO-CURSO')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-bookshelf"
+                                            :title="$t('tipoCurso._singular_')"
+                                            :class="$page.url === '/academico/tipo-curso' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

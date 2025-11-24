@@ -261,6 +261,15 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO_MOSTRAR']);
         Permission::create(['name' => 'ACADEMICO_PLAN-ESTUDIO_TIPO-REQUISITO_BORRAR']);
 
+        //TIPO CURSO
+        Permission::create(['name' => 'MENU_ACADEMICO_TIPO-CURSO']);
+        Permission::create(['name' => 'ACADEMICO_TIPO-CURSO_TODO']);
+        Permission::create(['name' => 'ACADEMICO_TIPO-CURSO_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_TIPO-CURSO_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_TIPO-CURSO_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_TIPO-CURSO_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_TIPO-CURSO_BORRAR']);
+
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 

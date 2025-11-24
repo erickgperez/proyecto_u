@@ -8,6 +8,7 @@ use App\Http\Controllers\Academico\MallaCurricularController;
 use App\Http\Controllers\Academico\SemestreController;
 use App\Http\Controllers\Academico\OfertaController;
 use App\Http\Controllers\Academico\TipoCarreraController;
+use App\Http\Controllers\Academico\TipoCursoController;
 use App\Http\Controllers\Academico\TipoRequisitoController;
 use App\Http\Controllers\Academico\TipoUnidadAcademicaController;
 use App\Http\Controllers\Academico\UnidadAcademicaController;
@@ -60,4 +61,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/academico/semestre/{id}/ofertar/{idCarreraUnidadAcademica}', [OfertaController::class, 'ofertar'])->name('academico-semestre-ofertar');
     Route::get('/academico/semestre/{id}/oferta/{idCarreraUnidadAcademica}/detalle', [OfertaController::class, 'getOfertaDetalle'])->name('academico-semestre-oferta-detalle');
     Route::post('/academico/semestre/oferta/detalle/save', [OfertaController::class, 'ofertaDetalleSave'])->name('academico-semestre-oferta-detalle-save');
+
+    Route::get('/academico/tipo-curso', [TipoCursoController::class, 'index'])->name('academico-tipo_curso-index');
+    Route::post('/academico/tipo-curso/save', [TipoCursoController::class, 'save'])->name('academico-tipo_curso-save');
+    Route::delete('/academico/tipo-curso/{uuid}/delete', [TipoCursoController::class, 'delete'])->name('academico-tipo_curso-delete');
 });
