@@ -4,8 +4,8 @@ use App\Http\Controllers\Administracion\DocenteController;
 use App\Http\Controllers\Administracion\EstadoController;
 use App\Http\Controllers\Administracion\EtapaController;
 use App\Http\Controllers\Administracion\FlujoController;
+use App\Http\Controllers\Administracion\PerfilController;
 use App\Http\Controllers\Administracion\PermisosController;
-use App\Http\Controllers\Administracion\PersonaController;
 use App\Http\Controllers\Administracion\RolesController;
 use App\Http\Controllers\Administracion\SimulacionController;
 use App\Http\Controllers\Administracion\TipoCalendarizacionController;
@@ -14,20 +14,21 @@ use App\Http\Controllers\Administracion\TipoFlujoController;
 use App\Http\Controllers\Administracion\TransicionController;
 use App\Http\Controllers\Administracion\UsuarioController;
 use App\Http\Controllers\Documento\DocumentoController;
+use App\Http\Controllers\Ingreso\AspiranteController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
 
-    Route::get('/administracion/persona', [PersonaController::class, 'index'])->name('administracion-persona-index');
-    Route::post('/administracion/persona/save', [PersonaController::class, 'save'])->name('administracion-persona-save');
-    Route::post('/administracion/persona/{id}/datos-contacto/save', [PersonaController::class, 'datosContactoSave'])->name('administracion-persona-datos-contacto-save');
-    Route::get('/administracion/persona/{id}/info', [PersonaController::class, 'personaInfo'])->name('administracion-persona-info');
-    Route::delete('/administracion/persona/{id}/delete', [PersonaController::class, 'delete'])->name('administracion-persona-delete');
+    Route::get('/administracion/perfil/aspirante', [PerfilController::class, 'indexAspirante'])->name('administracion-perfil-aspirante-index');
+    Route::post('/administracion/perfil/save', [PerfilController::class, 'save'])->name('administracion-perfil-save');
+    Route::post('/administracion/perfil/{id}/datos-contacto/save', [PerfilController::class, 'datosContactoSave'])->name('administracion-perfil-datos-contacto-save');
+    Route::get('/administracion/perfil/{id}/info', [PerfilController::class, 'personaInfo'])->name('administracion-perfil-info');
+    Route::delete('/administracion/perfil/{id}/delete', [PerfilController::class, 'delete'])->name('administracion-perfil-delete');
 
-    Route::get('/administracion/persona/{id}/docente/data', [DocenteController::class, 'data'])->name('administracion-persona-docente-data');
-    Route::post('/administracion/persona/{id}/docente/asignacion/save', [DocenteController::class, 'asignacionSave'])->name('administracion-persona-docente-asignacion-save');
+    Route::get('/administracion/perfil/{id}/docente/data', [DocenteController::class, 'data'])->name('administracion-perfil-docente-data');
+    Route::post('/administracion/perfil/{id}/docente/asignacion/save', [DocenteController::class, 'asignacionSave'])->name('administracion-perfil-docente-asignacion-save');
 
-    Route::get('/administracion/persona/{id}/documentos', [DocumentoController::class, 'documentosPersona'])->name('administracion-persona-documentos');
+    Route::get('/administracion/perfil/{id}/documentos', [DocumentoController::class, 'documentosPersona'])->name('administracion-perfil-documentos');
     Route::post('/administracion/documento/save', [DocumentoController::class, 'documentoSave'])->name('administracion-documento-save');
     Route::get('/administracion/documento/{id}/descargar', [DocumentoController::class, 'documentoDescargar'])->name('administracion-documento-descargar');
 

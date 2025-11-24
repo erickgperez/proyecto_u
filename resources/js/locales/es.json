@@ -416,8 +416,17 @@
         "_nombre_": "Nombre"
     },
     "_permite_gestionar_datos_convocatorias_": "Permite gestionar los datos de las convocatoria",
-    "persona": {
+    "perfil": {
         "_administrar_": "Administrar personas",
+
+        "_aspirante_": "Aspirante",
+        "_administrar_aspirante": "Administrar aspirantes",
+        "_crear_aspirante": "Crear nuevo aspirante",
+        "_editar_aspirante": "Editar datos del aspirante",
+        "_listado_aspirante": "Listado de aspirantes",
+        "_mostrar_aspirante": "Mostrar datos de aspirante",
+        "_permite_gestionar_datos_aspirante": "Gestionar los datos de los aspirantes",
+
         "_apellidos_": "Apellidos",
         "_crear_": "Crear una nueva persona",
         "_datos_personales_": "Datos personales",
@@ -441,7 +450,8 @@
         "_mostrar_": "Mostrar datos de persona",
         "_nombre_": "Nombre",
         "_permite_gestionar_datos_": "Gestionar los datos de las personas",
-        "_plural_": "Personas",
+        "_plural_": "Perfiles",
+
         "_primer_nombre_": "Primer nombre",
         "_seleccionar_distrito_": "Seleccionar distrito",
         "_segundo_nombre_": "Segundo nombre",
@@ -450,7 +460,7 @@
         "_segundo_apellido_": "Segundo apellido",
         "_tercer_apellido_": "Tercer apellido",
         "_sexo_": "Sexo",
-        "_singular_": "Persona",
+        "_singular_": "Perfil",
 
         "_registro_docente_": "Registro docente",
         "_registro_docente_descripcion_": "Crear registro como docente",

@@ -13,7 +13,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class PersonaController extends Controller
+class PerfilController extends Controller
 {
     protected $distritoService;
 
@@ -25,21 +25,30 @@ class PersonaController extends Controller
     /**
      *
      */
-    public function index(Request $request): Response
+    public function index($perfil, $perfiles): Response
     {
 
-        $personas = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])->get();
         $sexos = Sexo::all();
         $tiposDocumento = TipoDocumento::orderBy('codigo')->get();
         $distritosTree = $this->distritoService->distritosLikeTree();
 
 
-        return Inertia::render('administracion/Persona', [
-            'items' => $personas,
+        return Inertia::render('administracion/Perfil', [
+            'items' => $perfiles,
+            'perfil' => $perfil,
             'sexos' => $sexos,
             'distritosTree' => $distritosTree,
             'tiposDocumento' => $tiposDocumento,
         ]);
+    }
+
+    public function indexAspirante(): Response
+    {
+        $aspirantes = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia']])
+            ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
+            ->get();
+
+        return $this->index('aspirante', $aspirantes);
     }
 
     public function personaInfo($id, Request $request)

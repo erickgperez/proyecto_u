@@ -8,7 +8,6 @@ use App\Models\Academico\Estudiante;
 use App\Models\Academico\EstudianteCarreraSede;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaAspirante;
-use App\Models\Workflow\Estado as WorkflowEstado;
 use App\Models\Workflow\Solicitud;
 use App\Services\SolicitudService;
 use Illuminate\Http\Request;

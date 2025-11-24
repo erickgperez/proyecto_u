@@ -227,20 +227,47 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
+                                    <Link
+                                        v-if="hasPermission('MENU_INGRESO_ASPIRANTES_PERFIL')"
+                                        :href="route('administracion-perfil-aspirante-index')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-search-outline"
+                                            :class="$page.url === '/administracion/perfil/aspirante' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                            {{ $t('perfil._singular_') }}
+                                        </v-list-item>
+                                    </Link>
                                 </v-list>
                             </v-menu>
                         </v-list-item>
                     </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_ADMINISTRACION') && moduloActual?.codigo == 'administracion'">
-                        <Link v-if="hasPermission('MENU_ADMINISTRACION_PERSONA')" :href="route('administracion-persona-index')">
-                            <v-list-item
-                                link
-                                prepend-icon="mdi-account-group-outline"
-                                :class="$page.url === '/administracion/persona' ? 'bg-blue-lighten-4' : ''"
-                            >
-                                {{ $t('persona._plural_') }}
-                            </v-list-item>
-                        </Link>
+                        <v-list-item
+                            v-if="hasPermission('MENU_ADMINISTRACION_PERFIL')"
+                            prepend-icon="mdi-account-group-outline"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('perfil._singular_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link
+                                        v-if="hasPermission('MENU_ADMINISTRACION_PERFIL_ASPIRANTE')"
+                                        :href="route('administracion-perfil-aspirante-index')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-search-outline"
+                                            :class="$page.url === '/administracion/perfil/aspirante' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                            {{ $t('perfil._aspirante_') }}
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
                         <v-list-item
                             v-if="hasPermission('MENU_ADMINISTRACION_SEGURIDAD_')"
                             prepend-icon="mdi-security"

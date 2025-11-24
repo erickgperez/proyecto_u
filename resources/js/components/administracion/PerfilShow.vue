@@ -6,7 +6,7 @@ const date = useDate();
 const props = defineProps(['item', 'accion']);
 </script>
 <template>
-    <v-card :title="$t('persona._mostrar_')">
+    <v-card :title="$t('perfil._mostrar_')">
         <template v-slot:text>
             <v-row>
                 <v-col cols="4">
@@ -18,7 +18,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._primer_nombre_') }}
+                    {{ $t('perfil._primer_nombre_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.primer_nombre }}
@@ -26,7 +26,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._segundo_nombre_') }}
+                    {{ $t('perfil._segundo_nombre_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.segundo_nombre }}
@@ -34,7 +34,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._tercer_nombre_') }}
+                    {{ $t('perfil._tercer_nombre_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.tercer_nombre }}
@@ -42,7 +42,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._primer_apellido_') }}
+                    {{ $t('perfil._primer_apellido_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.primer_apellido }}
@@ -50,7 +50,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._segundo_apellido_') }}
+                    {{ $t('perfil._segundo_apellido_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.segundo_apellido }}
@@ -58,7 +58,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._tercer_apellido_') }}
+                    {{ $t('perfil._tercer_apellido_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.tercer_apellido }}
@@ -66,7 +66,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._fecha_nacimiento_') }}
+                    {{ $t('perfil._fecha_nacimiento_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ date.format(props.item.fecha_nacimiento, 'keyboardDate') }}
@@ -74,7 +74,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._edad_') }}
+                    {{ $t('perfil._edad_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.edad }}
@@ -82,7 +82,7 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
-                    {{ $t('persona._sexo_') }}
+                    {{ $t('perfil._sexo_') }}
                 </v-col>
                 <v-col cols="8">
                     {{ props.item.sexo.descripcion }}

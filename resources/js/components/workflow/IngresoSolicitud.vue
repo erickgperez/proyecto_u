@@ -3,7 +3,7 @@ import axios from 'axios';
 import Swal from 'sweetalert2';
 import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import PersonaDatosContactoForm from '../administracion/PersonaDatosContactoForm.vue';
+import PersonaDatosContactoForm from '../administracion/PerfilDatosContactoForm.vue';
 
 const { t } = useI18n();
 

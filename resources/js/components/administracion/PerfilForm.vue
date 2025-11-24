@@ -31,7 +31,7 @@ interface FormData {
     sexo_id: number | null;
 }
 
-const props = defineProps(['item', 'accion', 'sexos']);
+const props = defineProps(['item', 'accion', 'sexos', 'perfil']);
 
 const formData = ref<FormData>({
     id: null,
@@ -78,7 +78,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('persona._editar_') : $t('persona._crear_')} `">
+    <v-card :title="`${isEditing ? $t('perfil._editar_' + props.perfil) : $t('perfil._crear_' + props.perfil)} `">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
@@ -90,7 +90,7 @@ onMounted(() => {
                             v-model="formData.primer_nombre"
                             :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
-                            :label="$t('persona._primer_nombre_') + ' *'"
+                            :label="$t('perfil._primer_nombre_') + ' *'"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -99,7 +99,7 @@ onMounted(() => {
                             v-model="formData.segundo_nombre"
                             :rules="[rules.maxLength(100)]"
                             counter="100"
-                            :label="$t('persona._segundo_nombre_')"
+                            :label="$t('perfil._segundo_nombre_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -108,7 +108,7 @@ onMounted(() => {
                             v-model="formData.tercer_nombre"
                             :rules="[rules.maxLength(100)]"
                             counter="100"
-                            :label="$t('persona._tercer_nombre_')"
+                            :label="$t('perfil._tercer_nombre_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -119,7 +119,7 @@ onMounted(() => {
                             v-model="formData.primer_apellido"
                             :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
-                            :label="$t('persona._primer_apellido_') + ' *'"
+                            :label="$t('perfil._primer_apellido_') + ' *'"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -128,7 +128,7 @@ onMounted(() => {
                             v-model="formData.segundo_apellido"
                             :rules="[rules.maxLength(100)]"
                             counter="100"
-                            :label="$t('persona._segundo_apellido_')"
+                            :label="$t('perfil._segundo_apellido_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -137,12 +137,12 @@ onMounted(() => {
                             v-model="formData.tercer_apellido"
                             :rules="[rules.maxLength(100)]"
                             counter="100"
-                            :label="$t('persona._tercer_apellido_')"
+                            :label="$t('perfil._tercer_apellido_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12">
                         <v-select
-                            :label="$t('persona._sexo_')"
+                            :label="$t('perfil._sexo_')"
                             :items="props.sexos"
                             v-model="formData.sexo_id"
                             item-title="descripcion"
@@ -154,7 +154,7 @@ onMounted(() => {
                                 clearable
                                 required
                                 v-model="formData.fecha_nacimiento"
-                                :label="$t('persona._fecha_nacimiento_') + ' *'"
+                                :label="$t('perfil._fecha_nacimiento_') + ' *'"
                             ></v-date-input>
                         </v-locale-provider>
                     </v-col>

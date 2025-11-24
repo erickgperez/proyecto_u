@@ -70,18 +70,21 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_SEGURIDAD_USUARIO_BORRAR']);
 
         // PERSONA
-        Permission::create(['name' => 'MENU_ADMINISTRACION_PERSONA']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_TODO']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_CREAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_EXPORTAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_EDITAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_MOSTRAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_BORRAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_DATOS-CONTACTO']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_DOCUMENTOS']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_DOCUMENTOS_AGREGAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_DOCUMENTOS_BORRAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERSONA_REGISTRO-DOCENTE']);
+        Permission::create(['name' => 'MENU_ADMINISTRACION_PERFIL']);
+        Permission::create(['name' => 'MENU_ADMINISTRACION_PERFIL_ASPIRANTE']);
+        Permission::create(['name' => 'MENU_ADMINISTRACION_PERFIL_ESTUDIANTE']);
+        Permission::create(['name' => 'MENU_ADMINISTRACION_PERFIL_DOCENTE']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_TODO']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_CREAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_EXPORTAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_EDITAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_MOSTRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_BORRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_DATOS-CONTACTO']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCUMENTOS']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCUMENTOS_AGREGAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCUMENTOS_BORRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_REGISTRO-DOCENTE']);
 
         // TIPO_DOCUMENTO
         Permission::create(['name' => 'MENU_ADMINISTRACION_TIPO-DOCUMENTO']);
@@ -165,6 +168,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'MENU_INGRESO_ASPIRANTES_SELECCION']);
         Permission::create(['name' => 'MENU_INGRESO_ASPIRANTES_SELECCION_NOTIFICAR']);
         Permission::create(['name' => 'MENU_INGRESO_ASPIRANTES_CALIFICACION-BACHILLERATO']);
+        Permission::create(['name' => 'MENU_INGRESO_ASPIRANTES_PERFIL']);
 
         //***** GESTION ACADEMICA
         // SEDES

@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import PersonaDatosContactoForm from '@/components/administracion/PersonaDatosContactoForm.vue';
-import PersonaDocumentos from '@/components/administracion/PersonaDocumentos.vue';
-import PersonaForm from '@/components/administracion/PersonaForm.vue';
-import PersonaRegistroDocente from '@/components/administracion/PersonaRegistroDocente.vue';
-import PersonaShow from '@/components/administracion/PersonaShow.vue';
+import PerfilDatosContactoForm from '@/components/administracion/PerfilDatosContactoForm.vue';
+import PerfilDocumentos from '@/components/administracion/PerfilDocumentos.vue';
+import PerfilForm from '@/components/administracion/PerfilForm.vue';
+import PerfilRegistroDocente from '@/components/administracion/PerfilRegistroDocente.vue';
+import PerfilShow from '@/components/administracion/PerfilShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
 import Listado from '@/components/crud/Listado.vue';
@@ -13,7 +13,7 @@ import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import type { SortBy } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
-import { computed, PropType, ref } from 'vue';
+import { computed, onMounted, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
 
@@ -40,6 +40,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    perfil: String,
     sexos: Array,
     distritosTree: Array,
     tiposDocumento: Array,
@@ -59,29 +60,29 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
 );
 
 const selectedItemLabel = computed(() => selectedItem.value?.nombreCompleto ?? '');
-const rutaBorrar = ref('administracion-persona-delete');
+const rutaBorrar = ref('administracion-perfil-delete');
 const mensajes = {
-    titulo1: t('persona._singular_'),
-    titulo2: t('persona._administrar_'),
-    subtitulo: t('persona._permite_gestionar_datos_'),
-    tituloListado: t('persona._listado_'),
+    titulo1: t('perfil._singular_'),
+    titulo2: t('perfil._administrar_' + props.perfil),
+    subtitulo: t('perfil._permite_gestionar_datos_' + props.perfil),
+    tituloListado: t('perfil._listado_' + props.perfil),
 };
 
 //Acciones que se pueden realizar al seleccionar un registro
 const acc = {
-    editar: 'ADMINISTRACION_PERSONA_EDITAR',
-    mostrar: 'ADMINISTRACION_PERSONA_MOSTRAR',
-    borrar: 'ADMINISTRACION_PERSONA_BORRAR',
-    datos_contacto: 'ADMINISTRACION_PERSONA_DATOS-CONTACTO',
-    documentos: 'ADMINISTRACION_PERSONA_DOCUMENTOS',
-    registro_docente: 'ADMINISTRACION_PERSONA_REGISTRO-DOCENTE',
+    editar: 'ADMINISTRACION_PERFIL_EDITAR',
+    mostrar: 'ADMINISTRACION_PERFIL_MOSTRAR',
+    borrar: 'ADMINISTRACION_PERFIL_BORRAR',
+    datos_contacto: 'ADMINISTRACION_PERFIL_DATOS-CONTACTO',
+    documentos: 'ADMINISTRACION_PERFIL_DOCUMENTOS',
+    registro_docente: 'ADMINISTRACION_PERFIL_REGISTRO-DOCENTE',
 };
-const permisoAny = 'ADMINISTRACION_PERSONA_';
+const permisoAny = 'ADMINISTRACION_PERFIL_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ADMINISTRACION_PERSONA',
-    crear: 'ADMINISTRACION_PERSONA_CREAR',
-    exportar: 'ADMINISTRACION_PERSONA_EXPORTAR',
+    listado: 'MENU_ADMINISTRACION_PERFIL',
+    crear: 'ADMINISTRACION_PERFIL_CREAR',
+    exportar: 'ADMINISTRACION_PERFIL_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],
     editar: acc.editar,
     mostrar: acc.mostrar,
@@ -89,16 +90,16 @@ const permisos = {
 };
 
 // Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_personas');
-const fileName = ref('personas');
+const sheetName = ref('Listado_perfiles');
+const fileName = ref('perfiles');
 
 const headers = [
     { title: t('_id_'), key: 'id' },
-    { title: t('persona._nombre_'), key: 'nombre', align: 'start' },
-    { title: t('persona._apellidos_'), key: 'apellidos', align: 'start' },
-    { title: t('persona._sexo_'), key: 'sexo.descripcion' },
-    { title: t('persona._fecha_nacimiento_'), key: 'fecha_nacimiento' },
-    { title: t('persona._edad_'), key: 'edad', align: 'end' },
+    { title: t('perfil._nombre_'), key: 'nombre', align: 'start' },
+    { title: t('perfil._apellidos_'), key: 'apellidos', align: 'start' },
+    { title: t('perfil._sexo_'), key: 'sexo.descripcion' },
+    { title: t('perfil._fecha_nacimiento_'), key: 'fecha_nacimiento' },
+    { title: t('perfil._edad_'), key: 'edad', align: 'end' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
@@ -110,27 +111,19 @@ const sortBy: SortBy[] = [
 const opcionesAccion = [
     {
         permiso: acc.datos_contacto,
-        title: t('persona._datos_contacto_'),
-        text: t('persona._datos_contacto_descripcion_'),
+        title: t('perfil._datos_contacto_'),
+        text: t('perfil._datos_contacto_descripcion_'),
         emitAction: 'datos-contacto',
         color: 'purple-darken-4',
         icon: 'mdi-calendar-month-outline',
     },
     {
         permiso: acc.documentos,
-        title: t('persona._documentos_'),
-        text: t('persona._documentos_descripcion_'),
+        title: t('perfil._documentos_'),
+        text: t('perfil._documentos_descripcion_'),
         emitAction: 'documentos',
         color: 'brown-darken-1',
         icon: 'mdi-file-document-outline',
-    },
-    {
-        permiso: acc.registro_docente,
-        title: t('persona._registro_docente_'),
-        text: t('persona._registro_docente_descripcion_'),
-        emitAction: 'registro-docente',
-        color: 'brown-lighten-1',
-        icon: 'mdi-human-male-board',
     },
     {
         permiso: acc.editar,
@@ -145,6 +138,19 @@ const opcionesAccion = [
         ...accionDeleteObject,
     },
 ];
+
+onMounted(() => {
+    if (props.perfil === 'docente') {
+        opcionesAccion.push({
+            permiso: acc.registro_docente,
+            title: t('perfil._registro_docente_'),
+            text: t('perfil._registro_docente_descripcion_'),
+            emitAction: 'registro-docente',
+            color: 'brown-lighten-1',
+            icon: 'mdi-human-male-board',
+        });
+    }
+});
 </script>
 
 <template>
@@ -166,6 +172,7 @@ const opcionesAccion = [
                         :items="localItems"
                         :headers="headers"
                         :sortBy="sortBy"
+                        :perfil="props.perfil"
                         :titleList="mensajes.tituloListado"
                         :permisoCrear="permisos.crear"
                         :permisoExportar="permisos.exportar"
@@ -185,6 +192,7 @@ const opcionesAccion = [
                         @action="handleAction"
                         v-if="hasPermission(permisoAny) && selectedItem.id !== null"
                         :acciones="opcionesAccion"
+                        :perfil="props.perfil"
                         :selectedItemLabel="selectedItemLabel"
                         :rutaBorrar="rutaBorrar"
                         :selectedItemId="selectedItem.uuid"
@@ -197,32 +205,36 @@ const opcionesAccion = [
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
                     <v-sheet v-if="step === 3">
-                        <PersonaDatosContactoForm
+                        <PerfilDatosContactoForm
                             v-if="selectedAction === 'datos-contacto'"
                             :item="selectedItem"
+                            :perfil="props.perfil"
                             :accion="selectedAction"
                             :distritosTree="distritosTree"
                             @form-saved="handleFormSave"
-                        ></PersonaDatosContactoForm>
-                        <PersonaForm
+                        ></PerfilDatosContactoForm>
+                        <PerfilForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
+                            :perfil="props.perfil"
                             :accion="selectedAction"
                             :sexos="props.sexos"
                             @form-saved="handleFormSave"
-                        ></PersonaForm>
-                        <PersonaShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></PersonaShow>
-                        <PersonaDocumentos
+                        ></PerfilForm>
+                        <PerfilShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></PerfilShow>
+                        <PerfilDocumentos
                             v-if="selectedAction == 'documentos'"
                             :item="selectedItem"
+                            :perfil="props.perfil"
                             :accion="selectedAction"
                             :tipos-documento="tiposDocumento"
-                        ></PersonaDocumentos>
-                        <PersonaRegistroDocente
+                        ></PerfilDocumentos>
+                        <PerfilRegistroDocente
                             v-if="selectedAction == 'registro-docente'"
                             :item="selectedItem"
+                            :perfil="props.perfil"
                             :accion="selectedAction"
-                        ></PersonaRegistroDocente>
+                        ></PerfilRegistroDocente>
                     </v-sheet>
                 </v-window-item>
             </v-window>
