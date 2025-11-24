@@ -7,6 +7,7 @@ use App\Models\User;
 use Database\Seeders\Academico\CarreraSedeSeeder;
 use Database\Seeders\Academico\EstadoSeeder as AcademicoEstadoSeeder;
 use Database\Seeders\Academico\SedeSeeder;
+use Database\Seeders\Academico\TipoCursoSeeder;
 use Database\Seeders\Academico\UsoEstadoSeeder;
 use Database\Seeders\Documento\TipoSeeder;
 use Database\Seeders\PlanEstudio\Carrera2Seeder;
@@ -53,6 +54,7 @@ class DatabaseSeeder extends Seeder
         $this->call([
             TipoUnidadAcademicaSeeder::class,
             TipoCalendarizacionSeeder::class,
+            TipoCursoSeeder::class,
             CalendarizacionSeeder::class,
             TipoEventoSeeder::class,
             UsoEstadoSeeder::class,
@@ -83,7 +85,7 @@ class DatabaseSeeder extends Seeder
             SedeSeeder::class,
             CarreraSedeSeeder::class,
             ConvocatoriaSeeder::class,
-            ConvocatoriaSolicitudSeeder::class
+            ConvocatoriaSolicitudSeeder::class,
         ]);
     }
 }
