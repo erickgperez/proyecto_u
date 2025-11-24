@@ -26,6 +26,11 @@ class EstadoSeeder extends Seeder
             ['codigo' => 'EN_EDICION', 'descripcion' => 'Se están ingresando los datos de la carrera', 'uso_estado_id' => UsoEstado::where('codigo', 'CARRERA')->first()->id],
             ['codigo' => 'ANTIGUA', 'descripcion' => 'La carrera ya no está vigente', 'uso_estado_id' => UsoEstado::where('codigo', 'CARRERA')->first()->id],
 
+            ['codigo' => 'AP', 'descripcion' => 'Aprobada', 'uso_estado_id' => UsoEstado::where('codigo', 'EXPEDIENTE')->first()->id],
+            ['codigo' => 'RP', 'descripcion' => 'Reprobada', 'uso_estado_id' => UsoEstado::where('codigo', 'EXPEDIENTE')->first()->id],
+            ['codigo' => 'RT', 'descripcion' => 'Retirada', 'uso_estado_id' => UsoEstado::where('codigo', 'EXPEDIENTE')->first()->id],
+            ['codigo' => 'EC', 'descripcion' => 'En curso', 'uso_estado_id' => UsoEstado::where('codigo', 'EXPEDIENTE')->first()->id],
+
         ]);
     }
 }
