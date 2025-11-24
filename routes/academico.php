@@ -12,6 +12,7 @@ use App\Http\Controllers\Academico\TipoCursoController;
 use App\Http\Controllers\Academico\TipoRequisitoController;
 use App\Http\Controllers\Academico\TipoUnidadAcademicaController;
 use App\Http\Controllers\Academico\UnidadAcademicaController;
+use App\Http\Controllers\Academico\UsoEstadoController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -65,4 +66,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/tipo-curso', [TipoCursoController::class, 'index'])->name('academico-tipo_curso-index');
     Route::post('/academico/tipo-curso/save', [TipoCursoController::class, 'save'])->name('academico-tipo_curso-save');
     Route::delete('/academico/tipo-curso/{uuid}/delete', [TipoCursoController::class, 'delete'])->name('academico-tipo_curso-delete');
+
+    Route::get('/academico/uso-estado', [UsoEstadoController::class, 'index'])->name('academico-uso_estado-index');
+    Route::post('/academico/uso-estado/save', [UsoEstadoController::class, 'save'])->name('academico-uso_estado-save');
+    Route::delete('/academico/uso-estado/{uuid}/delete', [UsoEstadoController::class, 'delete'])->name('academico-uso_estado-delete');
 });

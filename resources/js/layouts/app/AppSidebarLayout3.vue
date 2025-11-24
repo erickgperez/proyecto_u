@@ -508,7 +508,7 @@ onMounted(() => {
                             </v-menu>
                         </v-list-item>
                         <v-list-item
-                            v-if="hasAnyPermission(['MENU_ACADEMICO_TIPO-CURSO'])"
+                            v-if="hasAnyPermission(['MENU_ACADEMICO_TIPO-CURSO', 'MENU_ACADEMICO_USO-ESTADO'])"
                             prepend-icon="mdi-library-shelves"
                             append-icon="mdi-menu-right"
                             class="text-body-1 text-none text-left"
@@ -522,6 +522,15 @@ onMounted(() => {
                                             prepend-icon="mdi-bookshelf"
                                             :title="$t('tipoCurso._singular_')"
                                             :class="$page.url === '/academico/tipo-curso' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link :href="route('academico-uso_estado-index')" v-if="hasPermission('MENU_ACADEMICO_USO-ESTADO')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-distribute-vertical-center"
+                                            :title="$t('usoEstado._singular_')"
+                                            :class="$page.url === '/academico/uso-estado' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

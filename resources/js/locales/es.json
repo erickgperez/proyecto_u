@@ -647,6 +647,17 @@
     },
     "_updated_at_": "Actualizado en",
     "_updated_by_": "Actualizado por",
+    "usoEstado": {
+        "_singular_": "Uso estado",
+        "_plural_": "Uso estados",
+        "_administrar_": "Administrar los usos de los estados",
+        "_codigo_ya existe_": "El código del uso de estado ya existe en otro registro",
+        "_crear_": "Crear uso estado",
+        "_editar_": "Editar uso estado",
+        "_listado_": "Listado de uso estados",
+        "_mostrar_": "Mostrar uso estado",
+        "_permite_gestionar_": "Permite gestionar la clasificacion en que se puede usar los estados"
+    },
     "usuario": {
         "_singular_": "Usuario",
         "_administrar_": "Administrar usuarios",

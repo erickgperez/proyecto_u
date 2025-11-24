@@ -580,6 +580,31 @@
     },
     "_updated_at_": "Updated at",
     "_updated_by_": "Actualizado por",
+    "usoEstado": {
+        "_singular_": "Use status",
+        "_plural_": "Use states",
+        "_administrar_": "Manage the uses of the states",
+        "_codigo_ya existe_": "The state usage code already exists in another register",
+        "_crear_": "Create usage status",
+        "_editar_": "Edit usage status",
+        "_listado_": "List of usage states",
+        "_mostrar_": "Show usage status",
+        "_permite_gestionar_": "It allows managing the classification in which the states can be used"
+    },
+    "usuario": {
+        "_singular_": "User",
+        "_administrar_": "Manage users",
+        "_crear_": "Create new user",
+        "_editar_": "Edit user",
+        "_mostrar_": "Show user",
+        "_listado_": "User list",
+        "_permite_gestionar_datos_": "It allows you to manage user account data",
+        "_plural_": "Users",
+
+        "_nombre_": "Name",
+        "_email_": "Email",
+        "_asignado_a_": "Assigned to"
+    },
     "_ver_": "Show",
     "_verifique_que_ha_subido_archivo_csv_": "Verify that you have uploaded a CSV file, with {tab} as the field separator"
 }
