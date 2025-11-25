@@ -84,7 +84,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCUMENTOS']);
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCUMENTOS_AGREGAR']);
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCUMENTOS_BORRAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERFIL_REGISTRO-DOCENTE']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCENTE_ASIGNACION-CARRERA-SEDE']);
 
         // TIPO_DOCUMENTO
         Permission::create(['name' => 'MENU_ADMINISTRACION_TIPO-DOCUMENTO']);

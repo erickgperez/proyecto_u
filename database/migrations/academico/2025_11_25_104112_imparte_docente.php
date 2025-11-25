@@ -11,21 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('academico.imparte', function (Blueprint $table) {
+        Schema::create('academico.imparte_docente', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique()->after('id');
-            $table->comment('Para definir las sedes en que se impartirá la unidad académica');
+            $table->comment('Para definir las carga académica de los docentes');
 
-            $table->boolean('ofertada')->nullable()->default(true)->comment('Indicará que no se debe ofertar la unidad academica, en esa carrera/sede');
-            $table->tinyInteger('cupo')->nullable()->default(0)->comment('El cupo total de la unidad academica, en la carrera/sede');
+            $table->foreignId('imparte_id')->comment('la sede donde se imparte la unidad académica');
+            $table->foreign('imparte_id')->references('id')->on('academico.imparte')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
-            $table->foreignId('carrera_sede_id')->comment('la carrera y sede donde se impartirá');
-            $table->foreign('carrera_sede_id')->references('id')->on('academico.carrera_sede')->onDelete('RESTRICT')->onUpdate('CASCADE');
-
-            $table->foreignId('oferta_id')->comment('Id de la oferta académica');
-            $table->foreign('oferta_id')->references('id')->on('academico.oferta')->onDelete('CASCADE')->onUpdate('CASCADE');
-
-            $table->foreignId('docente_id')->nullable()->comment('Id del docente encargado');
+            $table->foreignId('docente_id')->nullable()->comment('Id del docente');
             $table->foreign('docente_id')->references('id')->on('academico.docente')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');

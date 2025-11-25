@@ -83,7 +83,7 @@ onMounted(() => {
             console.error('Error fetching data:', error);
         });
     axios
-        .get(route('administracion-persona-docente-data', { id: props.item.uuid }))
+        .get(route('administracion-perfil-docente-data', { id: props.item.uuid }))
         .then(function (response) {
             docente.value = response.data.docente;
             formData.value.carreras_sedes = docente.value?.carreras_sedes.map((cs: any) => cs.id);
@@ -108,14 +108,14 @@ onMounted(() => {
                     <v-col cols="12" class="pt-5 pl-5">
                         <v-card class="mx-auto">
                             <v-toolbar class="bg-blue-grey-lighten-3">
-                                <v-toolbar-title class="text-h6" :text="$t('persona._asignado_en_')"></v-toolbar-title>
+                                <v-toolbar-title class="text-h6" :text="$t('perfil._asignado_en_')"></v-toolbar-title>
                             </v-toolbar>
 
                             <v-card-text>
                                 <v-row>
-                                    <v-col cols="12" md="6">
+                                    <!--<v-col cols="12" md="6">
                                         <v-select
-                                            :label="$t('persona._asignacion_principal_')"
+                                            :label="$t('perfil._asignacion_principal_')"
                                             :items="carrerasSedesSeleccionadas"
                                             v-model="formData.carrera_sede_principal_id"
                                             item-title="tituloAbr"
@@ -123,9 +123,9 @@ onMounted(() => {
                                             prepend-icon="mdi-form-dropdown"
                                             chips
                                         ></v-select>
-                                    </v-col>
+                                    </v-col>-->
                                     <v-col cols="12" md="6">
-                                        <div class="font-weight-bold ms-1 mb-2">{{ $t('persona._asignado_en_indicaciones_') }}</div>
+                                        <div class="font-weight-bold ms-1 mb-2">{{ $t('perfil._asignado_en_indicaciones_') }}</div>
                                         <v-treeview
                                             v-model:selected="formData.carreras_sedes"
                                             :items="carrerasSedes"

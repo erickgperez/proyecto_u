@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import PerfilDatosContactoForm from '@/components/administracion/PerfilDatosContactoForm.vue';
+import PerfilDocenteAsignacionCarreraSede from '@/components/administracion/PerfilDocenteAsignacionCarreraSede.vue';
 import PerfilDocumentos from '@/components/administracion/PerfilDocumentos.vue';
 import PerfilForm from '@/components/administracion/PerfilForm.vue';
-import PerfilRegistroDocente from '@/components/administracion/PerfilRegistroDocente.vue';
 import PerfilShow from '@/components/administracion/PerfilShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
@@ -75,7 +75,7 @@ const acc = {
     borrar: 'ADMINISTRACION_PERFIL_BORRAR',
     datos_contacto: 'ADMINISTRACION_PERFIL_DATOS-CONTACTO',
     documentos: 'ADMINISTRACION_PERFIL_DOCUMENTOS',
-    registro_docente: 'ADMINISTRACION_PERFIL_REGISTRO-DOCENTE',
+    docente_asignacion_carrera_sede: 'ADMINISTRACION_PERFIL_DOCENTE_ASIGNACION-CARRERA-SEDE',
 };
 const permisoAny = 'ADMINISTRACION_PERFIL_';
 // Permisos requeridos por la interfaz
@@ -141,7 +141,7 @@ const opcionesAccion = [
     },
 ];
 
-const permitirCrear = ref(true);
+const ocultarCrear = ref(false);
 
 const iconLayout = computed(() => {
     if (props.perfil === 'aspirante') {
@@ -155,17 +155,17 @@ const iconLayout = computed(() => {
 onMounted(() => {
     if (props.perfil === 'docente') {
         opcionesAccion.push({
-            permiso: acc.registro_docente,
-            title: t('perfil._registro_docente_'),
-            text: t('perfil._registro_docente_descripcion_'),
-            emitAction: 'registro-docente',
+            permiso: acc.docente_asignacion_carrera_sede,
+            title: t('perfil._docente_asignacion_carrera_sede_'),
+            text: t('perfil._docente_asignacion_carrera_sede_descripcion_'),
+            emitAction: 'docente-asignacion-carrera-sede',
             color: 'brown-lighten-1',
-            icon: 'mdi-human-male-board',
+            icon: 'mdi-map-marker-outline',
         });
     }
 
     if (props.perfil === 'aspirante') {
-        permitirCrear.value = false;
+        ocultarCrear.value = true;
     }
 });
 </script>
@@ -195,7 +195,7 @@ onMounted(() => {
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
                         :fileName="fileName"
-                        :permitirCrear="permitirCrear"
+                        :ocultarCrear="ocultarCrear"
                     >
                         <template v-slot:item.fecha_nacimiento="{ value }">
                             <div class="d-flex ga-2">
@@ -257,12 +257,12 @@ onMounted(() => {
                             :accion="selectedAction"
                             :tipos-documento="tiposDocumento"
                         ></PerfilDocumentos>
-                        <PerfilRegistroDocente
-                            v-if="selectedAction == 'registro-docente'"
+                        <PerfilDocenteAsignacionCarreraSede
+                            v-if="selectedAction == 'docente-asignacion-carrera-sede'"
                             :item="selectedItem"
                             :perfil="props.perfil"
                             :accion="selectedAction"
-                        ></PerfilRegistroDocente>
+                        ></PerfilDocenteAsignacionCarreraSede>
                     </v-sheet>
                 </v-window-item>
             </v-window>

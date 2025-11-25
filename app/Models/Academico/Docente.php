@@ -36,4 +36,9 @@ class Docente extends Model
     {
         return $this->belongsToMany(CarreraSede::class, 'academico.asignado', 'docente_id', 'carrera_sede_id')->withPivot('principal');
     }
+
+    public function imparte(): BelongsToMany
+    {
+        return $this->belongsToMany(Imparte::class, 'academica.imparte_docente', 'docente_id', 'imparte_id');
+    }
 }

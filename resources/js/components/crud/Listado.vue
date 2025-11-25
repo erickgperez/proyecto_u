@@ -53,7 +53,7 @@ const props = defineProps({
         default: () => '',
     },
     groupBy: Array,
-    permitirCrear: Boolean,
+    ocultarCrear: Boolean,
 });
 
 const search = ref('');
@@ -132,7 +132,7 @@ const filteredByGroups = computed(() => {
                 single-line
             ></v-text-field>
             <v-btn
-                v-if="hasPermission(props.permisoCrear) && permitirCrear"
+                v-if="hasPermission(props.permisoCrear) && !ocultarCrear"
                 icon="mdi-table-plus"
                 color="success"
                 class="ml-2"

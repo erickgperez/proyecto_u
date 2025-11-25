@@ -8,13 +8,12 @@ use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-class Imparte extends Model
+class ImparteDocente extends Model
 {
     use UserStamps, HasUuid, HasCreateMany;
 
-    protected $table = "academico.imparte";
+    protected $table = "academico.imparte_docente";
 
     public function creator()
     {
@@ -26,18 +25,14 @@ class Imparte extends Model
         return $this->belongsTo(User::class, 'updated_by');
     }
 
-    public function carreraSede(): BelongsTo
+
+    public function imparte(): BelongsTo
     {
-        return $this->belongsTo(CarreraSede::class);
+        return $this->belongsTo(Imparte::class);
     }
 
-    public function oferta(): BelongsTo
+    public function docente(): BelongsTo
     {
-        return $this->belongsTo(Oferta::class);
-    }
-
-    public function docentes(): BelongsToMany
-    {
-        return $this->belongsToMany(Docente::class, 'academica.imparte_docente', 'imparte_id', 'docente_id');
+        return $this->belongsTo(Docente::class);
     }
 }
