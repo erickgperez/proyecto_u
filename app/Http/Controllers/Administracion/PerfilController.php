@@ -3,15 +3,14 @@
 namespace App\Http\Controllers\Administracion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academico\Docente;
 use App\Models\DatosContacto;
 use App\Models\Documento\TipoDocumento;
-use App\Models\Ingreso\Aspirante;
 use App\Models\Persona;
 use App\Models\Sexo;
 use App\Models\User;
 use App\Services\DistritoService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -125,6 +124,12 @@ class PerfilController extends Controller
                 $usuario->assignRole('aspirante');
             } elseif ($request->get('perfil') === 'docente') {
                 $usuario->assignRole('docente');
+
+                //Crear registro en docente
+                $docente = new Docente();
+                $docente->persona()->associate($persona);
+
+                $docente->save();
             }
             $usuario->save();
 
@@ -139,7 +144,7 @@ class PerfilController extends Controller
         if ($request->get('perfil') === 'aspirante') {
             $persona_->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id');
         } elseif ($request->get('perfil') === 'docente') {
-            $persona_->join('ingreso.docente as docente', 'persona.id', '=', 'docente.persona_id');
+            $persona_->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id');
         }
         $personaData = $persona_->find($persona->id);
 

@@ -46,12 +46,13 @@ const formData = ref<FormData>({
     fecha_nacimiento: null,
     sexo_id: null,
     email_cuenta_usuario: '',
-    perfil: props.perfil,
+    perfil: '',
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
+    formData.value.perfil = props.perfil;
     loading.value = true;
 
     if (valid) {
