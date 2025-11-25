@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import PerfilDatosContactoForm from '@/components/administracion/PerfilDatosContactoForm.vue';
 import PerfilDocenteAsignacionCarreraSede from '@/components/administracion/PerfilDocenteAsignacionCarreraSede.vue';
+import PerfilDocenteCargaAcademica from '@/components/administracion/PerfilDocenteCargaAcademica.vue';
 import PerfilDocumentos from '@/components/administracion/PerfilDocumentos.vue';
 import PerfilForm from '@/components/administracion/PerfilForm.vue';
 import PerfilShow from '@/components/administracion/PerfilShow.vue';
@@ -76,6 +77,7 @@ const acc = {
     datos_contacto: 'ADMINISTRACION_PERFIL_DATOS-CONTACTO',
     documentos: 'ADMINISTRACION_PERFIL_DOCUMENTOS',
     docente_asignacion_carrera_sede: 'ADMINISTRACION_PERFIL_DOCENTE_ASIGNACION-CARRERA-SEDE',
+    docente_carga_academica: 'ADMINISTRACION_PERFIL_DOCENTE_CARGA-ACADEMICA',
 };
 const permisoAny = 'ADMINISTRACION_PERFIL_';
 // Permisos requeridos por la interfaz
@@ -110,12 +112,14 @@ const sortBy: SortBy[] = [
 ];
 const editAcc = accionEditObject;
 editAcc.title = t('perfil._datos_personales_');
-const opcionesAccion = [
+const opciones = [
     {
+        orden: 10,
         permiso: acc.editar,
         ...editAcc,
     },
     {
+        orden: 20,
         permiso: acc.datos_contacto,
         title: t('perfil._datos_contacto_'),
         text: t('perfil._datos_contacto_descripcion_'),
@@ -124,6 +128,7 @@ const opcionesAccion = [
         icon: 'mdi-calendar-month-outline',
     },
     {
+        orden: 30,
         permiso: acc.documentos,
         title: t('perfil._documentos_'),
         text: t('perfil._documentos_descripcion_'),
@@ -132,14 +137,20 @@ const opcionesAccion = [
         icon: 'mdi-file-document-outline',
     },
     {
+        orden: 50,
         permiso: acc.mostrar,
         ...accionShowObject,
     },
     {
+        orden: 60,
         permiso: acc.borrar,
         ...accionDeleteObject,
     },
 ];
+
+const opcionesAccion = computed(() => {
+    return opciones.sort((a, b) => a.orden - b.orden);
+});
 
 const ocultarCrear = ref(false);
 
@@ -154,13 +165,23 @@ const iconLayout = computed(() => {
 
 onMounted(() => {
     if (props.perfil === 'docente') {
-        opcionesAccion.push({
+        opciones.push({
+            orden: 40,
             permiso: acc.docente_asignacion_carrera_sede,
             title: t('perfil._docente_asignacion_carrera_sede_'),
             text: t('perfil._docente_asignacion_carrera_sede_descripcion_'),
             emitAction: 'docente-asignacion-carrera-sede',
-            color: 'brown-lighten-1',
+            color: 'brown-darken-3',
             icon: 'mdi-map-marker-outline',
+        });
+        opciones.push({
+            orden: 35,
+            permiso: acc.docente_carga_academica,
+            title: t('perfil._docente_carga_academica_'),
+            text: t('perfil._docente_carga_academica_descripcion_'),
+            emitAction: 'docente-carga-academica',
+            color: 'purple-darken-1',
+            icon: 'mdi-clipboard-text',
         });
     }
 
@@ -263,6 +284,8 @@ onMounted(() => {
                             :perfil="props.perfil"
                             :accion="selectedAction"
                         ></PerfilDocenteAsignacionCarreraSede>
+                        <PerfilDocenteCargaAcademica v-if="selectedAction == 'docente-carga-academica'" :item="selectedItem" :perfil="props.perfil">
+                        </PerfilDocenteCargaAcademica>
                     </v-sheet>
                 </v-window-item>
             </v-window>

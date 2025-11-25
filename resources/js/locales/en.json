@@ -410,6 +410,9 @@
         "_listado_docente": "List of teachers",
         "_mostrar_docente": "Show teacher data",
         "_permite_gestionar_datos_docente": "Managing teacher data",
+        "_docente_carga_academica_": "Academic workload",
+        "_docente_carga_academica_descripcion_": "Assignment of the teacher's academic workload",
+        "_elija_carga_academica_": "Choose the academic load to assign",
 
         "_apellidos_": "Last name",
         "_crear_": "Create a new person",

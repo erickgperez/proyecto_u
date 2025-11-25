@@ -434,6 +434,9 @@
         "_listado_docente": "Listado de docentes",
         "_mostrar_docente": "Mostrar datos de docentes",
         "_permite_gestionar_datos_docente": "Gestionar los datos de los docentes",
+        "_docente_carga_academica_": "Carga académica",
+        "_docente_carga_academica_descripcion_": "Asignación de la carga académica del docente",
+        "_elija_carga_academica_": "Elija la carga académica a asignar",
 
         "_apellidos_": "Apellidos",
         "_crear_": "Crear una nueva persona",

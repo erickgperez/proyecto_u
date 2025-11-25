@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Academico\Semestre;
 use App\Models\Calendarizacion;
 use App\Models\TipoCalendarizacion;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -86,5 +87,15 @@ class SemestreController extends Controller
         } else {
             return response()->json(['status' => 'ok', 'message' => $id]);
         }
+    }
+
+    public function activos()
+    {
+        $semestres = Semestre::with('creator', 'updater', 'calendario')
+            ->whereDate('fecha_fin', '>', Carbon::today())
+            ->orderBy('codigo')
+            ->get();
+
+        return response()->json(['status' => 'ok', 'semestres' => $semestres]);
     }
 }

@@ -14,6 +14,7 @@ use App\Http\Controllers\Academico\TipoRequisitoController;
 use App\Http\Controllers\Academico\TipoUnidadAcademicaController;
 use App\Http\Controllers\Academico\UnidadAcademicaController;
 use App\Http\Controllers\Academico\UsoEstadoController;
+use App\Http\Controllers\Administracion\DocenteController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -56,6 +57,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/academico/plan_estudio/malla-curricular/{id}/delete', [MallaCurricularController::class, 'delete'])->name('academico-plan_estudio-malla_curricular-delete');
 
     Route::get('/academico/semestre', [SemestreController::class, 'index'])->name('academico-semestre-index');
+    Route::get('/academico/semestre/activos', [SemestreController::class, 'activos'])->name('academico-semestre-activos');
     Route::post('/academico/semestre/save', [SemestreController::class, 'save'])->name('academico-semestre-save');
     Route::delete('/academico/semestre/{id}/delete', [SemestreController::class, 'delete'])->name('academico-semestre-delete');
 
@@ -75,4 +77,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/estado', [EstadoController::class, 'index'])->name('academico-estado-index');
     Route::post('/academico/estado/save', [EstadoController::class, 'save'])->name('academico-estado-save');
     Route::delete('/academico/estado/{uuid}/delete', [EstadoController::class, 'delete'])->name('academico-estado-delete');
+
+    Route::get('/academico/semestre/{uuidSemestre}/docente/{uuidDocente}/carga', [DocenteController::class, 'carga'])->name('academico-semestre-docente-carga');
+    Route::post('/academico/semestre/docente/{uuid}/carga/save', [DocenteController::class, 'cargaSave'])->name('academico-semestre-docente-carga-save');
 });
