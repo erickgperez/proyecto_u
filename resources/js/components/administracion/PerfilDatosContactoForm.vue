@@ -23,7 +23,7 @@ function reset() {
 
 interface FormData {
     id: number | null;
-    email_principal: string;
+    //email_principal: string;
     email_alternativo: string;
     direccion_residencia: string;
     residencia_distrito: Array<object[]> | null;
@@ -40,7 +40,7 @@ const props = defineProps(['item', 'accion', 'distritosTree', 'guardarTxt']);
 
 const formData = ref<FormData>({
     id: null,
-    email_principal: '',
+    //email_principal: '',
     email_alternativo: '',
     direccion_residencia: '',
     residencia_distrito: [],
@@ -95,7 +95,7 @@ onMounted(() => {
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
-                    <v-col cols="12" md="6">
+                    <!--<v-col cols="12" md="6">
                         <v-text-field
                             required
                             icon-color="deep-orange"
@@ -105,7 +105,7 @@ onMounted(() => {
                             counter="100"
                             :label="$t('perfil._email_principal_') + ' *'"
                         ></v-text-field>
-                    </v-col>
+                    </v-col>-->
                     <v-col cols="12" md="6">
                         <v-text-field
                             prepend-icon="mdi-at"

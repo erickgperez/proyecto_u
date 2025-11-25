@@ -47,7 +47,14 @@ class PerfilController extends Controller
 
     public function indexAspirante(): Response
     {
-        $aspirantes = Persona::with([
+        $aspirantes = $this->getAspiranteBase()->get();
+
+        return $this->index('aspirante', $aspirantes);
+    }
+
+    protected function getAspiranteBase()
+    {
+        return Persona::with([
             'sexo',
             'creator',
             'updater',
@@ -60,15 +67,12 @@ class PerfilController extends Controller
                     ->where('rol.name', 'aspirante');
             }
         ])
-            ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
-            ->get();
-
-        return $this->index('aspirante', $aspirantes);
+            ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id');
     }
 
-    public function indexDocente(): Response
+    protected function getDocenteBase()
     {
-        $docentes = Persona::with([
+        return Persona::with([
             'sexo',
             'creator',
             'updater',
@@ -81,8 +85,13 @@ class PerfilController extends Controller
                     ->where('rol.name', 'docente');
             }
         ])
-            ->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id')
-            ->get();
+            ->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id');
+    }
+
+    public function indexDocente(): Response
+    {
+
+        $docentes = $this->getDocenteBase()->get();
 
         return $this->index('docente', $docentes);
     }
@@ -160,13 +169,11 @@ class PerfilController extends Controller
             );
         }
 
-        $persona_ = $this->personaBase();
         if ($request->get('perfil') === 'aspirante') {
-            $persona_->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id');
+            $personaData = $this->getAspiranteBase()->find($persona->id);
         } elseif ($request->get('perfil') === 'docente') {
-            $persona_->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id');
+            $personaData = $this->getDocenteBase()->find($persona->id);
         }
-        $personaData = $persona_->find($persona->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
     }
@@ -181,7 +188,6 @@ class PerfilController extends Controller
         }
 
         $campos = [
-            'email_principal',
             'email_alternativo',
             'direccion_residencia',
             'residencia_distrito_id',

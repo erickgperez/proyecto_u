@@ -108,8 +108,13 @@ const sortBy: SortBy[] = [
     { key: 'apellidos', order: 'asc' },
     { key: 'nombre', order: 'asc' },
 ];
-
+const editAcc = accionEditObject;
+editAcc.title = t('perfil._datos_personales_');
 const opcionesAccion = [
+    {
+        permiso: acc.editar,
+        ...editAcc,
+    },
     {
         permiso: acc.datos_contacto,
         title: t('perfil._datos_contacto_'),
@@ -125,10 +130,6 @@ const opcionesAccion = [
         emitAction: 'documentos',
         color: 'brown-darken-1',
         icon: 'mdi-file-document-outline',
-    },
-    {
-        permiso: acc.editar,
-        ...accionEditObject,
     },
     {
         permiso: acc.mostrar,
