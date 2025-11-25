@@ -12,6 +12,7 @@ use App\Models\User;
 use App\Services\DistritoService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -122,15 +123,23 @@ class PerfilController extends Controller
 
             if ($request->get('perfil') === 'aspirante') {
                 $usuario->assignRole('aspirante');
+            } elseif ($request->get('perfil') === 'docente') {
+                $usuario->assignRole('docente');
             }
             $usuario->save();
 
             $persona->usuarios()->syncWithoutDetaching([$usuario->id]);
+
+            Password::sendResetLink(
+                ['email' => $usuario->email]
+            );
         }
 
         $persona_ = $this->personaBase();
         if ($request->get('perfil') === 'aspirante') {
             $persona_->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id');
+        } elseif ($request->get('perfil') === 'docente') {
+            $persona_->join('ingreso.docente as docente', 'persona.id', '=', 'docente.persona_id');
         }
         $personaData = $persona_->find($persona->id);
 
