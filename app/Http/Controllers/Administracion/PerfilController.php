@@ -66,7 +66,7 @@ class PerfilController extends Controller
                     ->where('roles.model_type', 'App\Models\User')
                     ->where('rol.name', 'aspirante');
             }
-        ])
+        ])->select('persona.*')
             ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id');
     }
 
@@ -77,14 +77,14 @@ class PerfilController extends Controller
             'creator',
             'updater',
             'datosContacto' => ['distritoResidencia'],
-            'aspirante',
+            'docente',
             'usuarios' => function ($query) {
                 $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
                     ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
                     ->where('roles.model_type', 'App\Models\User')
                     ->where('rol.name', 'docente');
             }
-        ])
+        ])->select('persona.*')
             ->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id');
     }
 

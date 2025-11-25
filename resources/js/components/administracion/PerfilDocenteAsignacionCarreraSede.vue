@@ -40,7 +40,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.postForm(route('administracion-persona-docente-asignacion-save', { id: props.item.id }), formData.value);
+            const resp = await axios.postForm(route('administracion-perfil-docente-asignacion-save', { id: props.item.id }), formData.value);
             if (resp.data.status == 'ok') {
                 //emit('form-saved', resp.data.convocatoria);
                 mensajeExito(t('_datos_subidos_correctamente_'));

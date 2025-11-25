@@ -16,6 +16,7 @@ class DocenteController extends Controller
     {
 
         $persona = Persona::where('uuid', $id)->first();
+
         $docente = Docente::with('carrerasSedes')
             ->where('persona_id', $persona->id)->first();
 
