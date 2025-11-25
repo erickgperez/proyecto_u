@@ -47,8 +47,20 @@ class PerfilController extends Controller
 
     public function indexAspirante(): Response
     {
-        $aspirantes = $this->personaBase();
-        $aspirantes = $aspirantes->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
+        $aspirantes = Persona::with([
+            'sexo',
+            'creator',
+            'updater',
+            'datosContacto' => ['distritoResidencia'],
+            'aspirante',
+            'usuarios' => function ($query) {
+                $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
+                    ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
+                    ->where('roles.model_type', 'App\Models\User')
+                    ->where('rol.name', 'aspirante');
+            }
+        ])
+            ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
             ->get();
 
         return $this->index('aspirante', $aspirantes);
@@ -56,17 +68,13 @@ class PerfilController extends Controller
 
     public function indexDocente(): Response
     {
-        $docentes = $this->personaBase();
-        $docentes = $docentes->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id')
+        $docentes = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia'], 'usuarios', 'aspirante'])
+            ->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id')
             ->get();
 
         return $this->index('docente', $docentes);
     }
 
-    protected function personaBase()
-    {
-        return Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia'], 'usuarios', 'aspirante']);
-    }
 
     public function personaInfo($id, Request $request)
     {

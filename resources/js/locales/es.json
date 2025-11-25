@@ -442,6 +442,7 @@
         "_datos_contacto_descripcion_": "Formas de contacto con la persona",
         "_documentos_": "Documentos",
         "_documentos_descripcion_": "Documentos de la persona",
+        "_email_cuenta_": "Email de cuenta de usuario",
         "_email_cuenta_usuario_": "Email para cuenta de usuario",
         "_email_cuenta_usuario_hint_": "Dirección de correo que la persona utilizará para el ingreso al sistema",
         "_correo_cuenta existe_": "Email para cuenta, ya está asignado a otro usuario",

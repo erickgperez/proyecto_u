@@ -418,6 +418,7 @@
         "_datos_contacto_descripcion_": "Ways to contact the person",
         "_documentos_": "Documents",
         "_documentos_descripcion_": "Person's documents",
+        "_email_cuenta_": "User account email",
         "_email_cuenta_usuario_": "Email for user account",
         "_email_cuenta_usuario_hint_": "Email address that the person will use to log into the system",
         "_correo_cuenta existe_": "Email for this account is already assigned to another user.",

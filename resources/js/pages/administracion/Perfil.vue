@@ -95,6 +95,7 @@ const fileName = ref('perfiles');
 
 const headers = [
     { title: props.perfil === 'aspirante' ? t('aspirante._nie_') : t('_id_'), key: 'id' },
+    { title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'start' },
     { title: t('perfil._nombre_'), key: 'nombre', align: 'start' },
     { title: t('perfil._apellidos_'), key: 'apellidos', align: 'start' },
     { title: t('perfil._sexo_'), key: 'sexo.descripcion' },
@@ -200,9 +201,14 @@ onMounted(() => {
                                 {{ value !== null ? date.format(value, 'keyboardDate') : '' }}
                             </div>
                         </template>
-                        <template v-slot:item.id="{ value, item }">
+                        <template v-slot:item.id="{ value, item }" v-if="props.perfil === 'aspirante'">
                             <div class="d-flex ga-2">
                                 {{ item.nie }}
+                            </div>
+                        </template>
+                        <template v-slot:item.email_cuenta="{ value, item }">
+                            <div class="d-flex ga-2" v-if="item.usuarios.length > 0">
+                                {{ item.usuarios[0].email }}
                             </div>
                         </template>
                     </Listado>
