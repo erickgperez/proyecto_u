@@ -65,7 +65,7 @@ class PerfilController extends Controller
 
     protected function personaBase()
     {
-        return Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia'], 'usuarios']);
+        return Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia'], 'usuarios', 'aspirante']);
     }
 
     public function personaInfo($id, Request $request)

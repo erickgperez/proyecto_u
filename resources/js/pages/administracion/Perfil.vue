@@ -94,7 +94,7 @@ const sheetName = ref('Listado_perfiles');
 const fileName = ref('perfiles');
 
 const headers = [
-    { title: t('_id_'), key: 'id' },
+    { title: props.perfil === 'aspirante' ? t('aspirante._nie_') : t('_id_'), key: 'id' },
     { title: t('perfil._nombre_'), key: 'nombre', align: 'start' },
     { title: t('perfil._apellidos_'), key: 'apellidos', align: 'start' },
     { title: t('perfil._sexo_'), key: 'sexo.descripcion' },
@@ -198,6 +198,11 @@ onMounted(() => {
                         <template v-slot:item.fecha_nacimiento="{ value }">
                             <div class="d-flex ga-2">
                                 {{ value !== null ? date.format(value, 'keyboardDate') : '' }}
+                            </div>
+                        </template>
+                        <template v-slot:item.id="{ value, item }">
+                            <div class="d-flex ga-2">
+                                {{ item.nie }}
                             </div>
                         </template>
                     </Listado>

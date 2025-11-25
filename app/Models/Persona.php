@@ -98,9 +98,9 @@ class Persona extends Model
         return $this->belongsToMany(User::class, 'persona_usuario', 'persona_id', 'usuario_id');
     }
 
-    public function aspirantes(): HasOne
+    public function aspirante(): HasOne
     {
-        return $this->hasOne(Aspirante::class . 'persona_id');
+        return $this->hasOne(Aspirante::class, 'persona_id');
     }
 
     public function datosContacto(): HasOne
