@@ -84,7 +84,7 @@ onMounted(() => {
 
     // Recuperar los documentos de la persona
     axios
-        .get(route('administracion-persona-documentos', { id: props.item.uuid }))
+        .get(route('administracion-perfil-documentos', { id: props.item.uuid }))
         .then(function (response) {
             if (response.data.status === 'ok') {
                 documentos.value = response.data.documentos;
