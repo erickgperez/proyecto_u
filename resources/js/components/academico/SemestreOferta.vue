@@ -176,7 +176,7 @@ watch(selected, (newVal) => {
                                         color="indigo"
                                         icon="mdi-pencil"
                                         @click.stop="
-                                            formData.docente = detalle.docente;
+                                            formData.responsables = detalle.responsables;
                                             formData.ofertada = detalle.ofertada;
                                             detalle.editando = !detalle.editando;
                                         "
