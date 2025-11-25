@@ -68,7 +68,19 @@ class PerfilController extends Controller
 
     public function indexDocente(): Response
     {
-        $docentes = Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia'], 'usuarios', 'aspirante'])
+        $docentes = Persona::with([
+            'sexo',
+            'creator',
+            'updater',
+            'datosContacto' => ['distritoResidencia'],
+            'aspirante',
+            'usuarios' => function ($query) {
+                $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
+                    ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
+                    ->where('roles.model_type', 'App\Models\User')
+                    ->where('rol.name', 'docente');
+            }
+        ])
             ->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id')
             ->get();
 
