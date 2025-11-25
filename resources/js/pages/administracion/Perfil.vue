@@ -141,6 +141,15 @@ const opcionesAccion = [
 
 const permitirCrear = ref(true);
 
+const iconLayout = computed(() => {
+    if (props.perfil === 'aspirante') {
+        return 'mdi-account-search-outline';
+    } else if (props.perfil === 'docente') {
+        return 'mdi-human-male-board';
+    }
+    return '';
+});
+
 onMounted(() => {
     if (props.perfil === 'docente') {
         opcionesAccion.push({
@@ -167,7 +176,7 @@ onMounted(() => {
     ************************************************************************************
     -->
     <Head :title="mensajes.titulo1"> </Head>
-    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-account-group-outline">
+    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" :icono="iconLayout">
         <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12 pa-2 rounded-xl">
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->

@@ -392,7 +392,7 @@
         "_singular_": "Permiso"
     },
     "_permite_gestionar_datos_convocatorias_": "Allows you to manage application process data",
-    "persona": {
+    "perfil": {
         "_administrar_": "Manage people",
 
         "_aspirante_": "Applicant",
@@ -402,6 +402,14 @@
         "_listado_aspirante": "List of applicants",
         "_mostrar_aspirante": "Show applicant data",
         "_permite_gestionar_datos_aspirante": "Manage applicant data",
+
+        "_docente_": "Teacher",
+        "_administrar_docente": "Manage teachers",
+        "_crear_docente": "Create new teacher",
+        "_editar_docente": "Edit teacher data",
+        "_listado_docente": "List of teachers",
+        "_mostrar_docente": "Show teacher data",
+        "_permite_gestionar_datos_docente": "Managing teacher data",
 
         "_apellidos_": "Last name",
         "_crear_": "Create a new person",

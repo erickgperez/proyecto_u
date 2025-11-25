@@ -54,6 +54,15 @@ class PerfilController extends Controller
         return $this->index('aspirante', $aspirantes);
     }
 
+    public function indexDocente(): Response
+    {
+        $docentes = $this->personaBase();
+        $docentes = $docentes->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id')
+            ->get();
+
+        return $this->index('docente', $docentes);
+    }
+
     protected function personaBase()
     {
         return Persona::with(['sexo', 'creator', 'updater', 'datosContacto' => ['distritoResidencia'], 'usuarios']);
