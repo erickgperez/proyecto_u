@@ -26,7 +26,7 @@ onMounted(() => {
     form1Data.value.fecha_nacimiento = props.solicitud.solicitante.persona.fecha_nacimiento;
 
     axios
-        .get(route('administracion-persona-info', { id: props.solicitud.solicitante.persona.uuid }))
+        .get(route('administracion-perfil-info', { id: props.solicitud.solicitante.persona.uuid }))
         .then(function (response) {
             distritosTree.value = response.data.distritosTree;
             persona.value = response.data.persona;
@@ -74,11 +74,11 @@ function prevStep() {
     <v-stepper alt-labels hide-actions v-model="step">
         <v-stepper-header>
             <v-stepper-item :value="1" :color="step === 1 ? 'indigo' : ''">
-                <span :class="step === 1 ? 'text-indigo' : ''">{{ $t('persona._datos_personales_') }}</span>
+                <span :class="step === 1 ? 'text-indigo' : ''">{{ $t('perfil._datos_personales_') }}</span>
             </v-stepper-item>
             <v-divider></v-divider>
             <v-stepper-item :color="step === 2 ? 'indigo' : ''" :value="2">
-                <span :class="step === 2 ? 'text-indigo' : ''">{{ $t('persona._datos_contacto_') }}</span>
+                <span :class="step === 2 ? 'text-indigo' : ''">{{ $t('perfil._datos_contacto_') }}</span>
             </v-stepper-item>
             <v-divider></v-divider>
             <v-stepper-item :color="step === 3 ? 'indigo' : ''" :value="3">
@@ -95,49 +95,49 @@ function prevStep() {
                                 <v-col cols="12" md="4">
                                     <v-text-field
                                         readonly
-                                        :label="$t('persona._primer_nombre_')"
+                                        :label="$t('perfil._primer_nombre_')"
                                         :model-value="solicitud.solicitante.persona.primer_nombre"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
                                     <v-text-field
                                         readonly
-                                        :label="$t('persona._segundo_nombre_')"
+                                        :label="$t('perfil._segundo_nombre_')"
                                         :model-value="solicitud.solicitante.persona.segundo_nombre"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
                                     <v-text-field
                                         readonly
-                                        :label="$t('persona._tercer_nombre_')"
+                                        :label="$t('perfil._tercer_nombre_')"
                                         :model-value="solicitud.solicitante.persona.tercer_nombre"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
                                     <v-text-field
                                         readonly
-                                        :label="$t('persona._primer_apellido_')"
+                                        :label="$t('perfil._primer_apellido_')"
                                         :model-value="solicitud.solicitante.persona.primer_apellido"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
                                     <v-text-field
                                         readonly
-                                        :label="$t('persona._segundo_apellido_')"
+                                        :label="$t('perfil._segundo_apellido_')"
                                         :model-value="solicitud.solicitante.persona.segundo_apellido"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
                                     <v-text-field
                                         readonly
-                                        :label="$t('persona._primer_apellido_')"
+                                        :label="$t('perfil._primer_apellido_')"
                                         :model-value="solicitud.solicitante.persona.tercer_apellido"
                                     ></v-text-field>
                                 </v-col>
                                 <v-col cols="12" md="4">
                                     <v-text-field
                                         readonly
-                                        :label="$t('persona._sexo_')"
+                                        :label="$t('perfil._sexo_')"
                                         :model-value="solicitud.solicitante.persona.sexo.descripcion"
                                     ></v-text-field>
                                 </v-col>
@@ -149,7 +149,7 @@ function prevStep() {
                                             required
                                             :rules="[(v) => !!v || $t('_campo_requerido_')]"
                                             v-model="form1Data.fecha_nacimiento"
-                                            :label="$t('persona._fecha_nacimiento_') + ' *'"
+                                            :label="$t('perfil._fecha_nacimiento_') + ' *'"
                                         ></v-date-input>
                                     </v-locale-provider>
                                 </v-col>

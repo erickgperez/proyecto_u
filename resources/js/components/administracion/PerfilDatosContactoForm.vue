@@ -63,7 +63,7 @@ async function submitForm() {
                 formData.value.residencia_distrito_id = formData.value.residencia_distrito[0].id;
             }
 
-            const resp = await axios.post(route('administracion-persona-datos-contacto-save', { id: props.item.uuid }), formData.value);
+            const resp = await axios.post(route('administracion-perfil-datos-contacto-save', { id: props.item.uuid }), formData.value);
             if (resp.data.status == 'ok') {
                 emit('form-saved', resp.data.item);
                 mensajeExito(t('_datos_subidos_correctamente_'));
@@ -91,7 +91,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <v-card :title="$t('persona._datos_contacto_')">
+    <v-card :title="$t('perfil._datos_contacto_')">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
@@ -103,7 +103,7 @@ onMounted(() => {
                             v-model="formData.email_principal"
                             :rules="[rules.required, rules.email, rules.maxLength(100)]"
                             counter="100"
-                            :label="$t('persona._email_principal_') + ' *'"
+                            :label="$t('perfil._email_principal_') + ' *'"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -112,7 +112,7 @@ onMounted(() => {
                             v-model="formData.email_alternativo"
                             :rules="[rules.email, rules.maxLength(100)]"
                             counter="100"
-                            :label="$t('persona._email_alternativo_')"
+                            :label="$t('perfil._email_alternativo_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -121,7 +121,7 @@ onMounted(() => {
                             v-model="formData.telefono_personal"
                             :rules="[rules.maxLength(50)]"
                             counter="50"
-                            :label="$t('persona._telefono_personal_')"
+                            :label="$t('perfil._telefono_personal_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -130,7 +130,7 @@ onMounted(() => {
                             v-model="formData.telefono_personal_alternativo"
                             :rules="[rules.maxLength(50)]"
                             counter="50"
-                            :label="$t('persona._telefono_personal_alternativo_')"
+                            :label="$t('perfil._telefono_personal_alternativo_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -139,7 +139,7 @@ onMounted(() => {
                             v-model="formData.direccion_residencia"
                             :rules="[rules.maxLength(500)]"
                             counter="500"
-                            :label="$t('persona._direccion_residencia_')"
+                            :label="$t('perfil._direccion_residencia_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -148,15 +148,15 @@ onMounted(() => {
                             v-model="formData.telefono_residencia"
                             :rules="[rules.maxLength(50)]"
                             counter="50"
-                            :label="$t('persona._telefono_residencia_')"
+                            :label="$t('perfil._telefono_residencia_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="6">
-                        <v-text-field prepend-icon="mdi-home-city" :model-value="distrito" readonly :label="$t('persona._distrito_residencia_')">
+                        <v-text-field prepend-icon="mdi-home-city" :model-value="distrito" readonly :label="$t('perfil._distrito_residencia_')">
                         </v-text-field>
                     </v-col>
                     <v-col cols="6">
-                        <v-btn @click="dialogTreeVisible = true" color="primary">{{ $t('persona._seleccionar_distrito_') }}</v-btn>
+                        <v-btn @click="dialogTreeVisible = true" color="primary">{{ $t('perfil._seleccionar_distrito_') }}</v-btn>
                     </v-col>
                 </v-row>
                 <v-row>
@@ -166,7 +166,7 @@ onMounted(() => {
                             v-model="formData.direccion_trabajo"
                             :rules="[rules.maxLength(50)]"
                             counter="500"
-                            :label="$t('persona._direccion_trabajo_')"
+                            :label="$t('perfil._direccion_trabajo_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -175,7 +175,7 @@ onMounted(() => {
                             v-model="formData.telefono_trabajo"
                             :rules="[rules.maxLength(50)]"
                             counter="50"
-                            :label="$t('persona._telefono_trabajo_')"
+                            :label="$t('perfil._telefono_trabajo_')"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" align="right">

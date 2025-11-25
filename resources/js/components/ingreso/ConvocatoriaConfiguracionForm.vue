@@ -31,7 +31,7 @@ interface FormData {
     fecha_fin_recepcion_solicitudes: Date | null;
     hora_fin_recepcion_solicitudes: string | null;
     cuota_sector_publico: number | null;
-    prueba_bachillerato_id: number | null;
+    //prueba_bachillerato_id: number | null;
 }
 
 const props = defineProps(['item', 'accion', 'pruebasBachillerato']);
@@ -45,7 +45,7 @@ const formData = ref<FormData>({
     fecha_fin_recepcion_solicitudes: null,
     hora_fin_recepcion_solicitudes: '',
     cuota_sector_publico: null,
-    prueba_bachillerato_id: null,
+    //prueba_bachillerato_id: null,
 });
 
 const dateFields = ['fecha_publicacion_resultados', 'fecha_inicio_recepcion_solicitudes', 'fecha_fin_recepcion_solicitudes'];
@@ -218,7 +218,7 @@ onMounted(() => {
                                             persistent-hint
                                         ></v-number-input>
                                     </v-col>
-                                    <v-col cols="12" md="6">
+                                    <!--<v-col cols="12" md="6">
                                         <v-select
                                             required
                                             :rules="[rules.required]"
@@ -232,7 +232,7 @@ onMounted(() => {
                                             :hint="$t('convocatoria._prueba_bachillerato_hint_')"
                                             persistent-hint
                                         ></v-select>
-                                    </v-col>
+                                    </v-col>-->
                                 </v-row>
                             </v-card-text>
                         </v-card>

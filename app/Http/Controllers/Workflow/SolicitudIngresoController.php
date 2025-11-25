@@ -31,7 +31,7 @@ class SolicitudIngresoController extends Controller
     public function solicitud(int $idPersona)
     {
         $persona = Persona::find($idPersona);
-        $aspirante = $persona->aspirantes()->orderBy('created_at', 'desc')->first();
+        $aspirante = $persona->aspirante;
 
         $now = Carbon::now();
         $convocatorias = Convocatoria::with('configuracion')
