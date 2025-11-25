@@ -139,6 +139,8 @@ const opcionesAccion = [
     },
 ];
 
+const permitirCrear = ref(true);
+
 onMounted(() => {
     if (props.perfil === 'docente') {
         opcionesAccion.push({
@@ -149,6 +151,10 @@ onMounted(() => {
             color: 'brown-lighten-1',
             icon: 'mdi-human-male-board',
         });
+    }
+
+    if (props.perfil === 'aspirante') {
+        permitirCrear.value = false;
     }
 });
 </script>
@@ -178,6 +184,7 @@ onMounted(() => {
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
                         :fileName="fileName"
+                        :permitirCrear="permitirCrear"
                     >
                         <template v-slot:item.fecha_nacimiento="{ value }">
                             <div class="d-flex ga-2">

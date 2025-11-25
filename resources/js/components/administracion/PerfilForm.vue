@@ -56,7 +56,7 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.post(route('administracion-persona-save'), formData.value);
+            const resp = await axios.post(route('administracion-perfil-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();

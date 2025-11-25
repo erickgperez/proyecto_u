@@ -5,14 +5,17 @@ namespace App\Http\Controllers\Administracion;
 use App\Http\Controllers\Controller;
 use App\Models\DatosContacto;
 use App\Models\Documento\TipoDocumento;
+use App\Models\Ingreso\Aspirante;
 use App\Models\Persona;
 use App\Models\Sexo;
 use App\Models\User;
 use App\Services\DistritoService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
+use Illuminate\Support\Str;
 
 class PerfilController extends Controller
 {
@@ -98,14 +101,19 @@ class PerfilController extends Controller
 
         $persona->save();
         if ($request->get('id') === null) {
-            $userCheck = User::where('codigo', $request->get('codigo'))->first();
+            $userCheck = User::where('email', $request->get('email_cuenta_usuario'))->first();
             if ($userCheck !== null) {
                 return response()->json(['status' => 'error', 'message' => 'perfil._correo_cuenta existe_']);
             }
             $usuario = new User();
             $usuario->name = $persona->primer_nombre . ' ' . $persona->primer_apellido;
             $usuario->email = $request->get('email_cuenta_usuario');
-            $usuario->assignRole('aspirante');
+            $usuario->email_verified_at = new \DateTime();
+            $usuario->password = Str::password();
+
+            if ($request->get('perfil') === 'aspirante') {
+                $usuario->assignRole('aspirante');
+            }
             $usuario->save();
 
             $persona->usuarios()->syncWithoutDetaching([$usuario->id]);
