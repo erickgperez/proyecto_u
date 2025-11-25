@@ -110,8 +110,8 @@ class OfertaController extends Controller
                 'sede' => $i->carreraSede->sede->nombre,
                 'ofertada' => $i->ofertada,
                 'cupo' => $i->cupo,
-                'docente_id' => $i->docente_id,
-                'docente' => $i->docente()->with('persona')->first(),
+                'docente_id' => null, //$i->docente_id,
+                'responsables' => $i->docentes()->with('persona')->get(), //$i->docente()->with('persona')->first(),
                 'docentes' => $i->carreraSede->docentes()->with('persona')->get(),
                 'editando' => false
             ];
@@ -125,7 +125,13 @@ class OfertaController extends Controller
 
         $imparte = Imparte::find($request->get('id'));
         $imparte->ofertada = $request->get('ofertada');
-        $imparte->docente_id = $request->get('docente_id');
+        $responsables = $request->get('responsables');
+        $docentesId = [];
+        foreach ($responsables as $d) {
+            $docentesId[] = $d['id'];
+        }
+
+        $imparte->docentes()->sync($docentesId);
 
         $imparte->save();
 

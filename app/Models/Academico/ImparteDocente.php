@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class ImparteDocente extends Model
 {
-    use UserStamps, HasUuid, HasCreateMany;
+    use UserStamps;
 
     protected $table = "academico.imparte_docente";
 

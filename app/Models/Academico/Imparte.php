@@ -38,6 +38,6 @@ class Imparte extends Model
 
     public function docentes(): BelongsToMany
     {
-        return $this->belongsToMany(Docente::class, 'academica.imparte_docente', 'imparte_id', 'docente_id');
+        return $this->belongsToMany(Docente::class, 'academico.imparte_docente', 'imparte_id', 'docente_id');
     }
 }

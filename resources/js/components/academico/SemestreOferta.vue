@@ -16,14 +16,14 @@ const detalleOferta = ref();
 interface FormData {
     id: number | null;
     docente_id: number | null;
-    docente: object | null;
+    responsables: Array<[]>;
     ofertada: boolean;
 }
 
 const formData = ref<FormData>({
     id: null,
     docente_id: null,
-    docente: null,
+    responsables: [],
     ofertada: true,
 });
 
@@ -75,13 +75,13 @@ async function ofertar(item) {
 
 async function guardarDetalle(detalle) {
     formData.value.id = detalle.id;
-    formData.value.docente_id = formData.value.docente ? formData.value.docente.id : null;
+    //formData.value.docente_id = formData.value.docente ? formData.value.docente.id : null;
 
     try {
         const resp = await axios.post(route('academico-semestre-oferta-detalle-save'), formData.value);
         if (resp.data.status == 'ok') {
             mensajeExito(t('_datos_subidos_correctamente_'));
-            detalle.docente = formData.value.docente;
+            detalle.responsables = formData.value.responsables;
             detalle.ofertada = formData.value.ofertada;
             detalle.editando = !detalle.editando;
         } else {
@@ -197,20 +197,37 @@ watch(selected, (newVal) => {
                                     </div>
 
                                     <div class="text-medium-emphasis font-weight-bold">
-                                        <div v-if="!detalle.editando">
-                                            {{ $t('semestre._responsable_') }} : {{ detalle.docente?.persona?.nombreCompleto }}
+                                        <div v-if="!detalle.editando" class="mx-auto">
+                                            <v-list density="compact">
+                                                <v-list-subheader>{{ $t('semestre._responsables_') }}:</v-list-subheader>
+                                                <v-list-item
+                                                    class="d-flex align-left"
+                                                    v-for="(item, i) in detalle.responsables"
+                                                    :key="i"
+                                                    :value="item"
+                                                >
+                                                    <template v-slot:prepend>
+                                                        <v-icon icon="mdi-circle-small"></v-icon>
+                                                    </template>
+                                                    <v-list-item-title
+                                                        v-text="item.persona.nombreCorto"
+                                                        class="text-medium-emphasis text-body-2"
+                                                    ></v-list-item-title>
+                                                </v-list-item>
+                                            </v-list>
                                         </div>
                                         <div v-else>
                                             <v-autocomplete
-                                                :label="$t('semestre._responsable_')"
+                                                :label="$t('semestre._responsables_')"
                                                 :items="detalle.docentes"
-                                                v-model="formData.docente"
+                                                v-model="formData.responsables"
                                                 item-title="persona.nombreCompleto"
                                                 item-value="id"
                                                 chips
                                                 density="compact"
                                                 clearable
                                                 return-object
+                                                multiple
                                             ></v-autocomplete>
                                         </div>
                                     </div>

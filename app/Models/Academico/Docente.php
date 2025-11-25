@@ -39,6 +39,6 @@ class Docente extends Model
 
     public function imparte(): BelongsToMany
     {
-        return $this->belongsToMany(Imparte::class, 'academica.imparte_docente', 'docente_id', 'imparte_id');
+        return $this->belongsToMany(Imparte::class, 'academico.imparte_docente', 'docente_id', 'imparte_id');
     }
 }

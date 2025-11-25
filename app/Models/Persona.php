@@ -32,7 +32,7 @@ class Persona extends Model
         'sexo_id'
     ];
 
-    protected $appends = ['nombre', 'apellidos', 'edad', 'nombreCompleto'];
+    protected $appends = ['nombre', 'apellidos', 'edad', 'nombreCompleto', 'nombreCorto'];
 
     public function getNombreAttribute(): string
     {
@@ -49,6 +49,12 @@ class Persona extends Model
     public function getNombreCompletoAttribute(): string
     {
         $unido = "{$this->primer_nombre} {$this->segundo_nombre} {$this->tercer_nombre} {$this->primer_apellido} {$this->segundo_apellido} {$this->tercer_apellido}";
+        return (string) trim(preg_replace('/\s+/', ' ', $unido));
+    }
+
+    public function getNombreCortoAttribute(): string
+    {
+        $unido = "{$this->primer_nombre} {$this->primer_apellido}";
         return (string) trim(preg_replace('/\s+/', ' ', $unido));
     }
 

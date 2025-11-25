@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('academico.imparte_docente', function (Blueprint $table) {
             $table->id();
-            $table->uuid('uuid')->unique()->after('id');
             $table->comment('Para definir las carga académica de los docentes');
 
             $table->foreignId('imparte_id')->comment('la sede donde se imparte la unidad académica');
@@ -36,6 +35,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('academico.imparte');
+        Schema::dropIfExists('academico.imparte_docente');
     }
 };
