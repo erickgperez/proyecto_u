@@ -23,14 +23,16 @@ interface FormData {
     id: number | null;
     codigo: string;
     descripcion: string;
+    roles: Array<[]>;
 }
 
-const props = defineProps(['item', 'accion']);
+const props = defineProps(['item', 'accion', 'roles']);
 
 const formData = ref<FormData>({
     id: null,
     codigo: '',
     descripcion: '',
+    roles: [],
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -91,6 +93,16 @@ onMounted(() => {
                             counter="255"
                             :label="$t('_descripcion_') + ' *'"
                         ></v-text-field>
+                        <v-select
+                            :label="$t('rol._plural_')"
+                            :items="roles"
+                            v-model="formData.roles"
+                            item-title="name"
+                            item-value="id"
+                            prepend-icon="mdi-form-dropdown"
+                            multiple
+                            chips
+                        ></v-select>
                     </v-col>
 
                     <v-col cols="12" align="right">

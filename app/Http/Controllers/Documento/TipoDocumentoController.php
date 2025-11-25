@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Documento;
 
 use App\Http\Controllers\Controller;
 use App\Models\Documento\TipoDocumento;
+use App\Models\Rol;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -16,9 +17,10 @@ class TipoDocumentoController extends Controller
     public function index(Request $request): Response
     {
 
-        $estados = TipoDocumento::orderBy('codigo')->get();
+        $estados = TipoDocumento::with('roles')->orderBy('codigo')->get();
+        $roles = Rol::where('guard_name', 'web')->orderBy('name')->get();
 
-        return Inertia::render('documento/TipoDocumento', ['items' => $estados]);
+        return Inertia::render('documento/TipoDocumento', ['items' => $estados, 'roles' => $roles]);
     }
 
     public function save(Request $request)
@@ -27,6 +29,7 @@ class TipoDocumentoController extends Controller
         $request->validate([
             'codigo' => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:200',
+            'roles' => 'nullable|array'
         ]);
 
         if ($request->get('id') === null) {
@@ -52,10 +55,11 @@ class TipoDocumentoController extends Controller
 
         $tipo->codigo = $request->get('codigo');
         $tipo->descripcion = $request->get('descripcion');
+        $tipo->roles()->sync($request->get('roles') ?? []);
 
         $tipo->save();
 
-        $item = TipoDocumento::find($tipo->id);
+        $item = TipoDocumento::with('roles')->find($tipo->id);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $item]);
     }

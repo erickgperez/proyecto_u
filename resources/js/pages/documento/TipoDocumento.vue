@@ -32,6 +32,7 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    roles: Array<[]>,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -79,10 +80,15 @@ const headers = [
     { title: t('_id_'), key: 'id' },
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('rol._plural_'), key: 'roles' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
 const sortBy: SortBy[] = [{ key: 'codigo', order: 'asc' }];
+
+function getRoles(array) {
+    return array.map((rol) => rol.name).join(', ');
+}
 
 const opcionesAccion = [
     {
@@ -125,6 +131,11 @@ const opcionesAccion = [
                         :sheetName="sheetName"
                         :fileName="fileName"
                     >
+                        <template v-slot:item.roles="{ value }">
+                            <div class="d-flex ga-2">
+                                {{ getRoles(value) }}
+                            </div>
+                        </template>
                     </Listado>
                 </v-window-item>
                 <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
@@ -149,6 +160,7 @@ const opcionesAccion = [
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
+                            :roles="props.roles"
                             @form-saved="handleFormSave"
                         ></TipoDocumentoForm>
                         <TipoDocumentoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></TipoDocumentoShow>
