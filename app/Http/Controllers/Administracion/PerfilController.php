@@ -33,7 +33,17 @@ class PerfilController extends Controller
     {
 
         $sexos = Sexo::all();
-        $tiposDocumento = TipoDocumento::orderBy('codigo')->get();
+        $tiposDocumento = TipoDocumento::with('roles')->orderBy('codigo')->get();
+        $tipos = [];
+        foreach ($tiposDocumento as $td) {
+            foreach ($td->roles as $rol) {
+                if ($rol->guard_name == 'web' && $rol->name == $perfil) {
+                    $tipos[] = $td;
+                    break;
+                }
+            }
+        }
+
         $distritosTree = $this->distritoService->distritosLikeTree();
 
         return Inertia::render('administracion/Perfil', [
@@ -41,7 +51,7 @@ class PerfilController extends Controller
             'perfil' => $perfil,
             'sexos' => $sexos,
             'distritosTree' => $distritosTree,
-            'tiposDocumento' => $tiposDocumento,
+            'tiposDocumento' => $tipos,
         ]);
     }
 
