@@ -80,6 +80,10 @@ onMounted(() => {
     reset();
 
     formData.value = { ...props.item };
+
+    if (isEditing.value && props.item.usuarios.length > 0) {
+        formData.value.email_cuenta_usuario = props.item.usuarios[0].email;
+    }
 });
 </script>
 <template>
