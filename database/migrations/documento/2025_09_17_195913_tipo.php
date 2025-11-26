@@ -17,6 +17,7 @@ return new class extends Migration
             $table->comment('Catálogo de tipos de documentos');
             $table->string('codigo', length: 50)->unique();
             $table->string('descripcion', length: 255)->nullable();
+            $table->boolean('multiple')->default(false)->comment('Permitir subir varios documentos de este tipo para una misma persona');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
