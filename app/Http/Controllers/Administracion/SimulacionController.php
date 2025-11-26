@@ -93,7 +93,7 @@ class SimulacionController extends Controller
                             $aspirante = $this->aspiranteService->createFromUser($user);
                         } else {
                             $persona = $user->personas()->first();
-                            $aspirante = $persona->aspirantes()->first();
+                            $aspirante = $persona->aspirante()->first();
                         }
 
                         // Recargar los datos de usuario, por los cambios que se hayan podido hacer
