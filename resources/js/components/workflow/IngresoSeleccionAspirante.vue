@@ -17,25 +17,25 @@ const fechaPublicacion = computed(() => {
 </script>
 <template>
     <v-container v-if="fechaPublicacion && today > fechaPublicacion">
-        <v-alert border="top" type="success" variant="outlined" prominent v-if="solicitud.seleccionado">
+        <v-alert border="top" color="success" variant="outlined" prominent v-if="solicitud.seleccionado" >
             <span class="text-h6">{{ solicitud.solicitante.persona.nombreCompleto }} </span>, {{ $t('aspirante._ha_sido_msj_') }}
-            <span class="text-h5 text-uppercase font-weight-black">
+            <span class="text-h6 text-uppercase font-weight-black">
                 {{ solicitud.solicitante.persona.sexo.descripcion === 'Femenino' ? $t('aspirante._seleccionada_') : $t('aspirante._seleccionado_') }}
                 <v-icon icon="mdi-check-decagram" size="x-large"></v-icon>
             </span>
-            <v-row class="mt-2">
-                <v-col cols="1"> {{ $t('sede._sede_') }}: </v-col>
-                <v-col class="font-weight-bold text-decoration-underline"> {{ props.solicitud.sede.nombre }}</v-col>
+            <v-row class="">
+                <v-col cols="12" md="6"> {{ $t('sede._sede_') }}: </v-col>
+                <v-col cols="12" md="6" class="font-weight-bold text-decoration-underline"> {{ props.solicitud.sede.nombre }}</v-col>
             </v-row>
             <v-row>
-                <v-col cols="1"> {{ $t('carrera._singular_') }}: </v-col>
-                <v-col class="font-weight-bold text-decoration-underline">
+                <v-col cols="12" md="6"> {{ $t('carrera._singular_') }}: </v-col>
+                <v-col cols="12" md="6" class="font-weight-bold text-decoration-underline">
                     ({{ props.solicitud.codigo_carrera }}) {{ props.solicitud.nombre_carrera }}
                 </v-col>
             </v-row>
             <v-row>
-                <v-col cols="1"> {{ $t('_opcion_') }}: </v-col>
-                <v-col class="font-weight-bold text-decoration-underline"> {{ props.solicitud.opcion }}</v-col>
+                <v-col cols="12" md="6"> {{ $t('_opcion_') }}: </v-col>
+                <v-col cols="12" md="6" class="font-weight-bold text-decoration-underline"> {{ props.solicitud.opcion }}</v-col>
             </v-row>
             <v-divider class="mb-8"></v-divider>
             {{ $t('aspirante._si_esta_de_acuerdo_msj_') }}
