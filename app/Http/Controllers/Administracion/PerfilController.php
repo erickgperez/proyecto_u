@@ -74,7 +74,8 @@ class PerfilController extends Controller
                 $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
                     ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
                     ->where('roles.model_type', 'App\Models\User')
-                    ->where('rol.name', 'aspirante');
+                    ->where('rol.name', 'aspirante')
+                    ->orWhere('rol.name', 'estudiante');
             }
         ])->select('persona.*', 'convocatoria_aspirante.seleccionado')
             ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
