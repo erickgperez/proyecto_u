@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -79,6 +79,14 @@ function editDocumento(documento) {
     isEditing.value = true;
 }
 
+const documentosPersona = computed(() => {
+    return documentos.value.map((doc) => doc.tipo_id);
+});
+
+const localTiposDocumentos = computed(() => {
+    return props.tiposDocumento.filter((tipoDoc) => tipoDoc.multiple || !documentosPersona.value.includes(tipoDoc.id));
+});
+
 onMounted(() => {
     reset();
 
@@ -107,7 +115,6 @@ watch(tab, (newVal) => {
             <v-tab value="1">{{ $t('documento._plural_') }}</v-tab>
             <v-tab value="2">{{ $t('documento._agregar_') }}</v-tab>
         </v-tabs>
-
         <v-tabs-window v-model="tab">
             <v-tabs-window-item value="1">
                 <v-row class="pt-2">
@@ -139,7 +146,7 @@ watch(tab, (newVal) => {
                                     icon-color="deep-orange"
                                     :rules="[rules.required]"
                                     :label="$t('documento._tipo_')"
-                                    :items="props.tiposDocumento"
+                                    :items="localTiposDocumentos"
                                     v-model="formData.tipo_id"
                                     item-title="descripcion"
                                     item-value="id"
