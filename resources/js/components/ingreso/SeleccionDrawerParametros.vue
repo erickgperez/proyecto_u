@@ -49,7 +49,7 @@ function cargarSolicitudes() {
                 emit('carrerasSede', response.data.ofertaSede);
                 emit('solicitudes', response.data.solicitudes);
                 emit('infoSede', response.data.infoSede);
-                if (response.data.cargarSolicitudes.length == 0){
+                if (response.data.solicitudes.length == 0){
                     mensajeError(t('solicitud._no_solicitudes_'));
                 }
             })
@@ -63,9 +63,6 @@ function cargarSolicitudes() {
     }
 }
 
-watch(localDrawer, () => {
-    emit('changeDrawer');
-});
 
 watch(convocatoria, () => {
     emit('changeConvocatoria', convocatoria.value);
