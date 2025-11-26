@@ -55,15 +55,17 @@ class PerfilController extends Controller
         ]);
     }
 
-    public function indexAspirante(): Response
+    public function indexAspirante($convocatoriaUUID): Response
     {
-        $aspirantes = $this->getAspiranteBase()->get();
+        $convocatoria = Convocatoria::where('uuid', $convocatoriaUUID)->first();
+        $aspirantes = $this->getAspiranteBase($convocatoria)->get();
 
         return $this->index('aspirante', $aspirantes);
     }
 
-    protected function getAspiranteBase()
-    {
+    protected function getAspiranteBase($convocatoria)
+    {        
+        
         return Persona::with([
             'sexo',
             'creator',
@@ -80,6 +82,7 @@ class PerfilController extends Controller
         ])->select('persona.*', 'convocatoria_aspirante.seleccionado')
             ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
             ->join('ingreso.convocatoria_aspirante as convocatoria_aspirante', 'aspirante.id', '=', 'convocatoria_aspirante.aspirante_id')
+            ->where('convocatoria_aspirante.convocatoria_id', $convocatoria->id)
             ;
     }
 
