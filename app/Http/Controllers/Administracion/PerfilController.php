@@ -76,8 +76,10 @@ class PerfilController extends Controller
                     ->where('roles.model_type', 'App\Models\User')
                     ->where('rol.name', 'aspirante');
             }
-        ])->select('persona.*')
-            ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id');
+        ])->select('persona.*', 'convocatoria_aspirante.seleccionado')
+            ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
+            ->join('ingreso.convocatoria_aspirante as convocatoria_aspirante', 'aspirante.id', '=', 'convocatoria_aspirante.aspirante_id')
+            ;
     }
 
     protected function getDocenteBase()

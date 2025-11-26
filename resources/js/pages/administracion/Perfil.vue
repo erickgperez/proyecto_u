@@ -96,15 +96,20 @@ const sheetName = ref('Listado_perfiles');
 const fileName = ref('perfiles');
 
 const headers = [
-    { title: props.perfil === 'aspirante' ? t('aspirante._nie_') : t('_id_'), key: 'id' },
-    { title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'start' },
+    { title: props.perfil === 'aspirante' ? t('aspirante._nie_') : t('_id_'), key: 'id', align: 'center' }
+];
+if (props.perfil === 'aspirante') {
+    headers.push({ title: t('aspirante._seleccionado_') , key: 'seleccionado', align: 'center' });
+}
+    
+headers.push({ title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'center' },
     { title: t('perfil._nombre_'), key: 'nombre', align: 'start' },
     { title: t('perfil._apellidos_'), key: 'apellidos', align: 'start' },
-    { title: t('perfil._sexo_'), key: 'sexo.descripcion' },
-    { title: t('perfil._fecha_nacimiento_'), key: 'fecha_nacimiento' },
+    { title: t('perfil._sexo_'), key: 'sexo.descripcion', align: 'center' },
+    { title: t('perfil._fecha_nacimiento_'), key: 'fecha_nacimiento', align: 'center' },
     { title: t('perfil._edad_'), key: 'edad', align: 'end' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
-];
+);
 
 const sortBy: SortBy[] = [
     { key: 'apellidos', order: 'asc' },
@@ -225,7 +230,13 @@ onMounted(() => {
                         </template>
                         <template v-slot:item.id="{ value, item }" v-if="props.perfil === 'aspirante'">
                             <div class="d-flex ga-2">
-                                {{ item.nie }}
+                                {{ item.aspirante.nie }}
+                            </div>
+                        </template>
+                        <template v-slot:item.seleccionado="{ value }" v-if="props.perfil === 'aspirante'">
+                            <div class="d-flex justify-center align-center">
+                                <v-icon icon="mdi-checkbox-marked-outline" color="success" v-if="value"></v-icon>
+                                <v-icon icon="mdi-close-box-outline" color="red" v-else></v-icon>
                             </div>
                         </template>
                         <template v-slot:item.email_cuenta="{ value, item }">
