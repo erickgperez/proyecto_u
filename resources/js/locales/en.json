@@ -554,6 +554,7 @@
         "_descripcion_": "Descripción"
     },
     "_tipo_carga_": "Type of load",
+    "_tipo_invitacion_": "Invitation type",
     "tipoUnidadAcademica": {
         "_administrar_": "Manage Academic Unit Types",
         "_codigo_ya existe_": "The type code already exists in another record",
@@ -565,7 +566,40 @@
         "_mostrar_": "Show Academic Unit Type",
         "_permite_gestionar_": "Allows you to manage academic unit types"
     },
-    "_tipo_invitacion_": "Invitation type",
+    "tipoCalendarizacion": {
+        "_administrar_": "Manage scheduling types",
+        "_codigo_ya existe_": "The scheduling type code already exists in another record",
+        "_crear_": "Create scheduling type",
+        "_editar_": "Edit scheduling type",
+        "_singular_": "Scheduling type",
+        "_plural_": "Types of scheduling",
+        "_listado_": "List of scheduling types",
+        "_mostrar_": "Show scheduling type",
+        "_permite_gestionar_": "Manage scheduling type data"
+    },
+    "tipoDocumento": {
+        "_singular_": "Document type",
+        "_administrar_": "Manage document types",
+        "_crear_": "Create a new document type",
+        "_editar_": "Edit document type",
+        "_mostrar_": "Show document type",
+        "_listado_": "List of document types",
+        "_permite_gestionar_datos_": "It allows you to manage document types",
+        "_plural_": "Document types",
+        "_multiple_": "Multiple",
+        "_multiple_hint_": "Allow multiple documents of this type to be uploaded for the same person"
+    },
+    "tipoEvento": {
+        "_administrar_": "Manage event types",
+        "_codigo_ya existe_": "The event type code already exists in another record",
+        "_crear_": "Create event type",
+        "_editar_": "Edit event type",
+        "_singular_": "Event type",
+        "_plural_": "Types of events",
+        "_listado_": "List of event types",
+        "_mostrar_": "Show event type",
+        "_permite_gestionar_": "Manage event type data"
+    },
     "_tipo_grafico_": "Display type",
     "tipoRequisito": {
         "_administrar_": "Manage requirement types",

@@ -611,7 +611,9 @@
         "_mostrar_": "Mostrar tipo documento",
         "_listado_": "Listado tipos de documentos",
         "_permite_gestionar_datos_": "Permite gestionar los tipos de documentos",
-        "_plural_": "Tipos documento"
+        "_plural_": "Tipos documento",
+        "_multiple_": "Múltiple",
+        "_multiple_hint_": "Permitir que se suban varios documentos de este tipo para una misma persona"
     },
     "tipoEvento": {
         "_administrar_": "Administrar tipos de eventos",
