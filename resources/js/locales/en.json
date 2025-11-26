@@ -210,6 +210,7 @@
         "_singular_": "Document",
         "_administrar_": "Manage documents",
         "_crear_": "Create new document",
+        "_actualizar_": "Update document",
         "_editar_": "Edit document",
         "_mostrar_": "Show document",
         "_listado_": "List of documents",
@@ -222,6 +223,7 @@
         "_fecha_expiracion_": "Expiration date",
         "_tipo_": "Document type",
         "_archivo_formato_pdf_": "Image file or PDF",
+        "_archivo_hint_": "If you do not attach a new file, the previous one will be used.",
         "_no_puede_cambiar_tipo_doc_": "You cannot change the document type"
     },
     "_editar_": "Edit",

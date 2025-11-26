@@ -217,11 +217,13 @@
         "_plural_": "Documentos",
 
         "_agregar_": "Agregar nuevo documento",
+        "_actualizar_": "Actualizar documento",
         "_numero_": "Número",
         "_fecha_emision_": "Fecha de emisión",
         "_fecha_expiracion_": "Fecha de expiración",
         "_tipo_": "Tipo de documento",
         "_archivo_formato_imagen_pdf_": "Archivo de imagen o PDF",
+        "_archivo_hint_": "Si no adjunta un nuevo archivo, se usará el anterior",
         "_no_puede_cambiar_tipo_doc_": "No puede cambiar el tipo de documento"
     },
     "_editar_": "Editar",

@@ -15,19 +15,17 @@ class DocumentoController extends Controller
 
     public function documentoSave(Request $request)
     {
+        $isEditing = $request->get('id') != null;
         $request->validate([
             'numero'  => 'nullable|string|max:100',
-            'archivo_file' => 'required|file|mimes:jpeg,png,bmp,gif,svg,webp,pdf',
+            'descripcion'  => 'nullable|string|max:255',
+            'archivo_file' => ($isEditing) ? 'nullable' : 'required' . '|file|mimes:jpeg,png,bmp,gif,svg,webp,pdf',
             'tipo_id' => ['required', 'integer', Rule::exists('pgsql.documento.tipo', 'id')],
             'persona_id' => ['required', 'integer', Rule::exists('persona', 'id')],
         ]);
 
         $persona = Persona::find($request->get('persona_id'));
         $file = $request->file('archivo_file');
-        $mimeType = $file->getMimeType();
-        $fileName = $file->getClientOriginalName();
-        $fileSize = $file->getSize();
-        $path = $file->store('documents/personas');
 
         if ($request->get('id') === null) {
             //Está agregando uno nuevo
@@ -37,34 +35,41 @@ class DocumentoController extends Controller
             // Está editando
             $documento = Documento::find($request->get('id'));
 
-            //Borrar el archivo anterior
-            $archivos = $documento->archivos;
+            if ($file) {
+                //Borrar el archivo anterior
+                $archivos = $documento->archivos;
 
-            foreach ($archivos as $file) {
-                if ($file->ruta != null && Storage::exists($file->ruta)) {
-                    Storage::delete($file->ruta);
+                foreach ($archivos as $file) {
+                    if ($file->ruta != null && Storage::exists($file->ruta)) {
+                        Storage::delete($file->ruta);
+                    }
+                    $file->delete();
                 }
-                $file->delete();
             }
         }
 
         $documento->numero = $request->get('numero');
         $documento->fecha_emision = $request->get('fecha_emision');
         $documento->fecha_expiracion = $request->get('fecha_expiracion');
+        $documento->descripcion = $request->get('descripcion');
         $documento->save();
 
         $persona->documentos()->syncWithoutDetaching([$documento->id]);
 
 
         //Crear el registro para guardar información del archivo
-        $archivo = new Archivo();
-        $archivo->nombre_original = $fileName;
-        $archivo->tipo = $mimeType;
-        $archivo->ruta = $path;
-        $archivo->tamanio = $fileSize;
-        $archivo->save();
+        if ($file) {
+            $archivo = new Archivo();
+            $archivo->nombre_original = $file->getClientOriginalName();
+            $archivo->tipo = $$file->getMimeType();
+            $archivo->ruta = $$file->store('documents/personas');
+            $archivo->tamanio = $file->getSize();
+            $archivo->save();
 
-        $documento->archivos()->sync([$archivo->id]);
+            $documento->archivos()->sync([$archivo->id]);
+        }
+
+
 
         $documentos = $persona->documentos()->with(['archivos', 'tipo'])->get();
 

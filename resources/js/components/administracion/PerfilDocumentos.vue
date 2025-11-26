@@ -29,6 +29,7 @@ interface FormData {
     fecha_expiracion: Date | null;
     tipo_id: number | null;
     archivo_file: File | null;
+    descripcion: string;
 }
 
 const props = defineProps(['item', 'accion', 'tiposDocumento']);
@@ -41,6 +42,7 @@ const formData = ref<FormData>({
     fecha_expiracion: null,
     tipo_id: null,
     archivo_file: null,
+    descripcion: '',
 });
 
 async function submitForm() {
@@ -113,7 +115,7 @@ watch(tab, (newVal) => {
     <v-card>
         <v-tabs v-model="tab" align-tabs="center" color="deep-purple-accent-4">
             <v-tab value="1">{{ $t('documento._plural_') }}</v-tab>
-            <v-tab value="2">{{ $t('documento._agregar_') }}</v-tab>
+            <v-tab value="2">{{ isEditing ? $t('documento._actualizar_') : $t('documento._agregar_') }}</v-tab>
         </v-tabs>
         <v-tabs-window v-model="tab">
             <v-tabs-window-item value="1">
@@ -123,6 +125,16 @@ watch(tab, (newVal) => {
                             <v-card-title> {{ doc.tipo.codigo }} </v-card-title>
 
                             <v-card-subtitle> {{ doc.archivos[0].tipo }}</v-card-subtitle>
+                            <v-card-text>
+                                <div v-if="doc.descripcion && doc.descripcion.trim().length > 0">{{ doc.descripcion }}</div>
+                                <div v-if="doc.numero && doc.numero.trim().length > 0">{{ $t('documento._numero_') }}: {{ doc.numero }}</div>
+                                <div v-if="doc.fecha_emision && doc.fecha_emision.trim().length > 0">
+                                    {{ $t('documento._fecha_emision_') }}: {{ doc.fecha_emision }}
+                                </div>
+                                <div v-if="doc.fecha_expiracion && doc.fecha_expiracion.trim().length > 0">
+                                    {{ $t('documento._fecha_expiracion_') }}: {{ doc.fecha_expiracion }}
+                                </div>
+                            </v-card-text>
                             <v-card-actions>
                                 <v-btn
                                     color="primary"
@@ -143,6 +155,7 @@ watch(tab, (newVal) => {
                         <v-row>
                             <v-col cols="6">
                                 <v-select
+                                    v-if="!isEditing"
                                     icon-color="deep-orange"
                                     :rules="[rules.required]"
                                     :label="$t('documento._tipo_')"
@@ -151,17 +164,19 @@ watch(tab, (newVal) => {
                                     item-title="descripcion"
                                     item-value="id"
                                     prepend-icon="mdi-form-dropdown"
-                                    :readonly="isEditing"
                                     :hint="isEditing ? $t('documento._no_puede_cambiar_tipo_doc_') : ''"
                                     persistent-hint
                                 ></v-select>
+                                <div v-else class="text-h6 mt-6 ml-10">
+                                    {{ props.tiposDocumento.filter((tipoDoc) => tipoDoc.id == formData.tipo_id)[0].descripcion }}
+                                </div>
                             </v-col>
                             <v-col cols="6">
                                 <v-text-field
                                     prepend-icon="mdi-form-textbox"
                                     v-model="formData.numero"
                                     counter="100"
-                                    :label="$t('documento._numero_') + ' *'"
+                                    :label="$t('documento._numero_')"
                                 ></v-text-field>
                             </v-col>
 
@@ -180,7 +195,27 @@ watch(tab, (newVal) => {
                                 </v-locale-provider>
                             </v-col>
                             <v-col cols="12">
+                                <v-text-field
+                                    prepend-icon="mdi-form-textbox"
+                                    v-model="formData.descripcion"
+                                    counter="255"
+                                    :label="$t('_descripcion_')"
+                                ></v-text-field>
+                            </v-col>
+                            <v-col cols="12">
                                 <v-file-input
+                                    v-if="isEditing"
+                                    :label="$t('documento._archivo_formato_imagen_pdf_')"
+                                    accept="image/*, application/pdf"
+                                    clearable
+                                    v-model="formData.archivo_file"
+                                    @input="formData.archivo_file = $event.target.files[0]"
+                                    show-size
+                                    :hint="$t('documento._archivo_hint_')"
+                                    persistent-hint
+                                ></v-file-input>
+                                <v-file-input
+                                    v-else
                                     :label="$t('documento._archivo_formato_imagen_pdf_')"
                                     accept="image/*, application/pdf"
                                     :rules="[rules.required]"
