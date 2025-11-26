@@ -550,7 +550,8 @@
         "_confirmar_siguiente_etapa_": "Una vez completados los datos de la solicitud, confirme para pasar a siguiente etapa del proceso de ingreso",
         "_guardar_pasar_siguiente_etapa_": "Guardar y pasar a siguiente etapa",
         "_pasar_siguiente_etapa_": "Pasar a siguiente etapa",
-        "_mensaje_crear_solicitud_": "Por favor, confirme que desea iniciar la solicitud de ingreso."
+        "_mensaje_crear_solicitud_": "Por favor, confirme que desea iniciar la solicitud de ingreso.",
+        "_no_solicitudes_": "No se encontraron solicitudes"
     },
     "_solo_estudiantes_para_carreras_universitarias_": "Solo a estudiantes de opciones de bachillerato relacionadas a carreras universitarias",
     "_solo_invitaciones_no_enviadas_anteriormente_": "Solo invitaciones que no se hayan enviado anteriormente",

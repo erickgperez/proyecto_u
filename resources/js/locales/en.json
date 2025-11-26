@@ -513,7 +513,8 @@
         "_confirmar_siguiente_etapa_": "Once you have completed the application details, please confirm to proceed to the next stage of the admissions process.",
         "_guardar_pasar_siguiente_etapa_": "Save and proceed to the next stage",
         "_pasar_siguiente_etapa_": "Proceed to the next stage",
-        "_mensaje_crear_solicitud_": "Please confirm that you wish to start the application process."
+        "_mensaje_crear_solicitud_": "Please confirm that you wish to start the application process.",
+        "_no_solicitudes_": "No applications found"        
     },
     "_solo_estudiantes_para_carreras_universitarias_": "Only for students pursuing high school diplomas related to university degrees",
     "_solo_invitaciones_no_enviadas_anteriormente_": "Only invitations that have not been sent previously",

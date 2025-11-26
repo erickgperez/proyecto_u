@@ -1,7 +1,9 @@
 <script setup lang="ts">
+import { useFunciones } from '@/composables/useFunciones';
 import { CarreraSede, Convocatoria, Sede } from '@/types/tipos';
 import axios from 'axios';
 import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps(['convocatorias', 'drawer', 'solicitudes']);
 
@@ -15,6 +17,8 @@ const emit = defineEmits([
     'changeSede',
     'changeTipoSeleccion',
 ]);
+const { t } = useI18n();
+const { rules, mensajeExito, mensajeError } = useFunciones();
 
 function itemProps(item: Convocatoria) {
     return {
@@ -45,7 +49,9 @@ function cargarSolicitudes() {
                 emit('carrerasSede', response.data.ofertaSede);
                 emit('solicitudes', response.data.solicitudes);
                 emit('infoSede', response.data.infoSede);
-                console.log(response.data.infoSede);
+                if (response.data.cargarSolicitudes.length == 0){
+                    mensajeError(t('solicitud._no_solicitudes_'));
+                }
             })
             .catch(function (error) {
                 // handle error
