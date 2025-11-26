@@ -24,6 +24,7 @@ interface FormData {
     codigo: string;
     descripcion: string;
     roles: Array<[]>;
+    multiple: boolean;
 }
 
 const props = defineProps(['item', 'accion', 'roles']);
@@ -33,6 +34,7 @@ const formData = ref<FormData>({
     codigo: '',
     descripcion: '',
     roles: [],
+    multiple: false,
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -93,6 +95,13 @@ onMounted(() => {
                             counter="255"
                             :label="$t('_descripcion_') + ' *'"
                         ></v-text-field>
+                        <v-checkbox
+                            icon-color="deep-orange"
+                            class="ml-8"
+                            v-model="formData.multiple"
+                            color="primary"
+                            :label="$t('tipoDocumento._multiple_')"
+                        ></v-checkbox>
                         <v-select
                             :label="$t('rol._plural_')"
                             :items="roles"

@@ -29,7 +29,8 @@ class TipoDocumentoController extends Controller
         $request->validate([
             'codigo' => 'required|string|max:100',
             'descripcion' => 'nullable|string|max:200',
-            'roles' => 'nullable|array'
+            'roles' => 'nullable|array',
+            'multiple' => 'nullable|boolean'
         ]);
 
         if ($request->get('id') === null) {
@@ -55,6 +56,7 @@ class TipoDocumentoController extends Controller
 
         $tipo->codigo = $request->get('codigo');
         $tipo->descripcion = $request->get('descripcion');
+        $tipo->multiple = $request->get('multiple') == 'true';
         $tipo->roles()->sync($request->get('roles') ?? []);
 
         $tipo->save();

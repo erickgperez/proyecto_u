@@ -24,6 +24,7 @@ interface Item {
     id: number | null;
     codigo: string;
     descripcion: string;
+    multiple: boolean;
 }
 
 const props = defineProps({
@@ -38,6 +39,7 @@ const itemVacio = ref<Item>({
     id: null,
     codigo: '',
     descripcion: '',
+    multiple: false,
 });
 
 const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
@@ -80,6 +82,7 @@ const headers = [
     { title: t('_id_'), key: 'id' },
     { title: t('_codigo_'), key: 'codigo' },
     { title: t('_descripcion_'), key: 'descripcion' },
+    { title: t('tipoDocumento._multiple_'), key: 'multiple' },
     { title: t('rol._plural_'), key: 'roles' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
@@ -134,6 +137,12 @@ const opcionesAccion = [
                         <template v-slot:item.roles="{ value }">
                             <div class="d-flex ga-2">
                                 {{ getRoles(value) }}
+                            </div>
+                        </template>
+                        <template v-slot:item.multiple="{ value }">
+                            <div class="d-flex ga-2">
+                                <v-icon icon="mdi-checkbox-marked-outline" color="success" v-if="value"></v-icon>
+                                <v-icon icon="mdi-close-box-outline" color="red" v-else></v-icon>
                             </div>
                         </template>
                     </Listado>
