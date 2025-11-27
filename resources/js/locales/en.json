@@ -143,6 +143,8 @@
         "_alerta_configuracion_": "The application process is NOT in the CONFIGURACION stage; it is recommended to enter this stage to configure the call for proposals.",
         "_alerta_invitaciones_no_data_": "Invitations cannot be sent; no data for high school students has been uploaded. Upload the file via the menu Applications process -> Upload file",
         "_alerta_seleccion_aspirantes_": "The application process is NOT currently in the SELECCION_ASPIRANTES stage; this stage is recommended for conducting the selection process",
+        "_anio_ingreso_": "Entry year",
+        "_anio_ingreso_hint_": "Entry year of students selected in this application process",
         "_calendarizar_": "Activities Programming",
         "_calendarizar_descripcion_": "Schedule the activities carried out in the application process",
         "_cantidad_notificaciones_envidadas_": "Number of notifications sent",

@@ -47,6 +47,7 @@ interface FormData {
     nombre: string;
     activa: boolean;
     descripcion: string;
+    anio_ingreso: number | null;
     flujo_id: number | null;
     cuerpo_mensaje: string;
     afiche: string | null;
@@ -62,6 +63,7 @@ const formData = ref<FormData>({
     nombre: '',
     activa: true,
     descripcion: '',
+    anio_ingreso: null,
     flujo_id: null,
     cuerpo_mensaje: '',
     afiche_file: null,
@@ -118,7 +120,13 @@ async function submitForm() {
 onMounted(() => {
     reset();
 
-    formData.value = { ...props.item };
+    if (props.item) {
+        for (const key in formData.value) {
+            if (Object.prototype.hasOwnProperty.call(props.item, key)) {
+                (formData.value as any)[key] = (props.item as any)[key];
+            }
+        }
+    }
 });
 
 // editor extensions
@@ -165,6 +173,17 @@ const extensions = [
                             counter="255"
                             :label="$t('_descripcion_')"
                         ></v-text-field>
+                        <v-number-input
+                            required
+                            icon-color="deep-orange"
+                            prepend-icon="mdi-form-textbox"
+                            v-model="formData.anio_ingreso"
+                            :rules="[rules.required]"
+                            :min="1"
+                            :label="$t('convocatoria._anio_ingreso_') + ' *'"
+                            :hint="$t('convocatoria._anio_ingreso_hint_')"
+                            persistent-hint
+                        ></v-number-input>
                         <v-checkbox v-model="formData.activa" :label="$t('convocatoria._activa_')"></v-checkbox>
                         <v-select
                             required

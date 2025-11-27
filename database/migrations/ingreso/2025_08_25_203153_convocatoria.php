@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique()->after('id');
             $table->comment('Las convocatorias que se realizarán en ingreso universitario');
             $table->string('nombre', length: 100)->comment('Nombre identificador de la convocatoria');
+            $table->tinyInteger('anio_ingreso')->comment('Año de ingreso de los estudiantes que se seleccionen en esta convocatoria');
             $table->string('descripcion', length: 255)->nullable()->comment('Texto detallado de la convocatoria');
             $table->text('cuerpo_mensaje')->nullable()->comment('Texto que se mostrará en las invitaciones que se enviarán por correo ');
             $table->string('afiche', length: 255)->nullable()->comment('Archivo del afiche informativo de la convocatoria, se adjuntará en la invitación enviada por correo');

@@ -161,6 +161,7 @@ class ConvocatoriaController extends Controller
             'nombre'  => 'required|string|max:100',
             'activa' => 'required',
             'descripcion' => 'nullable|string|max:255',
+            'anio_ingreso' => 'required|integer',
             'cuerpo_mensaje' => 'nullable|string',
             'afiche_file' => 'nullable|file|mimes:pdf',
             'carrerasSedes' => 'nullable',
@@ -185,6 +186,7 @@ class ConvocatoriaController extends Controller
 
         $convocatoria->nombre = $request->get('nombre');
         $convocatoria->descripcion = $request->get('descripcion');
+        $convocatoria->anio_ingreso = $request->get('anio_ingreso');
         $convocatoria->flujo_id = $request->get('flujo_id');
         $convocatoria->activa = ($request->get('activa') === 'true');
         $convocatoria->cuerpo_mensaje = $request->get('cuerpo_mensaje');

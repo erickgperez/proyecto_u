@@ -144,6 +144,8 @@
         "_alerta_invitaciones_": "La convocatoria NO se encuentra en la etapa de INVITACIONES, se recomienda dicha etapa para realizar el envío de invitaciones",
         "_alerta_invitaciones_no_data_": "No se pueden enviar invitaciones, no se han cargado datos de estudiantes de bachillerato. Cargue el archivo en el menú Convocatoria -> Cargar archivo",
         "_alerta_seleccion_aspirantes_": "La convocatoria NO se encuentra en la etapa de SELECCION_ASPIRANTES, se recomienda dicha etapa para realizar la selección",
+        "_anio_ingreso_": "Año de ingreso",
+        "_anio_ingreso_hint_": "Año de ingreso de los estudiantes que se seleccionen en esta convocatoria",
         "_calendarizar_": "Programación de actividades",
         "_calendarizar_descripcion_": "Calendarizar las actividades que se realizán en la convocatoria",
         "_cantidad_notificaciones_envidadas_": "Cantidad de notificaciones enviadas",
@@ -527,7 +529,7 @@
     "_sector_": "Sector",
     "_seguridad_": "Seguridad",
     "semestre": {
-        "_administrar_": "Administrar semestres académicos",
+        "_administrar_": "Administrar semestres académicos",        
         "_codigo_ya existe_": "El código del semestre ya existe",
         "_crear_": "Agregar semestre",
         "_editar_": "Editar semestre",
