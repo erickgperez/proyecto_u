@@ -17,12 +17,12 @@ class CarreraSedeSeeder extends Seeder
     public function run(): void
     {
         $estadoId = Estado::where('codigo', 'ACTIVA')->first()->id;
-        $sedeSS = Sede::where('codigo', 'S-SS')->first()->id;
-        $sedeSO = Sede::where('codigo', 'S-SO')->first()->id;
-        $sedeCH = Sede::where('codigo', 'S-CH')->first()->id;
-        $sedeZA = Sede::where('codigo', 'S-ZA')->first()->id;
-        $sedeMO = Sede::where('codigo', 'S-MO')->first()->id;
-        $sedeLU = Sede::where('codigo', 'S-LU')->first()->id;
+        $sedeSS = Sede::where('codigo', '01')->first()->id;
+        $sedeSO = Sede::where('codigo', '02')->first()->id;
+        $sedeCH = Sede::where('codigo', '03')->first()->id;
+        $sedeZA = Sede::where('codigo', '04')->first()->id;
+        $sedeMO = Sede::where('codigo', '05')->first()->id;
+        $sedeLU = Sede::where('codigo', '06')->first()->id;
 
         CarreraSede::createMany([
             //Sede San Salvador

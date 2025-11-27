@@ -13,12 +13,12 @@ class SedeSeeder extends Seeder
     public function run(): void
     {
         Sede::createMany([
-            ['codigo' => 'S-SS', 'nombre' => 'SAN SALVADOR'],
-            ['codigo' => 'S-SO', 'nombre' => 'SONSONATE'],
-            ['codigo' => 'S-CH', 'nombre' => 'CHALATENANGO'],
-            ['codigo' => 'S-ZA', 'nombre' => 'ZACATECOLUCA'],
-            ['codigo' => 'S-MO', 'nombre' => 'MORAZÁN'],
-            ['codigo' => 'S-LU', 'nombre' => 'LA UNIÓN'],
+            ['codigo' => '01', 'nombre' => 'SAN SALVADOR'],
+            ['codigo' => '02', 'nombre' => 'SONSONATE'],
+            ['codigo' => '03', 'nombre' => 'CHALATENANGO'],
+            ['codigo' => '04', 'nombre' => 'ZACATECOLUCA'],
+            ['codigo' => '05', 'nombre' => 'MORAZÁN'],
+            ['codigo' => '06', 'nombre' => 'LA UNIÓN'],
         ]);
     }
 }
