@@ -16,6 +16,7 @@ use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Str;
+use App\Models\Ingreso\Convocatoria;
 
 class PerfilController extends Controller
 {
@@ -55,9 +56,14 @@ class PerfilController extends Controller
         ]);
     }
 
-    public function indexAspirante($convocatoriaUUID): Response
+    public function indexAspirante($convocatoriaUUID=null): Response
     {
-        $convocatoria = Convocatoria::where('uuid', $convocatoriaUUID)->first();
+        if ($convocatoriaUUID != null) {
+            $convocatoria = Convocatoria::where('uuid', $convocatoriaUUID)->first();
+        } else {
+            //obtener la primer convocatoria
+            $convocatoria = Convocatoria::orderBy('created_at', 'desc')->first();
+        }
         $aspirantes = $this->getAspiranteBase($convocatoria)->get();
 
         return $this->index('aspirante', $aspirantes);
@@ -66,6 +72,7 @@ class PerfilController extends Controller
     protected function getAspiranteBase($convocatoria)
     {        
         
+        $convocatoriaId = $convocatoria ? $convocatoria->id : null;
         return Persona::with([
             'sexo',
             'creator',
@@ -82,7 +89,7 @@ class PerfilController extends Controller
         ])->select('persona.*', 'convocatoria_aspirante.seleccionado')
             ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
             ->join('ingreso.convocatoria_aspirante as convocatoria_aspirante', 'aspirante.id', '=', 'convocatoria_aspirante.aspirante_id')
-            ->where('convocatoria_aspirante.convocatoria_id', $convocatoria->id)
+            ->where('convocatoria_aspirante.convocatoria_id', $convocatoriaId)
             ;
     }
 
