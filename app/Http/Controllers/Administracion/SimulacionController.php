@@ -36,7 +36,7 @@ class SimulacionController extends Controller
     public function index($cantidad)
     {
 
-        ini_set('max_execution_time', 300);
+        ini_set('max_execution_time', 3000);
 
         if (Auth::user()->hasRole('super-admin')) {
 
