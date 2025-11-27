@@ -11,7 +11,7 @@ const persona = page.props.auth.persona;
 </script>
 
 <template>
-    <Head :title="persona.sexo?.descripcion ==='Femenino' ? $t('_bienvenida_') : $t('_bienvenido_')"> </Head>
+    <Head :title="persona?.sexo?.descripcion ==='Femenino' ? $t('_bienvenida_') : $t('_bienvenido_')"> </Head>
     <AppLayout>
         <DashboardAspirante v-if="hasRole('aspirante')"></DashboardAspirante>
         <DashboardEstudiante v-if="hasRole('estudiante')"></DashboardEstudiante>
