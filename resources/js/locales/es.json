@@ -198,6 +198,14 @@
     "_cuerpo_mensaje_": "Cuerpo del mensaje",
     "_cupo_": "Cupo",
     "_datos_subidos_correctamente_": "Datos subidos correctamente",
+    "dashboard": {
+        "_inscripcion_": "Inscripción",
+        "_expediente_": "Expediente",
+        "_perfil_": "Perfil",
+        "_documentos_": "Documentos",
+        "_asignaturas_": "Asignaturas",
+        "_academico_": "Académico"
+    },
     "_debe_elegir_archivo_": "Debe elegir un archivo",
     "_departamento_": "Departamento",
     "_descargar_": "Descargar",

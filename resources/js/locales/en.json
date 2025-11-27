@@ -198,6 +198,14 @@
     "_cuerpo_mensaje_": "Body of the message",
     "_cupo_": "Quota",
     "_datos_subidos_correctamente_": "Data uploaded successfully",
+    "dashboard": {
+        "_inscripcion_": "Inscription",
+        "_expediente_": "Expedient",
+        "_perfil_": "Profile",
+        "_documentos_": "Documents",
+        "_asignaturas_": "Subjects",
+        "_academico_": "Academic"
+    },
     "_debe_elegir_archivo_": "You must choose a file",
     "_departamento_": "Department",
     "_descargar_": "Download",
@@ -514,7 +522,7 @@
         "_guardar_pasar_siguiente_etapa_": "Save and proceed to the next stage",
         "_pasar_siguiente_etapa_": "Proceed to the next stage",
         "_mensaje_crear_solicitud_": "Please confirm that you wish to start the application process.",
-        "_no_solicitudes_": "No applications found"        
+        "_no_solicitudes_": "No applications found"
     },
     "_solo_estudiantes_para_carreras_universitarias_": "Only for students pursuing high school diplomas related to university degrees",
     "_solo_invitaciones_no_enviadas_anteriormente_": "Only invitations that have not been sent previously",
