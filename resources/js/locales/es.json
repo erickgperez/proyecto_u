@@ -81,6 +81,8 @@
     },
     "_atras_": "Atrás",
     "_barras_": "Barras",
+    "_bienvenido_": "Bienvenido",
+    "_bienvenida_": "Bienvenida",
     "_borrar_": "Borrar",
     "_borrar_afiche_actual_": "Borrar afiche actual",
     "_borrar_registro_seleccionado_": "Borrar el registro seleccionado",
@@ -269,7 +271,7 @@
         "_permite_gestionar_datos_": "Permite gestionar los estados de asignaturas, carreras, entre otros",
         "_plural_": "Estados"
     },
-    "_estudiante_": "Estudiante",
+    "_estudiante_": "Estudiante",    
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
     "etapa": {
         "_singular_": "Etapa",
