@@ -7,6 +7,7 @@ use App\Traits\HasCreateMany;
 use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UsoEstado extends Model
 {
@@ -22,5 +23,10 @@ class UsoEstado extends Model
     public function updater()
     {
         return $this->belongsTo(User::class, 'updated_by');
+    }
+
+    public function estados(): HasMany
+    {
+        return $this->hasMany(Estado::class);
     }
 }

@@ -70,4 +70,9 @@ class CarreraSede extends Pivot
     {
         return $this->belongsToMany(Docente::class, 'academico.asignado', 'carrera_sede_id', 'docente_id');
     }
+
+    public function estudiantes(): BelongsToMany
+    {
+        return $this->belongsToMany(Estudiante::class, 'academico.estudiante_carrera_sede', 'carrera_sede_id', 'estudiante_id');
+    }
 }

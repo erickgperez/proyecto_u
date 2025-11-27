@@ -16,6 +16,7 @@ use App\Http\Controllers\Academico\UnidadAcademicaController;
 use App\Http\Controllers\Academico\UsoEstadoController;
 use App\Http\Controllers\Administracion\DocenteController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Academico\EstudianteController;
 
 Route::middleware('auth', 'verified')->group(function () {
 
@@ -80,4 +81,6 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/academico/semestre/{uuidSemestre}/docente/{uuidDocente}/carga', [DocenteController::class, 'carga'])->name('academico-semestre-docente-carga');
     Route::post('/academico/semestre/docente/{uuid}/carga/save', [DocenteController::class, 'cargaSave'])->name('academico-semestre-docente-carga-save');
+
+    Route::get('/academico/persona/{uuid}/estudiante/data', [EstudianteController::class, 'getEstudianteData'])->name('academico-persona-estudiante-data');
 });
