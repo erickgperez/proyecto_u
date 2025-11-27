@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique()->after('id');
 
             $table->comment('Tabla de estudiantes');
+            $table->string('carnet', length: 15)->unique()->comment('Carnet del estudiante');
 
             $table->foreignId('persona_id')->comment('Persona a la que está asignado el estudiante');
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
