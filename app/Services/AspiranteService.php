@@ -32,6 +32,9 @@ class AspiranteService
         ]);
         $persona->save();
 
+        $user->name = $persona->primer_nombre . ' ' . $persona->primer_apellido;
+        $user->save();
+
 
         $sexoCodigo = (in_array($dataBach->sexo, ['Hombre', 'Masculino', 'M', 'm', 'H', 'h'])) ? 'M' : 'F';
         $sexo = Sexo::where('codigo', $sexoCodigo)->first();

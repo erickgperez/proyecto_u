@@ -129,6 +129,8 @@ class AspiranteController extends Controller
         $usuario = $convocatoriaAspirante->aspirante->persona->usuarios()->role(['aspirante'])->first();
         $usuario->assignRole('estudiante');
         $usuario->removeRole('aspirante');
+        //Verificar si no se ha puesto el nombre del usuario
+        $usuario->name = $convocatoriaAspirante->aspirante->persona->primer_nombre . ' ' . $convocatoriaAspirante->aspirante->persona->primer_apellido;
         $usuario->save();
 
         $solicitud->pasarSiguienteEtapa();
