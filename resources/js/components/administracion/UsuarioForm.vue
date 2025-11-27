@@ -4,9 +4,11 @@ import axios from 'axios';
 import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
+const { filteredAssign } = useFilteredMerge();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -66,7 +68,9 @@ async function submitForm() {
 onMounted(() => {
     reset();
     if (props.accion === 'edit') {
-        formData.value = { ...props.item };
+        if (props.item) {
+            filteredAssign(formData.value, props.item);
+        }
         formData.value.persona_id = props.item.personas[0]?.id;
     }
 });

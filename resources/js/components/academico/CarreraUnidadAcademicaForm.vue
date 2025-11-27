@@ -4,9 +4,11 @@ import axios from 'axios';
 import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
+const { filteredAssign } = useFilteredMerge();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -85,7 +87,7 @@ async function submitForm() {
 onMounted(() => {
     reset();
 
-    formData.value = { ...props.item };
+    filteredAssign(formData.value, props.item);
     formData.value.requisito_creditos = Number(props.item.requisito_creditos);
     if (isEditing.value) {
         const tipoPrerrequisito = props.tiposRequisitos.find((tipo) => tipo.codigo === 'PRERREQUISITO');

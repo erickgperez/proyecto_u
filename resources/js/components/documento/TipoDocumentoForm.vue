@@ -4,6 +4,9 @@ import axios from 'axios';
 import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
+
+const { filteredAssign } = useFilteredMerge();
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
@@ -67,7 +70,9 @@ async function submitForm() {
 onMounted(() => {
     reset();
 
-    formData.value = { ...props.item };
+    filteredAssign(formData.value, props.item);
+
+
 });
 </script>
 <template>

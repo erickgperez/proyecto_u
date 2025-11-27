@@ -4,9 +4,11 @@ import axios from 'axios';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
+const { filteredAssign } = useFilteredMerge();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -82,7 +84,9 @@ async function submitForm() {
 onMounted(() => {
     reset();
 
-    formData.value = { ...props.item.datos_contacto };
+    if (props.item) {
+        filteredAssign(formData.value, props.item.datos_contacto);
+    }
 
     if (formData.value.residencia_distrito_id) {
         const distrito_ = props.item.datos_contacto.distrito_residencia;

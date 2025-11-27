@@ -4,9 +4,11 @@ import axios from 'axios';
 import { computed, onMounted, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
+const { filteredAssign } = useFilteredMerge();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -75,7 +77,7 @@ const carrerasFiltradas = computed(() => {
 onMounted(() => {
     reset();
     if (props.accion === 'edit') {
-        formData.value = { ...props.item };
+        filteredAssign(formData.value, props.item);
         formData.value.sedes = formData.value.sedes.map((cs) => cs.id);
         formData.value.carreras_secundaria = formData.value.carreras_secundaria.map((cs) => cs.id);
     }

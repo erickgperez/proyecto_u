@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import {
     Bold,
     BulletList,
@@ -26,6 +27,7 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 const { t } = useI18n();
+const { filteredAssign } = useFilteredMerge();
 const { rules, mensajeExito, mensajeError } = useFunciones();
 
 const loading = ref(false);
@@ -88,7 +90,9 @@ async function submitForm() {
 onMounted(() => {
     reset();
 
-    formData.value = { ...props.item };
+    if (props.item) {
+        filteredAssign(formData.value, props.item);
+    }
 });
 
 // editor extensions

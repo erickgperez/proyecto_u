@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
 import { useFunciones } from '@/composables/useFunciones';
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import {
     Bold,
     BulletList,
@@ -29,6 +30,7 @@ import {
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
+const { filteredAssign } = useFilteredMerge();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -121,11 +123,7 @@ onMounted(() => {
     reset();
 
     if (props.item) {
-        for (const key in formData.value) {
-            if (Object.prototype.hasOwnProperty.call(props.item, key)) {
-                (formData.value as any)[key] = (props.item as any)[key];
-            }
-        }
+        filteredAssign(formData.value, props.item);
     }
 });
 
