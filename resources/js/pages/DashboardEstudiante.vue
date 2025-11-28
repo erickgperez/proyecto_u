@@ -8,12 +8,16 @@ const page = usePage();
 const persona = page.props.auth.persona;
 const user = page.props.auth.user as User;
 const estudiante = ref(null);
+const estudianteCarreraSede = ref(null);
+const carrerasSede = ref([]);
 
 onMounted(() => {
     axios
-        .get(route('academico-persona-estudiante-data', { uuid: persona.uuid }))
+        .get(route('academico-persona-estudiante-data', { uuid: persona.uuid}))
         .then(function (response) {
             estudiante.value = response.data.estudiante;
+            estudianteCarreraSede.value = response.data.estudiante.carrera_sede[0];
+            carrerasSede.value = response.data.estudiante.carrera_sede;
         })
         .catch(function (error) {
             console.error('Error fetching data:', error);
@@ -26,17 +30,32 @@ onMounted(() => {
         <v-col cols="12">
             <v-card>
                 <v-card-title class="text-capitalize text-h6"
-                    >{{ persona.sexo.descripcion === 'Femenino' ? 'Bienvenida' : 'Bienvenido' }}, {{ persona.nombreCompleto }}</v-card-title
+                    >{{ persona.sexo.descripcion === 'Femenino' ? 'Bienvenida' : 'Bienvenido' }},{{ persona.nombreCompleto }}</v-card-title
                 >
                 <v-card-subtitle v-if="estudiante">
-                    <v-row v-if="estudiante.carrera_sede.length > 0">
-                        <v-col cols="12" md="6"> {{ $t('estudiante._carnet_') }}: {{ estudiante.carnet }} </v-col>
+                    <v-row >
+                        <v-col cols="12" md="4" class="d-flex align-center"> {{ $t('estudiante._carnet_') }}: {{ estudiante.carnet }} </v-col>
+                        <v-col cols="12" md="8" v-if="estudianteCarreraSede">
+                            <v-select
+                                class="mt-2"
+                                v-model="estudianteCarreraSede"
+                                :items="carrerasSede"
+                                item-title="titulo2"
+                                item-value="id"
+                                :label="$t('estudiante._carrera_sede_')"
+                                variant="plain"
+                                density="compact"
+                                single-line
+                                return-object
+                            ></v-select>
+                            <!--{{ $t('carrera._singular_') }}: {{ estudianteCarreraSede.carrera.nombreCompleto }} :: {{ estudianteCarreraSede.sede.nombre }} -->
+                        </v-col>
                     </v-row>
                 </v-card-subtitle>
             </v-card>
         </v-col>
         <v-col cols="12" md="3">
-            <Link :href="route('dashboard')">
+            <Link :href="route('academico-estudiante-inscripcion-carrera-sede', {uuid: estudiante?.uuid ?? 0, id: estudianteCarreraSede?.id ?? 0})">
                 <v-hover v-slot="{ isHovering, props }">
                     <v-alert
                         border="start"

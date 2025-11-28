@@ -275,7 +275,8 @@
     },
     "_estudiante_": "Student",
     "estudiante": {
-        "_carnet_": "Id card"
+        "_carnet_": "Id card",
+        "_carrera_sede_": "Career location"
     },
     "_estudiantes_candidatos_carrera_universitaria_": "Students who are candidates to study in university courses",
     "etapa": {
