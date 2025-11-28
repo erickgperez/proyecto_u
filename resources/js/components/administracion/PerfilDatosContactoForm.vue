@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
-import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
@@ -84,7 +84,7 @@ async function submitForm() {
 onMounted(() => {
     reset();
 
-    if (props.item) {
+    if (props.item.datos_contacto) {
         filteredAssign(formData.value, props.item.datos_contacto);
     }
 
