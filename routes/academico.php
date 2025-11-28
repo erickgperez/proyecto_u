@@ -83,4 +83,5 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/academico/semestre/docente/{uuid}/carga/save', [DocenteController::class, 'cargaSave'])->name('academico-semestre-docente-carga-save');
 
     Route::get('/academico/persona/{uuid}/estudiante/data', [EstudianteController::class, 'getEstudianteData'])->name('academico-persona-estudiante-data');
+    Route::get('/academico/estudiante/{uuid}/inscripcion/carrera-sede/{id}', [EstudianteController::class, 'inscripcion'])->name('academico-estudiante-inscripcion-carrera-sede');
 });
