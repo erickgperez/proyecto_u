@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { User } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
-import { onMounted, ref } from 'vue';
 import axios from 'axios';
+import { onMounted, ref } from 'vue';
 
 const page = usePage();
 const persona = page.props.auth.persona;
@@ -25,15 +25,12 @@ onMounted(() => {
     <v-row>
         <v-col cols="12">
             <v-card>
-                <v-card-title class="text-capitalize text-h6">{{ persona.sexo.descripcion ==='Femenino' ? 'Bienvenida' : 'Bienvenido' }}, {{ persona.nombreCompleto }}</v-card-title>
+                <v-card-title class="text-capitalize text-h6"
+                    >{{ persona.sexo.descripcion === 'Femenino' ? 'Bienvenida' : 'Bienvenido' }}, {{ persona.nombreCompleto }}</v-card-title
+                >
                 <v-card-subtitle v-if="estudiante">
                     <v-row v-if="estudiante.carrera_sede.length > 0">
-                        <v-col cols="12" md="6">
-                            {{ $t('carrera._singular_') }}: {{ estudiante.carrera_sede[0].carrera.nombreCompleto }}
-                        </v-col>
-                        <v-col cols="12" md="6" class="text-right">
-                            {{ $t('sede._sede_') }}: {{ estudiante.carrera_sede[0].sede.nombre }}
-                        </v-col>
+                        <v-col cols="12" md="6"> {{ $t('estudiante._carnet_') }}: {{ estudiante.carnet }} </v-col>
                     </v-row>
                 </v-card-subtitle>
             </v-card>

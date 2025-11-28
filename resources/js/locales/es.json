@@ -273,7 +273,10 @@
         "_permite_gestionar_datos_": "Permite gestionar los estados de asignaturas, carreras, entre otros",
         "_plural_": "Estados"
     },
-    "_estudiante_": "Estudiante",    
+    "_estudiante_": "Estudiante",
+    "estudiante": {
+        "_carnet_": "Carnet"
+    },
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
     "etapa": {
         "_singular_": "Etapa",
@@ -529,7 +532,7 @@
     "_sector_": "Sector",
     "_seguridad_": "Seguridad",
     "semestre": {
-        "_administrar_": "Administrar semestres académicos",        
+        "_administrar_": "Administrar semestres académicos",
         "_codigo_ya existe_": "El código del semestre ya existe",
         "_crear_": "Agregar semestre",
         "_editar_": "Editar semestre",
