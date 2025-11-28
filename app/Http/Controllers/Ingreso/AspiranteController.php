@@ -10,6 +10,7 @@ use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Workflow\Solicitud;
 use App\Services\SolicitudService;
+use App\Services\EstudianteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -19,10 +20,12 @@ class AspiranteController extends Controller
 {
 
     protected $solicitudService;
+    protected $estudianteService;
 
-    public function __construct(SolicitudService $solicitudService)
+    public function __construct(SolicitudService $solicitudService, EstudianteService $estudianteService)
     {
         $this->solicitudService = $solicitudService;
+        $this->estudianteService = $estudianteService;
     }
 
     public function save(Request $request) {}
@@ -111,9 +114,14 @@ class AspiranteController extends Controller
             ->whereBelongsTo($solicitud->modelo)
             ->first();
 
+        $persona = $convocatoriaAspirante->aspirante->persona;
+        $convocatoria = $convocatoriaAspirante->convocatoria;
+        $sede = $convocatoriaAspirante->solicitudCarreraSede->carreraSede->sede;
         //Crear el registro de estudiante
         $estudiante = new Estudiante();
-        $estudiante->persona_id = $convocatoriaAspirante->aspirante->persona_id;
+        $estudiante->persona_id = $persona->id;
+        //Generar el carnet para el estudiante
+        $estudiante->carnet = $this->estudianteService->generateCarnet($persona, $convocatoria->anio_ingreso, $sede->codigo);
         $estudiante->save();
 
         //Agregar la carrera
@@ -125,12 +133,12 @@ class AspiranteController extends Controller
         $estudianteCarreraSede->estado()->associate($estado);
         $estudianteCarreraSede->save();
 
-        //  Cambiarle rol al usuario
-        $usuario = $convocatoriaAspirante->aspirante->persona->usuarios()->role(['aspirante'])->first();
+        //  Cambiarle rol al usuario        
+        $usuario = $persona->usuarios()->role(['aspirante'])->first();
         $usuario->assignRole('estudiante');
         $usuario->removeRole('aspirante');
         //Verificar si no se ha puesto el nombre del usuario
-        $usuario->name = $convocatoriaAspirante->aspirante->persona->primer_nombre . ' ' . $convocatoriaAspirante->aspirante->persona->primer_apellido;
+        $usuario->name = $persona->primer_nombre . ' ' . $persona->primer_apellido;
         $usuario->save();
 
         $solicitud->pasarSiguienteEtapa();
