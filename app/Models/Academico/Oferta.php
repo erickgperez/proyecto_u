@@ -9,6 +9,7 @@ use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\hasMany;
 
 class Oferta extends Model
 {
@@ -34,5 +35,10 @@ class Oferta extends Model
     public function semestre(): BelongsTo
     {
         return $this->belongsTo(Semestre::class);
+    }
+
+    public function imparte(): hasMany
+    {
+        return $this->hasMany(Imparte::class, 'oferta_id');
     }
 }
