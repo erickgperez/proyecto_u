@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
-import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
@@ -173,7 +173,7 @@ onMounted(() => {
                             chips
                         ></v-autocomplete>
                     </v-col>
-                    <v-col cols="12" md="6">
+                    <!--<v-col cols="12" md="6">
                         <v-autocomplete
                             clearable
                             :label="$t('mallaCurricular._correquisitos_')"
@@ -185,7 +185,7 @@ onMounted(() => {
                             multiple
                             chips
                         ></v-autocomplete>
-                    </v-col>
+                    </v-col>-->
 
                     <v-col cols="12" align="right">
                         <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">

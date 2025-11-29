@@ -94,13 +94,15 @@ class MallaCurricularController extends Controller
 
         $requisitos = [];
         $tipoPrerrequisito = TipoRequisito::where('codigo', 'PRERREQUISITO')->first();
-        $tipoCorrequisito = TipoRequisito::where('codigo', 'CORREQUISITO')->first();
+        //$tipoCorrequisito = TipoRequisito::where('codigo', 'CORREQUISITO')->first();
         foreach ($request->get('prerrequisitos') ?? [] as $pr) {
-            $requisitos[$pr] = ['tipo_requisito_id' => $tipoPrerrequisito->id];
+            $id = is_array($pr) ? $pr['id'] : $pr;
+            $requisitos[$id] = ['tipo_requisito_id' => $tipoPrerrequisito->id];
         }
-        foreach ($request->get('correquisitos') ?? [] as $pr) {
-            $requisitos[$pr] = ['tipo_requisito_id' => $tipoCorrequisito->id];
-        }
+        /*foreach ($request->get('correquisitos') ?? [] as $co) {
+            $id = is_array($co) ? $co['id'] : $co;
+            $requisitos[$id] = ['tipo_requisito_id' => $tipoCorrequisito->id];
+        }*/
         $carreraUnidadAcademica->requisitos()->sync($requisitos);
 
         //Obtener la información de las relaciones del item recién creado/actualizado
