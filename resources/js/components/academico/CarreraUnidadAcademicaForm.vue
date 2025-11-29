@@ -136,7 +136,7 @@ onMounted(() => {
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
                         ></v-autocomplete>
-                        <v-autocomplete
+                        <!-- <v-autocomplete
                             clearable
                             :label="$t('area._singular_') + ' *'"
                             :items="props.areas"
@@ -144,7 +144,7 @@ onMounted(() => {
                             item-title="descripcion"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
-                        ></v-autocomplete>
+                        ></v-autocomplete> -->
                     </v-col>
                     <v-col cols="12" md="6">
                         <v-locale-provider locale="en">
@@ -160,7 +160,7 @@ onMounted(() => {
                     <v-col cols="12" md="6">
                         <v-checkbox v-model="formData.obligatoria" :label="$t('mallaCurricular._obligatoria_')"></v-checkbox>
                     </v-col>
-                    <v-col cols="12" md="6">
+                    <v-col cols="12">
                         <v-autocomplete
                             clearable
                             :label="$t('mallaCurricular._prerrequisitos_')"
