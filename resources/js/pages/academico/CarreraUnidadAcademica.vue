@@ -93,7 +93,7 @@ const headers = [
     { title: t('carrera._singular_'), key: 'carrera.nombreCompleto' },
     { title: t('mallaCurricular._semestre_'), key: 'semestre' },
     { title: t('unidadAcademica._singular_'), key: 'unidad_academica.nombreCompleto' },
-    { title: t('area._singular_'), key: 'area.descripcion' },
+    //{ title: t('area._singular_'), key: 'area.descripcion' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 

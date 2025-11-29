@@ -510,7 +510,7 @@ onMounted(() => {
                                         >
                                         </v-list-item>
                                     </Link>
-                                    <Link :href="route('academico-plan_estudio-area-index')" v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_AREA')">
+                                    <!-- <Link :href="route('academico-plan_estudio-area-index')" v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_AREA')">
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-group"
@@ -518,7 +518,7 @@ onMounted(() => {
                                             :class="$page.url === '/academico/plan_estudio/area' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
-                                    </Link>
+                                    </Link> -->
                                     <Link
                                         :href="route('academico-plan_estudio-tipo_unidad_academica-index')"
                                         v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO_TIPO-UNIDAD-ACADEMICA')"
