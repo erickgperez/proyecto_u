@@ -51,12 +51,17 @@ class EstudianteController extends Controller
         $carreraSede = $estudiante->carreraSede->first();
         $ofertaAcademica = Oferta::with([
             'imparte',
-            'carreraUnidadAcademica' => ['requisitos']
+            'carreraUnidadAcademica' => ['requisitos', 'unidadAcademica', 'carrera']
         ])
             ->where('semestre_id', $semestre->id)
             ->whereHas('imparte', function ($query) use ($carreraSede) {
                 $query->where('carrera_sede_id', $carreraSede->id)->where('cupo', '>', 0)->where('ofertada', true);
             })
+            ->join('plan_estudio.carrera_unidad_academica as cua', 'oferta.carrera_unidad_academica_id', '=', 'cua.id')
+            ->join('plan_estudio.unidad_academica as ua', 'cua.unidad_academica_id', '=', 'ua.id')
+            ->orderBy('cua.semestre', 'asc')
+            ->orderBy('ua.nombre', 'asc')
+            ->select('oferta.*')
             ->get();
 
         // Clasificar el expediente del estudiante por estados
@@ -97,7 +102,12 @@ class EstudianteController extends Controller
         });
 
 
-        return Inertia::render('academico/Estudiante/Inscripcion', ['semestre' => $semestre, 'cargaAcademica' => $cargaAcademica]);
+        return Inertia::render('academico/Estudiante/Inscripcion', [
+            'semestre' => $semestre,
+            'cargaAcademica' => $cargaAcademica,
+            'estudiante' => $estudiante,
+            'carreraSede' => $carreraSede,
+        ]);
     }
 
 

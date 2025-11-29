@@ -83,7 +83,7 @@ interface Solicitud {
 interface CarreraSede {
     id: number;
     sede: Sede;
-    carrera: string;
+    carrera: Carrera;
     carrera_tipo: string;
     carrera_nombre: string;
     seleccionados: number;
@@ -112,4 +112,77 @@ interface InfoSede {
     seleccionados: number;
     seleccionados_publico: number;
     seleccionados_privado: number;
+}
+
+interface Semestre {
+    id: number;
+    descripcion: string;
+    codigo: string;
+    fecha_inicio: Date;
+    fecha_fin: Date;
+}
+
+interface UnidadAcademica {
+    id: number;
+    codigo: string;
+    nombre: string;
+}
+
+interface CarreraUnidadAcademica {
+    id: number;
+    semestre: number;
+    obligatoria: boolean;
+    unidad_academica_id: number;
+    unidad_academica: UnidadAcademica;
+    carrera: Carrera;
+}
+
+interface Imparte {
+    id: number;
+    carrera_sede_id: number;
+    oferta: Oferta;
+    cupo: number;
+    ofertada: boolean;
+}
+
+interface Oferta {
+    id: number;
+    carrera_unidad_academica: CarreraUnidadAcademica;
+    carrera_unidad_academica_id: number;
+    matricula: number;
+    imparte: Imparte;
+}
+
+interface Expediente {
+    id: number;
+    estado_id: number;
+    estado: Estado;
+    semestre_id: number;
+    semestre: Semestre;
+    tipo_curso_id: number;
+    tipoCurso: TipoCurso;
+    carrera_unidad_academica_id: number;
+    carreraUnidadAcademica: CarreraUnidadAcademica;
+}
+
+interface Estado {
+    id: number;
+    codigo: string;
+    descripcion: string;
+}
+
+interface TipoCurso {
+    id: number;
+    codigo: string;
+    descripcion: string;
+}
+
+interface Estudiante {
+    id: number;
+    persona_id: number;
+    persona: Persona;
+    carnet: string;
+    carrera_sede_id: number;
+    carreraSede: CarreraSede;
+    expediente: Expediente[];
 }

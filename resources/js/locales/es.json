@@ -359,6 +359,14 @@
         "_suba_archivo_calificaciones_estudiantes_bachillerato_": "Suba el archivo con las calificaciones obtenidas",
         "_cargar_calificaciones_indicaciones_": "El archivo con las calificaciones debe contener al menos dos columnas: 'nie' y 'calificacion'"
     },
+    "inscripcion": {
+        "_singular_": "Inscripción",
+        "_inscripcion_asignaturas_": "Inscripción de asignaturas",
+        "_inscripcion_asignaturas_indicacion_": "Seleccione las asignaturas que desea inscribir",
+        "_carga_academica_": "Carga académica",
+        "_matricula_": "Matrícula",
+        "_inscribir_": "Inscribir"
+    },
     "invitacion": {
         "_aceptadas_": "Aceptadas",
         "_confirmar_enviar_pendientes_": "Confirme para enviar por correo las invitaciones pendientes",

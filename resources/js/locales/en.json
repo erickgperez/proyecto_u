@@ -344,7 +344,14 @@
         "_suba_archivo_calificaciones_estudiantes_bachillerato_": "Upload the file with the grades obtained",
         "_cargar_calificaciones_indicaciones_": "The file with the grades must contain at least two columns: 'nie' and 'calificacion'"
     },
-
+    "inscripcion": {
+        "_singular_": "Inscription",
+        "_inscripcion_asignaturas_": "Inscription of subjects",
+        "_inscripcion_asignaturas_indicacion_": "Select the subjects you wish to inscribe",
+        "_carga_academica_": "Academic load",
+        "_matricula_": "Enrollment",
+        "_inscribir_": "Inscribe"
+    },
     "invitacion": {
         "_aceptadas_": "Accepted",
         "_creadas_": "Created",

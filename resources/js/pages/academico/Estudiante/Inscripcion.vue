@@ -1,172 +1,90 @@
 <script setup lang="ts">
-import GradoForm from '@/components/academico/GradoForm.vue';
-import GradoShow from '@/components/academico/GradoShow.vue';
-import Acciones from '@/components/crud/Acciones.vue';
-import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
-import Listado from '@/components/crud/Listado.vue';
-import { useAccionesObject } from '@/composables/useAccionesObject';
-import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import type { SortBy } from '@/types/tipos';
+import { CarreraSede, Estudiante, Oferta, Semestre } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
-import { computed, PropType, ref } from 'vue';
+import { PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { hasPermission } = usePermissions();
-const { accionEditObject, accionShowObject, accionDeleteObject } = useAccionesObject();
+
 const { t } = useI18n();
 
-// *************************************************************************************************************
-// **************** Sección que se debe adecuar para cada CRUD específico***************************************
-// *************************************************************************************************************
-interface Item {
-    id: number | null;
-    codigo: string;
-    descripcion_masculino: string;
-    descripcion_femenino: string;
-}
 const props = defineProps({
-    items: {
-        type: Array as PropType<Item[]>,
+    semestre: {
+        type: Object as PropType<Semestre>,
+        required: true,
+    },
+    cargaAcademica: {
+        type: Array as PropType<Oferta[]>,
         required: true,
         default: () => [],
     },
+    estudiante: {
+        type: Object as PropType<Estudiante>,
+        required: true,
+    },
+    carreraSede: {
+        type: Object as PropType<CarreraSede>,
+        required: true,
+    },
 });
 
-const itemVacio = ref<Item>({
-    id: null,
-    codigo: '',
-    descripcion_masculino: '',
-    descripcion_femenino: '',
-});
-
-const { step, selectedAction, localItems, selectedItem, handleAction, handleNextStep, selectItem, handleFormSave } = useFuncionesCrud(
-    itemVacio,
-    props.items,
-);
-
-const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
-const rutaBorrar = ref('academico-plan_estudio-grado-delete');
-const mensajes = {
-    titulo1: t('grado._grados_'),
-    titulo2: t('grado._administrar_grados_'),
-    subtitulo: t('grado._permite_gestionar_grados_'),
-    tituloListado: t('grado._listado_grados_'),
-};
-
-//Acciones que se pueden realizar al seleccionar un registro
-const acc = {
-    editar: 'ACADEMICO_PLAN-ESTUDIO_GRADO_EDITAR',
-    mostrar: 'ACADEMICO_PLAN-ESTUDIO_GRADO_MOSTRAR',
-    borrar: 'ACADEMICO_PLAN-ESTUDIO_GRADO_BORRAR',
-};
-const permisoAny = 'ACADEMICO_PLAN-ESTUDIO_GRADO_';
-// Permisos requeridos por la interfaz
-const permisos = {
-    listado: 'MENU_ACADEMICO_PLAN-ESTUDIO_GRADO',
-    crear: 'ACADEMICO_PLAN-ESTUDIO_GRADO_CREAR',
-    exportar: 'ACADEMICO_PLAN-ESTUDIO_GRADO_EXPORTAR',
-    acciones: [acc.editar, acc.borrar, acc.mostrar],
-    editar: acc.editar,
-    mostrar: acc.mostrar,
-    borrar: acc.borrar,
-};
-
-// Nombre de hoja y archivo a utilizar cuando se guarde el listado como excel
-const sheetName = ref('Listado_grados');
-const fileName = ref('grados');
-
-const headers = [
-    { title: t('_codigo_'), key: 'codigo' },
-    { title: t('grado._descripcion_masculino_'), key: 'descripcion_masculino' },
-    { title: t('grado._descripcion_femenino_'), key: 'descripcion_femenino' },
-    { title: t('_acciones_'), key: 'actions', align: 'center' },
+const userControls = [
+    { title: 'Content filtering', subtitle: 'Set the content filtering level to restrict appts that can be downloaded' },
+    { title: 'Password', subtitle: 'Require password for purchase or use password to restrict purchase' },
 ];
 
-const sortBy: SortBy[] = [{ key: 'codigo', order: 'asc' }];
-
-const opcionesAccion = [
-    {
-        permiso: acc.editar,
-        ...accionEditObject,
-    },
-    {
-        permiso: acc.mostrar,
-        ...accionShowObject,
-    },
-    {
-        permiso: acc.borrar,
-        ...accionDeleteObject,
-    },
+const settingsItems = [
+    { value: 'notifications', title: 'Notifications', subtitle: 'Notify me about updates to apps or games that I downloaded' },
+    { value: 'sound', title: 'Sound', subtitle: 'Auto-update apps at any time. Data charges may apply' },
+    { value: 'widgets', title: 'Auto-add widgets', subtitle: 'Automatically add home screen widgets when downloads complete' },
 ];
+
+const cargaAcademicaSeleccionada = ref([]);
 </script>
 
 <template>
-    <!--********************************************************************************
-    ******** LA PLANTILLA GENERALMENTE NO SERÁ NECESARIO MODIFICAR
-    ******** Solo para agregar/cambiar un elemento en la parte 3: Ejecutar acciones, o modificar la
-    ******** presentación de un campo en el listado de la parte 1
-    ************************************************************************************
-    -->
-    <Head :title="mensajes.titulo1"> </Head>
-    <AppLayout :titulo="mensajes.titulo2" :subtitulo="mensajes.subtitulo" icono="mdi-checkbook">
-        <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12 pa-2 rounded-xl">
-            <v-window v-model="step" class="h-auto w-100">
-                <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
-                <v-window-item :value="1">
-                    <Listado
-                        @action="handleAction"
-                        @selectItem="selectItem"
-                        :items="localItems"
-                        :headers="headers"
-                        :sortBy="sortBy"
-                        :titleList="mensajes.tituloListado"
-                        :permisoCrear="permisos.crear"
-                        :permisoExportar="permisos.exportar"
-                        :sheetName="sheetName"
-                        :fileName="fileName"
-                    ></Listado>
-                </v-window-item>
-
-                <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->
-                <v-window-item :value="2">
-                    <Acciones
-                        @action="handleAction"
-                        v-if="hasPermission(permisoAny) && selectedItem.id !== null"
-                        :acciones="opcionesAccion"
-                        :selectedItemLabel="selectedItemLabel"
-                        :rutaBorrar="rutaBorrar"
-                        :selectedItemId="selectedItem.uuid"
-                    ></Acciones>
-                    <v-alert v-else border="top" type="warning" variant="outlined" prominent>
-                        {{ $t('_no_tiene_permiso_para_realizar_ninguna_accion_') }}
-                    </v-alert>
-                </v-window-item>
-
-                <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
-                <v-window-item :value="3">
-                    <v-sheet v-if="step === 3">
-                        <GradoForm
-                            v-if="selectedAction === 'new' || selectedAction === 'edit'"
-                            :item="selectedAction === 'new' ? itemVacio : selectedItem"
-                            :accion="selectedAction"
-                            @form-saved="handleFormSave"
-                        ></GradoForm>
-                        <GradoShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></GradoShow>
-                    </v-sheet>
-                </v-window-item>
-            </v-window>
+    <Head :title="$t('inscripcion._singular_')"></Head>
+    <AppLayout
+        :titulo="$t('inscripcion._inscripcion_asignaturas_')"
+        :subtitulo="$t('semestre._singular_') + ' ' + semestre.codigo"
+        icono="mdi-note-plus-outline"
+    >
+        <v-card class="mx-auto" rounded="xl">
+            <v-toolbar color="blue-grey-lighten-1">
+                <v-toolbar-title>{{ $t('inscripcion._carga_academica_') }} {{ carreraSede.titulo2 }}</v-toolbar-title>
+            </v-toolbar>
 
             <v-divider></v-divider>
 
-            <!-- ************************* NAVEGACIÓN ENTRE LAS PARTES DEL CRUD ****************************-->
+            <v-list v-model:selected="cargaAcademicaSeleccionada" lines="three" select-strategy="leaf" active-class="text-green-darken-2">
+                <v-list-subheader>{{ $t('inscripcion._inscripcion_asignaturas_indicacion_') }}</v-list-subheader>
+
+                <v-list-item v-for="item in cargaAcademica" :key="item.id" :value="item">
+                    <v-list-item-title>{{ item.carrera_unidad_academica.unidad_academica.nombre }}</v-list-item-title>
+
+                    <v-list-item-subtitle class="text-high-emphasis">
+                        {{ $t('_codigo_') }} {{ item.carrera_unidad_academica.unidad_academica.codigo }}
+                    </v-list-item-subtitle>
+
+                    <v-list-item-subtitle class="text-high-emphasis mb-1 opacity-100">
+                        {{ $t('inscripcion._matricula_') + ' ' + item.matricula }}
+                    </v-list-item-subtitle>
+
+                    <template v-slot:prepend="{ isSelected, select }">
+                        <v-list-item-action start>
+                            <v-checkbox-btn :model-value="isSelected" @update:model-value="select"></v-checkbox-btn>
+                        </v-list-item-action>
+                    </template>
+                </v-list-item>
+            </v-list>
             <v-card-actions>
-                <BotonesNavegacion :selectedAction="selectedAction" :step="step" @nextStep="handleNextStep"> </BotonesNavegacion>
+                <v-spacer></v-spacer>
+                <v-btn color="primary" variant="tonal" @click="guardarInscripcion" prepend-icon="mdi-note-plus">
+                    {{ $t('inscripcion._inscribir_') }}
+                </v-btn>
             </v-card-actions>
-        </v-sheet>
-        <v-alert v-else border="top" type="warning" variant="outlined" prominent>
-            {{ $t('_no_tiene_permiso_para_esta_accion_') }}
-        </v-alert>
+        </v-card>
     </AppLayout>
 </template>
