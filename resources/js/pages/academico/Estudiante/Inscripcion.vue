@@ -3,7 +3,7 @@ import AsignaturasEnCurso from '@/components/academico/estudiante/AsignaturasEnC
 import { useFunciones } from '@/composables/useFunciones';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
-import { CarreraSede, Estudiante, Oferta, Semestre } from '@/types/tipos';
+import { CarreraSede, Estudiante, Expediente, Oferta, Semestre } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
 import axios from 'axios';
 import { onMounted, PropType, ref } from 'vue';
@@ -45,7 +45,7 @@ const props = defineProps({
     },
 });
 
-//const localEstudiante = ref<Estudiante>(props.estudiante);
+const expediente = ref<Expediente[]>(props.estudiante.expediente);
 const localCargaAcademica = ref<Oferta[]>([]);
 
 const cargaSeleccionada = ref([]);
@@ -54,7 +54,7 @@ async function submitForm() {
     loading.value = true;
     formData.value.carga_inscrita = cargaSeleccionada.value.map((objeto: Oferta) => {
         return {
-            carrera_unidad_academica_id: objeto.id,
+            carrera_unidad_academica_id: objeto.carrera_unidad_academica_id,
             matricula: objeto.matricula,
         };
     });
@@ -70,7 +70,7 @@ async function submitForm() {
             );
             if (resp.data.status == 'ok') {
                 mensajeExito(t('inscripcion._inscripcion_realizada_correctamente_'));
-                //localEstudiante.value = resp.data.estudiante;
+                expediente.value = resp.data.estudiante.expediente;
                 localCargaAcademica.value = resp.data.cargaAcademica;
             } else {
                 throw new Error(resp.data.message);
@@ -137,6 +137,6 @@ onMounted(() => {
         </v-card>
         <v-divider class="my-4"></v-divider>
 
-        <AsignaturasEnCurso :expediente="estudiante.expediente" />
+        <AsignaturasEnCurso :expediente="expediente" />
     </AppLayout>
 </template>

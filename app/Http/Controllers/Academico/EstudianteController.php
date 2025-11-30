@@ -130,9 +130,14 @@ class EstudianteController extends Controller
         $usoEstado = UsoEstado::where('codigo', 'ESTUDIANTE_CARRERA_SEDE')->first();
         $estadoActivo = $usoEstado->estados()->where('codigo', 'ESTUDIANTE')->first();
         $estudiante = $persona->estudiante()
-            ->with(['carreraSede' => function ($query) use ($estadoActivo) {
-                $query->wherePivot('estado_id', $estadoActivo->id);
-            }])
+            ->with([
+                'carreraSede' => function ($query) use ($estadoActivo) {
+                    $query->wherePivot('estado_id', $estadoActivo->id);
+                },
+                'expediente' => function ($query) {
+                    $query->with(['carreraUnidadAcademica' => ['unidadAcademica'], 'estado']);
+                }
+            ])
             ->first();
         return response()->json(['status' => 'ok', 'estudiante' => $estudiante]);
     }

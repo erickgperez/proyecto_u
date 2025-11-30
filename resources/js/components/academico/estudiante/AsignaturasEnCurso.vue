@@ -3,7 +3,7 @@ import { computed } from 'vue';
 
 const props = defineProps(['expediente']);
 
-const localExpediente = computed(() => props.expediente.filter((item) => item.estado.codigo == 'EC'));
+const localExpediente = computed(() => (props.expediente ? props.expediente.filter((item) => item.estado.codigo == 'EC') : []));
 </script>
 <template>
     <v-card class="mx-auto" rounded="xl">

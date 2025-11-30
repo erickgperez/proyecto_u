@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import AsignaturasEnCurso from '@/components/academico/estudiante/AsignaturasEnCurso.vue';
 import { User } from '@/types';
 import { Link, usePage } from '@inertiajs/vue3';
 import axios from 'axios';
@@ -13,7 +14,7 @@ const carrerasSede = ref([]);
 
 onMounted(() => {
     axios
-        .get(route('academico-persona-estudiante-data', { uuid: persona.uuid}))
+        .get(route('academico-persona-estudiante-data', { uuid: persona.uuid }))
         .then(function (response) {
             estudiante.value = response.data.estudiante;
             estudianteCarreraSede.value = response.data.estudiante.carrera_sede[0];
@@ -33,7 +34,7 @@ onMounted(() => {
                     >{{ persona.sexo.descripcion === 'Femenino' ? 'Bienvenida' : 'Bienvenido' }},{{ persona.nombreCompleto }}</v-card-title
                 >
                 <v-card-subtitle v-if="estudiante">
-                    <v-row >
+                    <v-row>
                         <v-col cols="12" md="4" class="d-flex align-center"> {{ $t('estudiante._carnet_') }}: {{ estudiante.carnet }} </v-col>
                         <v-col cols="12" md="8" v-if="estudianteCarreraSede">
                             <v-select
@@ -55,7 +56,7 @@ onMounted(() => {
             </v-card>
         </v-col>
         <v-col cols="12" md="3">
-            <Link :href="route('academico-estudiante-inscripcion-carrera-sede', {uuid: estudiante?.uuid ?? 0, id: estudianteCarreraSede?.id ?? 0})">
+            <Link :href="route('academico-estudiante-inscripcion-carrera-sede', { uuid: estudiante?.uuid ?? 0, id: estudianteCarreraSede?.id ?? 0 })">
                 <v-hover v-slot="{ isHovering, props }">
                     <v-alert
                         border="start"
@@ -130,6 +131,8 @@ onMounted(() => {
             </Link>
         </v-col>
     </v-row>
+    <v-divider class="my-4"></v-divider>
+    <AsignaturasEnCurso :expediente="estudiante?.expediente" v-if="estudiante && estudiante.expediente.length > 0" />
 </template>
 <style scoped>
 .on-hover-alert {
