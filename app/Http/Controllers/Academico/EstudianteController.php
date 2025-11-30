@@ -33,7 +33,7 @@ class EstudianteController extends Controller
             'carreraSede' => function ($query) use ($estadoActivo) {
                 $query->wherePivot('estado_id', $estadoActivo->id);
             },
-            'expediente' => ['carreraUnidadAcademica' => ['unidadAcademica']],
+            'expediente' => ['carreraUnidadAcademica' => ['unidadAcademica'], 'estado'],
         ])
             ->where('uuid', $uuid)->first();
 
@@ -119,7 +119,7 @@ class EstudianteController extends Controller
             });
         }
         // Devolver la carga académica, se utilizar --values()-- para que vuelva a generar las llaves del arreglo
-        return $cargaAcademica->values();
+        return empty($cargaAcademica) ? [] : $cargaAcademica->values();
     }
 
 
@@ -167,8 +167,9 @@ class EstudianteController extends Controller
 
         //Calcular la nueva carga académica
         $cargaAcademica = $this->getCargaAcademica($estudiante, $semestre, $carreraSede);
-        //$estudiante = Estudiante::with('expediente')->find($estudiante->id);
+        $estudiante = Estudiante::with(['expediente' => ['carreraUnidadAcademica' => ['unidadAcademica'], 'estado']])
+            ->find($estudiante->id);
 
-        return response()->json(['status' => 'ok', 'cargaAcademica' => $cargaAcademica]);
+        return response()->json(['status' => 'ok', 'cargaAcademica' => $cargaAcademica, 'estudiante' => $estudiante]);
     }
 }
