@@ -365,7 +365,11 @@
         "_inscripcion_asignaturas_indicacion_": "Seleccione las asignaturas que desea inscribir",
         "_carga_academica_": "Carga académica",
         "_matricula_": "Matrícula",
-        "_inscribir_": "Inscribir"
+        "_inscribir_": "Inscribir",
+        "_seleccione_al_menos_una_asignatura_": "Seleccione al menos una asignatura",
+        "_inscripcion_realizada_correctamente_": "Inscripción realizada correctamente",
+        "_no_se_pudo_guardar_inscripcion_": "No se pudo guardar la inscripción",
+        "_no_hay_asignaturas_disponibles_": "No hay asignaturas disponibles para inscribir"
     },
     "invitacion": {
         "_aceptadas_": "Aceptadas",

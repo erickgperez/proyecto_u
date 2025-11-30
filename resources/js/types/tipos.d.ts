@@ -86,6 +86,8 @@ interface CarreraSede {
     carrera: Carrera;
     carrera_tipo: string;
     carrera_nombre: string;
+    titulo: string;
+    titulo2: string;
     seleccionados: number;
     cupo: number;
     seleccionados_publico: number;
@@ -116,6 +118,7 @@ interface InfoSede {
 
 interface Semestre {
     id: number;
+    uuid: string;
     descripcion: string;
     codigo: string;
     fecha_inicio: Date;
@@ -179,6 +182,7 @@ interface TipoCurso {
 
 interface Estudiante {
     id: number;
+    uuid: string;
     persona_id: number;
     persona: Persona;
     carnet: string;
