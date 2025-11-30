@@ -354,7 +354,10 @@
         "_seleccione_al_menos_una_asignatura_": "Select at least one subject",
         "_inscripcion_realizada_correctamente_": "Inscription realized correctly",
         "_no_se_pudo_guardar_inscripcion_": "The inscription could not be saved",
-        "_no_hay_asignaturas_disponibles_": "No available subjects to inscribe"
+        "_no_hay_asignaturas_disponibles_": "No available subjects to inscribe",
+        "_asignaturas_en_curso_": "Enrolled subjects",
+        "_calificacion_": "Grade",
+        "_ver_evaluaciones_": "Show evaluations"
     },
     "invitacion": {
         "_aceptadas_": "Accepted",

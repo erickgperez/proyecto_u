@@ -33,7 +33,7 @@ class EstudianteController extends Controller
             'carreraSede' => function ($query) use ($estadoActivo) {
                 $query->wherePivot('estado_id', $estadoActivo->id);
             },
-            'expediente',
+            'expediente' => ['carreraUnidadAcademica' => ['unidadAcademica']],
         ])
             ->where('uuid', $uuid)->first();
 
