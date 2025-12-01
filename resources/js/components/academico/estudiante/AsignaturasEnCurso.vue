@@ -6,7 +6,7 @@ const props = defineProps(['expediente']);
 const localExpediente = computed(() => (props.expediente ? props.expediente.filter((item) => item.estado.codigo == 'EC') : []));
 </script>
 <template>
-    <v-card class="mx-auto" rounded="xl">
+    <v-card class="mx-auto" rounded="xl" v-if="localExpediente.length > 0">
         <v-card-title>{{ $t('inscripcion._asignaturas_en_curso_') }}</v-card-title>
         <v-card-text>
             <v-data-iterator :items="localExpediente" item-value="id">
