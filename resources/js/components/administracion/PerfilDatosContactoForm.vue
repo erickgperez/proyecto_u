@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { useFunciones } from '@/composables/useFunciones';
+import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -9,6 +10,8 @@ import type { VForm } from 'vuetify/components';
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
 const { filteredAssign } = useFilteredMerge();
+const page = usePage();
+const roles = page.props.auth.roles;
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -54,6 +57,10 @@ const formData = ref<FormData>({
     telefono_personal_alternativo: '',
     persona_id: null,
 });
+
+const isEstudiante = computed(() => roles.includes('estudiante'));
+const isDocente = computed(() => roles.includes('docente'));
+const permitirEditar = computed(() => (isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true);
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -117,6 +124,7 @@ onMounted(() => {
                             :rules="[rules.email, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('perfil._email_alternativo_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -126,6 +134,7 @@ onMounted(() => {
                             :rules="[rules.maxLength(50)]"
                             counter="50"
                             :label="$t('perfil._telefono_personal_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -135,6 +144,7 @@ onMounted(() => {
                             :rules="[rules.maxLength(50)]"
                             counter="50"
                             :label="$t('perfil._telefono_personal_alternativo_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -144,6 +154,7 @@ onMounted(() => {
                             :rules="[rules.maxLength(500)]"
                             counter="500"
                             :label="$t('perfil._direccion_residencia_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="6">
@@ -153,13 +164,14 @@ onMounted(() => {
                             :rules="[rules.maxLength(50)]"
                             counter="50"
                             :label="$t('perfil._telefono_residencia_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="6">
-                        <v-text-field prepend-icon="mdi-home-city" :model-value="distrito" readonly :label="$t('perfil._distrito_residencia_')">
+                        <v-text-field prepend-icon="mdi-home-city" :model-value="distrito" readonly :label="$t('perfil._distrito_residencia_')" :disabled="!permitirEditar">
                         </v-text-field>
                     </v-col>
-                    <v-col cols="6">
+                    <v-col cols="6" v-if="permitirEditar">
                         <v-btn @click="dialogTreeVisible = true" color="primary">{{ $t('perfil._seleccionar_distrito_') }}</v-btn>
                     </v-col>
                 </v-row>
@@ -171,6 +183,7 @@ onMounted(() => {
                             :rules="[rules.maxLength(50)]"
                             counter="500"
                             :label="$t('perfil._direccion_trabajo_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -180,10 +193,11 @@ onMounted(() => {
                             :rules="[rules.maxLength(50)]"
                             counter="50"
                             :label="$t('perfil._telefono_trabajo_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" align="right">
-                        <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
+                        <v-btn v-if="permitirEditar" :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
                             {{ props.guardarTxt != null ? guardarTxt : $t('_guardar_') }}
                         </v-btn>
                     </v-col>

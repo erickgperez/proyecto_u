@@ -56,7 +56,7 @@ class PerfilController extends Controller
         ]);
     }
 
-    public function indexAspirante($convocatoriaUUID=null): Response
+    public function indexAspirante($convocatoriaUUID = null): Response
     {
         if ($convocatoriaUUID != null) {
             $convocatoria = Convocatoria::where('uuid', $convocatoriaUUID)->first();
@@ -69,11 +69,11 @@ class PerfilController extends Controller
         return $this->index('aspirante', $aspirantes);
     }
 
-    protected function getAspiranteBase($convocatoria)
-    {        
-        
+    protected function getAspiranteBase($convocatoria = null)
+    {
+
         $convocatoriaId = $convocatoria ? $convocatoria->id : null;
-        return Persona::with([
+        $aspiranteQuery =  Persona::with([
             'sexo',
             'creator',
             'updater',
@@ -88,9 +88,12 @@ class PerfilController extends Controller
             }
         ])->select('persona.*', 'convocatoria_aspirante.seleccionado')
             ->join('ingreso.aspirante as aspirante', 'persona.id', '=', 'aspirante.persona_id')
-            ->join('ingreso.convocatoria_aspirante as convocatoria_aspirante', 'aspirante.id', '=', 'convocatoria_aspirante.aspirante_id')
-            ->where('convocatoria_aspirante.convocatoria_id', $convocatoriaId)
-            ;
+            ->join('ingreso.convocatoria_aspirante as convocatoria_aspirante', 'aspirante.id', '=', 'convocatoria_aspirante.aspirante_id');
+        if ($convocatoria) {
+            $aspiranteQuery->where('convocatoria_aspirante.convocatoria_id', $convocatoriaId);
+        }
+
+        return $aspiranteQuery;
     }
 
     protected function getDocenteBase()
@@ -109,6 +112,24 @@ class PerfilController extends Controller
             }
         ])->select('persona.*')
             ->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id');
+    }
+
+    protected function getEstudianteBase()
+    {
+        return Persona::with([
+            'sexo',
+            'creator',
+            'updater',
+            'datosContacto' => ['distritoResidencia'],
+            'estudiante',
+            'usuarios' => function ($query) {
+                $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
+                    ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
+                    ->where('roles.model_type', 'App\Models\User')
+                    ->where('rol.name', 'estudiante');
+            }
+        ])->select('persona.*')
+            ->join('academico.estudiante as estudiante', 'persona.id', '=', 'estudiante.persona_id');
     }
 
     public function indexDocente(): Response
@@ -197,6 +218,8 @@ class PerfilController extends Controller
             $personaData = $this->getAspiranteBase()->find($persona->id);
         } elseif ($request->get('perfil') === 'docente') {
             $personaData = $this->getDocenteBase()->find($persona->id);
+        } elseif ($request->get('perfil') === 'estudiante') {
+            $personaData = $this->getEstudianteBase()->find($persona->id);
         }
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);

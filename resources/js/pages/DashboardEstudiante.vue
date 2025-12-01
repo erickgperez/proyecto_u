@@ -96,7 +96,7 @@ onMounted(() => {
             </Link>
         </v-col>
         <v-col cols="12" md="3">
-            <Link :href="route('dashboard')">
+            <Link :href="route('academico-estudiante-perfil', { uuid: estudiante?.uuid ?? 0 })">
                 <v-hover v-slot="{ isHovering, props }">
                     <v-alert
                         border="start"

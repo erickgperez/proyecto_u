@@ -277,7 +277,9 @@
     "_estudiante_": "Estudiante",
     "estudiante": {
         "_carnet_": "Carnet",
-        "_carrera_sede_": "Carrera Sede"
+        "_carrera_sede_": "Carrera Sede",
+        "_perfil_": "Perfil de estudiante",
+        "_perfil_descripcion_": "Datos personales y contacto del estudiante"
     },
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
     "etapa": {
@@ -479,6 +481,15 @@
         "_docente_carga_academica_": "Carga académica",
         "_docente_carga_academica_descripcion_": "Asignación de la carga académica del docente",
         "_elija_carga_academica_": "Elija la carga académica a asignar",
+
+
+        "_estudiante_": "Estudiante",
+        "_administrar_estudiante": "Administrar estudiantes",
+        "_crear_estudiante": "Crear nuevo estudiante",
+        "_editar_estudiante": "Editar datos del estudiante",
+        "_listado_estudiante": "Listado de estudiantes",
+        "_mostrar_estudiante": "Mostrar datos de estudiantes",
+        "_permite_gestionar_datos_estudiante": "Gestionar los datos de los estudiantes",
 
         "_apellidos_": "Apellidos",
         "_crear_": "Crear una nueva persona",

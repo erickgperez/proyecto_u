@@ -277,7 +277,9 @@
     "_estudiante_": "Student",
     "estudiante": {
         "_carnet_": "Id card",
-        "_carrera_sede_": "Career location"
+        "_carrera_sede_": "Career location",
+        "_perfil_": "Student profile",
+        "_perfil_descripcion_": "Student personal and contact data"
     },
     "_estudiantes_candidatos_carrera_universitaria_": "Students who are candidates to study in university courses",
     "etapa": {
@@ -454,6 +456,14 @@
         "_docente_carga_academica_": "Academic workload",
         "_docente_carga_academica_descripcion_": "Assignment of the teacher's academic workload",
         "_elija_carga_academica_": "Choose the academic load to assign",
+
+        "_estudiante_": "Student",
+        "_administrar_estudiante": "Manage students",
+        "_crear_estudiante": "Create new student",
+        "_editar_estudiante": "Edit student data",
+        "_listado_estudiante": "List of students",
+        "_mostrar_estudiante": "Show student data",
+        "_permite_gestionar_datos_estudiante": "Managing student data",
 
         "_apellidos_": "Last name",
         "_crear_": "Create a new person",

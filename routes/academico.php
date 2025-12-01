@@ -88,4 +88,6 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::post('/academico/estudiante/{uuid}/inscripcion/semestre/{uuidSemestre}/carrera-sede/{id}/save', [ExpedienteController::class, 'inscripcionSave'])->name('academico-estudiante-inscripcion-save');
     Route::get('/academico/estudiante/{uuid}/expediente/carrera-sede/{id}', [ExpedienteController::class, 'expediente'])->name('academico-estudiante-expediente-carrera-sede');
+
+    Route::get('/academico/estudiante/{uuid}/perfil', [EstudianteController::class, 'perfil'])->name('academico-estudiante-perfil');
 });

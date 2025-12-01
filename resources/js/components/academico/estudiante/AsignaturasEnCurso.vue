@@ -44,13 +44,11 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                 <v-expand-transition>
                                     <div v-if="isExpanded(item)">
                                         <v-list :lines="false" density="compact">
-                                            <v-list-item :title="`🔥 Calories: `" active></v-list-item>
-                                            <v-list-item :title="`🍔 Fat: `"></v-list-item>
-                                            <v-list-item :title="`🍞 Carbs: `"></v-list-item>
-                                            <v-list-item :title="`🍗 Protein: `"></v-list-item>
-                                            <v-list-item :title="`🧂 Sodium: `"></v-list-item>
-                                            <v-list-item :title="`🦴 Calcium: `"></v-list-item>
-                                            <v-list-item :title="`📚 Iron: `"></v-list-item>
+                                            <v-list-item title="Eval 1"></v-list-item>
+                                            <v-list-item title="Eval 2"></v-list-item>
+                                            <v-list-item title="Eval 3"></v-list-item>
+                                            <v-list-item title="Eval 4"></v-list-item>
+                                            <v-list-item title="Eval 5"></v-list-item>
                                         </v-list>
                                     </div>
                                 </v-expand-transition>

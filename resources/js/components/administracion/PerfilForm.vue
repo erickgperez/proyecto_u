@@ -1,14 +1,19 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { onMounted, ref, toRef } from 'vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 import { useFilteredMerge } from '@/composables/useFilteredMerge';
+import { usePage } from '@inertiajs/vue3';
+
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
 const { filteredAssign } = useFilteredMerge();
+
+const page = usePage();
+const roles = page.props.auth.roles;
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -78,6 +83,10 @@ async function submitForm() {
     loading.value = false;
 }
 
+const isEstudiante = computed(() => roles.includes('estudiante'));
+const isDocente = computed(() => roles.includes('docente'));
+const permitirEditar = computed(() => (isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true);
+
 onMounted(() => {
     reset();
 
@@ -91,7 +100,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('perfil._editar_' + props.perfil) : $t('perfil._crear_' + props.perfil)} `">
+    <v-card :title="$t('perfil._datos_personales_')">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
@@ -104,6 +113,7 @@ onMounted(() => {
                             :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('perfil._primer_nombre_') + ' *'"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -113,6 +123,7 @@ onMounted(() => {
                             :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('perfil._segundo_nombre_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -122,6 +133,7 @@ onMounted(() => {
                             :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('perfil._tercer_nombre_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -133,6 +145,7 @@ onMounted(() => {
                             :rules="[rules.required, rules.maxLength(100)]"
                             counter="100"
                             :label="$t('perfil._primer_apellido_') + ' *'"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -142,6 +155,7 @@ onMounted(() => {
                             :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('perfil._segundo_apellido_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12" md="4">
@@ -151,9 +165,10 @@ onMounted(() => {
                             :rules="[rules.maxLength(100)]"
                             counter="100"
                             :label="$t('perfil._tercer_apellido_')"
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" md="6">
+                    <v-col cols="12" md="6" v-if="!isEditing">
                         <v-text-field
                             required
                             icon-color="deep-orange"
@@ -164,6 +179,7 @@ onMounted(() => {
                             :label="$t('perfil._email_cuenta_usuario_') + ' *'"
                             :hint="$t('perfil._email_cuenta_usuario_hint_')"
                             persistent-hint
+                            :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
                     <v-col cols="12">
@@ -174,6 +190,7 @@ onMounted(() => {
                             item-title="descripcion"
                             item-value="id"
                             prepend-icon="mdi-form-dropdown"
+                            :disabled="!permitirEditar"
                         ></v-select>
                         <v-locale-provider locale="es">
                             <v-date-input
@@ -181,12 +198,13 @@ onMounted(() => {
                                 required
                                 v-model="formData.fecha_nacimiento"
                                 :label="$t('perfil._fecha_nacimiento_') + ' *'"
+                                :disabled="!permitirEditar"
                             ></v-date-input>
                         </v-locale-provider>
                     </v-col>
 
                     <v-col cols="12" align="right">
-                        <v-btn :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
+                        <v-btn v-if="permitirEditar" :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
                             {{ $t('_guardar_') }}
                         </v-btn>
                     </v-col>

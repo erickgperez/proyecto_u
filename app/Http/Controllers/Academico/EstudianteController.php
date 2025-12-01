@@ -9,13 +9,15 @@ use App\Models\Academico\UsoEstado;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Persona;
+use App\Models\Sexo;
 use App\Models\TipoEvento;
 use App\Services\EstudianteService;
+use App\Services\DistritoService;
 
 class EstudianteController extends Controller
 {
 
-    public function __construct(private EstudianteService $estudianteService) {}
+    public function __construct(private EstudianteService $estudianteService, private DistritoService $distritoService) {}
 
     /**
      *
@@ -72,5 +74,32 @@ class EstudianteController extends Controller
             ])
             ->first();
         return response()->json(['status' => 'ok', 'estudiante' => $estudiante]);
+    }
+
+    public function perfil($uuid)
+    {
+        $estudiante = Estudiante::where('uuid', $uuid)->first();
+
+        $sexos = Sexo::all();
+        $distritosTree = $this->distritoService->distritosLikeTree();
+        $persona = $estudiante->persona()
+            ->with([
+                'datosContacto',
+                'sexo',
+                'usuarios' => function ($query) {
+                    $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
+                        ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
+                        ->where('roles.model_type', 'App\Models\User')
+                        ->where('rol.name', 'estudiante');
+                }
+            ])
+            ->first();
+
+        return Inertia::render('academico/Estudiante/Perfil', [
+            'estudiante' => $estudiante,
+            'persona' => $persona,
+            'sexos' => $sexos,
+            'distritosTree' => $distritosTree,
+        ]);
     }
 }

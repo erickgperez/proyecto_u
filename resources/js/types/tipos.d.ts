@@ -180,6 +180,26 @@ interface TipoCurso {
     descripcion: string;
 }
 
+interface Sexo {
+    id: number;
+    codigo: string;
+    descripcion: string;
+}
+
+interface Persona {
+    id: number;
+    uuid: string;
+    primer_nombre: string;
+    segundo_nombre: string;
+    tercer_nombre: string;
+    primer_apellido: string;
+    segundo_apellido: string;
+    tercer_apellido: string;
+    fecha_nacimiento: Date;
+    sexo_id: number;
+    sexo: Sexo;    
+}
+
 interface Estudiante {
     id: number;
     uuid: string;
