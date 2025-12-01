@@ -299,7 +299,8 @@
     "_exito_": "Éxito",
     "expediente": {
         "_singular_": "Expediente",
-        "_titulo_descripcion_": "Registro académico"
+        "_titulo_descripcion_": "Registro académico",
+        "_estado_": "Estado en expediente"
     },
     "_exportar_": "Exportar",
     "_fecha_": "Fecha",
@@ -416,7 +417,8 @@
         "_obligatoria_": "Obligatoria",
         "_prerrequisitos_": "Prerrequisitos",
         "_requisito_creditos_": "Requisito créditos",
-        "_semestre_": "Semestre"
+        "_semestre_": "Semestre",
+        "_requisitos_": "Requisitos"
     },
     "modulo": {
         "_administracion_": "Administración",

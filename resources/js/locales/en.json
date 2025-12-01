@@ -297,6 +297,11 @@
     "_enviar_invitaciones_a_": "Send invitations to",
     "_enviar_invitaciones_bachilleres_": "Send invitations to high school students",
     "_exito_": "Success",
+    "expediente": {
+        "_singular_": "Expedient",
+        "_titulo_descripcion_": "Academic record",
+        "_estado_": "State in the record"
+    },
     "_exportar_": "Export",
     "_fecha_": "Date",
     "_fecha_inicio_": "Start date",
@@ -397,7 +402,8 @@
         "_obligatoria_": "Mandatory",
         "_prerrequisitos_": "Prerequisites",
         "_requisito_creditos_": "Credit requirement",
-        "_semestre_": "Semester"
+        "_semestre_": "Semester",
+        "_requisitos_": "Requirements"
     },
     "modulo": {
         "_administracion_": "Administration",

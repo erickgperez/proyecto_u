@@ -12,6 +12,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Models\Academico\TipoCurso;
+use App\Models\PlanEstudio\CarreraUnidadAcademica;
 use App\Services\EstudianteService;
 
 class ExpedienteController extends Controller
@@ -63,15 +64,36 @@ class ExpedienteController extends Controller
         //Recuperar el expediente del estudiante en la carrera seleccionada
         $expediente = $estudiante->expediente()
             ->select('expediente.*')
-            ->with(['carreraUnidadAcademica' => ['unidadAcademica'], 'estado'])
+            ->with([
+                'semestre',
+                'carreraUnidadAcademica' => ['unidadAcademica'],
+                'estado'
+            ])
             ->join('plan_estudio.carrera_unidad_academica as cua', 'expediente.carrera_unidad_academica_id', '=', 'cua.id')
+            ->join('plan_estudio.unidad_academica as ua', 'cua.unidad_academica_id', '=', 'ua.id')
+            ->join('academico.semestre as s', 'expediente.semestre_id', '=', 's.id')
             ->where('cua.carrera_id', $carreraSede->carrera_id)
+            ->orderBy('s.anio', 'desc')
+            ->orderBy('s.codigo', 'desc')
+            ->orderBy('ua.nombre', 'asc')
+            ->get();
+
+        $mallaCurricular = CarreraUnidadAcademica::with([
+            'unidadAcademica',
+            'requisitos' => ['unidadAcademica']
+        ])
+            ->select('carrera_unidad_academica.*')
+            ->join('plan_estudio.unidad_academica as ua', 'carrera_unidad_academica.unidad_academica_id', '=', 'ua.id')
+            ->where('carrera_id', $carreraSede->carrera_id)
+            ->orderBy('carrera_unidad_academica.semestre', 'asc')
+            ->orderBy('ua.nombre', 'asc')
             ->get();
 
         return Inertia::render('academico/Estudiante/Expediente', [
             'expediente' => $expediente,
             'estudiante' => $estudiante,
             'carreraSede' => $carreraSede,
+            'mallaCurricular' => $mallaCurricular,
         ]);
     }
 }

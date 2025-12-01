@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
-import { CarreraSede, Estudiante, Expediente } from '@/types/tipos';
+import { CarreraSede, CarreraUnidadAcademica, Estudiante, Expediente } from '@/types/tipos';
 import { Head } from '@inertiajs/vue3';
-import { PropType, ref } from 'vue';
+import { computed, PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 const { t } = useI18n();
@@ -30,9 +30,24 @@ const props = defineProps({
         type: Object as PropType<CarreraSede>,
         required: true,
     },
+    mallaCurricular: {
+        type: Array as PropType<CarreraUnidadAcademica[]>,
+        required: true,
+        default: () => [],
+    },
 });
 
-const localExpediente = ref<Expediente[]>(props.expediente);
+//computed expdiente aprobadas
+const expedienteAprobadas = computed(() => {
+    return props.expediente.filter((item) => item.estado.codigo === 'AP');
+});
+
+// expediente en curso
+const expedienteEnCurso = computed(() => {
+    return props.expediente.filter((item) => item.estado.codigo === 'EC');
+});
+
+const seleccionado = ref(null);
 </script>
 
 <template>
@@ -50,14 +65,20 @@ const localExpediente = ref<Expediente[]>(props.expediente);
                         <v-table striped="even">
                             <thead>
                                 <tr>
-                                    <th class="text-left">Name</th>
-                                    <th class="text-left">Calories</th>
+                                    <th class="text-left">Semestre</th>
+                                    <th class="text-left">Asignatura</th>
+                                    <th class="text-center">Estado</th>
+                                    <th class="text-center">Matricula</th>
+                                    <th class="text-center">Calificación</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr v-for="item in localExpediente" :key="item.id">
-                                    <td>{{ item.name }}</td>
-                                    <td>{{ item.calories }}</td>
+                                <tr v-for="item in props.expediente" :key="item.id">
+                                    <td>{{ item.semestre.nombre }}</td>
+                                    <td>{{ item.carrera_unidad_academica.unidad_academica.nombre }}</td>
+                                    <td class="text-center">{{ item.estado.codigo }}</td>
+                                    <td class="text-center">{{ item.matricula }}</td>
+                                    <td class="text-center">{{ item.calificacion }}</td>
                                 </tr>
                             </tbody>
                         </v-table>
@@ -65,9 +86,85 @@ const localExpediente = ref<Expediente[]>(props.expediente);
                 </v-tabs-window-item>
                 <v-tabs-window-item :value="2">
                     <v-container fluid>
-                        <v-row>
-                            <v-col cols="12" md="4"> Malla</v-col>
-                        </v-row>
+                        <v-table striped="even">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">{{ $t('semestre._singular_') }}</th>
+                                    <th class="text-left">{{ $t('unidadAcademica._singular_') }}</th>
+                                    <th class="text-center">{{ $t('expediente._estado_') }}</th>
+                                    <th class="text-left">{{ $t('mallaCurricular._requisitos_') }}</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr v-for="item in mallaCurricular" :key="item.id">
+                                    <td class="text-center">{{ item.semestre }}</td>
+                                    <td class="text-left">
+                                        <v-chip
+                                            :variant="item.unidad_academica.id == seleccionado ? 'tonal' : 'text'"
+                                            @click="seleccionado = item.unidad_academica.id"
+                                            >{{ item.unidad_academica.nombre }}</v-chip
+                                        >
+                                    </td>
+                                    <td class="text-center">
+                                        <v-chip
+                                            variant="outlined"
+                                            v-if="
+                                                expedienteAprobadas.some(
+                                                    (expediente) =>
+                                                        expediente.carrera_unidad_academica.unidad_academica_id === item.unidad_academica_id,
+                                                ) ||
+                                                expedienteEnCurso.some(
+                                                    (expediente) =>
+                                                        expediente.carrera_unidad_academica.unidad_academica_id === item.unidad_academica_id,
+                                                )
+                                            "
+                                            :color="
+                                                expedienteAprobadas.some(
+                                                    (expediente) =>
+                                                        expediente.carrera_unidad_academica.unidad_academica_id === item.unidad_academica_id,
+                                                )
+                                                    ? 'green'
+                                                    : 'primary'
+                                            "
+                                        >
+                                            {{
+                                                expedienteAprobadas.some(
+                                                    (expediente) =>
+                                                        expediente.carrera_unidad_academica.unidad_academica_id === item.unidad_academica_id,
+                                                )
+                                                    ? 'AP'
+                                                    : 'EC'
+                                            }}
+                                        </v-chip>
+                                    </td>
+                                    <td class="text-left">
+                                        <v-chip
+                                            v-for="requisito in item.requisitos"
+                                            :key="requisito.id"
+                                            :color="
+                                                expedienteAprobadas.some(
+                                                    (expediente) =>
+                                                        expediente.carrera_unidad_academica.unidad_academica_id === requisito.unidad_academica_id,
+                                                )
+                                                    ? 'green'
+                                                    : expedienteEnCurso.some(
+                                                            (expediente) =>
+                                                                expediente.carrera_unidad_academica.unidad_academica_id ===
+                                                                requisito.unidad_academica_id,
+                                                        )
+                                                      ? 'primary'
+                                                      : ''
+                                            "
+                                            size="small"
+                                            :variant="requisito.unidad_academica.id == seleccionado ? 'elevated' : 'outlined'"
+                                            @click="seleccionado = requisito.unidad_academica.id"
+                                        >
+                                            {{ requisito.unidad_academica.nombre + ' ' }}
+                                        </v-chip>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </v-table>
                     </v-container>
                 </v-tabs-window-item>
             </v-tabs-window>
