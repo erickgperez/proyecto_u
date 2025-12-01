@@ -17,6 +17,7 @@ use App\Http\Controllers\Academico\UsoEstadoController;
 use App\Http\Controllers\Administracion\DocenteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Academico\EstudianteController;
+use App\Http\Controllers\Academico\ExpedienteController;
 
 Route::middleware('auth', 'verified')->group(function () {
 
@@ -84,5 +85,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/academico/persona/{uuid}/estudiante/data', [EstudianteController::class, 'getEstudianteData'])->name('academico-persona-estudiante-data');
     Route::get('/academico/estudiante/{uuid}/inscripcion/carrera-sede/{id}', [EstudianteController::class, 'inscripcion'])->name('academico-estudiante-inscripcion-carrera-sede');
-    Route::post('/academico/estudiante/{uuid}/inscripcion/semestre/{uuidSemestre}/carrera-sede/{id}/save', [EstudianteController::class, 'inscripcionSave'])->name('academico-estudiante-inscripcion-save');
+
+    Route::post('/academico/estudiante/{uuid}/inscripcion/semestre/{uuidSemestre}/carrera-sede/{id}/save', [ExpedienteController::class, 'inscripcionSave'])->name('academico-estudiante-inscripcion-save');
+    Route::get('/academico/estudiante/{uuid}/expediente/carrera-sede/{id}', [ExpedienteController::class, 'expediente'])->name('academico-estudiante-expediente-carrera-sede');
 });

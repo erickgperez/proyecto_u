@@ -3,6 +3,8 @@
 namespace App\Services;
 
 use App\Models\Academico\Estudiante;
+use App\Models\Academico\Oferta;
+use App\Models\Academico\UsoEstado;
 use App\Models\Persona;
 use Illuminate\Support\Str;
 
@@ -25,5 +27,70 @@ class EstudianteService
         $carnet .= str_pad($nextCorrelativo, 3, '0', STR_PAD_LEFT);
 
         return $carnet;
+    }
+
+    public function getCargaAcademica($estudiante, $semestre, $carreraSede)
+    {
+        $usoEstadoExpediente = UsoEstado::where('codigo', 'EXPEDIENTE')->first();
+        $estadoAP = $usoEstadoExpediente->estados()->where('codigo', 'AP')->first();
+        $estadoEC = $usoEstadoExpediente->estados()->where('codigo', 'EC')->first();
+        $estadoRP = $usoEstadoExpediente->estados()->where('codigo', 'RP')->first();
+
+        $cargaAcademica = [];
+        if ($semestre) {
+            // Recuperar la oferta académica para la carrera del estudiante
+            $ofertaAcademica = Oferta::with([
+                'imparte',
+                'carreraUnidadAcademica' => ['requisitos', 'unidadAcademica', 'carrera']
+            ])
+                ->where('semestre_id', $semestre->id)
+                ->whereHas('imparte', function ($query) use ($carreraSede) {
+                    $query->where('carrera_sede_id', $carreraSede->id)->where('cupo', '>', 0)->where('ofertada', true);
+                })
+                ->join('plan_estudio.carrera_unidad_academica as cua', 'oferta.carrera_unidad_academica_id', '=', 'cua.id')
+                ->join('plan_estudio.unidad_academica as ua', 'cua.unidad_academica_id', '=', 'ua.id')
+                ->orderBy('cua.semestre', 'asc')
+                ->orderBy('ua.nombre', 'asc')
+                ->select('oferta.*')
+                ->get();
+
+            // Clasificar el expediente del estudiante por estados
+            $expedienteAP = [];
+            $expedienteRP = [];
+            $expedienteEC = [];
+            foreach ($estudiante->expediente as $expediente) {
+                if ($expediente->estado_id == $estadoAP->id) {
+                    $expedienteAP[] = $expediente->carreraUnidadAcademica->id;
+                }
+                if ($expediente->estado_id == $estadoRP->id) {
+                    $expedienteRP[] = $expediente->carreraUnidadAcademica->id;
+                }
+                if ($expediente->estado_id == $estadoEC->id) {
+                    $expedienteEC[] = $expediente->carreraUnidadAcademica->id;
+                }
+            }
+
+            // Filtrar la oferta académica ...
+            // ... quitar las que ya aprobó o están en curso
+            $cargaAcademica = $ofertaAcademica->filter(function ($oferta) use ($expedienteAP, $expedienteEC) {
+                return !in_array($oferta->carreraUnidadAcademica->id, $expedienteAP)
+                    && !in_array($oferta->carreraUnidadAcademica->id, $expedienteEC);
+            });
+
+            // ... quitar las que no tiene ganados los requisitos
+            $cargaAcademica = $cargaAcademica->filter(function ($oferta) use ($expedienteAP) {
+                return $oferta->carreraUnidadAcademica->requisitos->filter(function ($requisito) use ($expedienteAP) {
+                    return in_array($requisito->unidad_academica_requisito_id, $expedienteAP);
+                })->count() == $oferta->carreraUnidadAcademica->requisitos->count();
+            });
+            // ... contar las veces que aparecen reprobadas, para calcular la matricula
+            $frecuenciasRP = array_count_values($expedienteRP);
+            $cargaAcademica = $cargaAcademica->map(function ($oferta) use ($frecuenciasRP) {
+                $oferta->matricula = ($frecuenciasRP[$oferta->carreraUnidadAcademica->id] ?? 0) + 1;
+                return $oferta;
+            });
+        }
+        // Devolver la carga académica, se utilizar --values()-- para que vuelva a generar las llaves del arreglo
+        return empty($cargaAcademica) ? [] : $cargaAcademica->values();
     }
 }

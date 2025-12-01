@@ -95,7 +95,7 @@ onMounted(() => {
     <Head :title="$t('inscripcion._singular_')"></Head>
     <AppLayout
         :titulo="$t('inscripcion._inscripcion_asignaturas_')"
-        :subtitulo="$t('semestre._singular_') + ' ' + (semestre ? semestre.codigo : '')"
+        :subtitulo="$t('semestre._singular_') + ' ' + (semestre ? semestre.nombre : '')"
         icono="mdi-note-plus-outline"
     >
         <v-card class="mx-auto" rounded="xl">

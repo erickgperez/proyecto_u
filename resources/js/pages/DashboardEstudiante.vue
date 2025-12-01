@@ -61,6 +61,7 @@ onMounted(() => {
                     <v-alert
                         border="start"
                         :class="{ 'on-hover-alert': isHovering }"
+                        class="bg-white"
                         :elevation="isHovering ? 10 : 2"
                         v-bind="props"
                         variant="outlined"
@@ -75,16 +76,17 @@ onMounted(() => {
             </Link>
         </v-col>
         <v-col cols="12" md="3">
-            <Link :href="route('dashboard')">
+            <Link :href="route('academico-estudiante-expediente-carrera-sede', { uuid: estudiante?.uuid ?? 0, id: estudianteCarreraSede?.id ?? 0 })">
                 <v-hover v-slot="{ isHovering, props }">
                     <v-alert
                         border="start"
                         :class="{ 'on-hover-alert': isHovering }"
+                        class="bg-white"
                         :elevation="isHovering ? 10 : 2"
                         v-bind="props"
                         variant="outlined"
                         prominent
-                        icon="mdi-note-plus-outline"
+                        icon="mdi-folder-table-outline"
                         color="brown-darken-2"
                         :title="$t('dashboard._expediente_')"
                         :text="$t('dashboard._academico_')"
@@ -99,6 +101,7 @@ onMounted(() => {
                     <v-alert
                         border="start"
                         :class="{ 'on-hover-alert': isHovering }"
+                        class="bg-white"
                         :elevation="isHovering ? 10 : 2"
                         v-bind="props"
                         variant="outlined"
@@ -116,8 +119,8 @@ onMounted(() => {
                 <v-hover v-slot="{ isHovering, props }">
                     <v-alert
                         border="start"
-                        class="ma-0"
                         :class="{ 'on-hover-alert': isHovering }"
+                        class="bg-white"
                         :elevation="isHovering ? 10 : 2"
                         v-bind="props"
                         variant="outlined"
