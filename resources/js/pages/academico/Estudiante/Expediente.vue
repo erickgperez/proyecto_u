@@ -54,14 +54,21 @@ const seleccionado = ref(null);
     <Head :title="$t('expediente._singular_')"></Head>
     <AppLayout :titulo="$t('expediente._singular_')" :subtitulo="$t('expediente._titulo_descripcion_')" icono="mdi-folder-table-outline">
         <v-card>
-            <v-tabs v-model="tab" align-tabs="center" color="deep-purple-accent-4">
-                <v-tab :value="1">{{ $t('expediente._singular_') }}</v-tab>
-                <v-tab :value="2">{{ $t('mallaCurricular._singular_') }}</v-tab>
+            <v-tabs v-model="tab" align-tabs="center" color="deep-purple-accent-4" stacked>
+                <v-tab :value="1">
+                    <v-icon icon="mdi-folder-table-outline"></v-icon>
+                    <span v-if="!$vuetify.display.mobile">{{ $t('expediente._singular_') }}</span>
+                </v-tab>
+                <v-tab :value="2">
+                    <v-icon icon="mdi-table"></v-icon>
+                    <span v-if="!$vuetify.display.mobile">{{ $t('mallaCurricular._singular_') }}</span>
+                </v-tab>
             </v-tabs>
 
             <v-tabs-window v-model="tab">
                 <v-tabs-window-item :value="1">
                     <v-container fluid>
+                        <span v-if="$vuetify.display.mobile" class="text-subtitle-1">{{ $t('expediente._singular_') }}</span>
                         <v-table striped="even">
                             <thead>
                                 <tr>
@@ -86,6 +93,7 @@ const seleccionado = ref(null);
                 </v-tabs-window-item>
                 <v-tabs-window-item :value="2">
                     <v-container fluid>
+                        <span v-if="$vuetify.display.mobile" class="text-subtitle-1">{{ $t('mallaCurricular._singular_') }}</span>
                         <v-table striped="even">
                             <thead>
                                 <tr>
