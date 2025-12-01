@@ -17,6 +17,7 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Support\Str;
 use App\Models\Ingreso\Convocatoria;
+use Illuminate\Support\Facades\Auth;
 
 class PerfilController extends Controller
 {
@@ -180,7 +181,13 @@ class PerfilController extends Controller
         $persona->segundo_apellido = $request->get('segundo_apellido');
         $persona->tercer_apellido = $request->get('tercer_apellido');
         $persona->fecha_nacimiento = $request->get('fecha_nacimiento');
-        $persona->permitir_editar = $request->get('permitir_editar') ?? false;
+
+        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-PERSONALES')) {
+            $persona->permitir_editar = $request->get('permitir_editar') ?? false;
+        } else {
+            $persona->permitir_editar = false;
+        }
+
         $persona->sexo_id = $request->get('sexo_id');
 
         $persona->save();
@@ -248,7 +255,11 @@ class PerfilController extends Controller
         foreach ($campos as $c) {
             $datosContacto->{$c} = $request->get($c);
         }
-        $datosContacto->permitir_editar = $request->get('permitir_editar') ?? false;
+        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-CONTACTO')) {
+            $datosContacto->permitir_editar = $request->get('permitir_editar') ?? false;
+        } else {
+            $datosContacto->permitir_editar = false;
+        }
         $datosContacto->persona()->associate($persona);
         $datosContacto->save();
 

@@ -8,6 +8,7 @@ use App\Models\Documento\Documento;
 use App\Models\Persona;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rule;
 
 class DocumentoController extends Controller
@@ -52,7 +53,11 @@ class DocumentoController extends Controller
         $documento->fecha_emision = $request->get('fecha_emision');
         $documento->fecha_expiracion = $request->get('fecha_expiracion');
         $documento->descripcion = $request->get('descripcion');
-        $documento->permitir_editar = $request->get('permitir_editar') ?? false;
+        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DOCUMENTOS')) {
+            $documento->permitir_editar = $request->get('permitir_editar') ?? false;
+        } else {
+            $documento->permitir_editar = false;
+        }
         $documento->save();
 
         $persona->documentos()->syncWithoutDetaching([$documento->id]);

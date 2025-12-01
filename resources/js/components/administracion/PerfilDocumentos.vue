@@ -5,10 +5,14 @@ import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 import { usePermissions } from '@/composables/usePermissions';
+import { usePage } from '@inertiajs/vue3';
 
 const { t } = useI18n();
 const { hasPermission } = usePermissions();
 const { rules, mensajeExito, mensajeError } = useFunciones();
+
+const page = usePage();
+const roles = page.props.auth.roles;
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
@@ -35,6 +39,9 @@ interface FormData {
 }
 
 const props = defineProps(['item', 'accion', 'tiposDocumento']);
+const isEstudiante = computed(() => roles.includes('estudiante'));
+const isDocente = computed(() => roles.includes('docente'));
+const permitirEditar = computed(() => (isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true);
 
 const formData = ref<FormData>({
     id: null,
@@ -61,6 +68,7 @@ async function submitForm() {
             });
             if (resp.data.status == 'ok') {
                 reset();
+                formData.value.tipo_id = null;
                 documentos.value = resp.data.documentos;
                 mensajeExito(t('_datos_subidos_correctamente_'));
                 tab.value = '1';
@@ -158,7 +166,7 @@ watch(tab, (newVal) => {
                                     target="_blank"
                                 ></v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn color="primary" :text="$t('_actualizar_')" @click="editDocumento(doc)"></v-btn>
+                                <v-btn v-if="permitirEditar" color="primary" :text="$t('_actualizar_')" @click="editDocumento(doc)"></v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-col>
