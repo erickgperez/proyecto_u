@@ -364,7 +364,8 @@
         "_no_hay_asignaturas_disponibles_": "No available subjects to inscribe",
         "_asignaturas_en_curso_": "Enrolled subjects",
         "_calificacion_": "Grade",
-        "_ver_evaluaciones_": "Show evaluations"
+        "_ver_evaluaciones_": "Show evaluations",
+        "_no_hay_semestre_activo_": "No semester with an active registration period was found"
     },
     "invitacion": {
         "_aceptadas_": "Accepted",

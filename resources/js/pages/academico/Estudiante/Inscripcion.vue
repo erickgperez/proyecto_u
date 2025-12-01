@@ -103,7 +103,7 @@ onMounted(() => {
                 <v-toolbar-title>{{ $t('inscripcion._carga_academica_') }} {{ carreraSede.titulo2 }}</v-toolbar-title>
             </v-toolbar>
             <v-divider></v-divider>
-            <v-form fast-fail @submit.prevent="submitForm" ref="formRef" v-if="localCargaAcademica.length > 0">
+            <v-form fast-fail @submit.prevent="submitForm" ref="formRef" v-if="localCargaAcademica.length > 0 && semestre">
                 <v-list v-model:selected="cargaSeleccionada" lines="three" select-strategy="leaf" active-class="text-green-darken-2">
                     <v-list-subheader class="text-primary">{{ $t('inscripcion._inscripcion_asignaturas_indicacion_') }}</v-list-subheader>
 
@@ -126,14 +126,14 @@ onMounted(() => {
                     </v-list-item>
                 </v-list>
 
-                <v-card-actions v-if="localCargaAcademica.length > 0">
+                <v-card-actions v-if="localCargaAcademica.length > 0 && semestre">
                     <v-spacer></v-spacer>
                     <v-btn type="submit" rounded variant="tonal" color="blue-darken-4" :loading="loading" prepend-icon="mdi-note-plus">
                         {{ $t('inscripcion._inscribir_') }}
                     </v-btn>
                 </v-card-actions>
             </v-form>
-            <v-alert v-else type="info" variant="outlined" border="start" :title="$t('inscripcion._no_hay_asignaturas_disponibles_')"></v-alert>
+            <v-alert v-else type="info" variant="outlined" border="start" :title="semestre ? $t('inscripcion._no_hay_asignaturas_disponibles_') : $t('inscripcion._no_hay_semestre_activo_')"></v-alert>
         </v-card>
         <v-divider class="my-4"></v-divider>
 

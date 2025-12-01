@@ -379,7 +379,8 @@
         "_no_hay_asignaturas_disponibles_": "No hay asignaturas disponibles para inscribir",
         "_asignaturas_en_curso_": "Asignaturas en curso",
         "_calificacion_": "Calificación",
-        "_ver_evaluaciones_": "Ver evaluaciones"
+        "_ver_evaluaciones_": "Ver evaluaciones",
+        "_no_hay_semestre_activo_": "No se encontró un semestre con periodo de inscripción activo"
     },
     "invitacion": {
         "_aceptadas_": "Aceptadas",
