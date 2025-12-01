@@ -25,7 +25,7 @@ return new class extends Migration
             $table->string('telefono_trabajo', length: 50)->nullable();
             $table->string('telefono_personal', length: 50)->nullable();
             $table->string('telefono_personal_alternativo', length: 50)->nullable();
-            $table->boolean('permitir_editar')->default('false');
+            $table->boolean('permitir_editar')->default('true');
 
             $table->foreignId('persona_id');
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('CASCADE')->onUpdate('CASCADE');
