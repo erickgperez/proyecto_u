@@ -9,6 +9,7 @@
     "_administrar_convocatoria_": "Manage application process",
     "_afiche_formato_pdf_": "Poster in PDF format",
     "_agregar_direccion_correo_": "Add email address",
+    "_anio_": "Year",
     "_anterior_": "Previous",
     "_archivo_actual_": "Current file",
     "_archivo_borrado_correctamente_": "File successfully deleted",
@@ -322,6 +323,7 @@
     "_hasta_": "To",
     "_historial_": "Record",
     "_id_": "Id",
+    "_identificador_": "Identifier",
     "_indicaciones_": "Indications",
     "_informe_": "Report",
     "ingreso": {

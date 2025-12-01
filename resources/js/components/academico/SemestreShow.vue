@@ -26,6 +26,14 @@ const props = defineProps(['item', 'accion']);
             </v-row>
             <v-row>
                 <v-col cols="4">
+                    {{ $t('_anio_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.anio }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
                     {{ $t('_descripcion_') }}
                 </v-col>
                 <v-col cols="8">

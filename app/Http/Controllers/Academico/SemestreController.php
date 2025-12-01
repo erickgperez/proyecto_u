@@ -29,6 +29,7 @@ class SemestreController extends Controller
         // Aunque se ha validado del lado del cliente, validar aquí también
         $request->validate([
             'codigo' => 'required|string|max:50',
+            'anio' => 'required|numeric',
             'descripcion' => 'nullable|string',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date',
@@ -66,6 +67,7 @@ class SemestreController extends Controller
         }
 
         $semestre->codigo = $request->get('codigo');
+        $semestre->anio = $request->get('anio');
         $semestre->descripcion = $request->get('descripcion');
         $semestre->fecha_inicio = $request->get('fecha_inicio');
         $semestre->fecha_fin = $request->get('fecha_fin');

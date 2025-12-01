@@ -18,11 +18,14 @@ class Semestre extends Model
 
     protected $fillable = [
         'codigo',
+        'anio',
         'descripcion',
         'fecha_inicio',
         'fecha_fin',
         'calendarizacion_id'
     ];
+
+    protected $appends = ['nombre'];
 
     public function creator()
     {
@@ -37,5 +40,10 @@ class Semestre extends Model
     public function calendario(): BelongsTo
     {
         return $this->belongsTo(Calendarizacion::class, 'calendarizacion_id');
+    }
+
+    public function getNombreAttribute()
+    {
+        return $this->codigo . ' - ' . $this->anio;
     }
 }

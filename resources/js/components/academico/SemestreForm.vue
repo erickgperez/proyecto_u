@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
-import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
@@ -24,6 +24,7 @@ function reset() {
 interface FormData {
     id: number | null;
     codigo: string;
+    anio: number | null;
     descripcion: string;
     fecha_inicio: Date | null;
     fecha_fin: Date | null;
@@ -34,6 +35,7 @@ const props = defineProps(['item', 'accion']);
 const formData = ref<FormData>({
     id: null,
     codigo: '',
+    anio: null,
     descripcion: '',
     fecha_inicio: null,
     fecha_fin: null,
@@ -88,6 +90,14 @@ onMounted(() => {
                             counter="50"
                             :label="$t('_codigo_') + ' *'"
                         ></v-text-field>
+                        <v-number-input
+                            required
+                            icon-color="deep-orange"
+                            prepend-icon="mdi-form-textbox"
+                            v-model="formData.anio"
+                            :rules="[rules.required]"
+                            :label="$t('_anio_') + ' *'"
+                        ></v-number-input>
 
                         <v-text-field prepend-icon="mdi-form-textbox" v-model="formData.descripcion" :label="$t('_descripcion_')"></v-text-field>
 

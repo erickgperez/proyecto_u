@@ -9,6 +9,7 @@
     "_administrar_convocatoria_": "Administrar convocatoria",
     "_afiche_formato_pdf_": "Afiche en formato PDF",
     "_agregar_direccion_correo_": "Agregar dirección de correo electrónico",
+    "_anio_": "Año",
     "_anterior_": "Anterior",
     "_archivo_actual_": "Archivo actual",
     "_archivo_borrado_correctamente_": "Archivo borrado correctamente",
@@ -296,6 +297,10 @@
     "_enviar_invitaciones_a_": "Enviar invitaciones a",
     "_enviar_invitaciones_bachilleres_": "Enviar invitaciones a bachilleres",
     "_exito_": "Éxito",
+    "expediente": {
+        "_singular_": "Expediente",
+        "_titulo_descripcion_": "Registro académico"
+    },
     "_exportar_": "Exportar",
     "_fecha_": "Fecha",
     "_fecha_inicio_": "Fecha inicio",
@@ -337,6 +342,7 @@
     "_hasta_": "Hasta",
     "_historial_": "Historial",
     "_id_": "Id",
+    "_identificador_": "Identificador",
     "_indicaciones_": "Indicaciones",
     "_informe_": "Informe",
     "ingreso": {

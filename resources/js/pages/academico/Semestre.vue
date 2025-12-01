@@ -27,6 +27,7 @@ const date = useDate();
 interface Item {
     id: number | null;
     codigo: string;
+    anio: number | null;
     descripcion: string;
     fecha_inicio: Date | null;
     fecha_fin: Date | null;
@@ -42,6 +43,7 @@ const props = defineProps({
 const itemVacio = ref<Item>({
     id: null,
     codigo: '',
+    anio: null,
     descripcion: '',
     fecha_inicio: null,
     fecha_fin: null,
@@ -86,7 +88,7 @@ const sheetName = ref('Listado_semestres');
 const fileName = ref('semestres');
 
 const headers = [
-    { title: t('_codigo_'), key: 'codigo' },
+    { title: t('_identificador_'), key: 'nombre' },
     { title: t('_descripcion_'), key: 'descripcion' },
     {
         title: t('_fecha_inicio_'),

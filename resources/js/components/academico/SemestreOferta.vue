@@ -117,7 +117,7 @@ watch(selected, (newVal) => {
 </script>
 <template>
     <v-container fluid>
-        <span class="text-h5">{{ $t('semestre._oferta_semestre_') }}: {{ item.codigo }} </span>
+        <span class="text-h5">{{ $t('semestre._oferta_semestre_') }}: {{ item.nombre }} </span>
         <v-divider class="ma-2"></v-divider>
         <v-row justify="space-between" dense>
             <v-col cols="12" md="5">

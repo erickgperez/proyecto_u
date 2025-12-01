@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique()->after('id');
             $table->comment('Los semestres o periodos académicos');
             $table->string('codigo', length: 100)->unique()->comment('Código identificador del semestre');
+            $table->tinyInteger('anio')->required()->comment('Año del semestre');
             $table->string('descripcion', length: 255)->nullable()->comment('Texto descriptivo del semestre');
             $table->timestamp('fecha_inicio')->comment('Fecha de inicio del semestre');
             $table->timestamp('fecha_fin')->comment('Fecha de finalizacion del semestre');
