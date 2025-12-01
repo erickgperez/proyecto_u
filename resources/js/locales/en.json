@@ -437,6 +437,7 @@
     "_permite_gestionar_datos_convocatorias_": "Allows you to manage application process data",
     "perfil": {
         "_administrar_": "Manage people",
+        "_permitir_edicion_": "Authorize editing of personal data",
 
         "_aspirante_": "Applicant",
         "_administrar_aspirante": "Manage applicants",

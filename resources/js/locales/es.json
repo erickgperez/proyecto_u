@@ -462,6 +462,7 @@
     "_permite_gestionar_datos_convocatorias_": "Permite gestionar los datos de las convocatoria",
     "perfil": {
         "_administrar_": "Administrar personas",
+        "_permitir_edicion_": "Autorizar edición de datos personales",
 
         "_aspirante_": "Aspirante",
         "_administrar_aspirante": "Administrar aspirantes",
@@ -470,6 +471,7 @@
         "_listado_aspirante": "Listado de aspirantes",
         "_mostrar_aspirante": "Mostrar datos de aspirante",
         "_permite_gestionar_datos_aspirante": "Gestionar los datos de los aspirantes",
+        "_no_documentos_": "No se encontraron documentos",
 
         "_docente_": "Docente",
         "_administrar_docente": "Administrar docentes",

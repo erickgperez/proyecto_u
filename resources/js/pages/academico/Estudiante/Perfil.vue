@@ -6,6 +6,7 @@ import { PropType, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import PerfilForm from '@/components/administracion/PerfilForm.vue';
 import PerfilDatosContactoForm from '@/components/administracion/PerfilDatosContactoForm.vue';
+import PerfilDocumentos from '@/components/administracion/PerfilDocumentos.vue';
 
 
 const { t } = useI18n();
@@ -26,6 +27,7 @@ const props = defineProps({
         required: true,
     },
     distritosTree: Array,
+    tiposDocumento: Array,
 });
 
 
@@ -43,6 +45,10 @@ const props = defineProps({
                 <v-tab :value="2">
                     <v-icon icon="mdi-cellphone-sound"></v-icon>
                     <span v-if="!$vuetify.display.mobile">{{ $t('perfil._datos_contacto_') }}</span>
+                </v-tab>
+                <v-tab :value="3">
+                    <v-icon icon="mdi-file-document-outline"></v-icon>
+                    <span v-if="!$vuetify.display.mobile">{{ $t('perfil._documentos_') }}</span>
                 </v-tab>
             </v-tabs>
 
@@ -65,6 +71,16 @@ const props = defineProps({
                             accion="edit"
                             :distritosTree="distritosTree"
                         ></PerfilDatosContactoForm>
+                    </v-container>
+                </v-tabs-window-item>
+                <v-tabs-window-item :value="3">
+                    <v-container fluid>
+                        <PerfilDocumentos
+                            :item="props.persona"
+                            perfil="estudiante"
+                            accion="edit"
+                            :tipos-documento="tiposDocumento"
+                        ></PerfilDocumentos>
                     </v-container>
                 </v-tabs-window-item>
             </v-tabs-window>

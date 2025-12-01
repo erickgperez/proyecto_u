@@ -6,8 +6,9 @@ import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { usePage } from '@inertiajs/vue3';
+import { usePermissions } from '@/composables/usePermissions';
 
-
+const { hasPermission } = usePermissions();
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
 const { filteredAssign } = useFilteredMerge();
@@ -38,6 +39,7 @@ interface FormData {
     sexo_id: number | null;
     email_cuenta_usuario: string;
     perfil: string;
+    permitir_editar: boolean;
 }
 
 const props = defineProps(['item', 'accion', 'sexos', 'perfil']);
@@ -54,6 +56,7 @@ const formData = ref<FormData>({
     sexo_id: null,
     email_cuenta_usuario: '',
     perfil: '',
+    permitir_editar: false,
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -201,6 +204,10 @@ onMounted(() => {
                                 :disabled="!permitirEditar"
                             ></v-date-input>
                         </v-locale-provider>
+                        <v-checkbox v-if="hasPermission('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-PERSONALES')"
+                            v-model="formData.permitir_editar"
+                            :label="$t('perfil._permitir_edicion_')"
+                        ></v-checkbox>
                     </v-col>
 
                     <v-col cols="12" align="right">

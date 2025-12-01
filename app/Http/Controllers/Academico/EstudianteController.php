@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Academico\Estudiante;
 use App\Models\Academico\Semestre;
 use App\Models\Academico\UsoEstado;
+use App\Models\Documento\TipoDocumento;
 use Inertia\Inertia;
 use Inertia\Response;
 use App\Models\Persona;
@@ -81,6 +82,16 @@ class EstudianteController extends Controller
         $estudiante = Estudiante::where('uuid', $uuid)->first();
 
         $sexos = Sexo::all();
+        $tiposDocumento = TipoDocumento::with('roles')->orderBy('codigo')->get();
+        $tipos = [];
+        foreach ($tiposDocumento as $td) {
+            foreach ($td->roles as $rol) {
+                if ($rol->guard_name == 'web' && $rol->name == 'estudiante') {
+                    $tipos[] = $td;
+                    break;
+                }
+            }
+        }
         $distritosTree = $this->distritoService->distritosLikeTree();
         $persona = $estudiante->persona()
             ->with([
@@ -99,6 +110,7 @@ class EstudianteController extends Controller
             'estudiante' => $estudiante,
             'persona' => $persona,
             'sexos' => $sexos,
+            'tiposDocumento' => $tipos,
             'distritosTree' => $distritosTree,
         ]);
     }

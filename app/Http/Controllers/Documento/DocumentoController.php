@@ -52,6 +52,7 @@ class DocumentoController extends Controller
         $documento->fecha_emision = $request->get('fecha_emision');
         $documento->fecha_expiracion = $request->get('fecha_expiracion');
         $documento->descripcion = $request->get('descripcion');
+        $documento->permitir_editar = $request->get('permitir_editar') ?? false;
         $documento->save();
 
         $persona->documentos()->syncWithoutDetaching([$documento->id]);
@@ -61,8 +62,8 @@ class DocumentoController extends Controller
         if ($file) {
             $archivo = new Archivo();
             $archivo->nombre_original = $file->getClientOriginalName();
-            $archivo->tipo = $$file->getMimeType();
-            $archivo->ruta = $$file->store('documents/personas');
+            $archivo->tipo = $file->getMimeType();
+            $archivo->ruta = $file->store('documents/personas');
             $archivo->tamanio = $file->getSize();
             $archivo->save();
 

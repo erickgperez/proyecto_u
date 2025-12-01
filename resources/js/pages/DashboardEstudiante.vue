@@ -114,6 +114,7 @@ onMounted(() => {
                 </v-hover>
             </Link>
         </v-col>
+        <!--
         <v-col cols="12" md="3">
             <Link :href="route('dashboard')">
                 <v-hover v-slot="{ isHovering, props }">
@@ -133,6 +134,7 @@ onMounted(() => {
                 </v-hover>
             </Link>
         </v-col>
+        -->
     </v-row>
     <v-divider class="my-4"></v-divider>
     <AsignaturasEnCurso :expediente="estudiante?.expediente" v-if="estudiante && estudiante.expediente.length > 0" />

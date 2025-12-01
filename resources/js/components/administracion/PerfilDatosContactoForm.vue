@@ -6,7 +6,9 @@ import axios from 'axios';
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
+import { usePermissions } from '@/composables/usePermissions';
 
+const { hasPermission } = usePermissions();
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
 const { filteredAssign } = useFilteredMerge();
@@ -39,6 +41,7 @@ interface FormData {
     telefono_personal: string;
     telefono_personal_alternativo: string;
     persona_id: number | null;
+    permitir_editar: boolean;
 }
 
 const props = defineProps(['item', 'accion', 'distritosTree', 'guardarTxt']);
@@ -56,6 +59,7 @@ const formData = ref<FormData>({
     telefono_personal: '',
     telefono_personal_alternativo: '',
     persona_id: null,
+    permitir_editar: false,
 });
 
 const isEstudiante = computed(() => roles.includes('estudiante'));
@@ -196,6 +200,10 @@ onMounted(() => {
                             :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
+                    <v-checkbox v-if="hasPermission('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-CONTACTO')"
+                            v-model="formData.permitir_editar"
+                            :label="$t('perfil._permitir_edicion_')"
+                        ></v-checkbox>
                     <v-col cols="12" align="right">
                         <v-btn v-if="permitirEditar" :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
                             {{ props.guardarTxt != null ? guardarTxt : $t('_guardar_') }}
