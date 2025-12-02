@@ -19,6 +19,7 @@ return new class extends Migration
             $table->timestamp('fecha_emision')->nullable()->comment('Fecha en que se emitió el documento');
             $table->timestamp('fecha_expiracion')->nullable()->comment('Fecha en que expira el documento');
             $table->string('descripcion')->nullable()->comment('Descripción del documento');
+            $table->boolean('permitir_editar')->default(true)->comment('Indica si el documento puede ser editado');
             $table->boolean('revisado')->default(false)->comment('Indica si el documento ya fue revisado y estaba correcto');
             $table->foreignId('tipo_id')->comment('Tipo del documento');
             $table->foreign('tipo_id')->references('id')->on('documento.tipo')->onDelete('RESTRICT')->onUpdate('CASCADE');
