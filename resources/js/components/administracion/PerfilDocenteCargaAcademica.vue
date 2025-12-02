@@ -10,6 +10,7 @@ const { mensajeError, mensajeExito } = useFunciones();
 
 const loading = ref(false);
 const formRef = ref<VForm | null>(null);
+const tab = ref(1);
 
 //const emit = defineEmits(['form-saved']);
 
@@ -21,14 +22,16 @@ function reset() {
 
 interface FormData {
     id: number | null;
-    carga: [];
+    cargaTitular: [];
+    cargaAsociado: [];
 }
 
 const props = defineProps(['item', 'accion']);
 
 const formData = ref<FormData>({
     id: null,
-    carga: [],
+    cargaTitular: [],
+    cargaAsociado: [],
 });
 
 async function submitForm() {
@@ -74,7 +77,8 @@ watch(semestre, (newVal) => {
             .get(route('academico-semestre-docente-carga', { uuidSemestre: newVal, uuidDocente: props.item.docente.uuid }))
             .then(function (response) {
                 oferta.value = response.data.oferta;
-                formData.value.carga = response.data.carga.map((item) => item.id);
+                formData.value.cargaTitular = response.data.cargaTitular.map((item) => item.id);
+                formData.value.cargaAsociado = response.data.cargaAsociado.map((item) => item.id);
             })
             .catch(function (error) {
                 console.error('Error fetching data:', error);
@@ -95,40 +99,78 @@ watch(semestre, (newVal) => {
 
                             <v-card-text>
                                 <v-row>
-                                    <v-col cols="12" md="6">
+                                    <v-col cols="12" >
                                         <v-select
                                             :label="$t('semestre._singular_')"
                                             :items="semestres"
                                             v-model="semestre"
-                                            item-title="codigo"
+                                            item-title="nombre"
                                             item-value="uuid"
                                             prepend-icon="mdi-form-dropdown"
                                             chips
                                         ></v-select>
                                     </v-col>
-                                    <v-col cols="12" md="6">
-                                        <div class="font-weight-bold ms-1 mb-2">{{ $t('perfil._elija_carga_academica_') }}</div>
-                                        <v-treeview
-                                            v-model:selected="formData.carga"
-                                            :items="oferta"
-                                            item-value="id"
-                                            select-strategy="leaf"
-                                            selectable
-                                            :indent-lines="true"
-                                        >
-                                            <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
-                                                <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
-                                                    <template v-slot:badge>
-                                                        <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                    <v-col cols="12" v-if="semestre">
+                                        <v-tabs
+                                            v-model="tab"
+                                            align-tabs="center"
+                                            color="deep-purple-accent-4"
+                                            >
+                                            <v-tab value="1">Como docente titular</v-tab>
+                                            <v-tab value="2">Como docente asociado</v-tab>
+                                            </v-tabs>
+
+                                            <v-tabs-window v-model="tab">
+                                                <v-tabs-window-item value="1">
+                                                    <v-treeview
+                                                        v-model:selected="formData.cargaTitular"
+                                                        :items="oferta"
+                                                        item-value="id"
+                                                        select-strategy="leaf"
+                                                        selectable
+                                                        :indent-lines="true"
+                                                        open-all
+                                                    >
+                                                        <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
+                                                            <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
+                                                                <template v-slot:badge>
+                                                                    <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                                                </template>
+                                                                <v-btn
+                                                                    v-bind="toggleProps"
+                                                                    :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
+                                                                    :variant="isOpen ? 'outlined' : 'tonal'"
+                                                                ></v-btn>
+                                                            </v-badge>
+                                                        </template>
+                                                    </v-treeview>
+                                                </v-tabs-window-item>
+
+                                                <v-tabs-window-item value="2">
+                                                    <v-treeview
+                                                        v-model:selected="formData.cargaAsociado"
+                                                        :items="oferta"
+                                                        item-value="id"
+                                                        select-strategy="leaf"
+                                                        selectable
+                                                        :indent-lines="true"
+                                                        open-all
+                                                    >
+                                                    <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
+                                                        <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
+                                                            <template v-slot:badge>
+                                                                <v-icon v-if="isSelected" icon="$complete"></v-icon>
+                                                            </template>
+                                                            <v-btn
+                                                                v-bind="toggleProps"
+                                                                :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
+                                                                :variant="isOpen ? 'outlined' : 'tonal'"
+                                                            ></v-btn>
+                                                        </v-badge>
                                                     </template>
-                                                    <v-btn
-                                                        v-bind="toggleProps"
-                                                        :color="isIndeterminate ? 'warning' : isSelected ? 'success' : 'medium-emphasis'"
-                                                        :variant="isOpen ? 'outlined' : 'tonal'"
-                                                    ></v-btn>
-                                                </v-badge>
-                                            </template>
-                                        </v-treeview>
+                                                </v-treeview>
+                                            </v-tabs-window-item>
+                                        </v-tabs-window>
                                     </v-col>
                                 </v-row>
                             </v-card-text>

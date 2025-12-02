@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Administracion;
 use App\Http\Controllers\Controller;
 use App\Models\Academico\Asignado;
 use App\Models\Academico\Docente;
+use App\Models\Academico\FormaImparte;
 use App\Models\Academico\Imparte;
 use App\Models\Academico\Semestre;
 use App\Models\Persona;
@@ -93,18 +94,35 @@ class DocenteController extends Controller
             ];
         }
 
+        $formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
+        $formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
 
-        $carga = $docente->imparte;
+        $cargaTitular   = $docente->imparte()->wherePivot('forma_imparte_id', $formaImparteTitular->id)->get();
+        $cargaAsociado = $docente->imparte()->wherePivot('forma_imparte_id', $formaImparteAsociado->id)->get();
 
-        return response()->json(['status' => 'ok', 'oferta' => $ofertaTree, 'carga' => $carga]);
+        return response()->json(['status' => 'ok', 'oferta' => $ofertaTree, 'cargaTitular' => $cargaTitular, 'cargaAsociado' => $cargaAsociado]);
     }
 
     public function cargaSave($uuid, Request $request)
     {
 
         $docente = Docente::where('uuid', $uuid)->first();
+        $formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
+        $formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
 
         $docente->imparte()->sync($request->get('carga') ?? []);
+
+        $cargarTitular = $request->get('cargaTitular') ?? [];
+        $cargarAsociado = $request->get('cargaAsociado') ?? [];
+        $cargaId = [];
+        foreach ($cargarTitular as $id) {
+            $cargaId[$id] = ['forma_imparte_id' => $formaImparteTitular->id];
+        }
+        foreach ($cargarAsociado as $id) {
+            $cargaId[$id] = ['forma_imparte_id' => $formaImparteAsociado->id];
+        }
+
+        $docente->imparte()->sync($cargaId);
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
     }
