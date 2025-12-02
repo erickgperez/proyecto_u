@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('imparte_id')->references('id')->on('academico.imparte')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->foreignId('expediente_id')->comment('Id del expediente');
-            $table->foreign('expediente_id')->references('id')->on('academico.expediente')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->foreign('expediente_id')->references('id')->on('academico.expediente')->onDelete('CASCADE')->onUpdate('CASCADE');
 
 
             //$table->timestamps();
