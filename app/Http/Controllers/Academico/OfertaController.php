@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academico\CarreraSede;
+use App\Models\Academico\FormaImparte;
 use App\Models\Academico\Imparte;
 use App\Models\Academico\Oferta;
 use App\Models\Academico\Semestre;
@@ -87,6 +88,9 @@ class OfertaController extends Controller
 
     public function getOfertaDetalle($id, $idCarreraUnidadAcademica)
     {
+        $formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
+        $formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
+
         $semestre = Semestre::where('uuid', $id)->first();
         $carreraUnidadAcademica = CarreraUnidadAcademica::where('uuid', $idCarreraUnidadAcademica)->first();
 
@@ -111,7 +115,8 @@ class OfertaController extends Controller
                 'ofertada' => $i->ofertada,
                 'cupo' => $i->cupo,
                 'docente_id' => null, //$i->docente_id,
-                'responsables' => $i->docentes()->with('persona')->get(), //$i->docente()->with('persona')->first(),
+                'titulares' => $i->docentes()->wherePivot('forma_imparte_id', $formaImparteTitular->id)->with('persona')->get(),
+                'asociados' => $i->docentes()->wherePivot('forma_imparte_id', $formaImparteAsociado->id)->with('persona')->get(),
                 'docentes' => $i->carreraSede->docentes()->with('persona')->get(),
                 'editando' => false
             ];
@@ -125,10 +130,17 @@ class OfertaController extends Controller
 
         $imparte = Imparte::find($request->get('id'));
         $imparte->ofertada = $request->get('ofertada');
-        $responsables = $request->get('responsables');
+        $formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
+        $formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
+
+        $titulares = $request->get('titulares');
+        $asociados = $request->get('asociados');
         $docentesId = [];
-        foreach ($responsables as $d) {
-            $docentesId[] = $d['id'];
+        foreach ($titulares as $d) {
+            $docentesId[$d['id']] = ['forma_imparte_id' => $formaImparteTitular->id];
+        }
+        foreach ($asociados as $d) {
+            $docentesId[$d['id']] = ['forma_imparte_id' => $formaImparteAsociado->id];
         }
 
         $imparte->docentes()->sync($docentesId);

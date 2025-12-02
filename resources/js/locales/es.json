@@ -599,6 +599,10 @@
         "_ofertada_": "Ofertada",
         "_responsable_": "Responsable",
         "_responsables_": "Responsables",
+        "_titulares_": "Titulares",
+        "_asociados_": "Asociados",
+        "_asociado_": "Asociado",
+        "_titular_": "Titular",
         "_calendarizar_": "Calendarización de actividades",
         "_calendarizar_descripcion_": "Programación de las actividades que se realizarán en el semestre"
     },

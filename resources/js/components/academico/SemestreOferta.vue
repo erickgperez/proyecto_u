@@ -16,14 +16,16 @@ const detalleOferta = ref();
 interface FormData {
     id: number | null;
     docente_id: number | null;
-    responsables: Array<[]>;
+    titulares: Array<[]>;
+    asociados: Array<[]>;
     ofertada: boolean;
 }
 
 const formData = ref<FormData>({
     id: null,
     docente_id: null,
-    responsables: [],
+    titulares: [],
+    asociados: [],
     ofertada: true,
 });
 
@@ -75,13 +77,13 @@ async function ofertar(item) {
 
 async function guardarDetalle(detalle) {
     formData.value.id = detalle.id;
-    //formData.value.docente_id = formData.value.docente ? formData.value.docente.id : null;
 
     try {
         const resp = await axios.post(route('academico-semestre-oferta-detalle-save'), formData.value);
         if (resp.data.status == 'ok') {
             mensajeExito(t('_datos_subidos_correctamente_'));
-            detalle.responsables = formData.value.responsables;
+            detalle.titulares = formData.value.titulares;
+            detalle.asociados = formData.value.asociados;
             detalle.ofertada = formData.value.ofertada;
             detalle.editando = !detalle.editando;
         } else {
@@ -176,7 +178,8 @@ watch(selected, (newVal) => {
                                         color="indigo"
                                         icon="mdi-pencil"
                                         @click.stop="
-                                            formData.responsables = detalle.responsables;
+                                            formData.titulares = detalle.titulares;
+                                            formData.asociados = detalle.asociados;
                                             formData.ofertada = detalle.ofertada;
                                             detalle.editando = !detalle.editando;
                                         "
@@ -196,21 +199,29 @@ watch(selected, (newVal) => {
                                         </div>
                                     </div>
 
-                                    <div class="text-medium-emphasis font-weight-bold">
+                                    <div>
                                         <div v-if="!detalle.editando" class="mx-auto">
                                             <v-list density="compact">
-                                                <v-list-subheader>{{ $t('semestre._responsables_') }}:</v-list-subheader>
+                                                <v-list-subheader class="text-medium-emphasis font-weight-bold">{{ $t('semestre._responsables_') }}:</v-list-subheader>
                                                 <v-list-item
-                                                    class="d-flex align-left"
-                                                    v-for="(item, i) in detalle.responsables"
+                                                    class="d-flex align-left pa-0"
+                                                    v-for="(item, i) in detalle.titulares"
                                                     :key="i"
                                                     :value="item"
                                                 >
-                                                    <template v-slot:prepend>
-                                                        <v-icon icon="mdi-circle-small"></v-icon>
-                                                    </template>
                                                     <v-list-item-title
-                                                        v-text="item.persona.nombreCorto"
+                                                        v-text="item.persona.nombreCorto + ' (' + $t('semestre._titular_') + ')'"
+                                                        class="text-medium-emphasis text-body-2"
+                                                    ></v-list-item-title>
+                                                </v-list-item>
+                                                <v-list-item
+                                                    class="d-flex align-left pa-0"
+                                                    v-for="(item, i) in detalle.asociados"
+                                                    :key="i"
+                                                    :value="item"
+                                                >
+                                                    <v-list-item-title
+                                                        v-text="item.persona.nombreCorto + ' (' + $t('semestre._asociado_') + ')'"
                                                         class="text-medium-emphasis text-body-2"
                                                     ></v-list-item-title>
                                                 </v-list-item>
@@ -218,9 +229,21 @@ watch(selected, (newVal) => {
                                         </div>
                                         <div v-else>
                                             <v-autocomplete
-                                                :label="$t('semestre._responsables_')"
+                                                :label="$t('semestre._titulares_')"
                                                 :items="detalle.docentes"
-                                                v-model="formData.responsables"
+                                                v-model="formData.titulares"
+                                                item-title="persona.nombreCompleto"
+                                                item-value="id"
+                                                chips
+                                                density="compact"
+                                                clearable
+                                                return-object
+                                                multiple
+                                            ></v-autocomplete>
+                                            <v-autocomplete
+                                                :label="$t('semestre._asociados_')"
+                                                :items="detalle.docentes"
+                                                v-model="formData.asociados"
                                                 item-title="persona.nombreCompleto"
                                                 item-value="id"
                                                 chips
