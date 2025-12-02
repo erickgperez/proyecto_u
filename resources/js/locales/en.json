@@ -311,7 +311,33 @@
     "_fecha_fin_": "End date",
     "_fecha_requerida_": "Required date",
     "_fila_": "Row",
-    "_filtros_": "Filters",
+    "_filtros_": "Filters",    
+    "flujo": {
+        "_singular_": "Process",
+        "_administrar_": "Manage processes",
+        "_crear_": "Create a new process",
+        "_editar_": "Edit process",
+        "_mostrar_": "Show process",
+        "_listado_": "List of processes",
+        "_permite_gestionar_datos_": "Allows you to manage processes",
+        "_plural_": "Processes",
+
+        "_codigo_": "Code",
+        "_nombre_": "Name",
+        "_activo_": "Active",
+        "_tipo_": "Type"
+    },
+    "formaImparte": {
+        "_singular_": "Form of delivery",
+        "_plural_": "Forms of delivery",
+        "_administrar_": "Manage the forms of delivery",
+        "_codigo_ya existe_": "The code of the form of delivery already exists in another record",
+        "_crear_": "Create form of delivery",
+        "_editar_": "Edit form of delivery",
+        "_listado_": "List of forms of delivery",
+        "_mostrar_": "Show form of delivery",
+        "_permite_gestionar_": "Allows you to manage the forms of delivery"
+    },
     "grado": {
         "_administrar_grados_": "Manage university degrees",
         "_codigo_ya existe_": "The degree code already exists in another record",

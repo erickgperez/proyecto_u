@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Academico\CarreraSede;
 use App\Models\Academico\Estudiante;
 use App\Models\Academico\Expediente;
+use App\Models\Academico\Oferta;
 use App\Models\Academico\Semestre;
 use App\Models\Academico\UsoEstado;
 use Inertia\Inertia;
@@ -46,6 +47,12 @@ class ExpedienteController extends Controller
             $expediente->tipo_curso_id = $tipoCurso->id;
             $expediente->estado_id = $estadoEC->id;
             $expediente->save();
+
+            $oferta = Oferta::where('carrera_unidad_academica_id', $carga['carrera_unidad_academica_id'])
+                ->where('semestre_id', $semestre->id)
+                ->first();
+            $oferta->estado_id = $estadoEC->id;
+            $oferta->save();
         }
 
         //Calcular la nueva carga académica

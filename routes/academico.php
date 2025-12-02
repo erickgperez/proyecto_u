@@ -18,6 +18,7 @@ use App\Http\Controllers\Administracion\DocenteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Academico\EstudianteController;
 use App\Http\Controllers\Academico\ExpedienteController;
+use App\Http\Controllers\Academico\FormaImparteController;
 
 Route::middleware('auth', 'verified')->group(function () {
 
@@ -79,6 +80,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/estado', [EstadoController::class, 'index'])->name('academico-estado-index');
     Route::post('/academico/estado/save', [EstadoController::class, 'save'])->name('academico-estado-save');
     Route::delete('/academico/estado/{uuid}/delete', [EstadoController::class, 'delete'])->name('academico-estado-delete');
+
+    Route::get('/academico/forma-imparte', [FormaImparteController::class, 'index'])->name('academico-forma_imparte-index');
+    Route::post('/academico/forma-imparte/save', [FormaImparteController::class, 'save'])->name('academico-forma_imparte-save');
+    Route::delete('/academico/forma-imparte/{uuid}/delete', [FormaImparteController::class, 'delete'])->name('academico-forma_imparte-delete');
 
     Route::get('/academico/semestre/{uuidSemestre}/docente/{uuidDocente}/carga', [DocenteController::class, 'carga'])->name('academico-semestre-docente-carga');
     Route::post('/academico/semestre/docente/{uuid}/carga/save', [DocenteController::class, 'cargaSave'])->name('academico-semestre-docente-carga-save');

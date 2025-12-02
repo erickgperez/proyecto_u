@@ -559,7 +559,13 @@ onMounted(() => {
                             </v-menu>
                         </v-list-item>
                         <v-list-item
-                            v-if="hasAnyPermission(['MENU_ACADEMICO_TIPO-CURSO', 'MENU_ACADEMICO_USO-ESTADO', 'MENU_ACADEMICO_ESTADO'])"
+                            v-if="hasAnyPermission([
+                                'MENU_ACADEMICO_TIPO-CURSO', 
+                                'MENU_ACADEMICO_USO-ESTADO', 
+                                'MENU_ACADEMICO_ESTADO', 
+                                'MENU_ACADEMICO_FORMA-IMPARTE'
+                            ])
+                            "
                             prepend-icon="mdi-library-shelves"
                             append-icon="mdi-menu-right"
                             class="text-body-1 text-none text-left"
@@ -591,6 +597,15 @@ onMounted(() => {
                                             prepend-icon="mdi-distribute-vertical-center"
                                             :title="$t('usoEstado._singular_')"
                                             :class="$page.url === '/academico/uso-estado' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                        </v-list-item>
+                                    </Link>
+                                    <Link :href="route('academico-forma_imparte-index')" v-if="hasPermission('MENU_ACADEMICO_FORMA-IMPARTE')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-file-text-outline"
+                                            :title="$t('formaImparte._singular_')"
+                                            :class="$page.url === '/academico/forma-imparte' ? 'bg-blue-lighten-4' : ''"
                                         >
                                         </v-list-item>
                                     </Link>

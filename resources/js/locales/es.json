@@ -311,20 +311,7 @@
     "_fecha_fin_": "Fecha finalización",
     "_fecha_requerida_": "Fecha requerida",
     "_fila_": "Fila",
-    "_filtros_": "Filtros",
-    "grado": {
-        "_administrar_grados_": "Administrar grados",
-        "_codigo_ya existe_": "El código del grado ya existe en otro registro",
-        "_crear_grado_": "Crear grado",
-        "_descripcion_femenino_": "Descripción femenino",
-        "_descripcion_masculino_": "Descripción masculino",
-        "_editar_grado_": "Editar grado",
-        "_grado_": "Grado",
-        "_grados_": "Grado otorgado por una carrera",
-        "_listado_grados_": "Listado de grados",
-        "_mostrar_": "Mostrar grado",
-        "_permite_gestionar_grados_": "Permite gestionar los datos del grado otorgado por una carrera"
-    },
+    "_filtros_": "Filtros",    
     "flujo": {
         "_singular_": "Proceso",
         "_administrar_": "Administrar procesos",
@@ -339,6 +326,30 @@
         "_nombre_": "Nombre",
         "_activo_": "Activo",
         "_tipo_": "Tipo"
+    },
+    "formaImparte": {
+        "_singular_": "Forma imparte",
+        "_plural_": "Formas imparte",
+        "_administrar_": "Administrar las formas de impartir",
+        "_codigo_ya existe_": "El código de la forma de impartir ya existe en otro registro",
+        "_crear_": "Crear forma de impartir",
+        "_editar_": "Editar forma de impartir",
+        "_listado_": "Listado de formas de impartir",
+        "_mostrar_": "Mostrar forma de impartir",
+        "_permite_gestionar_": "Permite gestionar las forma en que un docente puede impartir una asignatura"
+    },
+    "grado": {
+        "_administrar_grados_": "Administrar grados",
+        "_codigo_ya existe_": "El código del grado ya existe en otro registro",
+        "_crear_grado_": "Crear grado",
+        "_descripcion_femenino_": "Descripción femenino",
+        "_descripcion_masculino_": "Descripción masculino",
+        "_editar_grado_": "Editar grado",
+        "_grado_": "Grado",
+        "_grados_": "Grado otorgado por una carrera",
+        "_listado_grados_": "Listado de grados",
+        "_mostrar_": "Mostrar grado",
+        "_permite_gestionar_grados_": "Permite gestionar los datos del grado otorgado por una carrera"
     },
     "_grafico_dinamico_": "Gráfico dinámico",
     "_gestionar_convocatoria_": "Gestionar convocatoria",
