@@ -46,13 +46,17 @@ class ExpedienteController extends Controller
             $expediente->semestre_id = $semestre->id;
             $expediente->tipo_curso_id = $tipoCurso->id;
             $expediente->estado_id = $estadoEC->id;
+
             $expediente->save();
 
             $oferta = Oferta::where('carrera_unidad_academica_id', $carga['carrera_unidad_academica_id'])
                 ->where('semestre_id', $semestre->id)
                 ->first();
-            $oferta->estado_id = $estadoEC->id;
-            $oferta->save();
+            $imparte = $oferta->imparte()
+                ->where('carrera_sede_id', $carreraSede->id)
+                ->where('oferta_id', $oferta->id)
+                ->first();
+            $expediente->inscritos()->attach($imparte->id);
         }
 
         //Calcular la nueva carga académica

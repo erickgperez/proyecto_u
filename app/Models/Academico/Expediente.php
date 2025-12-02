@@ -11,6 +11,7 @@ use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class Expediente extends Model
 {
@@ -41,5 +42,10 @@ class Expediente extends Model
     public function tipoCurso(): BelongsTo
     {
         return $this->belongsTo(TipoCurso::class, 'tipo_curso_id');
+    }
+
+    public function inscritos(): BelongsToMany
+    {
+        return $this->belongsToMany(Imparte::class, 'academico.inscritos', 'expediente_id', 'imparte_id');
     }
 }
