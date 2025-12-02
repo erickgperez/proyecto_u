@@ -199,35 +199,43 @@ class PerfilController extends Controller
         $persona->sexo_id = $request->get('sexo_id');
 
         $persona->save();
-        if ($request->get('id') === null) {
-            $userCheck = User::where('email', $request->get('email_cuenta_usuario'))->first();
-            if ($userCheck !== null) {
-                return response()->json(['status' => 'error', 'message' => 'perfil._correo_cuenta existe_']);
+        if ($request->get('email_cuenta_usuario') !== null) {
+            $mandarEnlace = false;
+            if ($request->get('id') === null) {
+                $usuario = $this->crearUsuario($persona, $request->get('perfil'), $request->get('email_cuenta_usuario'));
+
+                $mandarEnlace = true;
+            } else {
+                $usuarios = $persona->usuarios;
+                //Verificar si el usuario ya existe asociado a la persona
+                $usuario = null;
+                foreach ($usuarios as $user) {
+                    //Verificar si ya existe con el rol requerido
+                    if ($user->hasRole($request->get('perfil'))) {
+                        $usuario = $user;
+                        break;
+                    }
+                }
+                //Si no existe, crearlo
+                if ($usuario === null) {
+                    $usuario = $this->crearUsuario($persona, $request->get('perfil'), $request->get('email_cuenta_usuario'));
+                    $mandarEnlace = true;
+                } else {
+                    //si ya existe y es una dirección de correo diferente, cambiar la dirección de correo
+                    if ($usuario->email !== $request->get('email_cuenta_usuario')) {
+                        $usuario->email = $request->get('email_cuenta_usuario');
+                        $usuario->save();
+
+                        $mandarEnlace = true;
+                    }
+                }
             }
-            $usuario = new User();
-            $usuario->name = $persona->primer_nombre . ' ' . $persona->primer_apellido;
-            $usuario->email = $request->get('email_cuenta_usuario');
-            $usuario->email_verified_at = new \DateTime();
-            $usuario->password = Str::password();
 
-            if ($request->get('perfil') === 'aspirante') {
-                $usuario->assignRole('aspirante');
-            } elseif ($request->get('perfil') === 'docente') {
-                $usuario->assignRole('docente');
-
-                //Crear registro en docente
-                $docente = new Docente();
-                $docente->persona()->associate($persona);
-
-                $docente->save();
+            if ($mandarEnlace) {
+                Password::sendResetLink(
+                    ['email' => $usuario->email]
+                );
             }
-            $usuario->save();
-
-            $persona->usuarios()->syncWithoutDetaching([$usuario->id]);
-
-            Password::sendResetLink(
-                ['email' => $usuario->email]
-            );
         }
 
         if ($request->get('perfil') === 'aspirante') {
@@ -239,6 +247,32 @@ class PerfilController extends Controller
         }
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
+    }
+
+    protected function crearUsuario($persona, $perfil, $email_cuenta)
+    {
+        $usuario = new User();
+        $usuario->name = $persona->primer_nombre . ' ' . $persona->primer_apellido;
+        $usuario->email = $email_cuenta;
+        $usuario->email_verified_at = new \DateTime();
+        $usuario->password = Str::password();
+
+        if ($perfil === 'aspirante') {
+            $usuario->assignRole('aspirante');
+        } elseif ($perfil === 'docente') {
+            $usuario->assignRole('docente');
+
+            //Crear registro en docente
+            $docente = new Docente();
+            $docente->persona()->associate($persona);
+
+            $docente->save();
+        }
+        $usuario->save();
+
+        $persona->usuarios()->syncWithoutDetaching([$usuario->id]);
+
+        return $usuario;
     }
 
     public function datosContactoSave($id, Request $request)
