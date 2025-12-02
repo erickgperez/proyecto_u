@@ -21,8 +21,8 @@ return new class extends Migration
             $table->foreignId('docente_id')->comment('Id del docente');
             $table->foreign('docente_id')->references('id')->on('academico.docente')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
-            $table->foreignId('forma_imparte_id')->comment('Id de la forma de impartir');
-            $table->foreign('forma_imparte_id')->references('id')->on('academico.forma_imparte')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            //$table->foreignId('forma_imparte_id')->comment('Id de la forma de impartir');
+            //$table->foreign('forma_imparte_id')->references('id')->on('academico.forma_imparte')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

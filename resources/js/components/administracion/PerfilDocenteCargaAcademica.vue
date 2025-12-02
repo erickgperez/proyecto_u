@@ -77,7 +77,7 @@ watch(semestre, (newVal) => {
             .get(route('academico-semestre-docente-carga', { uuidSemestre: newVal, uuidDocente: props.item.docente.uuid }))
             .then(function (response) {
                 oferta.value = response.data.oferta;
-                formData.value.cargaTitular = response.data.cargaTitular.map((item) => item.id);
+                //formData.value.cargaTitular = response.data.cargaTitular.map((item) => item.id);
                 formData.value.cargaAsociado = response.data.cargaAsociado.map((item) => item.id);
             })
             .catch(function (error) {
