@@ -53,7 +53,7 @@ class DocumentoController extends Controller
         $documento->fecha_emision = $request->get('fecha_emision');
         $documento->fecha_expiracion = $request->get('fecha_expiracion');
         $documento->descripcion = $request->get('descripcion');
-        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DOCUMENTOS')) {
+        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DOCUMENTOS') || Auth::user()->hasRole('super-admin')) {
             $documento->permitir_editar = $request->get('permitir_editar') ?? false;
         } else {
             $documento->permitir_editar = false;

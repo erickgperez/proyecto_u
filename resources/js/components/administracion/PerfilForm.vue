@@ -1,12 +1,12 @@
 <script setup lang="ts">
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { useFunciones } from '@/composables/useFunciones';
+import { usePermissions } from '@/composables/usePermissions';
+import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
-import { useFilteredMerge } from '@/composables/useFilteredMerge';
-import { usePage } from '@inertiajs/vue3';
-import { usePermissions } from '@/composables/usePermissions';
 
 const { hasPermission } = usePermissions();
 const { t } = useI18n();
@@ -88,7 +88,7 @@ async function submitForm() {
 
 const isEstudiante = computed(() => roles.includes('estudiante'));
 const isDocente = computed(() => roles.includes('docente'));
-const permitirEditar = computed(() => (isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true);
+const permitirEditar = computed(() => ((isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true));
 
 onMounted(() => {
     reset();
@@ -103,7 +103,7 @@ onMounted(() => {
 });
 </script>
 <template>
-    <v-card :title="$t('perfil._datos_personales_')">
+    <v-card :title="$vuetify.display.mobile ? $t('perfil._datos_personales_') : ''">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
@@ -204,14 +204,23 @@ onMounted(() => {
                                 :disabled="!permitirEditar"
                             ></v-date-input>
                         </v-locale-provider>
-                        <v-checkbox v-if="hasPermission('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-PERSONALES')"
+                        <v-checkbox
+                            v-if="hasPermission('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-PERSONALES')"
                             v-model="formData.permitir_editar"
                             :label="$t('perfil._permitir_edicion_')"
                         ></v-checkbox>
                     </v-col>
 
                     <v-col cols="12" align="right">
-                        <v-btn v-if="permitirEditar" :loading="loading" type="submit" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-content-save">
+                        <v-btn
+                            v-if="permitirEditar"
+                            :loading="loading"
+                            type="submit"
+                            rounded
+                            variant="tonal"
+                            color="blue-darken-4"
+                            prepend-icon="mdi-content-save"
+                        >
                             {{ $t('_guardar_') }}
                         </v-btn>
                     </v-col>

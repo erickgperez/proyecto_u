@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
+import { usePermissions } from '@/composables/usePermissions';
+import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
-import { usePermissions } from '@/composables/usePermissions';
-import { usePage } from '@inertiajs/vue3';
 
 const { t } = useI18n();
 const { hasPermission } = usePermissions();
@@ -41,7 +41,7 @@ interface FormData {
 const props = defineProps(['item', 'accion', 'tiposDocumento']);
 const isEstudiante = computed(() => roles.includes('estudiante'));
 const isDocente = computed(() => roles.includes('docente'));
-const permitirEditar = computed(() => (isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true);
+const permitirEditar = computed(() => ((isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true));
 
 const formData = ref<FormData>({
     id: null,
@@ -85,7 +85,6 @@ async function submitForm() {
 }
 
 function editDocumento(documento) {
-    
     formData.value = { ...documento };
     tab.value = '2';
     isEditing.value = true;
@@ -127,11 +126,11 @@ watch(tab, (newVal) => {
 });
 </script>
 <template>
-    <v-card>
+    <v-card :title="$vuetify.display.mobile ? $t('documento._plural_') : ''">
         <v-tabs v-model="tab" align-tabs="center" color="deep-purple-accent-4" stacked>
             <v-tab value="1">
                 <v-icon icon="mdi-file-document-multiple-outline"></v-icon>
-                <span v-if="!$vuetify.display.mobile">{{ $t('documento._plural_') }}</span>
+                <span v-if="!$vuetify.display.mobile">{{ $t('documento._documentos_cargados_') }}</span>
             </v-tab>
             <v-tab value="2">
                 <v-icon :icon="isEditing ? 'mdi-file-document-edit-outline' : 'mdi-file-document-plus-outline'"></v-icon>
@@ -142,12 +141,15 @@ watch(tab, (newVal) => {
         </v-tabs>
         <v-tabs-window v-model="tab">
             <v-tabs-window-item value="1">
+                <span v-if="$vuetify.display.mobile" class="text-h6">{{ $t('documento._documentos_cargados_') }}</span>
                 <v-row class="pt-2">
                     <v-col v-for="doc in documentos" :key="doc.id" cols="12" md="4" v-if="documentos.length > 0">
                         <v-card class="pa-2" max-width="500" variant="outlined">
                             <v-card-title> {{ doc.tipo.codigo }} </v-card-title>
 
-                            <v-card-subtitle> <span v-if="doc.archivos.length > 0">{{ doc.archivos[0].tipo }}</span></v-card-subtitle>
+                            <v-card-subtitle>
+                                <span v-if="doc.archivos.length > 0">{{ doc.archivos[0].tipo }}</span></v-card-subtitle
+                            >
                             <v-card-text>
                                 <div v-if="doc.descripcion && doc.descripcion.trim().length > 0">{{ doc.descripcion }}</div>
                                 <div v-if="doc.numero && doc.numero.trim().length > 0">{{ $t('documento._numero_') }}: {{ doc.numero }}</div>
@@ -170,10 +172,13 @@ watch(tab, (newVal) => {
                             </v-card-actions>
                         </v-card>
                     </v-col>
-                    <v-alert v-else type="info" :title="$t('perfil._no_documentos_')" variant="outlined" border="left" ></v-alert>
+                    <v-alert v-else type="info" :title="$t('perfil._no_documentos_')" variant="outlined" border="left"></v-alert>
                 </v-row>
             </v-tabs-window-item>
             <v-tabs-window-item value="2">
+                <span v-if="$vuetify.display.mobile" class="text-h6">
+                    {{ isEditing ? $t('documento._actualizar_') : $t('documento._agregar_') }}
+                </span>
                 <v-sheet class="pa-5">
                     <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                         <v-row>
@@ -249,10 +254,11 @@ watch(tab, (newVal) => {
                                     @input="formData.archivo_file = $event.target.files[0]"
                                     show-size
                                 ></v-file-input>
-                                <v-checkbox v-if="hasPermission('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DOCUMENTOS')"
-                                        v-model="formData.permitir_editar"
-                                        :label="$t('perfil._permitir_edicion_')"
-                                    ></v-checkbox>
+                                <v-checkbox
+                                    v-if="hasPermission('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DOCUMENTOS')"
+                                    v-model="formData.permitir_editar"
+                                    :label="$t('perfil._permitir_edicion_')"
+                                ></v-checkbox>
                             </v-col>
 
                             <v-col cols="12" align="right">

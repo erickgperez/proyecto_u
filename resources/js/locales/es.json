@@ -228,8 +228,9 @@
         "_listado_": "Listado de documentos",
         "_permite_gestionar_datos_": "Permite gestionar los documentos",
         "_plural_": "Documentos",
+        "_documentos_cargados_": "Documentos cargados",
 
-        "_agregar_": "Agregar nuevo documento",
+        "_agregar_": "Agregar documento",
         "_actualizar_": "Actualizar documento",
         "_numero_": "Número",
         "_fecha_emision_": "Fecha de emisión",
@@ -483,7 +484,6 @@
         "_docente_carga_academica_": "Carga académica",
         "_docente_carga_academica_descripcion_": "Asignación de la carga académica del docente",
         "_elija_carga_academica_": "Elija la carga académica a asignar",
-
 
         "_estudiante_": "Estudiante",
         "_administrar_estudiante": "Administrar estudiantes",

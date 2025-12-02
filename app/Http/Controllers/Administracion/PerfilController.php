@@ -190,7 +190,7 @@ class PerfilController extends Controller
         $persona->tercer_apellido = $request->get('tercer_apellido');
         $persona->fecha_nacimiento = $request->get('fecha_nacimiento');
 
-        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-PERSONALES')) {
+        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-PERSONALES') || Auth::user()->hasRole('super-admin')) {
             $persona->permitir_editar = $request->get('permitir_editar') ?? false;
         } else {
             $persona->permitir_editar = false;
@@ -263,7 +263,7 @@ class PerfilController extends Controller
         foreach ($campos as $c) {
             $datosContacto->{$c} = $request->get($c);
         }
-        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-CONTACTO')) {
+        if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-CONTACTO') || Auth::user()->hasRole('super-admin')) {
             $datosContacto->permitir_editar = $request->get('permitir_editar') ?? false;
         } else {
             $datosContacto->permitir_editar = false;

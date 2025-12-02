@@ -229,8 +229,9 @@
         "_listado_": "List of documents",
         "_permite_gestionar_datos_": "It allows you to manage documents",
         "_plural_": "Documents",
+        "_documentos_cargados_": "Documents loaded",
 
-        "_agregar_": "Add new document",
+        "_agregar_": "Add document",
         "_numero_": "Number",
         "_fecha_emision_": "Date of issue",
         "_fecha_expiracion_": "Expiration date",
