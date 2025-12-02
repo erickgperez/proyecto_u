@@ -31,7 +31,8 @@ onMounted(() => {
         <v-col cols="12">
             <v-card>
                 <v-card-title class="text-capitalize text-h6"
-                    >{{ persona.sexo.descripcion === 'Femenino' ? 'Bienvenida' : 'Bienvenido' }},{{ persona.nombreCompleto }}</v-card-title
+                    >{{ persona.sexo.descripcion === 'Femenino' ? $t('_bienvenida_') : $t('_bienvenido_') }},
+                    {{ persona.nombreCompleto }}</v-card-title
                 >
                 <v-card-subtitle v-if="estudiante">
                     <v-row>
