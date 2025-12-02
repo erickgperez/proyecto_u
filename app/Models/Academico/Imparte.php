@@ -40,4 +40,9 @@ class Imparte extends Model
     {
         return $this->belongsToMany(Docente::class, 'academico.imparte_docente', 'imparte_id', 'docente_id');
     }
+
+    public function inscritos(): BelongsToMany
+    {
+        return $this->belongsToMany(Expediente::class, 'academico.inscritos', 'imparte_id', 'expediente_id');
+    }
 }
