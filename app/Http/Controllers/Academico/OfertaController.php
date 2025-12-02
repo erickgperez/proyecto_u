@@ -116,7 +116,7 @@ class OfertaController extends Controller
                 'cupo' => $i->cupo,
                 'docente_id' => null, //$i->docente_id,
                 'titulares' => $i->docentes()->wherePivot('forma_imparte_id', $formaImparteTitular->id)->with('persona')->get(),
-                'asociados' => $i->docentes()->wherePivot('forma_imparte_id', $formaImparteAsociado->id)->with('persona')->get(),
+                'asociados' => $i->docentes()->with('persona')->get(),
                 'docentes' => $i->carreraSede->docentes()->with('persona')->get(),
                 'editando' => false
             ];
@@ -130,20 +130,22 @@ class OfertaController extends Controller
 
         $imparte = Imparte::find($request->get('id'));
         $imparte->ofertada = $request->get('ofertada');
-        $formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
-        $formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
+        //$formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
+        //$formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
 
-        $titulares = $request->get('titulares');
-        $asociados = $request->get('asociados');
-        $docentesId = [];
-        foreach ($titulares as $d) {
+        $docenteTitular = $request->get('docenteTitular');
+
+        //$docentesId = [];
+        /*foreach ($titulares as $d) {
             $docentesId[$d['id']] = ['forma_imparte_id' => $formaImparteTitular->id];
-        }
+        }*/
+        $asociados = $request->get('asociados') ?? [];
+        $docentesAsociados = [];
         foreach ($asociados as $d) {
-            $docentesId[$d['id']] = ['forma_imparte_id' => $formaImparteAsociado->id];
+            $docentesAsociados[] = $d['id'];
         }
 
-        $imparte->docentes()->sync($docentesId);
+        $imparte->docentes()->sync($docentesAsociados);
 
         $imparte->save();
 

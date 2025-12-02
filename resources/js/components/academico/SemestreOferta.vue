@@ -15,16 +15,14 @@ const detalleOferta = ref();
 
 interface FormData {
     id: number | null;
-    docente_id: number | null;
-    titulares: Array<[]>;
+    docenteTitular: object|null;
     asociados: Array<[]>;
     ofertada: boolean;
 }
 
 const formData = ref<FormData>({
     id: null,
-    docente_id: null,
-    titulares: [],
+    docenteTitular: null,
     asociados: [],
     ofertada: true,
 });
@@ -82,7 +80,7 @@ async function guardarDetalle(detalle) {
         const resp = await axios.post(route('academico-semestre-oferta-detalle-save'), formData.value);
         if (resp.data.status == 'ok') {
             mensajeExito(t('_datos_subidos_correctamente_'));
-            detalle.titulares = formData.value.titulares;
+            //detalle.titulares = formData.value.titulares;
             detalle.asociados = formData.value.asociados;
             detalle.ofertada = formData.value.ofertada;
             detalle.editando = !detalle.editando;
@@ -178,7 +176,6 @@ watch(selected, (newVal) => {
                                         color="indigo"
                                         icon="mdi-pencil"
                                         @click.stop="
-                                            formData.titulares = detalle.titulares;
                                             formData.asociados = detalle.asociados;
                                             formData.ofertada = detalle.ofertada;
                                             detalle.editando = !detalle.editando;
@@ -202,8 +199,8 @@ watch(selected, (newVal) => {
                                     <div>
                                         <div v-if="!detalle.editando" class="mx-auto">
                                             <v-list density="compact">
-                                                <v-list-subheader class="text-medium-emphasis font-weight-bold">{{ $t('semestre._responsables_') }}:</v-list-subheader>
-                                                <v-list-item
+                                                <v-list-subheader class="text-medium-emphasis font-weight-bold">{{ $t('semestre._docentes_asociados_') }}:</v-list-subheader>
+                                                <!--<v-list-item
                                                     class="d-flex align-left pa-0"
                                                     v-for="(item, i) in detalle.titulares"
                                                     :key="i"
@@ -213,7 +210,7 @@ watch(selected, (newVal) => {
                                                         v-text="item.persona.nombreCorto + ' (' + $t('semestre._titular_') + ')'"
                                                         class="text-medium-emphasis text-body-2"
                                                     ></v-list-item-title>
-                                                </v-list-item>
+                                                </v-list-item>-->
                                                 <v-list-item
                                                     class="d-flex align-left pa-0"
                                                     v-for="(item, i) in detalle.asociados"
@@ -221,25 +218,13 @@ watch(selected, (newVal) => {
                                                     :value="item"
                                                 >
                                                     <v-list-item-title
-                                                        v-text="item.persona.nombreCorto + ' (' + $t('semestre._asociado_') + ')'"
+                                                        v-text="item.persona.nombreCorto"
                                                         class="text-medium-emphasis text-body-2"
                                                     ></v-list-item-title>
                                                 </v-list-item>
                                             </v-list>
                                         </div>
-                                        <div v-else>
-                                            <v-autocomplete
-                                                :label="$t('semestre._titulares_')"
-                                                :items="detalle.docentes"
-                                                v-model="formData.titulares"
-                                                item-title="persona.nombreCompleto"
-                                                item-value="id"
-                                                chips
-                                                density="compact"
-                                                clearable
-                                                return-object
-                                                multiple
-                                            ></v-autocomplete>
+                                        <div v-else>                                            
                                             <v-autocomplete
                                                 :label="$t('semestre._asociados_')"
                                                 :items="detalle.docentes"
