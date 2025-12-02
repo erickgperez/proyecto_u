@@ -116,6 +116,14 @@ class PerfilController extends Controller
             ->join('academico.docente as docente', 'persona.id', '=', 'docente.persona_id');
     }
 
+    public function indexEstudiante(): Response
+    {
+        $estudiantes = $this->getEstudianteBase()->get();
+
+        return $this->index('estudiante', $estudiantes);
+    }
+
+
     protected function getEstudianteBase()
     {
         return Persona::with([

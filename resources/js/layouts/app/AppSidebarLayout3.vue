@@ -277,6 +277,18 @@ onMounted(() => {
                                             {{ $t('perfil._docente_') }}
                                         </v-list-item>
                                     </Link>
+                                    <Link
+                                        v-if="hasPermission('MENU_ADMINISTRACION_PERFIL_ESTUDIANTE')"
+                                        :href="route('administracion-perfil-estudiante-index')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-school-outline"
+                                            :class="$page.url === '/administracion/perfil/estudiante' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                            {{ $t('perfil._estudiante_') }}
+                                        </v-list-item>
+                                    </Link>
                                 </v-list>
                             </v-menu>
                         </v-list-item>

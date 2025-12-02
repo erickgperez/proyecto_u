@@ -21,6 +21,7 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/administracion/perfil/aspirante', [PerfilController::class, 'indexAspirante'])->name('administracion-perfil-aspirante-index');
     Route::get('/administracion/perfil/docente', [PerfilController::class, 'indexDocente'])->name('administracion-perfil-docente-index');
+    Route::get('/administracion/perfil/estudiante', [PerfilController::class, 'indexEstudiante'])->name('administracion-perfil-estudiante-index');
     Route::post('/administracion/perfil/save', [PerfilController::class, 'save'])->name('administracion-perfil-save');
     Route::post('/administracion/perfil/{id}/datos-contacto/save', [PerfilController::class, 'datosContactoSave'])->name('administracion-perfil-datos-contacto-save');
     Route::get('/administracion/perfil/{id}/info', [PerfilController::class, 'personaInfo'])->name('administracion-perfil-info');
