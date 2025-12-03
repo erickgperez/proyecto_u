@@ -23,7 +23,7 @@ const { rules, mensajeExito, mensajeError } = useFunciones();
 function itemProps(item: Convocatoria) {
     return {
         id: item.id,
-        title: item.nombre,
+        title: item.nombre + ' - ' + item.anio_ingreso,
         subtitle: item.descripcion,
     };
 }
@@ -49,7 +49,7 @@ function cargarSolicitudes() {
                 emit('carrerasSede', response.data.ofertaSede);
                 emit('solicitudes', response.data.solicitudes);
                 emit('infoSede', response.data.infoSede);
-                if (response.data.solicitudes.length == 0){
+                if (response.data.solicitudes.length == 0) {
                     mensajeError(t('solicitud._no_solicitudes_'));
                 }
             })
@@ -62,7 +62,6 @@ function cargarSolicitudes() {
             });
     }
 }
-
 
 watch(convocatoria, () => {
     emit('changeConvocatoria', convocatoria.value);

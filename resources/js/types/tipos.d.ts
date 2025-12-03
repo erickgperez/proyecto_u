@@ -103,6 +103,7 @@ interface Configuracion {
 interface Convocatoria {
     id: number;
     nombre: string;
+    anio_ingreso: number;
     descripcion: string;
     carreras_sedes: [];
     configuracion: Configuracion | null;
@@ -197,7 +198,7 @@ interface Persona {
     tercer_apellido: string;
     fecha_nacimiento: Date;
     sexo_id: number;
-    sexo: Sexo;    
+    sexo: Sexo;
 }
 
 interface Estudiante {
