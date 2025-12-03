@@ -17,7 +17,8 @@ class ConvocatoriaSeeder extends Seeder
     {
         Convocatoria::createMany([
             [
-                'nombre' => '01-2026',
+                'nombre' => '01',
+                'anio_ingreso' => '2026',
                 'activa' => true,
                 'descripcion' => 'Primera convocatoria de ingreso 2026 - PRUEBA',
                 'cuerpo_mensaje' => 'Te invitamos a participar en el proceso de ingreso a nuestras carreras',

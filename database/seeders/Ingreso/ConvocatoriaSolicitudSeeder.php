@@ -21,7 +21,7 @@ class ConvocatoriaSolicitudSeeder extends Seeder
     {
         $solicitud = Solicitud::create(
             [
-                'solicitante_id' => Convocatoria::where('nombre', '01-2026')->first()->id,
+                'solicitante_id' => Convocatoria::where('nombre', '01')->where('anio_ingreso', '2026')->first()->id,
                 'solicitante_type' => 'App\Models\Ingreso\Convocatoria',
                 'flujo_id' => Flujo::where('codigo', 'CONFIGURACION_CONVOCATORIA')->first()->id,
                 'etapa_id' => Etapa::where('codigo', 'OFERTA')->first()->id,
