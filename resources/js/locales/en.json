@@ -547,7 +547,8 @@
         "_registro_docente_descripcion_": "Create a teacher registration",
         "_asignado_en_": "Assigned to",
         "_asignado_en_indicaciones_": "Choose the campuses/programs where the teacher is assigned",
-        "_asignacion_principal_": "Assigned primarily to"
+        "_asignacion_principal_": "Assigned primarily to",
+        "_sede_principal_": "Main campus"
     },
     "_plan_estudio_": "Syllabus",
     "_procesos_": "processes",

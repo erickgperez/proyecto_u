@@ -45,6 +45,7 @@ const props = defineProps({
     sexos: Array,
     distritosTree: Array,
     tiposDocumento: Array,
+    sedes: Array,
 });
 const itemVacio = ref<Item>({
     id: null,
@@ -95,21 +96,21 @@ const permisos = {
 const sheetName = ref('Listado_perfiles');
 const fileName = ref('perfiles');
 
-const headers = [
-    { title: props.perfil === 'aspirante' ? t('aspirante._nie_') : t('_id_'), key: 'id', align: 'center' }
-];
+const headers = [{ title: props.perfil === 'aspirante' ? t('aspirante._nie_') : t('_id_'), key: 'id', align: 'center' }];
 if (props.perfil === 'aspirante') {
-    headers.push({ title: t('aspirante._seleccionado_') , key: 'seleccionado', align: 'center' });
+    headers.push({ title: t('aspirante._seleccionado_'), key: 'seleccionado', align: 'center' });
 }
-    
-headers.push({ title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'center' },
+
+headers.push(
+    { title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'center' },
     { title: t('perfil._nombre_'), key: 'nombre', align: 'start' },
     { title: t('perfil._apellidos_'), key: 'apellidos', align: 'start' },
     { title: t('perfil._sexo_'), key: 'sexo.descripcion', align: 'center' },
     { title: t('perfil._fecha_nacimiento_'), key: 'fecha_nacimiento', align: 'center' },
-    { title: t('perfil._edad_'), key: 'edad', align: 'end' });
+    { title: t('perfil._edad_'), key: 'edad', align: 'end' },
+);
 if (props.perfil === 'docente') {
-    headers.push({ title: t('docente._carrera_sede_') , key: 'carreras_sedes', align: 'center' });
+    headers.push({ title: t('docente._carrera_sede_'), key: 'carreras_sedes', align: 'center' });
 }
 headers.push({ title: t('_acciones_'), key: 'actions', align: 'center' });
 
@@ -236,7 +237,7 @@ onMounted(() => {
                             </div>
                         </template>
                         <template v-slot:item.seleccionado="{ value }" v-if="props.perfil === 'aspirante'">
-                            <div class="d-flex justify-center align-center">
+                            <div class="d-flex align-center justify-center">
                                 <v-icon icon="mdi-checkbox-marked-outline" color="success" v-if="value"></v-icon>
                                 <v-icon icon="mdi-close-box-outline" color="red" v-else></v-icon>
                             </div>
@@ -281,6 +282,7 @@ onMounted(() => {
                             :perfil="props.perfil"
                             :accion="selectedAction"
                             :sexos="props.sexos"
+                            :sedes="props.sedes"
                             @form-saved="handleFormSave"
                         ></PerfilForm>
                         <PerfilShow v-if="selectedAction == 'show'" :item="selectedItem" :accion="selectedAction"></PerfilShow>

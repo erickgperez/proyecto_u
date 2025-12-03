@@ -15,16 +15,18 @@ return new class extends Migration
             $table->id();
             $table->uuid('uuid')->unique()->after('id');
             $table->comment('Almacena la información general de las personas (aspirantes, estudiantes, docentes y otros)');
-            $table->string('primer_nombre', length: 100);
-            $table->string('segundo_nombre', length: 100)->nullable();
-            $table->string('tercer_nombre', length: 100)->nullable();
-            $table->string('primer_apellido', length: 100);
-            $table->string('segundo_apellido', length: 100)->nullable();
-            $table->string('tercer_apellido', length: 100)->nullable();
-            $table->timestamp('fecha_nacimiento')->nullable();
-            $table->foreignId('sexo_id')->nullable();
+            $table->string('primer_nombre', length: 100)->comment('Primer nombre de la persona');
+            $table->string('segundo_nombre', length: 100)->nullable()->comment('Segundo nombre de la persona');
+            $table->string('tercer_nombre', length: 100)->nullable()->comment('Tercer nombre de la persona');
+            $table->string('primer_apellido', length: 100)->comment('Primer apellido de la persona');
+            $table->string('segundo_apellido', length: 100)->nullable()->comment('Segundo apellido de la persona');
+            $table->string('tercer_apellido', length: 100)->nullable()->comment('Tercer apellido de la persona');
+            $table->timestamp('fecha_nacimiento')->nullable()->comment('Fecha de nacimiento de la persona');
+            $table->foreignId('sexo_id')->nullable()->comment('Sexo de la persona');
             $table->foreign('sexo_id')->references('id')->on('public.sexo')->onDelete('RESTRICT')->onUpdate('CASCADE');
-            $table->boolean('permitir_editar')->default('false');
+            $table->foreignId('sede_principal_id')->nullable()->comment('Sede principal donde está asignada la persona');
+            $table->foreign('sede_principal_id')->references('id')->on('public.sede')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->boolean('permitir_editar')->default('false')->comment('Indica si la persona puede editar su perfil');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');

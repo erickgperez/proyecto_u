@@ -40,9 +40,10 @@ interface FormData {
     email_cuenta_usuario: string;
     perfil: string;
     permitir_editar: boolean;
+    sede_principal_id: number | null;
 }
 
-const props = defineProps(['item', 'accion', 'sexos', 'perfil']);
+const props = defineProps(['item', 'accion', 'sexos', 'perfil', 'sedes']);
 
 const formData = ref<FormData>({
     id: null,
@@ -57,6 +58,7 @@ const formData = ref<FormData>({
     email_cuenta_usuario: '',
     perfil: '',
     permitir_editar: false,
+    sede_principal_id: null,
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -185,6 +187,19 @@ onMounted(() => {
                             :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
+                    <v-select
+                        v-if="!(isDocente || isEstudiante) && props.perfil == 'docente'"
+                        required
+                        icon-color="deep-orange"
+                        :rules="[rules.required]"
+                        :label="$t('perfil._sede_principal_') + ' *'"
+                        :items="props.sedes"
+                        v-model="formData.sede_principal_id"
+                        item-title="nombre"
+                        item-value="id"
+                        prepend-icon="mdi-form-dropdown"
+                        :disabled="!permitirEditar"
+                    ></v-select>
                     <v-col cols="12">
                         <v-select
                             :label="$t('perfil._sexo_')"

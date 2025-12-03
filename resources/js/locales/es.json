@@ -559,7 +559,8 @@
         "_docente_asignacion_carrera_sede_descripcion_": "Asignación del docente a las carreras/sedes donde está destacado",
         "_asignado_en_": "Asignado en",
         "_asignado_en_indicaciones_": "Elija las sedes/carreras en que está asignado el docente",
-        "_asignacion_principal_": "Asignado principalmente en"
+        "_asignacion_principal_": "Asignado principalmente en",
+        "_sede_principal_": "Sede principal"
     },
     "_plan_estudio_": "Plan de estudio",
     "_procesos_": "Procesos",

@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Academico\Docente;
 use App\Models\Academico\Estudiante;
+use App\Models\Academico\Sede;
 use App\Models\Documento\Documento;
 use App\Models\Ingreso\Aspirante;
 use App\Models\Sexo;
@@ -12,6 +13,7 @@ use App\Traits\HasCreateMany;
 use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
@@ -123,5 +125,10 @@ class Persona extends Model
     public function estudiante(): HasOne
     {
         return $this->hasOne(Estudiante::class, 'persona_id');
+    }
+
+    public function sedePrincipal(): BelongsTo
+    {
+        return $this->belongsTo(Sede::class, 'sede_principal_id');
     }
 }

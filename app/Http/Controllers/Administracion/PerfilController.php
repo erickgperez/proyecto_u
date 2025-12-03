@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Administracion;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academico\Docente;
+use App\Models\Academico\Sede;
 use App\Models\DatosContacto;
 use App\Models\Documento\TipoDocumento;
 use App\Models\Persona;
 use App\Models\Sexo;
 use App\Models\User;
 use App\Services\DistritoService;
+use App\Services\EstudianteService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Validation\Rule;
@@ -21,12 +23,7 @@ use Illuminate\Support\Facades\Auth;
 
 class PerfilController extends Controller
 {
-    protected $distritoService;
-
-    public function __construct(DistritoService $distritoService)
-    {
-        $this->distritoService = $distritoService;
-    }
+    public function __construct(private DistritoService $distritoService, private EstudianteService $estudianteService) {}
 
     /**
      *
@@ -46,6 +43,7 @@ class PerfilController extends Controller
                 }
             }
         }
+        $sedes = Sede::all();
 
         $distritosTree = $this->distritoService->distritosLikeTree();
 
@@ -55,6 +53,7 @@ class PerfilController extends Controller
             'sexos' => $sexos,
             'distritosTree' => $distritosTree,
             'tiposDocumento' => $tipos,
+            'sedes' => $sedes,
         ]);
     }
 
@@ -174,6 +173,7 @@ class PerfilController extends Controller
             'fecha_nacimiento' => 'nullable|date',
             'perfil' => 'nullable|string|max:100',
             'sexo_id' => ['nullable', 'integer', Rule::exists('sexo', 'id')],
+            'sede_principal_id' => 'nullable|integer',
         ]);
 
         if ($request->get('id') === null) {
@@ -189,6 +189,7 @@ class PerfilController extends Controller
         $persona->segundo_apellido = $request->get('segundo_apellido');
         $persona->tercer_apellido = $request->get('tercer_apellido');
         $persona->fecha_nacimiento = $request->get('fecha_nacimiento');
+        $persona->sede_principal_id = $request->get('sede_principal_id');
 
         if (Auth::user()->can('ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-PERSONALES') || Auth::user()->hasRole('super-admin')) {
             $persona->permitir_editar = $request->get('permitir_editar') ?? false;
@@ -264,6 +265,11 @@ class PerfilController extends Controller
 
             //Crear registro en docente
             $docente = new Docente();
+
+            //Crear el código del docente
+            $sede = ($persona->sede_principal_id != null) ? Sede::find($persona->sede_principal_id)->codigo : '01';
+            $year = date('Y');
+            $docente->codigo = $this->estudianteService->generateCarnet($persona, $year, $sede, 'docente');
             $docente->persona()->associate($persona);
 
             $docente->save();
