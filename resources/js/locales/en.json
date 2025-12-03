@@ -482,6 +482,9 @@
         "_mostrar_docente": "Show teacher data",
         "_permite_gestionar_datos_docente": "Managing teacher data",
         "_docente_carga_academica_": "Academic workload",
+        "_docente_carga_academica_asignada_": "Assigned academic workload",
+        "_docente_carga_academica_titular_": "As a titular teacher",
+        "_docente_carga_academica_asociado_": "As an associated teacher",
         "_docente_carga_academica_descripcion_": "Assignment of the teacher's academic workload",
         "_elija_carga_academica_": "Choose the academic load to assign",
 

@@ -79,7 +79,12 @@ class DocenteController extends Controller
 
         $ofertaCarreraSede_ = [];
         foreach ($ofertaCarreraSede as $o) {
-            $ofertaCarreraSede_[$o->carreraSede->titulo]['unidades'][] = ['id' => $o->id, 'title' => '(' . $o->oferta->carreraUnidadAcademica->semestre . ') ' . $o->oferta->carreraUnidadAcademica->unidadAcademica->nombre];
+            $ofertaCarreraSede_[$o->carreraSede->titulo]['unidades'][] = [
+                'id' => $o->id,
+                'title' => '(' . $o->oferta->carreraUnidadAcademica->semestre . ') ' . $o->oferta->carreraUnidadAcademica->unidadAcademica->nombre,
+                'carreraSede' => $o->carreraSede->titulo,
+                'unidad' => $o->oferta->carreraUnidadAcademica->unidadAcademica->nombre
+            ];
             $ofertaCarreraSede_[$o->carreraSede->titulo]['id'] = 'cs' . $o->carreraSede->id;
         }
         $ofertaCarreraSedeTree = [];
@@ -103,7 +108,12 @@ class DocenteController extends Controller
 
         $ofertaCarrera_ = [];
         foreach ($ofertaCarrera as $o) {
-            $ofertaCarrera_[$o->carreraUnidadAcademica->carrera->nombreCompleto]['unidades'][] = ['id' => $o->id, 'title' => '(' . $o->carreraUnidadAcademica->semestre . ') ' . $o->carreraUnidadAcademica->unidadAcademica->nombre];
+            $ofertaCarrera_[$o->carreraUnidadAcademica->carrera->nombreCompleto]['unidades'][] = [
+                'id' => $o->id,
+                'title' => '(' . $o->carreraUnidadAcademica->semestre . ') ' . $o->carreraUnidadAcademica->unidadAcademica->nombre,
+                'carrera' => $o->carreraUnidadAcademica->carrera->nombreCompleto,
+                'unidad' => $o->carreraUnidadAcademica->unidadAcademica->nombre
+            ];
             $ofertaCarrera_[$o->carreraUnidadAcademica->carrera->nombreCompleto]['id'] = 'cs' . $o->carreraUnidadAcademica->id;
         }
 
