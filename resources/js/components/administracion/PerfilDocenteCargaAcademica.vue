@@ -57,7 +57,8 @@ async function submitForm() {
 
 const semestres = ref([]);
 const semestre = ref(null);
-const oferta = ref([]);
+const ofertaCarreraSede = ref([]);
+const ofertaCarrera = ref([]);
 
 onMounted(() => {
     reset();
@@ -76,8 +77,8 @@ watch(semestre, (newVal) => {
         axios
             .get(route('academico-semestre-docente-carga', { uuidSemestre: newVal, uuidDocente: props.item.docente.uuid }))
             .then(function (response) {
-                oferta.value = response.data.oferta;
-                //formData.value.cargaTitular = response.data.cargaTitular.map((item) => item.id);
+                ofertaCarreraSede.value = response.data.ofertaCarreraSede;
+                ofertaCarrera.value = response.data.ofertaCarrera;
                 formData.value.cargaAsociado = response.data.cargaAsociado.map((item) => item.id);
             })
             .catch(function (error) {
@@ -124,12 +125,11 @@ watch(semestre, (newVal) => {
                                                 <v-tabs-window-item value="1">
                                                     <v-treeview
                                                         v-model:selected="formData.cargaTitular"
-                                                        :items="oferta"
+                                                        :items="ofertaCarrera"
                                                         item-value="id"
                                                         select-strategy="leaf"
                                                         selectable
                                                         :indent-lines="true"
-                                                        open-all
                                                     >
                                                         <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
                                                             <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">
@@ -149,12 +149,11 @@ watch(semestre, (newVal) => {
                                                 <v-tabs-window-item value="2">
                                                     <v-treeview
                                                         v-model:selected="formData.cargaAsociado"
-                                                        :items="oferta"
+                                                        :items="ofertaCarreraSede"
                                                         item-value="id"
                                                         select-strategy="leaf"
                                                         selectable
-                                                        :indent-lines="true"
-                                                        open-all
+                                                        :indent-lines="true"                                                        
                                                     >
                                                     <template v-slot:toggle="{ props: toggleProps, isOpen, isSelected, isIndeterminate }">
                                                         <v-badge :color="isSelected ? 'success' : 'warning'" :model-value="isSelected || isIndeterminate">

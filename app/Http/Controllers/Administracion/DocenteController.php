@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Academico\Asignado;
 use App\Models\Academico\Docente;
 use App\Models\Academico\Imparte;
+use App\Models\Academico\Oferta;
 use App\Models\Academico\Semestre;
 use App\Models\Persona;
 use Illuminate\Http\Request;
@@ -63,7 +64,7 @@ class DocenteController extends Controller
         foreach ($docente->carrerasSedes as $cs) {
             $carrerasSede[] = $cs->id;
         }
-        $oferta = Imparte::with([
+        $ofertaCarreraSede = Imparte::with([
             'oferta' => function ($query) use ($semestre) {
                 $query->with('carreraUnidadAcademica')
                     ->where('semestre_id', $semestre->id);
@@ -73,56 +74,62 @@ class DocenteController extends Controller
             }
         ])
             ->where('ofertada', true)
-            ->whereIn('carrera_sede_id', $carrerasSede)
+            //->whereIn('carrera_sede_id', $carrerasSede)
             ->get();
 
-        $oferta_ = [];
-        foreach ($oferta as $o) {
-            $oferta_[$o->carreraSede->titulo]['unidades'][] = ['id' => $o->id, 'title' => '(' . $o->oferta->carreraUnidadAcademica->semestre . ') ' . $o->oferta->carreraUnidadAcademica->unidadAcademica->nombre];
-            $oferta_[$o->carreraSede->titulo]['id'] = 'cs' . $o->carreraSede->id;
+        $ofertaCarreraSede_ = [];
+        foreach ($ofertaCarreraSede as $o) {
+            $ofertaCarreraSede_[$o->carreraSede->titulo]['unidades'][] = ['id' => $o->id, 'title' => '(' . $o->oferta->carreraUnidadAcademica->semestre . ') ' . $o->oferta->carreraUnidadAcademica->unidadAcademica->nombre];
+            $ofertaCarreraSede_[$o->carreraSede->titulo]['id'] = 'cs' . $o->carreraSede->id;
         }
-        $ofertaTree = [];
-        foreach ($oferta_ as $k => $oo) {
+        $ofertaCarreraSedeTree = [];
+        foreach ($ofertaCarreraSede_ as $k => $oo) {
             $unidades = $oo['unidades'];
             $title = array_column($unidades, 'title');
             array_multisort($title, SORT_ASC, $unidades);
-            $ofertaTree[] = [
+            $ofertaCarreraSedeTree[] = [
                 'id' => $oo['id'],
                 'title' => $k,
                 'children' => $unidades
             ];
         }
 
-        //$formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
-        //$formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
+        $ofertaCarrera = Oferta::with([
+            'carreraUnidadAcademica' => ['unidadAcademica', 'carrera'],
+            'docenteTitular'
+        ])
+            ->where('semestre_id', $semestre->id)
+            ->get();
 
-        //$cargaTitular   = $docente->imparte()->wherePivot('forma_imparte_id', $formaImparteTitular->id)->get();
-        //$cargaAsociado = $docente->imparte()->wherePivot('forma_imparte_id', $formaImparteAsociado->id)->get();
+        $ofertaCarrera_ = [];
+        foreach ($ofertaCarrera as $o) {
+            $ofertaCarrera_[$o->carreraUnidadAcademica->carrera->nombreCompleto]['unidades'][] = ['id' => $o->id, 'title' => '(' . $o->carreraUnidadAcademica->semestre . ') ' . $o->carreraUnidadAcademica->unidadAcademica->nombre];
+            $ofertaCarrera_[$o->carreraUnidadAcademica->carrera->nombreCompleto]['id'] = 'cs' . $o->carreraUnidadAcademica->id;
+        }
+
+        $ofertaCarreraTree = [];
+        foreach ($ofertaCarrera_ as $k => $oo) {
+            $unidades = $oo['unidades'];
+            $title = array_column($unidades, 'title');
+            array_multisort($title, SORT_ASC, $unidades);
+            $ofertaCarreraTree[] = [
+                'id' => $oo['id'],
+                'title' => $k,
+                'children' => $unidades
+            ];
+        }
+
         $cargaAsociado = $docente->imparte;
 
-        return response()->json(['status' => 'ok', 'oferta' => $ofertaTree, 'cargaAsociado' => $cargaAsociado]);
+        return response()->json(['status' => 'ok', 'ofertaCarreraSede' => $ofertaCarreraSedeTree, 'ofertaCarrera' => $ofertaCarreraTree, 'cargaAsociado' => $cargaAsociado]);
     }
 
     public function cargaSave($uuid, Request $request)
     {
 
         $docente = Docente::where('uuid', $uuid)->first();
-        //$formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
-        //$formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
-
         $docente->imparte()->sync($request->get('cargaAsociado') ?? []);
 
-        /*$cargarTitular = $request->get('cargaTitular') ?? [];
-        $cargarAsociado = $request->get('cargaAsociado') ?? [];
-        $cargaId = [];
-        foreach ($cargarTitular as $id) {
-            $cargaId[$id] = ['forma_imparte_id' => $formaImparteTitular->id];
-        }
-        foreach ($cargarAsociado as $id) {
-            $cargaId[$id] = ['forma_imparte_id' => $formaImparteAsociado->id];
-        }
-
-        $docente->imparte()->sync($cargaId);*/
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
     }
