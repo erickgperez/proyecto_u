@@ -109,7 +109,7 @@ class SimulacionController extends Controller
                         if (!$solicitud) {
                             // No existe la solicitud, crearla
                             //Recuperar la convocatoria de prueba
-                            $convocatoria = Convocatoria::where('nombre', '01-2026')->first();
+                            $convocatoria = Convocatoria::where('nombre', '01')->where('anio_ingreso', '2026')->first();
 
                             $resp = $solicitudC->solicitudCrear($aspirante->id, $convocatoria->id);
                             $data = json_decode($resp->getContent(), true);
