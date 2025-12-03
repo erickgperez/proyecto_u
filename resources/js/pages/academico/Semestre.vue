@@ -54,7 +54,7 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
     props.items,
 );
 
-const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
+const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
 const rutaBorrar = ref('academico-semestre-delete');
 const mensajes = {
     titulo1: t('semestre._plural_'),
