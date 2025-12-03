@@ -10,6 +10,7 @@ use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Docente extends Model
 {
@@ -40,5 +41,10 @@ class Docente extends Model
     public function imparte(): BelongsToMany
     {
         return $this->belongsToMany(Imparte::class, 'academico.imparte_docente', 'docente_id', 'imparte_id');
+    }
+
+    public function cargaTitular(): HasMany
+    {
+        return $this->hasMany(Oferta::class, 'docente_titular_id');
     }
 }

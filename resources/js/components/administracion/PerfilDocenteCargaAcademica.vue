@@ -80,6 +80,7 @@ watch(semestre, (newVal) => {
                 ofertaCarreraSede.value = response.data.ofertaCarreraSede;
                 ofertaCarrera.value = response.data.ofertaCarrera;
                 formData.value.cargaAsociado = response.data.cargaAsociado.map((item) => item.id);
+                formData.value.cargaTitular = response.data.cargaTitular.map((item) => item.id);
             })
             .catch(function (error) {
                 console.error('Error fetching data:', error);

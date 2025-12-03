@@ -119,9 +119,20 @@ class DocenteController extends Controller
             ];
         }
 
-        $cargaAsociado = $docente->imparte;
+        $cargaAsociado = $docente->imparte()
+            ->select('imparte.*')
+            ->join('academico.oferta as oferta', 'oferta.id', '=', 'imparte.oferta_id')
+            ->where('oferta.semestre_id', $semestre->id)
+            ->get();
+        $cargaTitular = $docente->cargaTitular()->where('semestre_id', $semestre->id)->get();
 
-        return response()->json(['status' => 'ok', 'ofertaCarreraSede' => $ofertaCarreraSedeTree, 'ofertaCarrera' => $ofertaCarreraTree, 'cargaAsociado' => $cargaAsociado]);
+        return response()->json([
+            'status' => 'ok',
+            'ofertaCarreraSede' => $ofertaCarreraSedeTree,
+            'ofertaCarrera' => $ofertaCarreraTree,
+            'cargaAsociado' => $cargaAsociado,
+            'cargaTitular' => $cargaTitular
+        ]);
     }
 
     public function cargaSave($uuid, Request $request)
@@ -130,6 +141,11 @@ class DocenteController extends Controller
         $docente = Docente::where('uuid', $uuid)->first();
         $docente->imparte()->sync($request->get('cargaAsociado') ?? []);
 
+        foreach ($request->get('cargaTitular') as $ct) {
+            $oferta = Oferta::find($ct);
+            $oferta->docenteTitular()->associate($docente);
+            $oferta->save();
+        }
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
     }
