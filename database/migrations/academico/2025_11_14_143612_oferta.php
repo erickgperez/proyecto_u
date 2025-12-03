@@ -22,6 +22,9 @@ return new class extends Migration
             $table->foreignId('semestre_id')->comment('Id del semestre en que se está ofertando la unidad académica');
             $table->foreign('semestre_id')->references('id')->on('academico.semestre')->onDelete('CASCADE')->onUpdate('CASCADE');
 
+            $table->foreignId('docente_titular_id')->comment('Id del docente titular');
+            $table->foreign('docente_titular_id')->references('id')->on('academico.docente')->onDelete('RESTRICT')->onUpdate('CASCADE');
+
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
             $table->unsignedBigInteger('updated_by')->nullable()->comment('Usuario que realizó la última actualización del registro');
             $table->foreign('created_by')->references('id')->on('users')->onDelete('set null');
