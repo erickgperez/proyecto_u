@@ -114,8 +114,7 @@ class OfertaController extends Controller
                 'sede' => $i->carreraSede->sede->nombre,
                 'ofertada' => $i->ofertada,
                 'cupo' => $i->cupo,
-                'docente_id' => null, //$i->docente_id,
-                'titulares' => $i->docentes()->wherePivot('forma_imparte_id', $formaImparteTitular->id)->with('persona')->get(),
+                'docente_id' => null,
                 'asociados' => $i->docentes()->with('persona')->get(),
                 'docentes' => $i->carreraSede->docentes()->with('persona')->get(),
                 'editando' => false

@@ -15,7 +15,7 @@ const detalleOferta = ref();
 
 interface FormData {
     id: number | null;
-    docenteTitular: object|null;
+    docenteTitular: object | null;
     asociados: Array<[]>;
     ofertada: boolean;
 }
@@ -199,7 +199,9 @@ watch(selected, (newVal) => {
                                     <div>
                                         <div v-if="!detalle.editando" class="mx-auto">
                                             <v-list density="compact">
-                                                <v-list-subheader class="text-medium-emphasis font-weight-bold">{{ $t('semestre._docentes_asociados_') }}:</v-list-subheader>
+                                                <v-list-subheader class="text-medium-emphasis font-weight-bold"
+                                                    >{{ $t('semestre._docentes_asociados_') }}:</v-list-subheader
+                                                >
                                                 <!--<v-list-item
                                                     class="d-flex align-left pa-0"
                                                     v-for="(item, i) in detalle.titulares"
@@ -224,9 +226,9 @@ watch(selected, (newVal) => {
                                                 </v-list-item>
                                             </v-list>
                                         </div>
-                                        <div v-else>                                            
+                                        <div v-else>
                                             <v-autocomplete
-                                                :label="$t('semestre._asociados_')"
+                                                :label="$t('semestre._docentes_asociados_')"
                                                 :items="detalle.docentes"
                                                 v-model="formData.asociados"
                                                 item-title="persona.nombreCompleto"
