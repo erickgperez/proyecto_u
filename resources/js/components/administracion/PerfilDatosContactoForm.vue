@@ -64,7 +64,7 @@ const formData = ref<FormData>({
 
 const isEstudiante = computed(() => roles.includes('estudiante'));
 const isDocente = computed(() => roles.includes('docente'));
-const permitirEditar = computed(() => ((isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true));
+const permitirEditar = computed(() => ((isEstudiante.value || isDocente.value) && !props.item.datos_contacto.permitir_editar ? false : true));
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
@@ -110,17 +110,6 @@ onMounted(() => {
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
-                    <!--<v-col cols="12" md="6">
-                        <v-text-field
-                            required
-                            icon-color="deep-orange"
-                            prepend-icon="mdi-at"
-                            v-model="formData.email_principal"
-                            :rules="[rules.required, rules.email, rules.maxLength(100)]"
-                            counter="100"
-                            :label="$t('perfil._email_principal_') + ' *'"
-                        ></v-text-field>
-                    </v-col>-->
                     <v-col cols="12" md="6">
                         <v-text-field
                             prepend-icon="mdi-at"
