@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academico\CarreraSede;
+use App\Models\Academico\Docente;
 use App\Models\Academico\FormaImparte;
 use App\Models\Academico\Imparte;
 use App\Models\Academico\Oferta;
@@ -28,6 +29,7 @@ class OfertaController extends Controller
         $ofertadas = [];
         foreach ($oferta as $o) {
             $ofertadas[] = $o->carreraUnidadAcademica->id;
+            $titulares[$o->carreraUnidadAcademica->id] = $o->docenteTitular;
         }
         $items = [];
         foreach ($carreras as $c) {
@@ -36,13 +38,15 @@ class OfertaController extends Controller
 
             $children = [];
             foreach ($unidades as $u) {
+                $docenteTitular = array_key_exists($u->id, $titulares) ? $titulares[$u->id] : null;
                 $children[] = [
                     'id' => $u->id,
                     'uuid' => $u->uuid,
                     'tipo' => 'unidad',
                     'nombreCompleto' => '(' . $u->semestre . ') ' . $u->unidadAcademica->nombreCompleto,
                     'semestre' => $u->semestre,
-                    'ofertada' => in_array($u->id, $ofertadas)
+                    'ofertada' => in_array($u->id, $ofertadas),
+                    'docenteTitular' => $docenteTitular
                 ];
             }
             $items[] = ['id' => 'carr' . $c->id, 'tipo' => 'carrera', 'nombreCompleto' => $c->nombreCompleto . '(' . count($children) . ')', 'children' => $children];
@@ -86,10 +90,8 @@ class OfertaController extends Controller
         return response()->json(['status' => 'ok', 'message' => '']);
     }
 
-    public function getOfertaDetalle($id, $idCarreraUnidadAcademica)
+    public function saveDocenteTitular($id, $idCarreraUnidadAcademica, $idDocente)
     {
-        $formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
-        $formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
 
         $semestre = Semestre::where('uuid', $id)->first();
         $carreraUnidadAcademica = CarreraUnidadAcademica::where('uuid', $idCarreraUnidadAcademica)->first();
@@ -97,6 +99,26 @@ class OfertaController extends Controller
         $oferta = Oferta::where('semestre_id', $semestre->id)
             ->where('carrera_unidad_academica_id', $carreraUnidadAcademica->id)
             ->first();
+
+        $docenteTitular = Docente::where('id', $idDocente)->first();
+
+        $oferta->docenteTitular()->associate($docenteTitular);
+
+        $oferta->save();
+
+        return response()->json(['status' => 'ok', 'message' => '', 'docenteTitular' => $docenteTitular]);
+    }
+
+    public function getOfertaDetalle($id, $idCarreraUnidadAcademica)
+    {
+
+        $semestre = Semestre::where('uuid', $id)->first();
+        $carreraUnidadAcademica = CarreraUnidadAcademica::where('uuid', $idCarreraUnidadAcademica)->first();
+
+        $oferta = Oferta::where('semestre_id', $semestre->id)
+            ->where('carrera_unidad_academica_id', $carreraUnidadAcademica->id)
+            ->first();
+        $docentesGeneral = Docente::with('persona')->get();
 
         $imparte = Imparte::from('academico.imparte as i')
             ->select(['i.*'])
@@ -121,7 +143,7 @@ class OfertaController extends Controller
             ];
         }
 
-        return response()->json(['status' => 'ok', 'message' => '', 'detalleOferta' => $detalleOferta]);
+        return response()->json(['status' => 'ok', 'message' => '', 'detalleOferta' => $detalleOferta, 'docentes' => $docentesGeneral]);
     }
 
     public function ofertaDetalleSave(Request $request)
@@ -129,15 +151,9 @@ class OfertaController extends Controller
 
         $imparte = Imparte::find($request->get('id'));
         $imparte->ofertada = $request->get('ofertada');
-        //$formaImparteTitular = FormaImparte::where('codigo', 'TITULAR')->first();
-        //$formaImparteAsociado = FormaImparte::where('codigo', 'ASOCIADO')->first();
 
         $docenteTitular = $request->get('docenteTitular');
 
-        //$docentesId = [];
-        /*foreach ($titulares as $d) {
-            $docentesId[$d['id']] = ['forma_imparte_id' => $formaImparteTitular->id];
-        }*/
         $asociados = $request->get('asociados') ?? [];
         $docentesAsociados = [];
         foreach ($asociados as $d) {

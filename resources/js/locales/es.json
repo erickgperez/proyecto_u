@@ -311,7 +311,7 @@
     "_fecha_fin_": "Fecha finalización",
     "_fecha_requerida_": "Fecha requerida",
     "_fila_": "Fila",
-    "_filtros_": "Filtros",    
+    "_filtros_": "Filtros",
     "flujo": {
         "_singular_": "Proceso",
         "_administrar_": "Administrar procesos",
@@ -603,6 +603,7 @@
         "_docentes_asociados_": "Docentes asociados",
         "_asociado_": "Asociado",
         "_titular_": "Titular",
+        "_docente_titular_": "Docente titular",
         "_calendarizar_": "Calendarización de actividades",
         "_calendarizar_descripcion_": "Programación de las actividades que se realizarán en el semestre"
     },

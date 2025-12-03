@@ -68,6 +68,8 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::post('/academico/semestre/{id}/ofertar/{idCarreraUnidadAcademica}', [OfertaController::class, 'ofertar'])->name('academico-semestre-ofertar');
     Route::get('/academico/semestre/{id}/oferta/{idCarreraUnidadAcademica}/detalle', [OfertaController::class, 'getOfertaDetalle'])->name('academico-semestre-oferta-detalle');
     Route::post('/academico/semestre/oferta/detalle/save', [OfertaController::class, 'ofertaDetalleSave'])->name('academico-semestre-oferta-detalle-save');
+    Route::get('/academico/semestre/{id}/oferta/{idCarreraUnidadAcademica}/titular/{idDocente}/save', [OfertaController::class, 'saveDocenteTitular'])->name('academico-semestre-oferta-docente-titular-save');
+
 
     Route::get('/academico/tipo-curso', [TipoCursoController::class, 'index'])->name('academico-tipo_curso-index');
     Route::post('/academico/tipo-curso/save', [TipoCursoController::class, 'save'])->name('academico-tipo_curso-save');

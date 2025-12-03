@@ -311,7 +311,7 @@
     "_fecha_fin_": "End date",
     "_fecha_requerida_": "Required date",
     "_fila_": "Row",
-    "_filtros_": "Filters",    
+    "_filtros_": "Filters",
     "flujo": {
         "_singular_": "Process",
         "_administrar_": "Manage processes",
@@ -579,6 +579,7 @@
         "_docentes_asociados_": "Associated teachers",
         "_asociado_": "Associate",
         "_titular_": "Manager",
+        "_docente_titular_": "Manager",
         "_calendarizar_": "Activity scheduling",
         "_calendarizar_descripcion_": "Schedule of activities to be carried out during the semester"
     },

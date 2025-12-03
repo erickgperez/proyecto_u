@@ -12,17 +12,17 @@ const props = defineProps(['item', 'accion']);
 const items = ref([]);
 const active = ref([]);
 const detalleOferta = ref();
+const docentes = ref([]);
+const docenteTitularId = ref(null);
 
 interface FormData {
     id: number | null;
-    docenteTitular: object | null;
     asociados: Array<[]>;
     ofertada: boolean;
 }
 
 const formData = ref<FormData>({
     id: null,
-    docenteTitular: null,
     asociados: [],
     ofertada: true,
 });
@@ -47,6 +47,8 @@ async function getDetalleOferta(item) {
         const resp = await axios.get(route('academico-semestre-oferta-detalle', { id: props.item.uuid, idCarreraUnidadAcademica: item.uuid }));
         if (resp.data.status == 'ok') {
             detalleOferta.value = resp.data.detalleOferta;
+            docentes.value = resp.data.docentes;
+            docenteTitularId.value = selected.value.docenteTitular?.id;
         } else {
             console.log(resp.data.message);
             throw new Error(resp.data.message);
@@ -94,6 +96,30 @@ async function guardarDetalle(detalle) {
     }
 }
 
+async function guardarDocenteTitular() {
+    if (selected.value && docenteTitularId.value) {
+        try {
+            const resp = await axios.get(
+                route('academico-semestre-oferta-docente-titular-save', {
+                    id: props.item.uuid,
+                    idCarreraUnidadAcademica: selected.value.uuid,
+                    idDocente: docenteTitularId.value,
+                }),
+            );
+            if (resp.data.status == 'ok') {
+                mensajeExito(t('_datos_subidos_correctamente_'));
+                selected.value.docenteTitular = resp.data.docenteTitular;
+            } else {
+                console.log(resp.data.message);
+                throw new Error(resp.data.message);
+            }
+        } catch (error: any) {
+            const msj = axios.isAxiosError(error) ? error.response?.data.message : t(error.message);
+            mensajeError(t('_error_') + '. ' + msj);
+        }
+    }
+}
+
 const selected = computed(() => {
     if (!active.value.length > 0) return undefined;
 
@@ -114,6 +140,12 @@ watch(selected, (newVal) => {
         }
     }
 });
+
+watch(docenteTitularId, (newVal) => {
+    if (selected.value && selected.value.tipo === 'unidad' && (selected.value.docenteTitular == null || selected.value.docenteTitular.id != newVal)) {
+        guardarDocenteTitular();
+    }
+});
 </script>
 <template>
     <v-container fluid>
@@ -128,7 +160,6 @@ watch(selected, (newVal) => {
                     item-title="nombreCompleto"
                     item-value="id"
                     activatable
-                    border
                     fluid
                     rounded
                     return-object
@@ -159,6 +190,17 @@ watch(selected, (newVal) => {
                         <h3 class="text-h5">{{ $t('semestre._no_ofertada_') }}</h3>
                     </v-sheet>
                     <v-row v-else>
+                        <v-col cols="12">
+                            <v-autocomplete
+                                :label="$t('semestre._docente_titular_')"
+                                :items="docentes"
+                                v-model="docenteTitularId"
+                                item-title="persona.nombreCompleto"
+                                item-value="id"
+                                density="compact"
+                                clearable
+                            ></v-autocomplete>
+                        </v-col>
                         <v-col cols="12" md="6" v-for="detalle in detalleOferta" :key="detalle.id">
                             <v-card
                                 rounded
