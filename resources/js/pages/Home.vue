@@ -4,6 +4,7 @@ import AppLayout from '@/layouts/AppLayout.vue';
 import { Head, usePage } from '@inertiajs/vue3';
 import DashboardAspirante from './DashboardAspirante.vue';
 import DashboardEstudiante from './DashboardEstudiante.vue';
+import DashboardDocente from './DashboardDocente.vue';
 
 const { hasRole } = usePermissions();
 const page = usePage();
@@ -15,5 +16,6 @@ const persona = page.props.auth.persona;
     <AppLayout>
         <DashboardAspirante v-if="hasRole('aspirante')"></DashboardAspirante>
         <DashboardEstudiante v-if="hasRole('estudiante')"></DashboardEstudiante>
+        <DashboardDocente v-if="hasRole('docente')"></DashboardDocente>
     </AppLayout>
 </template>

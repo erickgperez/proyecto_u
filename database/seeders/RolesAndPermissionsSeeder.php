@@ -307,6 +307,15 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ACADEMICO_FORMA-IMPARTE_MOSTRAR']);
         Permission::create(['name' => 'ACADEMICO_FORMA-IMPARTE_BORRAR']);
 
+        //EVALUACION
+        Permission::create(['name' => 'MENU_ACADEMICO_EVALUACION']);
+        Permission::create(['name' => 'ACADEMICO_EVALUACION_TODO']);
+        Permission::create(['name' => 'ACADEMICO_EVALUACION_CREAR']);
+        Permission::create(['name' => 'ACADEMICO_EVALUACION_EXPORTAR']);
+        Permission::create(['name' => 'ACADEMICO_EVALUACION_EDITAR']);
+        Permission::create(['name' => 'ACADEMICO_EVALUACION_MOSTRAR']);
+        Permission::create(['name' => 'ACADEMICO_EVALUACION_BORRAR']);
+
         // update cache to know about the newly created permissions (required if using WithoutModelEvents in seeders)
         app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
 

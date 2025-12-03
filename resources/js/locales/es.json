@@ -219,6 +219,15 @@
     "_desde_": "Desde",
     "_direccion_correo_no_valida_": "Dirección de correo no válida",
     "_distrito_": "Distrito",
+    "docente": {
+        "_codigo_": "Código",
+        "_carga_titular_": "Carga como docente titular",
+        "_configurar_evaluaciones_": "Configurar evaluaciones",
+        "_carga_academica_": "Carga académica",
+        "_tipo_asignacion_": "Tipo de asignación",
+        "_docente_asociado_": "Docente asociado",
+        "_ingresar_notas_": "Ingresar notas"
+    },
     "documento": {
         "_singular_": "Documento",
         "_administrar_": "Administrar documentos",

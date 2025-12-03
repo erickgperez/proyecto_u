@@ -159,4 +159,17 @@ class DocenteController extends Controller
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
     }
+
+    public function getDocenteData($uuid)
+    {
+        $persona = Persona::where('uuid', $uuid)->first();
+        $docente = $persona->docente()
+            ->with([
+                'persona' => ['sexo'],
+                'cargaTitular' => ['semestre', 'carreraUnidadAcademica' => ['unidadAcademica', 'carrera']],
+                'imparte' => ['carreraSede', 'oferta' => ['semestre', 'carreraUnidadAcademica' => ['unidadAcademica', 'carrera']]]
+            ])
+            ->first();
+        return response()->json(['status' => 'ok', 'docente' => $docente]);
+    }
 }

@@ -17,6 +17,8 @@ return new class extends Migration
 
             $table->comment('Tabla de docentes');
 
+            $table->string('codigo', 15)->unique();
+
             $table->foreignId('persona_id')->comment('Persona a la que está asignado el estudiante');
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
 

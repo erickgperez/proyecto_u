@@ -17,6 +17,7 @@ use App\Http\Controllers\Academico\UsoEstadoController;
 use App\Http\Controllers\Administracion\DocenteController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Academico\EstudianteController;
+use App\Http\Controllers\Academico\EvaluacionController;
 use App\Http\Controllers\Academico\ExpedienteController;
 use App\Http\Controllers\Academico\FormaImparteController;
 
@@ -92,9 +93,14 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/academico/persona/{uuid}/estudiante/data', [EstudianteController::class, 'getEstudianteData'])->name('academico-persona-estudiante-data');
     Route::get('/academico/estudiante/{uuid}/inscripcion/carrera-sede/{id}', [EstudianteController::class, 'inscripcion'])->name('academico-estudiante-inscripcion-carrera-sede');
-
     Route::post('/academico/estudiante/{uuid}/inscripcion/semestre/{uuidSemestre}/carrera-sede/{id}/save', [ExpedienteController::class, 'inscripcionSave'])->name('academico-estudiante-inscripcion-save');
     Route::get('/academico/estudiante/{uuid}/expediente/carrera-sede/{id}', [ExpedienteController::class, 'expediente'])->name('academico-estudiante-expediente-carrera-sede');
-
     Route::get('/academico/estudiante/{uuid}/perfil', [EstudianteController::class, 'perfil'])->name('academico-estudiante-perfil');
+
+    Route::get('/academico/persona/{uuid}/docente/data', [DocenteController::class, 'getDocenteData'])->name('academico-persona-docente-data');
+
+
+    Route::get('/academico/oferta/{uuid}/evaluacion', [EvaluacionController::class, 'index'])->name('academico-evaluacion-index');
+    Route::post('/academico/oferta/{uuid}/evaluacion/save', [EvaluacionController::class, 'save'])->name('academico-evaluacion-save');
+    Route::delete('/academico/evaluacion/{uuid}/delete', [EvaluacionController::class, 'delete'])->name('academico-evaluacion-delete');
 });

@@ -42,6 +42,11 @@ class Oferta extends Model
         return $this->hasMany(Imparte::class, 'oferta_id');
     }
 
+    public function evaluacion(): hasMany
+    {
+        return $this->hasMany(Evaluacion::class, 'oferta_id');
+    }
+
     public function docenteTitular(): BelongsTo
     {
         return $this->belongsTo(Docente::class, 'docente_titular_id');
