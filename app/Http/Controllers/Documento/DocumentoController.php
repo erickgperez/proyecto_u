@@ -77,16 +77,16 @@ class DocumentoController extends Controller
 
 
 
-        $documentos = $persona->documentos()->with(['archivos', 'tipo'])->get();
+        $documentos = $persona->documentos()->orderBy('tipo_id')->with(['archivos', 'tipo'])->get();
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'documentos' => $documentos]);
     }
 
     public function documentosPersona($id)
     {
-        $persona = Persona::where('uuid', $id)->with(['documentos' => ['archivos', 'tipo']])->first();
+        $persona = Persona::where('uuid', $id)->first();
 
-        $documentos = $persona->documentos;
+        $documentos = $persona->documentos()->orderBy('tipo_id')->with(['archivos', 'tipo'])->get();
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'documentos' => $documentos]);
     }
 

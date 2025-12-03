@@ -41,7 +41,6 @@ interface FormData {
 const props = defineProps(['item', 'accion', 'tiposDocumento']);
 const isEstudiante = computed(() => roles.includes('estudiante'));
 const isDocente = computed(() => roles.includes('docente'));
-const permitirEditar = computed(() => ((isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true));
 
 const formData = ref<FormData>({
     id: null,
@@ -168,7 +167,12 @@ watch(tab, (newVal) => {
                                     target="_blank"
                                 ></v-btn>
                                 <v-spacer></v-spacer>
-                                <v-btn v-if="permitirEditar" color="primary" :text="$t('_actualizar_')" @click="editDocumento(doc)"></v-btn>
+                                <v-btn
+                                    v-if="isEstudiante || isDocente ? doc.permitir_editar : true"
+                                    color="primary"
+                                    :text="$t('_actualizar_')"
+                                    @click="editDocumento(doc)"
+                                ></v-btn>
                             </v-card-actions>
                         </v-card>
                     </v-col>
