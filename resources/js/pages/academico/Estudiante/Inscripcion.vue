@@ -104,7 +104,7 @@ onMounted(() => {
             </v-toolbar>
             <v-divider></v-divider>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef" v-if="localCargaAcademica.length > 0 && semestre">
-                <v-list v-model:selected="cargaSeleccionada" lines="three" select-strategy="leaf" active-class="text-green-darken-2">
+                <v-list v-model:selected="cargaSeleccionada" lines="two" select-strategy="leaf" active-class="text-green-darken-2">
                     <v-list-subheader class="text-primary">{{ $t('inscripcion._inscripcion_asignaturas_indicacion_') }}</v-list-subheader>
 
                     <v-list-item v-for="item in localCargaAcademica" :key="item.id" :value="item">
