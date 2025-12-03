@@ -27,6 +27,7 @@ class OfertaController extends Controller
         $oferta = Oferta::with('semestre', 'carreraUnidadAcademica')
             ->where('semestre_id', $semestre->id)->get();
         $ofertadas = [];
+        $titulares = [];
         foreach ($oferta as $o) {
             $ofertadas[] = $o->carreraUnidadAcademica->id;
             $titulares[$o->carreraUnidadAcademica->id] = $o->docenteTitular;
