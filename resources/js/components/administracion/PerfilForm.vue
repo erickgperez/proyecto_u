@@ -171,7 +171,7 @@ onMounted(() => {
                             :disabled="!permitirEditar"
                         ></v-text-field>
                     </v-col>
-                    <v-col cols="12" v-if="permitirEditar">
+                    <v-col cols="12" v-if="!(isEstudiante || isDocente)">
                         <v-text-field
                             required
                             icon-color="deep-orange"
