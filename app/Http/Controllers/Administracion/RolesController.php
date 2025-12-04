@@ -106,9 +106,9 @@ class RolesController extends Controller
 
         $rol->name = $request->get('name');
 
-        $rol->permisos()->sync($request->get('permisos') ?? []);
-
         $rol->save();
+
+        $rol->permisos()->sync($request->get('permisos') ?? []);
 
         $item = Rol::with(['permisos' => function ($query) {
             $query->orderBy('name', 'asc');

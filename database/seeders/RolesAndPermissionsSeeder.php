@@ -357,6 +357,11 @@ class RolesAndPermissionsSeeder extends Seeder
 
         Role::create(['name' => 'docente'])
             ->givePermissionTo();
+        Role::create(['name' => 'docente-titular'])
+            ->givePermissionTo([
+                'ACADEMICO_EVALUACION_TODO',
+                'MENU_ACADEMICO_EVALUACION',
+            ]);
 
         // No se le dan permisos, este es el único rol que se verifica para dejar realizar cualquier acción
         //->givePermissionTo(Permission::all());
