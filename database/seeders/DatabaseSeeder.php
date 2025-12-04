@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\PlanEstudio\TipoUnidadAcademica;
 use App\Models\User;
 use Database\Seeders\Academico\CarreraSedeSeeder;
 use Database\Seeders\Academico\EstadoSeeder as AcademicoEstadoSeeder;
