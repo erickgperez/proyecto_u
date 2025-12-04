@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Academico;
 use App\Http\Controllers\Controller;
 use App\Models\Academico\CarreraSede;
 use App\Models\Academico\Docente;
-use App\Models\Academico\FormaImparte;
 use App\Models\Academico\Imparte;
 use App\Models\Academico\Oferta;
 use App\Models\Academico\Semestre;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\CarreraUnidadAcademica;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class OfertaController extends Controller
@@ -104,6 +104,19 @@ class OfertaController extends Controller
         $docenteTitular = Docente::where('id', $idDocente)->first();
 
         $oferta->docenteTitular()->associate($docenteTitular);
+        //verificar si el docente ya tiene el rol de docente titular
+        $user = User::select('users.*')
+            ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+            ->join('persona_usuario', 'persona_usuario.usuario_id', '=', 'users.id')
+            ->where('persona_usuario.persona_id', $docenteTitular->persona_id)
+            ->where('roles.name', 'docente')
+            ->where('model_has_roles.model_type', 'App\\Models\\User')
+            ->first();
+
+        if (!$user->hasRole('docente-titular')) {
+            $user->assignRole('docente-titular');
+        }
 
         $oferta->save();
 
