@@ -306,6 +306,17 @@
         "_nombre_": "Name",
         "_indicaciones_": "Indications"
     },
+    "evaluacion": {
+        "_singular_": "Evaluation",
+        "_plural_": "Evaluations",
+        "_crear_": "Create a new evaluation",
+        "_editar_": "Edit evaluation",
+        "_mostrar_": "Show evaluation",
+        "_listado_": "List of evaluations",
+        "_porcentaje_": "Percentage",
+        "_fecha_": "Evaluation date",
+        "_fecha_limite_ingreso_nota_": "Date limit to enter notes"
+    },
     "_enviar_invitaciones_a_": "Send invitations to",
     "_enviar_invitaciones_bachilleres_": "Send invitations to high school students",
     "_exito_": "Success",

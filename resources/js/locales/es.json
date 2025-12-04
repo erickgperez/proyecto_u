@@ -306,6 +306,17 @@
         "_nombre_": "Nombre",
         "_indicaciones_": "Indicaciones"
     },
+    "evaluacion": {
+        "_singular_": "Evaluación",
+        "_plural_": "Evaluaciones",
+        "_crear_": "Crear una nueva evaluación",
+        "_editar_": "Editar evaluación",
+        "_mostrar_": "Mostrar evaluación",
+        "_listado_": "Listado de evaluaciones",
+        "_porcentaje_": "Porcentaje",
+        "_fecha_": "Fecha de evaluación",
+        "_fecha_limite_ingreso_nota_": "Fecha límite de ingreso de notas"
+    },
     "_enviar_invitaciones_a_": "Enviar invitaciones a",
     "_enviar_invitaciones_bachilleres_": "Enviar invitaciones a bachilleres",
     "_exito_": "Éxito",

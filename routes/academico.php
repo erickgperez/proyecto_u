@@ -101,6 +101,6 @@ Route::middleware('auth', 'verified')->group(function () {
 
 
     Route::get('/academico/oferta/{uuid}/evaluacion', [EvaluacionController::class, 'index'])->name('academico-evaluacion-index');
-    Route::post('/academico/oferta/{uuid}/evaluacion/save', [EvaluacionController::class, 'save'])->name('academico-evaluacion-save');
+    Route::post('/academico/oferta/evaluacion/save', [EvaluacionController::class, 'save'])->name('academico-evaluacion-save');
     Route::delete('/academico/evaluacion/{uuid}/delete', [EvaluacionController::class, 'delete'])->name('academico-evaluacion-delete');
 });

@@ -1,8 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue';
-
+import { Link } from '@inertiajs/vue3';
 const props = defineProps(['cargaTitular', 'cargaAsociado']);
-
 </script>
 <template>
     <v-card class="mx-auto" rounded="xl" width="98%">
@@ -11,29 +9,32 @@ const props = defineProps(['cargaTitular', 'cargaAsociado']);
             <v-data-iterator :items="cargaTitular" item-value="id">
                 <template v-slot:default="{ items, isExpanded, toggleExpand }">
                     <v-row>
-                        <v-col v-for="item in items" :key="item.id" cols="12" md="6" >
+                        <v-col v-for="item in items" :key="item.id" cols="12" md="6">
                             <v-card variant="outlined">
                                 <v-card-title class="d-flex align-center text-subtitle-1">
                                     <h4>📚 {{ item.raw.carrera_unidad_academica.unidad_academica.nombre }}</h4>
-                                </v-card-title>                                
+                                </v-card-title>
                                 <v-card-subtitle>
-                                    <span class="font-weight-bold">{{ $t('_codigo_') }}:</span> {{ item.raw.carrera_unidad_academica.unidad_academica.codigo }}
+                                    <span class="font-weight-bold">{{ $t('_codigo_') }}:</span>
+                                    {{ item.raw.carrera_unidad_academica.unidad_academica.codigo }}
                                 </v-card-subtitle>
                                 <v-card-subtitle>
-                                    <span class="font-weight-bold">{{ $t('carrera._singular_') }}:</span> {{ item.raw.carrera_unidad_academica.carrera.nombre }}
+                                    <span class="font-weight-bold">{{ $t('carrera._singular_') }}:</span>
+                                    {{ item.raw.carrera_unidad_academica.carrera.nombre }}
                                 </v-card-subtitle>
                                 <v-card-subtitle>
                                     <span class="font-weight-bold">{{ $t('semestre._singular_') }}:</span> {{ item.raw.semestre.nombre }}
                                 </v-card-subtitle>
                                 <v-card-subtitle>
-                                    <span class="font-weight-bold">{{ $t('docente._tipo_asignacion_') }}:</span> <span class="text-primary font-weight-bold text-decoration-underline text-h6">{{ $t('semestre._docente_titular_') }}</span>
+                                    <span class="font-weight-bold">{{ $t('docente._tipo_asignacion_') }}:</span>
+                                    <span class="font-weight-bold text-decoration-underline text-h6 text-primary">{{
+                                        $t('semestre._docente_titular_')
+                                    }}</span>
                                 </v-card-subtitle>
                                 <v-card-actions>
-                                    <v-btn
-                                        color="deep-purple-accent-4"
-                                        :text="$t('docente._configurar_evaluaciones_')"
-                                        variant="text"
-                                    ></v-btn>
+                                    <Link :href="route('academico-evaluacion-index', { uuid: item.raw.uuid })">
+                                        <v-btn color="deep-purple-accent-4" :text="$t('docente._configurar_evaluaciones_')" variant="text"></v-btn>
+                                    </Link>
                                 </v-card-actions>
 
                                 <!--<div class="px-4">
@@ -69,32 +70,33 @@ const props = defineProps(['cargaTitular', 'cargaAsociado']);
             <v-data-iterator :items="cargaAsociado" item-value="id">
                 <template v-slot:default="{ items, isExpanded, toggleExpand }">
                     <v-row>
-                        <v-col v-for="item in items" :key="item.id" cols="12" md="6" >
+                        <v-col v-for="item in items" :key="item.id" cols="12" md="6">
                             <v-card variant="outlined">
                                 <v-card-title class="d-flex align-center text-subtitle-1">
                                     <h4>📚 {{ item.raw.oferta.carrera_unidad_academica.unidad_academica.nombre }}</h4>
-                                </v-card-title>                                
+                                </v-card-title>
                                 <v-card-subtitle>
-                                    <span class="font-weight-bold">{{ $t('_codigo_') }}:</span> {{ item.raw.oferta.carrera_unidad_academica.unidad_academica.codigo }}
+                                    <span class="font-weight-bold">{{ $t('_codigo_') }}:</span>
+                                    {{ item.raw.oferta.carrera_unidad_academica.unidad_academica.codigo }}
                                 </v-card-subtitle>
                                 <v-card-subtitle>
                                     <span class="font-weight-bold">{{ $t('sede._sede_') }}:</span> {{ item.raw.carrera_sede.sede.nombre }}
                                 </v-card-subtitle>
                                 <v-card-subtitle>
-                                    <span class="font-weight-bold">{{ $t('carrera._singular_') }}:</span> {{ item.raw.oferta.carrera_unidad_academica.carrera.nombre }}
+                                    <span class="font-weight-bold">{{ $t('carrera._singular_') }}:</span>
+                                    {{ item.raw.oferta.carrera_unidad_academica.carrera.nombre }}
                                 </v-card-subtitle>
                                 <v-card-subtitle>
                                     <span class="font-weight-bold">{{ $t('semestre._singular_') }}:</span> {{ item.raw.oferta.semestre.nombre }}
                                 </v-card-subtitle>
                                 <v-card-subtitle>
-                                    <span class="font-weight-bold">{{ $t('docente._tipo_asignacion_') }}:</span> <span class="text-secondary font-weight-bold text-decoration-underline text-h6">{{ $t('docente._docente_asociado_') }}</span>
+                                    <span class="font-weight-bold">{{ $t('docente._tipo_asignacion_') }}:</span>
+                                    <span class="font-weight-bold text-decoration-underline text-h6 text-secondary">{{
+                                        $t('docente._docente_asociado_')
+                                    }}</span>
                                 </v-card-subtitle>
                                 <v-card-actions>
-                                    <v-btn
-                                        color="primary"
-                                        :text="$t('docente._ingresar_notas_')"
-                                        variant="text"
-                                    ></v-btn>
+                                    <v-btn color="primary" :text="$t('docente._ingresar_notas_')" variant="text"></v-btn>
                                 </v-card-actions>
 
                                 <!--<div class="px-4">

@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
-import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
@@ -25,14 +25,22 @@ interface FormData {
     id: number | null;
     codigo: string;
     descripcion: string;
+    fecha: Date | null;
+    fecha_limite_ingreso_nota: Date | null;
+    porcentaje: number;
+    oferta_uuid: string;
 }
 
-const props = defineProps(['item', 'accion']);
+const props = defineProps(['item', 'accion', 'oferta']);
 
 const formData = ref<FormData>({
     id: null,
     codigo: '',
     descripcion: '',
+    fecha: null,
+    fecha_limite_ingreso_nota: null,
+    porcentaje: 0,
+    oferta_uuid: props.oferta.uuid,
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -42,13 +50,12 @@ async function submitForm() {
 
     if (valid) {
         try {
-            const resp = await axios.post(route('academico-plan_estudio-area-save'), formData.value);
+            const resp = await axios.post(route('academico-evaluacion-save'), formData.value);
             if (resp.data.status == 'ok') {
                 if (!isEditing.value) {
                     reset();
                 }
                 emit('form-saved', resp.data.item);
-                //localItem.value.afiche = resp.data.convocatoria.afiche;
                 mensajeExito(t('_datos_subidos_correctamente_'));
             } else {
                 throw new Error(resp.data.message);
@@ -68,10 +75,13 @@ onMounted(() => {
     if (props.item) {
         filteredAssign(formData.value, props.item);
     }
+    if (isEditing.value) {
+        formData.value.porcentaje = Number(props.item.porcentaje);
+    }
 });
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('area._editar_') : $t('area._crear_')} `">
+    <v-card :title="`${isEditing ? $t('evaluacion._editar_') : $t('evaluacion._crear_')} `">
         <template v-slot:text>
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
@@ -95,6 +105,34 @@ onMounted(() => {
                             counter="255"
                             :label="$t('_descripcion_') + ' *'"
                         ></v-text-field>
+                        <v-locale-provider locale="en">
+                            <v-number-input
+                                required
+                                icon-color="deep-orange"
+                                prepend-icon="mdi-form-textbox"
+                                v-model="formData.porcentaje"
+                                :rules="[rules.required]"
+                                :min="0"
+                                :max="100"
+                                :precision="2"
+                                :label="$t('evaluacion._porcentaje_') + ' *'"
+                                suffix="%"
+                            ></v-number-input>
+                        </v-locale-provider>
+                        <v-col cols="6">
+                            <v-locale-provider locale="es">
+                                <v-date-input clearable v-model="formData.fecha" :label="$t('evaluacion._fecha_')"></v-date-input>
+                            </v-locale-provider>
+                        </v-col>
+                        <v-col cols="6">
+                            <v-locale-provider locale="es">
+                                <v-date-input
+                                    clearable
+                                    v-model="formData.fecha_limite_ingreso_nota"
+                                    :label="$t('evaluacion._fecha_limite_ingreso_nota_')"
+                                ></v-date-input>
+                            </v-locale-provider>
+                        </v-col>
                     </v-col>
 
                     <v-col cols="12" align="right">
