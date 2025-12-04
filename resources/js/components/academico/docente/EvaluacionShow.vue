@@ -32,6 +32,28 @@ const props = defineProps(['item', 'accion']);
                     {{ props.item.descripcion }}
                 </v-col>
             </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('evaluacion._porcentaje_') }}
+                </v-col>
+                <v-col cols="8"> {{ props.item.porcentaje }}% </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('evaluacion._fecha_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.fecha ? date.format(props.item.fecha, 'keyboardDateTime12h') : '' }}
+                </v-col>
+            </v-row>
+            <v-row>
+                <v-col cols="4">
+                    {{ $t('evaluacion._fecha_limite_ingreso_nota_') }}
+                </v-col>
+                <v-col cols="8">
+                    {{ props.item.fecha_limite_ingreso_nota ? date.format(props.item.fecha_limite_ingreso_nota, 'keyboardDateTime12h') : '' }}
+                </v-col>
+            </v-row>
 
             <v-row>
                 <v-col cols="4">

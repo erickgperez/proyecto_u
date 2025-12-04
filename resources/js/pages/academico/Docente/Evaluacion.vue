@@ -56,7 +56,7 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
 );
 
 const selectedItemLabel = computed(() => selectedItem.value?.codigo ?? '');
-const rutaBorrar = ref('academico-plan_estudio-area-delete');
+const rutaBorrar = ref('academico-evaluacion-delete');
 const mensajes = {
     titulo1: t('evaluacion._plural_'),
     titulo2: t('evaluacion._administrar_'),
