@@ -289,7 +289,7 @@
         "_carnet_": "Carnet",
         "_carrera_sede_": "Carrera Sede",
         "_perfil_": "Perfil de estudiante",
-        "_perfil_descripcion_": "Datos personales y contacto del estudiante"
+        "_perfil_descripcion_": "Datos personales y contacto del estudiante"        
     },
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
     "etapa": {
@@ -323,7 +323,8 @@
     "expediente": {
         "_singular_": "Expediente",
         "_titulo_descripcion_": "Registro académico",
-        "_estado_": "Estado en expediente"
+        "_estado_": "Estado en expediente",
+        "_expediente_descripcion_": "Registro académico del estudiante"
     },
     "_exportar_": "Exportar",
     "_fecha_": "Fecha",

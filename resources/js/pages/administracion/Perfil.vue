@@ -79,6 +79,7 @@ const acc = {
     documentos: 'ADMINISTRACION_PERFIL_DOCUMENTOS',
     docente_asignacion_carrera_sede: 'ADMINISTRACION_PERFIL_DOCENTE_ASIGNACION-CARRERA-SEDE',
     docente_carga_academica: 'ADMINISTRACION_PERFIL_DOCENTE_CARGA-ACADEMICA',
+    estudiante_expediente: 'ADMINISTRACION_PERFIL_ESTUDIANTE_EXPEDIENTE',
 };
 const permisoAny = 'ADMINISTRACION_PERFIL_';
 // Permisos requeridos por la interfaz
@@ -170,6 +171,8 @@ const iconLayout = computed(() => {
         return 'mdi-account-search-outline';
     } else if (props.perfil === 'docente') {
         return 'mdi-human-male-board';
+    } else if (props.perfil === 'estudiante') {
+        return 'mdi-account-school-outline';
     }
     return '';
 });
@@ -196,7 +199,19 @@ onMounted(() => {
         });
     }
 
-    if (props.perfil === 'aspirante') {
+    if (props.perfil === 'estudiante') {
+        /*opciones.push({
+            orden: 40,
+            permiso: acc.estudiante_expediente,
+            title: t('expediente._singular_'),
+            text: t('expediente._expediente_descripcion_'),
+            emitAction: 'estudiante-expediente',
+            color: 'brown-darken-3',
+            icon: 'mdi-folder-table-outline',
+        });*/
+    }
+
+    if (props.perfil === 'aspirante' || props.perfil === 'estudiante') {
         ocultarCrear.value = true;
     }
 });

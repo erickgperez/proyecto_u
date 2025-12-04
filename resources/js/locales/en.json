@@ -323,7 +323,8 @@
     "expediente": {
         "_singular_": "Expedient",
         "_titulo_descripcion_": "Academic record",
-        "_estado_": "State in the record"
+        "_estado_": "State in the record",
+        "_expediente_descripcion_": "Academic record of the student"
     },
     "_exportar_": "Export",
     "_fecha_": "Date",
