@@ -73,7 +73,7 @@ const acc = {
 const permisoAny = 'ACADEMICO_EVALUACION_';
 // Permisos requeridos por la interfaz
 const permisos = {
-    listado: 'MENU_ACADEMICO_EVALUACION',
+    listado: 'ACADEMICO_EVALUACION_',
     crear: 'ACADEMICO_EVALUACION_CREAR',
     exportar: 'ACADEMICO_EVALUACION_EXPORTAR',
     acciones: [acc.editar, acc.borrar, acc.mostrar],

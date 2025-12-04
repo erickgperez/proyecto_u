@@ -97,7 +97,7 @@ async function guardarDetalle(detalle) {
 }
 
 async function guardarDocenteTitular() {
-    if (selected.value && docenteTitularId.value) {
+    if (selected.value) {
         try {
             const resp = await axios.get(
                 route('academico-semestre-oferta-docente-titular-save', {

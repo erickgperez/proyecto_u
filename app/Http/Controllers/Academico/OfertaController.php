@@ -91,7 +91,7 @@ class OfertaController extends Controller
         return response()->json(['status' => 'ok', 'message' => '']);
     }
 
-    public function saveDocenteTitular($id, $idCarreraUnidadAcademica, $idDocente)
+    public function saveDocenteTitular($id, $idCarreraUnidadAcademica, $idDocente = null)
     {
 
         $semestre = Semestre::where('uuid', $id)->first();
@@ -101,21 +101,26 @@ class OfertaController extends Controller
             ->where('carrera_unidad_academica_id', $carreraUnidadAcademica->id)
             ->first();
 
-        $docenteTitular = Docente::where('id', $idDocente)->first();
+        if ($idDocente) {
+            $docenteTitular = Docente::where('id', $idDocente)->first();
+            $oferta->docenteTitular()->associate($docenteTitular);
 
-        $oferta->docenteTitular()->associate($docenteTitular);
-        //verificar si el docente ya tiene el rol de docente titular
-        $user = User::select('users.*')
-            ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->join('persona_usuario', 'persona_usuario.usuario_id', '=', 'users.id')
-            ->where('persona_usuario.persona_id', $docenteTitular->persona_id)
-            ->where('roles.name', 'docente')
-            ->where('model_has_roles.model_type', 'App\\Models\\User')
-            ->first();
+            //verificar si el docente ya tiene el rol de docente titular
+            $user = User::select('users.*')
+                ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
+                ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
+                ->join('persona_usuario', 'persona_usuario.usuario_id', '=', 'users.id')
+                ->where('persona_usuario.persona_id', $docenteTitular->persona_id)
+                ->where('roles.name', 'docente')
+                ->where('model_has_roles.model_type', 'App\\Models\\User')
+                ->first();
 
-        if (!$user->hasRole('docente-titular')) {
-            $user->assignRole('docente-titular');
+            if (!$user->hasRole('docente-titular')) {
+                $user->assignRole('docente-titular');
+            }
+        } else {
+            $docenteTitular = null;
+            $oferta->docenteTitular()->dissociate();
         }
 
         $oferta->save();
