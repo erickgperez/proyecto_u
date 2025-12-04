@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('uuid')->unique()->after('id');
             $table->comment('Registro de la configuración de evaluaciones de las asignaturas');
 
-            $table->decimal('calificacion', 5, 2)->comment('Calificación de la evaluación');
+            $table->decimal('calificacion', 5, 2)->nullable->comment('Calificación de la evaluación');
 
             $table->foreignId('evaluacion_id')->comment('Id de la evaluación');
             $table->foreign('evaluacion_id')->references('id')->on('academico.evaluacion')->onDelete('RESTRICT')->onUpdate('CASCADE');
