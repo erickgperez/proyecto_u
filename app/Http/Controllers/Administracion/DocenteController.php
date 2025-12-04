@@ -176,8 +176,15 @@ class DocenteController extends Controller
         $docente = $persona->docente()
             ->with([
                 'persona' => ['sexo'],
-                'cargaTitular' => ['semestre', 'carreraUnidadAcademica' => ['unidadAcademica', 'carrera']],
-                'imparte' => ['carreraSede', 'oferta' => ['semestre', 'carreraUnidadAcademica' => ['unidadAcademica', 'carrera']]]
+                'cargaTitular' => [
+                    'semestre' => function ($query) {
+                        $query->where('fecha_fin', '>=', date('Y-m-d'));
+                    },
+                    'carreraUnidadAcademica' => ['unidadAcademica', 'carrera']
+                ],
+                'imparte' => ['carreraSede', 'oferta' => ['semestre' => function ($query) {
+                    $query->where('fecha_fin', '>=', date('Y-m-d'));
+                }, 'carreraUnidadAcademica' => ['unidadAcademica', 'carrera']]]
             ])
             ->first();
         return response()->json(['status' => 'ok', 'docente' => $docente]);

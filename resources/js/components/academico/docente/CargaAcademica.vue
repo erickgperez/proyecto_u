@@ -10,7 +10,7 @@ const props = defineProps(['cargaTitular', 'cargaAsociado']);
                 <template v-slot:default="{ items, isExpanded, toggleExpand }">
                     <v-row>
                         <v-col v-for="item in items" :key="item.id" cols="12" md="6">
-                            <v-card variant="outlined">
+                            <v-card variant="outlined" v-if="item.raw.semestre">
                                 <v-card-title class="d-flex align-center text-subtitle-1">
                                     <h4>📚 {{ item.raw.carrera_unidad_academica.unidad_academica.nombre }}</h4>
                                 </v-card-title>
@@ -71,7 +71,7 @@ const props = defineProps(['cargaTitular', 'cargaAsociado']);
                 <template v-slot:default="{ items, isExpanded, toggleExpand }">
                     <v-row>
                         <v-col v-for="item in items" :key="item.id" cols="12" md="6">
-                            <v-card variant="outlined">
+                            <v-card variant="outlined" v-if="item.raw.oferta.semestre">
                                 <v-card-title class="d-flex align-center text-subtitle-1">
                                     <h4>📚 {{ item.raw.oferta.carrera_unidad_academica.unidad_academica.nombre }}</h4>
                                 </v-card-title>
