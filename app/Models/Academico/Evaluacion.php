@@ -8,6 +8,7 @@ use App\Traits\HasUuid;
 use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Evaluacion extends Model
 {
@@ -28,5 +29,10 @@ class Evaluacion extends Model
     public function oferta(): BelongsTo
     {
         return $this->belongsTo(Oferta::class);
+    }
+
+    public function calificacion(): HasMany
+    {
+        return $this->hasMany(Calificacion::class, 'evaluacion_id');
     }
 }

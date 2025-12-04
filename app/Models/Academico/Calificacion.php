@@ -15,6 +15,12 @@ class Calificacion extends Model
 
     protected $table = "academico.calificacion";
 
+    protected $fillable = [
+        'evaluacion_id',
+        'inscrito_id',
+        'calificacion',
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

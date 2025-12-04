@@ -12,6 +12,7 @@ use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Expediente extends Model
 {
@@ -47,5 +48,10 @@ class Expediente extends Model
     public function inscritos(): BelongsToMany
     {
         return $this->belongsToMany(Imparte::class, 'academico.inscritos', 'expediente_id', 'imparte_id');
+    }
+
+    public function inscritosPivot(): HasMany
+    {
+        return $this->hasMany(Inscritos::class, 'expediente_id');
     }
 }

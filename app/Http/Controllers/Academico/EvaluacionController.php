@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academico\Calificacion;
 use App\Models\Academico\Evaluacion;
 use App\Models\Academico\Oferta;
 use Illuminate\Http\Request;
@@ -102,5 +103,59 @@ class EvaluacionController extends Controller
         } else {
             return response()->json(['status' => 'ok', 'message' => $id]);
         }
+    }
+
+    public function registroNotas($uuid)
+    {
+
+        $oferta = Oferta::where("uuid", $uuid)->with([
+            'semestre',
+            'imparte' => ['inscritosPivot' => ['expediente' => ['estado', 'estudiante' => ['persona']]]],
+            'carreraUnidadAcademica' => [
+                'unidadAcademica',
+                'carrera',
+            ],
+            'evaluacion'
+
+        ])
+            ->first();
+
+        //Revisar que todos los expedientes tengan el registro de la evaluación
+        $oferta->imparte()->each(function ($imparte) use ($oferta) {
+            $imparte->inscritosPivot()->each(function ($inscrito) use ($oferta) {
+                $oferta->evaluacion()->each(function ($evaluacion) use ($inscrito) {
+                    //Crear si no existe
+                    Calificacion::firstOrCreate([
+                        'evaluacion_id' => $evaluacion->id,
+                        'inscrito_id' => $inscrito->id,
+                    ], [
+                        'calificacion' => null,
+                    ]);
+                });
+            });
+        });
+
+        //Volver a recuperar los datos, ya que se hicieron cambios
+        $oferta = Oferta::where("uuid", $uuid)->with([
+            'semestre',
+            'imparte' => [
+                'inscritosPivot' => [
+                    'expediente' => ['estado', 'estudiante' => ['persona']],
+                    'calificacion' => ['evaluacion' => function ($query) {
+                        $query->orderBy('fecha', 'desc')->orderBy('codigo', 'asc');
+                    }]
+                ]
+            ],
+        ])
+            ->first();
+        $expedientes = [];
+        foreach ($oferta->imparte as $imparte) {
+            if ($imparte->inscritosPivot->count() > 0) {
+                $expedientes[] = $imparte->inscritosPivot;
+            }
+        }
+
+
+        return Inertia::render('academico/Docente/RegistroNotas', ['expedientes' => $expedientes, 'oferta' => $oferta]);
     }
 }
