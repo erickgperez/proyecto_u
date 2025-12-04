@@ -106,11 +106,14 @@ headers.push(
     { title: t('perfil._nombre_'), key: 'nombre', align: 'start' },
     { title: t('perfil._apellidos_'), key: 'apellidos', align: 'start' },
     { title: t('perfil._sexo_'), key: 'sexo.descripcion', align: 'center' },
-    { title: t('perfil._fecha_nacimiento_'), key: 'fecha_nacimiento', align: 'center' },
-    { title: t('perfil._edad_'), key: 'edad', align: 'end' },
+    //{ title: t('perfil._fecha_nacimiento_'), key: 'fecha_nacimiento', align: 'center' },
+    //{ title: t('perfil._edad_'), key: 'edad', align: 'end' },
 );
 if (props.perfil === 'docente') {
-    headers.push({ title: t('docente._carrera_sede_'), key: 'carreras_sedes', align: 'center' });
+    headers.push(
+        { title: t('docente._codigo_'), key: 'docente.codigo', align: 'center' },
+        { title: t('sede._sede_'), key: 'sede_principal.nombre', align: 'center' },
+    );
 }
 headers.push({ title: t('_acciones_'), key: 'actions', align: 'center' });
 
