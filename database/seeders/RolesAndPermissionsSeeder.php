@@ -359,8 +359,5 @@ class RolesAndPermissionsSeeder extends Seeder
             ->givePermissionTo([
                 'ACADEMICO_EVALUACION_TODO'
             ]);
-
-        // No se le dan permisos, este es el único rol que se verifica para dejar realizar cualquier acción
-        //->givePermissionTo(Permission::all());
     }
 }
