@@ -43,11 +43,10 @@ const props = defineProps({
         required: true,
         default: () => '',
     },
-    permitirAcciones: Boolean,
 });
 
 const accionesCheckPermisos = computed(() => {
-    return props.acciones.filter((accion: Accion) => hasPermission(accion.permiso) || props.permitirAcciones);
+    return props.acciones.filter((accion: Accion) => hasPermission(accion.permiso));
 });
 
 function emitirAccion(accion: string) {

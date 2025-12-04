@@ -141,7 +141,6 @@ const opcionesAccion = [
                         :permisoExportar="permisos.exportar"
                         :sheetName="sheetName"
                         :fileName="fileName"
-                        :permitirCrear="true"
                     >
                         <template v-slot:item.fecha="{ value }">
                             <div class="d-flex ga-2 justify-center">
@@ -168,7 +167,6 @@ const opcionesAccion = [
                         :selectedItemLabel="selectedItemLabel"
                         :rutaBorrar="rutaBorrar"
                         :selectedItemId="selectedItem.uuid"
-                        :permitirAcciones="true"
                     ></Acciones>
                     <v-alert v-else border="top" type="warning" variant="outlined" prominent>
                         {{ $t('_no_tiene_permiso_para_realizar_ninguna_accion_') }}
