@@ -356,8 +356,6 @@ class RolesAndPermissionsSeeder extends Seeder
             ->givePermissionTo();
 
         Role::create(['name' => 'docente'])
-            ->givePermissionTo();
-        Role::create(['name' => 'docente-titular'])
             ->givePermissionTo([
                 'ACADEMICO_EVALUACION_TODO'
             ]);

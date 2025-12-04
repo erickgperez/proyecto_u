@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Academico;
 use App\Http\Controllers\Controller;
 use App\Models\Academico\Evaluacion;
 use App\Models\Academico\Oferta;
-use App\Models\PlanEstudio\Area;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;

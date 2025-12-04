@@ -152,17 +152,6 @@ class DocenteController extends Controller
 
         $docente = Docente::where('uuid', $uuid)->first();
         $docente->imparte()->sync($request->get('cargaAsociado') ?? []);
-        $user = User::select('users.*')
-            ->join('model_has_roles', 'model_has_roles.model_id', '=', 'users.id')
-            ->join('roles', 'roles.id', '=', 'model_has_roles.role_id')
-            ->join('persona_usuario', 'persona_usuario.usuario_id', '=', 'users.id')
-            ->where('persona_usuario.persona_id', $docente->persona_id)
-            ->where('roles.name', 'docente')
-            ->where('model_has_roles.model_type', 'App\\Models\\User')
-            ->first();
-
-        // Quitar el rol de docente-titular
-        $user->removeRole('docente-titular');
 
         //Desasociar todos los registros que tenga como titular
         foreach ($docente->cargaTitular as $oferta) {
@@ -176,11 +165,6 @@ class DocenteController extends Controller
             $oferta->docenteTitular()->associate($docente);
 
             $oferta->save();
-        }
-
-        //Volverlo a asignar solo si tiene cargar titular
-        if ($docente->cargaTitular()->count() > 0) {
-            $user->assignRole('docente-titular');
         }
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
