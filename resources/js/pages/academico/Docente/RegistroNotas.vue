@@ -39,11 +39,11 @@ const validarCelda = (e, row, key) => {
     if (valor === '') {
         row[key] = valorAnterior.value;
         e.target.value = valorAnterior.value;
-        return;
+        return false;
     }
 
     // Si es número entero de 2 dígitos: autoformato 85 -> 8.5
-    if (/^\d{2}$/.test(valor)) {
+    if (/^\d{2}$/.test(valor) && valor !== '10') {
         valor = (Number(valor) / 10).toFixed(1);
     }
 
@@ -58,7 +58,8 @@ const validarCelda = (e, row, key) => {
     if (!regex.test(valor)) {
         row[key] = valorAnterior.value;
         e.target.value = valorAnterior.value;
-        return;
+
+        return false;
     }
 
     const num = Number(valor);
@@ -66,7 +67,7 @@ const validarCelda = (e, row, key) => {
     if (num < 0 || num > 10) {
         row[key] = valorAnterior.value;
         e.target.value = valorAnterior.value;
-        return;
+        return false;
     }
 
     // Valor válido → aplicar
@@ -80,6 +81,30 @@ const validarCelda = (e, row, key) => {
         console.log(row.uuid);
         console.log(key);
     }
+    return true;
+};
+
+const errorPopup = ref({
+    show: false,
+    message: '',
+    x: 0,
+    y: 0,
+});
+
+const mostrarErrorCelda = (el, mensaje) => {
+    const rect = el.getBoundingClientRect();
+
+    errorPopup.value = {
+        show: true,
+        message: mensaje,
+        x: rect.left + window.scrollX,
+        y: rect.bottom + window.scrollY + 4, // un poquito debajo
+    };
+
+    // Ocultar después de 3 segundos
+    setTimeout(() => {
+        errorPopup.value.show = false;
+    }, 6000);
 };
 
 const exportarExcel = () => {
@@ -114,12 +139,12 @@ const setActiveCell = (row, col) => {
     activeCol.value = col;
 };
 
+const findInput = (r, c) => document.querySelector(`input[data-row="${r}"][data-col="${c}"][data-visible="1"]`);
+
 // ------------------ NAVEGACIÓN TIPO EXCEL CON COLUMNAS VISIBLES ------------------
 const onExcelNav = (e, fila, key) => {
     const row = Number(e.target.dataset.row);
     const col = Number(e.target.dataset.col);
-
-    const findInput = (r, c) => document.querySelector(`input[data-row="${r}"][data-col="${c}"][data-visible="1"]`);
 
     let next;
 
@@ -175,21 +200,27 @@ const onExcelNav = (e, fila, key) => {
             return;
     }
 
-    if (next) {
-        e.preventDefault();
-        next.focus();
-        setActiveCell(Number(next.dataset.row), Number(next.dataset.col));
-        next.select();
-    } else {
-        if (e.key === 'Enter' || e.key === 'Tab') {
+    if (validarCelda(e, fila, key)) {
+        errorPopup.value.show = false;
+        if (next) {
             e.preventDefault();
+            next.focus();
+            setActiveCell(Number(next.dataset.row), Number(next.dataset.col));
+            next.select();
+        } else {
+            if (e.key === 'Enter' || e.key === 'Tab') {
+                e.preventDefault();
 
-            // Quitar selección
-            setActiveCell(null, null);
+                // Quitar selección
+                setActiveCell(null, null);
 
-            // Perder el foco real del input
-            e.target.blur();
+                // Perder el foco real del input
+                e.target.blur();
+            }
         }
+    } else {
+        //mostrar mensaje de error
+        mostrarErrorCelda(e.target, 'Valor inválido. Solo 0 a 10 con un decimal. Se restablece el valor anterior.');
     }
 };
 
@@ -240,8 +271,8 @@ function calcularPromedio(item) {
                 <h3>Hoja tipo Excel - Ingreso de calificaciones</h3>
             </v-col>
             <v-btn color="green" class="mb-4" @click="exportarExcel"> Exportar a Excel </v-btn>
-            <v-checkbox v-model="aplicarEscalaColor" label="Aplicar escala de color" hide-details />
-            <v-checkbox v-model="aplicarGuiaFilaColumna" label="Aplicar guía de fila y columna" hide-details />
+            <v-checkbox v-model="aplicarEscalaColor" label="Escala de color" hide-details />
+            <v-checkbox v-model="aplicarGuiaFilaColumna" label="Guía de fila y columna" hide-details />
             <v-menu>
                 <template #activator="{ props }">
                     <v-btn v-bind="props" color="primary">Columnas</v-btn>
@@ -279,7 +310,7 @@ function calcularPromedio(item) {
             <!-- CUERPO -->
             <template #body="{ items }">
                 <tr v-for="(row, rowIndex) in items" :key="rowIndex" class="excel-row">
-                    <td class="excel-header" :class="{ 'excel-header-active': activeRow === rowIndex }">
+                    <td class="excel-header" :class="{ 'excel-row-header-active': activeRow === rowIndex }">
                         {{ row.nombre }}
                     </td>
 
@@ -301,7 +332,6 @@ function calcularPromedio(item) {
                             :data-col="colIndex"
                             :data-visible="ev.visible ? 1 : 0"
                             @keydown="(e) => onExcelNav(e, row, ev.key)"
-                            @blur="(e) => validarCelda(e, row, ev.key)"
                             @focus="
                                 (e) => {
                                     setActiveCell(rowIndex, colIndex);
@@ -315,7 +345,7 @@ function calcularPromedio(item) {
                     <td
                         class="excel-cell"
                         :style="{ background: colorEscalaExcel(calcularPromedio(row)) }"
-                        :class="{ 'excel-header-active': activeRow === rowIndex }"
+                        :class="{ 'excel-row-header-right-active': activeRow === rowIndex }"
                     >
                         {{ calcularPromedio(row) }}
                     </td>
@@ -323,6 +353,9 @@ function calcularPromedio(item) {
             </template>
         </v-data-table>
     </v-container>
+    <div v-if="errorPopup.show" class="error-popup" :style="{ left: errorPopup.x + 'px', top: errorPopup.y + 'px' }">
+        {{ errorPopup.message }}
+    </div>
 </template>
 
 <style scoped>
@@ -377,11 +410,6 @@ function calcularPromedio(item) {
     font-family: 'Segoe UI', Arial, sans-serif;
 }
 
-.excel-input:focus {
-    outline: 2px solid #4a90e2 !important; /* Office blue focus */
-    background: #ffffff;
-}
-
 /* Hover style */
 .excel-row:hover .excel-cell {
     /*background: #eef6ff; /* Light blue hover */
@@ -422,5 +450,35 @@ function calcularPromedio(item) {
     color: #000;
     font-weight: 700;
     box-shadow: inset 0 -2px 0 #4a90e2; /* Línea azul inferior */
+}
+
+/* Encabezado resaltado cuando la fila está activa */
+.excel-row-header-active {
+    background: #dbe6ff !important; /* Azul claro Excel */
+    color: #000;
+    font-weight: 700;
+    box-shadow: inset -2px 0 0 #4a90e2; /* Línea azul derecha */
+}
+
+/* Encabezado resaltado cuando la fila está activa */
+.excel-row-header-right-active {
+    background: #dbe6ff !important; /* Azul claro Excel */
+    color: #000;
+    font-weight: 700;
+    box-shadow: inset 2px 0 0 #4a90e2; /* Línea azul izquierda */
+}
+
+.error-popup {
+    position: absolute;
+    background: #ffdddd;
+    color: #b00000;
+    border: 1px solid #d55;
+    padding: 6px 10px;
+    border-radius: 4px;
+    font-size: 13px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+    z-index: 9999;
+    pointer-events: none;
+    white-space: nowrap;
 }
 </style>
