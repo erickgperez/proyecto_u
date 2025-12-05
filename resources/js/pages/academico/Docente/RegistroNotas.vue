@@ -269,12 +269,10 @@ function calcularPromedio(item) {
             <v-col cols="6">
                 <h3>Hoja tipo Excel - Ingreso de calificaciones</h3>
             </v-col>
-            <v-btn color="green" class="mb-4" @click="exportarExcel"> Exportar a Excel </v-btn>
-            <v-checkbox v-model="aplicarEscalaColor" label="Escala de color" hide-details />
-            <v-checkbox v-model="aplicarGuiaFilaColumna" label="Guía de fila y columna" hide-details />
-            <v-menu>
+            <v-btn color="primary" @click="exportarExcel" stacked variant="tonal" prepend-icon="mdi-file-excel"> Exportar </v-btn>
+            <v-menu stacked>
                 <template #activator="{ props }">
-                    <v-btn v-bind="props" color="primary">Columnas</v-btn>
+                    <v-btn stacked variant="tonal" v-bind="props" color="primary" prepend-icon="mdi-format-columns">Columnas</v-btn>
                 </template>
 
                 <v-list>
@@ -283,6 +281,24 @@ function calcularPromedio(item) {
                     </v-list-item>
                 </v-list>
             </v-menu>
+            <v-btn
+                color="primary"
+                @click="aplicarGuiaFilaColumna = !aplicarGuiaFilaColumna"
+                stacked
+                variant="tonal"
+                :prepend-icon="aplicarGuiaFilaColumna ? 'mdi-eye' : 'mdi-eye-off'"
+            >
+                <span class="text-caption mt-2 mb-1">Guía fila-columna</span>
+            </v-btn>
+            <v-btn
+                color="primary"
+                @click="aplicarEscalaColor = !aplicarEscalaColor"
+                stacked
+                variant="tonal"
+                :prepend-icon="aplicarEscalaColor ? 'mdi-toggle-switch' : 'mdi-toggle-switch-off-outline'"
+            >
+                <span class="text-caption mt-2 mb-1">Escala de color</span>
+            </v-btn>
         </v-row>
 
         <v-data-table :headers="headers" :items="alumnos" class="excel-table" hide-default-header :items-per-page="-1" hide-default-footer>
