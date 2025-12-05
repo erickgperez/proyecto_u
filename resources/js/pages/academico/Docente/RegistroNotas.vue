@@ -284,8 +284,8 @@ function calcularPromedio(item) {
         :subtitulo="$t('semestre._singular_') + ': ' + imparte?.oferta?.semestre.nombre"
         icono="mdi-table-large-plus"
     >
-        <v-container fluid class="pa-4">
-            <v-card>
+        <v-container fluid>
+            <v-card elevation="8" rounded="lg">
                 <v-toolbar color="blue-grey-darken-1">
                     <v-toolbar-title>
                         <strong>{{ $t('sede._sede_') }}:</strong> {{ imparte?.carrera_sede?.sede?.nombre }}
@@ -307,19 +307,17 @@ function calcularPromedio(item) {
                             <v-btn size="x-small" @click="exportarExcel" stacked prepend-icon="mdi-file-excel"> Exportar </v-btn>
                         </v-fade-transition>
 
-                        <v-fade-transition hide-on-leave>
-                            <v-menu>
-                                <template #activator="{ props }">
-                                    <v-btn size="x-small" stacked prepend-icon="mdi-format-columns">Columnas</v-btn>
-                                </template>
+                        <v-menu>
+                            <template #activator="{ props }">
+                                <v-btn v-bind="props" size="x-small" stacked prepend-icon="mdi-format-columns">Columnas</v-btn>
+                            </template>
 
-                                <v-list>
-                                    <v-list-item v-for="ev in evaluaciones" :key="ev.key">
-                                        <v-checkbox v-model="ev.visible" :label="ev.codigo" hide-details />
-                                    </v-list-item>
-                                </v-list>
-                            </v-menu>
-                        </v-fade-transition>
+                            <v-list>
+                                <v-list-item v-for="ev in evaluaciones" :key="ev.key">
+                                    <v-checkbox v-model="ev.visible" :label="ev.codigo" hide-details />
+                                </v-list-item>
+                            </v-list>
+                        </v-menu>
 
                         <v-fade-transition hide-on-leave>
                             <v-btn
