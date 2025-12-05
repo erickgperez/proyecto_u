@@ -74,7 +74,8 @@ const validarCelda = (e, row, key) => {
     e.target.value = num.toFixed(1);
 
     // si ha cambiado de valor guardar en el servidor
-    if (valorAnterior.value !== num.toFixed(1)) {
+    let valorAnteriorNum = Number(valorAnterior.value);
+    if (valorAnteriorNum.toFixed(1) !== num.toFixed(1)) {
         console.log('Guardar en el servidor');
         console.log(row.uuid);
         console.log(key);
@@ -114,7 +115,7 @@ const setActiveCell = (row, col) => {
 };
 
 // ------------------ NAVEGACIÓN TIPO EXCEL CON COLUMNAS VISIBLES ------------------
-const onExcelNav = (e) => {
+const onExcelNav = (e, fila, key) => {
     const row = Number(e.target.dataset.row);
     const col = Number(e.target.dataset.col);
 
@@ -134,6 +135,25 @@ const onExcelNav = (e) => {
     };
 
     switch (e.key) {
+        case 'Escape':
+            // Restaurar valor anterior
+            fila[key] = valorAnterior.value;
+
+            // Forzar una actualización visual si hace falta
+            e.target.value = valorAnterior.value;
+
+            // Quitar selección
+            setActiveCell(null, null);
+
+            // Perder el foco real del input
+            e.target.blur();
+            break;
+        case 'Tab':
+            next = findNextVisibleCol(col, +1);
+            if (!next) {
+                next = findInput(row + 1, 0);
+            }
+            break;
         case 'ArrowRight':
             next = findNextVisibleCol(col, +1);
             break;
@@ -160,6 +180,16 @@ const onExcelNav = (e) => {
         next.focus();
         setActiveCell(Number(next.dataset.row), Number(next.dataset.col));
         next.select();
+    } else {
+        if (e.key === 'Enter' || e.key === 'Tab') {
+            e.preventDefault();
+
+            // Quitar selección
+            setActiveCell(null, null);
+
+            // Perder el foco real del input
+            e.target.blur();
+        }
     }
 };
 
@@ -171,7 +201,7 @@ const colorEscalaExcel = (valor) => {
 
     const v = Number(valor);
     const min = 0;
-    const mid = 7;
+    const mid = 6;
     const max = 10;
 
     let r, g, b;
@@ -204,6 +234,7 @@ function calcularPromedio(item) {
 </script>
 <template>
     <v-container fluid class="pa-4">
+        {{ valorAnterior }}*****
         <v-row class="mb-2" align="center" justify="space-between">
             <v-col cols="6">
                 <h3>Hoja tipo Excel - Ingreso de calificaciones</h3>
@@ -224,7 +255,7 @@ function calcularPromedio(item) {
             </v-menu>
         </v-row>
 
-        <v-data-table :headers="headers" :items="alumnos" class="excel-table" hide-default-header>
+        <v-data-table :headers="headers" :items="alumnos" class="excel-table" hide-default-header :items-per-page="-1" hide-default-footer>
             <!-- ENCABEZADO -->
             <template #thead>
                 <thead>
@@ -248,13 +279,7 @@ function calcularPromedio(item) {
             <!-- CUERPO -->
             <template #body="{ items }">
                 <tr v-for="(row, rowIndex) in items" :key="rowIndex" class="excel-row">
-                    <td
-                        class="excel-cell"
-                        :class="{
-                            'excel-row-highlight': activeRow === rowIndex && aplicarGuiaFilaColumna,
-                            'excel-col-highlight': activeCol === -1 && aplicarGuiaFilaColumna,
-                        }"
-                    >
+                    <td class="excel-header" :class="{ 'excel-header-active': activeRow === rowIndex }">
                         {{ row.nombre }}
                     </td>
 
@@ -275,19 +300,23 @@ function calcularPromedio(item) {
                             :data-row="rowIndex"
                             :data-col="colIndex"
                             :data-visible="ev.visible ? 1 : 0"
-                            @keydown="onExcelNav"
+                            @keydown="(e) => onExcelNav(e, row, ev.key)"
                             @blur="(e) => validarCelda(e, row, ev.key)"
                             @focus="
-                                () => {
+                                (e) => {
                                     setActiveCell(rowIndex, colIndex);
-                                    guardarValorAnterior;
+                                    guardarValorAnterior(e);
                                 }
                             "
                             @click="() => setActiveCell(rowIndex, colIndex)"
                         />
                     </td>
 
-                    <td class="excel-cell">
+                    <td
+                        class="excel-cell"
+                        :style="{ background: colorEscalaExcel(calcularPromedio(row)) }"
+                        :class="{ 'excel-header-active': activeRow === rowIndex }"
+                    >
                         {{ calcularPromedio(row) }}
                     </td>
                 </tr>
