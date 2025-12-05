@@ -3,9 +3,9 @@ import { computed, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
 const evaluaciones = ref([
-    { key: 'uuid_eval1', title: 'Eval 1', ponderacion: 0.3, visible: true },
-    { key: 'uuid_eval2', title: 'Eval 2', ponderacion: 0.3, visible: true },
-    { key: 'uuid_eval3', title: 'Eval 3', ponderacion: 0.4, visible: true },
+    { key: 'uuid_eval1', title: 'Eval 1', ponderacion: 0.3, visible: true, editable: true },
+    { key: 'uuid_eval2', title: 'Eval 2', ponderacion: 0.3, visible: true, editable: true },
+    { key: 'uuid_eval3', title: 'Eval 3', ponderacion: 0.4, visible: true, editable: false },
 ]);
 
 const alumnos = ref([
@@ -265,7 +265,6 @@ function calcularPromedio(item) {
 </script>
 <template>
     <v-container fluid class="pa-4">
-        {{ valorAnterior }}*****
         <v-row class="mb-2" align="center" justify="space-between">
             <v-col cols="6">
                 <h3>Hoja tipo Excel - Ingreso de calificaciones</h3>
@@ -297,7 +296,7 @@ function calcularPromedio(item) {
                             v-for="(ev, colIndex) in evaluacionesVisibles"
                             :key="ev.key"
                             class="excel-header"
-                            :class="{ 'excel-header-active': activeCol === colIndex }"
+                            :class="{ 'excel-header-active': activeCol === colIndex, 'text-disabled': !ev.editable }"
                         >
                             {{ ev.title }} ({{ ev.ponderacion }}%)
                         </th>
@@ -317,15 +316,16 @@ function calcularPromedio(item) {
                     <td
                         v-for="(ev, colIndex) in evaluacionesVisibles"
                         :key="ev.key"
-                        class="excel-cell excel-gradient"
+                        class="excel-cell"
                         :class="{
                             'excel-row-highlight': activeRow === rowIndex && aplicarGuiaFilaColumna,
                             'excel-col-highlight': activeCol === colIndex && aplicarGuiaFilaColumna,
                             'excel-cell-active': activeRow === rowIndex && activeCol === colIndex,
                         }"
-                        :style="{ background: colorEscalaExcel(row[ev.key]) }"
+                        :style="{ background: colorEscalaExcel(row[ev.key]), 'text-align': 'right' }"
                     >
                         <input
+                            v-if="ev.editable"
                             class="excel-input"
                             v-model="row[ev.key]"
                             :data-row="rowIndex"
@@ -339,12 +339,14 @@ function calcularPromedio(item) {
                                 }
                             "
                             @click="() => setActiveCell(rowIndex, colIndex)"
+                            style="text-align: right"
                         />
+                        <span v-else class="text-disabled">{{ row[ev.key] }}</span>
                     </td>
 
                     <td
-                        class="excel-cell"
-                        :style="{ background: colorEscalaExcel(calcularPromedio(row)) }"
+                        class="excel-header text-h6"
+                        :style="{ background: colorEscalaExcel(calcularPromedio(row)), 'text-align': 'right' }"
                         :class="{ 'excel-row-header-right-active': activeRow === rowIndex }"
                     >
                         {{ calcularPromedio(row) }}
@@ -364,7 +366,7 @@ function calcularPromedio(item) {
     width: max-content;
     background: white;
     font-family: 'Segoe UI', Arial, sans-serif;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 /* ────── HEADERS ─────── */
