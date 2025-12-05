@@ -120,6 +120,27 @@ class EvaluacionController extends Controller
         ])
             ->first();
 
+        $evaluaciones = [];
+        foreach ($oferta->evaluacion as $ev) {
+            $evaluaciones[] = [
+                'key' => $ev->uuid,
+                'codigo' => $ev->codigo,
+                'descripcion' => $ev->descripcion,
+                'ponderacion' => $ev->porcentaje,
+                'visible' => true,
+                'fecha' => $ev->fecha,
+                'fecha_limite_ingreso_nota' => $ev->fecha_limite_ingreso_nota,
+                'editable' => ($ev->fecha > now() && $ev->fecha_limite_ingreso_nota < now()),
+                'tooltipVisible' => false,
+            ];
+        }
+
+        //Ordenar primero por fecha y luego por código
+        usort($evaluaciones, function ($a, $b) {
+            return ($a['fecha'] <=> $b['fecha']) ?: ($a['codigo'] <=> $b['codigo']);
+        });
+
+
         //Revisar que todos los expedientes tengan el registro de la evaluación
         $oferta->imparte()->each(function ($imparte) use ($oferta) {
             $imparte->inscritosPivot()->each(function ($inscrito) use ($oferta) {
@@ -148,6 +169,7 @@ class EvaluacionController extends Controller
             ],
         ])
             ->first();
+
         $expedientes = [];
         foreach ($oferta->imparte as $imparte) {
             if ($imparte->inscritosPivot->count() > 0) {
@@ -156,6 +178,8 @@ class EvaluacionController extends Controller
         }
 
 
-        return Inertia::render('academico/Docente/RegistroNotas', ['expedientes' => $expedientes, 'oferta' => $oferta]);
+
+
+        return Inertia::render('academico/Docente/RegistroNotas', ['expedientes' => $expedientes, 'oferta' => $oferta, 'evaluaciones' => $evaluaciones]);
     }
 }

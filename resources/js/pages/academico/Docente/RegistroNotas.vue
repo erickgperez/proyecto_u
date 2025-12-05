@@ -1,12 +1,25 @@
 <script setup lang="ts">
-import { computed, ref } from 'vue';
+import { computed, PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
-const evaluaciones = ref([
-    { key: 'uuid_eval1', title: 'Eval 1', ponderacion: 0.3, visible: true, editable: true },
-    { key: 'uuid_eval2', title: 'Eval 2', ponderacion: 0.3, visible: true, editable: true },
-    { key: 'uuid_eval3', title: 'Eval 3', ponderacion: 0.4, visible: true, editable: false },
-]);
+interface Evaluacion {
+    key: string;
+    codigo: string;
+    descripcion: string;
+    ponderacion: number;
+    visible: boolean;
+    editable: boolean;
+    tooltipVisible: boolean;
+}
+const props = defineProps({
+    evaluaciones: {
+        type: Array as PropType<Evaluacion[]>,
+        required: true,
+        default: () => [],
+    },
+    oferta: Object,
+});
+const evaluaciones = ref(props.evaluaciones);
 
 const alumnos = ref([
     { uuid: '1', nombre: 'Carlos', uuid_eval1: 7.5, uuid_eval2: 8.0, uuid_eval3: 9.0 },
@@ -20,7 +33,7 @@ const evaluacionesVisibles = computed(() => evaluaciones.value.filter((ev) => ev
 const headers = computed(() => [
     { title: 'Alumno', key: 'nombre' },
     ...evaluacionesVisibles.value.map((e) => ({
-        title: `${e.title} (${Math.round(e.ponderacion * 100)}%)`,
+        title: `${e.codigo} (${Math.round(e.ponderacion * 100)}%)`,
         key: e.key,
     })),
     { title: 'Promedio', key: 'promedio' },
@@ -113,7 +126,7 @@ const exportarExcel = () => {
         const fila = { Alumno: alumno.nombre };
 
         evaluaciones.value.forEach((ev) => {
-            fila[ev.title] = alumno[ev.key];
+            fila[ev.codigo] = alumno[ev.key];
         });
 
         fila['Promedio'] = calcularPromedio(alumno);
@@ -265,6 +278,7 @@ function calcularPromedio(item) {
 </script>
 <template>
     <v-container fluid class="pa-4">
+        {{ props.evaluaciones }}
         <v-row class="mb-2" align="center" justify="space-between">
             <v-col cols="6">
                 <h3>Hoja tipo Excel - Ingreso de calificaciones</h3>
@@ -277,12 +291,12 @@ function calcularPromedio(item) {
 
                 <v-list>
                     <v-list-item v-for="ev in evaluaciones" :key="ev.key">
-                        <v-checkbox v-model="ev.visible" :label="ev.title" hide-details />
+                        <v-checkbox v-model="ev.visible" :label="ev.codigo" hide-details />
                     </v-list-item>
                 </v-list>
             </v-menu>
             <v-btn
-                color="primary"
+                :color="aplicarGuiaFilaColumna ? 'success' : 'grey'"
                 @click="aplicarGuiaFilaColumna = !aplicarGuiaFilaColumna"
                 stacked
                 variant="tonal"
@@ -291,7 +305,7 @@ function calcularPromedio(item) {
                 <span class="text-caption mt-2 mb-1">Guía fila-columna</span>
             </v-btn>
             <v-btn
-                color="primary"
+                :color="aplicarEscalaColor ? 'success' : 'grey'"
                 @click="aplicarEscalaColor = !aplicarEscalaColor"
                 stacked
                 variant="tonal"
@@ -314,7 +328,20 @@ function calcularPromedio(item) {
                             class="excel-header"
                             :class="{ 'excel-header-active': activeCol === colIndex, 'text-disabled': !ev.editable }"
                         >
-                            {{ ev.title }} ({{ ev.ponderacion }}%)
+                            <v-tooltip
+                                interactive
+                                :open-on-hover="false"
+                                open-on-click
+                                style="max-width: 600px"
+                                location="bottom"
+                                v-model="ev.tooltipVisible"
+                                @click="ev.tooltipVisible = false"
+                            >
+                                <template v-slot:activator="{ props }">
+                                    <span v-bind="props">{{ ev.codigo }} ({{ ev.ponderacion }}%)</span>
+                                </template>
+                                <span class="text-caption text-wrap">{{ ev.descripcion }}</span>
+                            </v-tooltip>
                         </th>
 
                         <th class="excel-header">Promedio</th>
