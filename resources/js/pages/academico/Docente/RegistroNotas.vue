@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AppLayout from '@/layouts/AppLayout.vue';
+import { Head } from '@inertiajs/vue3';
 import { computed, PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
@@ -18,6 +20,8 @@ const props = defineProps({
         default: () => [],
     },
     expedientes: Array,
+    docente: Object,
+    imparte: Object,
 });
 const evaluaciones = ref(props.evaluaciones);
 
@@ -274,134 +278,172 @@ function calcularPromedio(item) {
 }
 </script>
 <template>
-    <v-container fluid class="pa-4">
-        {{ props.expedientes }}
-        <v-row class="mb-2" align="center" justify="space-between">
-            <v-col cols="6">
-                <h3>Hoja tipo Excel - Ingreso de calificaciones</h3>
-            </v-col>
-            <v-btn color="primary" @click="exportarExcel" stacked variant="tonal" prepend-icon="mdi-file-excel"> Exportar </v-btn>
-            <v-menu stacked>
-                <template #activator="{ props }">
-                    <v-btn stacked variant="tonal" v-bind="props" color="primary" prepend-icon="mdi-format-columns">Columnas</v-btn>
-                </template>
+    <Head :title="$t('docente._ingresar_notas_')"> </Head>
+    <AppLayout
+        :titulo="imparte?.oferta?.carrera_unidad_academica?.unidad_academica?.nombre"
+        :subtitulo="$t('semestre._singular_') + ': ' + imparte?.oferta?.semestre.nombre"
+        icono="mdi-table-large-plus"
+    >
+        <v-container fluid class="pa-4">
+            <v-card>
+                <v-toolbar color="blue-grey-darken-1">
+                    <v-toolbar-title>
+                        <strong>{{ $t('sede._sede_') }}:</strong> {{ imparte?.carrera_sede?.sede?.nombre }}
+                        <div class="text-caption">
+                            <v-row>
+                                <v-col cols="12" md="6">
+                                    <strong>{{ $t('semestre._docente_titular_') }}:</strong>
+                                    {{ imparte?.oferta?.docente_titular?.persona?.nombreCompleto }}
+                                </v-col>
+                                <v-col cols="12" md="6">
+                                    <strong>{{ $t('docente._docente_asociado_') }}:</strong> {{ docente?.persona?.nombreCompleto }}
+                                </v-col>
+                            </v-row>
+                        </div>
+                    </v-toolbar-title>
 
-                <v-list>
-                    <v-list-item v-for="ev in evaluaciones" :key="ev.key">
-                        <v-checkbox v-model="ev.visible" :label="ev.codigo" hide-details />
-                    </v-list-item>
-                </v-list>
-            </v-menu>
-            <v-btn
-                :color="aplicarGuiaFilaColumna ? 'success' : 'grey'"
-                @click="aplicarGuiaFilaColumna = !aplicarGuiaFilaColumna"
-                stacked
-                variant="tonal"
-                :prepend-icon="aplicarGuiaFilaColumna ? 'mdi-eye' : 'mdi-eye-off'"
-            >
-                <span class="text-caption mt-2 mb-1">Guía fila-columna</span>
-            </v-btn>
-            <v-btn
-                :color="aplicarEscalaColor ? 'success' : 'grey'"
-                @click="aplicarEscalaColor = !aplicarEscalaColor"
-                stacked
-                variant="tonal"
-                :prepend-icon="aplicarEscalaColor ? 'mdi-toggle-switch' : 'mdi-toggle-switch-off-outline'"
-            >
-                <span class="text-caption mt-2 mb-1">Escala de color</span>
-            </v-btn>
-        </v-row>
+                    <template v-slot:append>
+                        <v-fade-transition hide-on-leave>
+                            <v-btn size="x-small" @click="exportarExcel" stacked prepend-icon="mdi-file-excel"> Exportar </v-btn>
+                        </v-fade-transition>
 
-        <v-data-table :headers="headers" :items="alumnos" class="excel-table" hide-default-header :items-per-page="-1" hide-default-footer>
-            <!-- ENCABEZADO -->
-            <template #thead>
-                <thead>
-                    <tr class="excel-header">
-                        <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Carnet</th>
-                        <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Estudiante</th>
-
-                        <th
-                            v-for="(ev, colIndex) in evaluacionesVisibles"
-                            :key="ev.key"
-                            class="excel-header"
-                            :class="{ 'excel-header-active': activeCol === colIndex, 'text-disabled': !ev.editable }"
-                        >
-                            <v-tooltip
-                                interactive
-                                :open-on-hover="false"
-                                open-on-click
-                                style="max-width: 600px"
-                                location="bottom"
-                                v-model="ev.tooltipVisible"
-                                @click="ev.tooltipVisible = false"
-                            >
-                                <template v-slot:activator="{ props }">
-                                    <span v-bind="props">{{ ev.codigo }} ({{ ev.ponderacion }}%)</span>
+                        <v-fade-transition hide-on-leave>
+                            <v-menu>
+                                <template #activator="{ props }">
+                                    <v-btn size="x-small" stacked prepend-icon="mdi-format-columns">Columnas</v-btn>
                                 </template>
-                                <span class="text-caption text-wrap">{{ ev.descripcion }}</span>
-                            </v-tooltip>
-                        </th>
 
-                        <th class="excel-header">Promedio</th>
-                    </tr>
-                </thead>
-            </template>
+                                <v-list>
+                                    <v-list-item v-for="ev in evaluaciones" :key="ev.key">
+                                        <v-checkbox v-model="ev.visible" :label="ev.codigo" hide-details />
+                                    </v-list-item>
+                                </v-list>
+                            </v-menu>
+                        </v-fade-transition>
 
-            <!-- CUERPO -->
-            <template #body="{ items }">
-                <tr v-for="(row, rowIndex) in items" :key="rowIndex" class="excel-row">
-                    <td class="excel-header" :class="{ 'excel-row-header-active': activeRow === rowIndex }">
-                        {{ row.carnet }}
-                    </td>
-                    <td class="excel-header" :class="{ 'excel-row-header-active': activeRow === rowIndex }">
-                        {{ row.nombre }}
-                    </td>
-
-                    <td
-                        v-for="(ev, colIndex) in evaluacionesVisibles"
-                        :key="ev.key"
-                        class="excel-cell"
-                        :class="{
-                            'excel-row-highlight': activeRow === rowIndex && aplicarGuiaFilaColumna,
-                            'excel-col-highlight': activeCol === colIndex && aplicarGuiaFilaColumna,
-                            'excel-cell-active': activeRow === rowIndex && activeCol === colIndex,
-                        }"
-                        :style="{ background: colorEscalaExcel(row[ev.key]), 'text-align': 'right' }"
+                        <v-fade-transition hide-on-leave>
+                            <v-btn
+                                size="x-small"
+                                @click="aplicarGuiaFilaColumna = !aplicarGuiaFilaColumna"
+                                stacked
+                                :prepend-icon="aplicarGuiaFilaColumna ? 'mdi-eye' : 'mdi-eye-off'"
+                            >
+                                <span class="text-caption mt-2 mb-1">Guía</span>
+                            </v-btn>
+                        </v-fade-transition>
+                        <v-fade-transition hide-on-leave>
+                            <v-btn
+                                size="x-small"
+                                @click="aplicarEscalaColor = !aplicarEscalaColor"
+                                stacked
+                                :prepend-icon="aplicarEscalaColor ? 'mdi-toggle-switch' : 'mdi-toggle-switch-off-outline'"
+                            >
+                                <span class="text-caption mt-2 mb-1">Escala color</span>
+                            </v-btn>
+                        </v-fade-transition>
+                    </template>
+                </v-toolbar>
+                <v-card-text>
+                    <v-data-table
+                        :headers="headers"
+                        :items="alumnos"
+                        class="excel-table"
+                        hide-default-header
+                        :items-per-page="-1"
+                        hide-default-footer
                     >
-                        <input
-                            v-if="ev.editable"
-                            class="excel-input"
-                            v-model="row[ev.key]"
-                            :data-row="rowIndex"
-                            :data-col="colIndex"
-                            :data-visible="ev.visible ? 1 : 0"
-                            @keydown="(e) => onExcelNav(e, row, ev.key)"
-                            @focus="
-                                (e) => {
-                                    setActiveCell(rowIndex, colIndex);
-                                    guardarValorAnterior(e);
-                                }
-                            "
-                            @click="() => setActiveCell(rowIndex, colIndex)"
-                            style="text-align: right"
-                        />
-                        <span v-else class="text-disabled">{{ row[ev.key] }}</span>
-                    </td>
+                        <!-- ENCABEZADO -->
+                        <template #thead>
+                            <thead>
+                                <tr class="excel-header">
+                                    <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Carnet</th>
+                                    <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Estudiante</th>
 
-                    <td
-                        class="excel-header text-h6"
-                        :style="{ background: colorEscalaExcel(calcularPromedio(row)), 'text-align': 'right' }"
-                        :class="{ 'excel-row-header-right-active': activeRow === rowIndex }"
-                    >
-                        {{ calcularPromedio(row) }}
-                    </td>
-                </tr>
-            </template>
-        </v-data-table>
-    </v-container>
-    <div v-if="errorPopup.show" class="error-popup" :style="{ left: errorPopup.x + 'px', top: errorPopup.y + 'px' }">
-        {{ errorPopup.message }}
-    </div>
+                                    <th
+                                        v-for="(ev, colIndex) in evaluacionesVisibles"
+                                        :key="ev.key"
+                                        class="excel-header"
+                                        :class="{ 'excel-header-active': activeCol === colIndex, 'text-disabled': !ev.editable }"
+                                    >
+                                        <v-tooltip
+                                            interactive
+                                            :open-on-hover="false"
+                                            open-on-click
+                                            style="max-width: 600px"
+                                            location="bottom"
+                                            v-model="ev.tooltipVisible"
+                                            @click="ev.tooltipVisible = false"
+                                        >
+                                            <template v-slot:activator="{ props }">
+                                                <span v-bind="props">{{ ev.codigo }} ({{ ev.ponderacion }}%)</span>
+                                            </template>
+                                            <span class="text-caption text-wrap">{{ ev.descripcion }}</span>
+                                        </v-tooltip>
+                                    </th>
+
+                                    <th class="excel-header">Promedio</th>
+                                </tr>
+                            </thead>
+                        </template>
+
+                        <!-- CUERPO -->
+                        <template #body="{ items }">
+                            <tr v-for="(row, rowIndex) in items" :key="rowIndex" class="excel-row">
+                                <td class="excel-header" :class="{ 'excel-row-header-active': activeRow === rowIndex }">
+                                    {{ row.carnet }}
+                                </td>
+                                <td class="excel-header" :class="{ 'excel-row-header-active': activeRow === rowIndex }">
+                                    {{ row.nombre }}
+                                </td>
+
+                                <td
+                                    v-for="(ev, colIndex) in evaluacionesVisibles"
+                                    :key="ev.key"
+                                    class="excel-cell"
+                                    :class="{
+                                        'excel-row-highlight': activeRow === rowIndex && aplicarGuiaFilaColumna,
+                                        'excel-col-highlight': activeCol === colIndex && aplicarGuiaFilaColumna,
+                                        'excel-cell-active': activeRow === rowIndex && activeCol === colIndex,
+                                    }"
+                                    :style="{ background: colorEscalaExcel(row[ev.key]), 'text-align': 'right' }"
+                                >
+                                    <input
+                                        v-if="ev.editable"
+                                        class="excel-input"
+                                        v-model="row[ev.key]"
+                                        :data-row="rowIndex"
+                                        :data-col="colIndex"
+                                        :data-visible="ev.visible ? 1 : 0"
+                                        @keydown="(e) => onExcelNav(e, row, ev.key)"
+                                        @focus="
+                                            (e) => {
+                                                setActiveCell(rowIndex, colIndex);
+                                                guardarValorAnterior(e);
+                                            }
+                                        "
+                                        @click="() => setActiveCell(rowIndex, colIndex)"
+                                        style="text-align: right"
+                                    />
+                                    <span v-else class="text-disabled">{{ row[ev.key] }}</span>
+                                </td>
+
+                                <td
+                                    class="excel-header text-h6"
+                                    :style="{ background: colorEscalaExcel(calcularPromedio(row)), 'text-align': 'right' }"
+                                    :class="{ 'excel-row-header-right-active': activeRow === rowIndex }"
+                                >
+                                    {{ calcularPromedio(row) }}
+                                </td>
+                            </tr>
+                        </template>
+                    </v-data-table>
+                </v-card-text>
+            </v-card>
+        </v-container>
+        <div v-if="errorPopup.show" class="error-popup" :style="{ left: errorPopup.x + 'px', top: errorPopup.y + 'px' }">
+            {{ errorPopup.message }}
+        </div>
+    </AppLayout>
 </template>
 
 <style scoped>

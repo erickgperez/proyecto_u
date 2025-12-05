@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { Link } from '@inertiajs/vue3';
-const props = defineProps(['cargaTitular', 'cargaAsociado']);
+const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
 </script>
 <template>
     <v-card class="mx-auto" rounded="xl" width="98%">
@@ -96,7 +96,9 @@ const props = defineProps(['cargaTitular', 'cargaAsociado']);
                                     }}</span>
                                 </v-card-subtitle>
                                 <v-card-actions>
-                                    <Link :href="route('academico-evaluacion-registro_notas', { uuid: item.raw.uuid })">
+                                    <Link
+                                        :href="route('academico-evaluacion-registro_notas', { uuid: item.raw.uuid, uuidDocente: props.uuidDocente })"
+                                    >
                                         <v-btn color="primary" :text="$t('docente._ingresar_notas_')" variant="text"></v-btn>
                                     </Link>
                                 </v-card-actions>

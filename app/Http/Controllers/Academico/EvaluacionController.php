@@ -107,21 +107,26 @@ class EvaluacionController extends Controller
         }
     }
 
-    public function registroNotas($uuid)
+    public function registroNotas($uuid, $uuidDocente)
     {
-
         $imparte = Imparte::where("uuid", $uuid)->with([
+            'carreraSede',
             'oferta' => [
                 'carreraUnidadAcademica' => [
                     'unidadAcademica',
                     'carrera',
                 ],
-                'evaluacion'
+                'evaluacion',
+                'semestre',
+                'docenteTitular' => [
+                    'persona',
+                ],
             ],
             'inscritosPivot' => ['expediente' => ['estado', 'estudiante' => ['persona']]],
 
         ])
             ->first();
+
 
         $evaluaciones = [];
         foreach ($imparte->oferta->evaluacion as $ev) {
@@ -171,6 +176,17 @@ class EvaluacionController extends Controller
             return $a['nombre'] <=> $b['nombre'];
         });
 
-        return Inertia::render('academico/Docente/RegistroNotas', ['expedientes' => $expedientes, 'evaluaciones' => $evaluaciones]);
+        $docente = Docente::where("uuid", $uuidDocente)
+            ->with([
+                'persona',
+            ])
+            ->first();
+
+        return Inertia::render('academico/Docente/RegistroNotas', [
+            'expedientes' => $expedientes,
+            'evaluaciones' => $evaluaciones,
+            'docente' => $docente,
+            'imparte' => $imparte,
+        ]);
     }
 }

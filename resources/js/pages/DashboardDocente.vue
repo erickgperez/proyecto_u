@@ -77,7 +77,7 @@ onMounted(() => {
                 </v-hover>
             </Link>
         </v-col>-->
-        <CargaAcademica :cargaTitular="docente?.carga_titular" :cargaAsociado="docente?.imparte" />
+        <CargaAcademica :cargaTitular="docente?.carga_titular" :cargaAsociado="docente?.imparte" :uuidDocente="docente?.uuid" />
     </v-row>
 </template>
 <style scoped>
