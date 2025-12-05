@@ -1,10 +1,9 @@
 <script setup lang="ts">
-
+import CargaAcademica from '@/components/academico/docente/CargaAcademica.vue';
 import { User } from '@/types';
-import { Link, usePage } from '@inertiajs/vue3';
+import { usePage } from '@inertiajs/vue3';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
-import CargaAcademica from '@/components/academico/docente/CargaAcademica.vue';
 
 const page = usePage();
 const persona = page.props.auth.persona;
@@ -33,7 +32,7 @@ onMounted(() => {
                 >
                 <v-card-subtitle v-if="docente">
                     <v-row>
-                        <v-col cols="12" md="4" class="d-flex align-center"> {{ $t('docente._codigo_') }}: {{ docente.codigo }} </v-col>                        
+                        <v-col cols="12" md="4" class="d-flex align-center"> {{ $t('docente._codigo_') }}: {{ docente.codigo }} </v-col>
                     </v-row>
                 </v-card-subtitle>
             </v-card>
@@ -78,7 +77,7 @@ onMounted(() => {
                 </v-hover>
             </Link>
         </v-col>-->
-        <CargaAcademica :cargaTitular="docente?.carga_titular" :cargaAsociado="docente?.imparte"/>
+        <CargaAcademica :cargaTitular="docente?.carga_titular" :cargaAsociado="docente?.imparte" />
     </v-row>
 </template>
 <style scoped>

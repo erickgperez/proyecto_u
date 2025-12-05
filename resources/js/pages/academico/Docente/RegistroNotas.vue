@@ -17,21 +17,18 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
-    oferta: Object,
+    expedientes: Array,
 });
 const evaluaciones = ref(props.evaluaciones);
 
-const alumnos = ref([
-    { uuid: '1', nombre: 'Carlos', uuid_eval1: 7.5, uuid_eval2: 8.0, uuid_eval3: 9.0 },
-    { uuid: '2', nombre: 'Ana', uuid_eval1: 9.0, uuid_eval2: 9.5, uuid_eval3: 9.5 },
-    { uuid: '3', nombre: 'Luis', uuid_eval1: 6.0, uuid_eval2: 7.0, uuid_eval3: 8.0 },
-]);
+const alumnos = ref(props.expedientes);
 
 const evaluacionesVisibles = computed(() => evaluaciones.value.filter((ev) => ev.visible));
 
 // Cabeceras generadas dinámicamente
 const headers = computed(() => [
-    { title: 'Alumno', key: 'nombre' },
+    { title: 'Carnet', key: 'carnet' },
+    { title: 'Estudiante', key: 'nombre' },
     ...evaluacionesVisibles.value.map((e) => ({
         title: `${e.codigo} (${Math.round(e.ponderacion * 100)}%)`,
         key: e.key,
@@ -123,7 +120,7 @@ const mostrarErrorCelda = (el, mensaje) => {
 const exportarExcel = () => {
     // Construir filas con evaluaciones y promedio
     const datos = alumnos.value.map((alumno) => {
-        const fila = { Alumno: alumno.nombre };
+        const fila = { Estudiante: alumno.nombre, Carnet: alumno.carnet };
 
         evaluaciones.value.forEach((ev) => {
             fila[ev.codigo] = alumno[ev.key];
@@ -278,7 +275,7 @@ function calcularPromedio(item) {
 </script>
 <template>
     <v-container fluid class="pa-4">
-        {{ props.evaluaciones }}
+        {{ props.expedientes }}
         <v-row class="mb-2" align="center" justify="space-between">
             <v-col cols="6">
                 <h3>Hoja tipo Excel - Ingreso de calificaciones</h3>
@@ -320,7 +317,8 @@ function calcularPromedio(item) {
             <template #thead>
                 <thead>
                     <tr class="excel-header">
-                        <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Alumno</th>
+                        <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Carnet</th>
+                        <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Estudiante</th>
 
                         <th
                             v-for="(ev, colIndex) in evaluacionesVisibles"
@@ -352,6 +350,9 @@ function calcularPromedio(item) {
             <!-- CUERPO -->
             <template #body="{ items }">
                 <tr v-for="(row, rowIndex) in items" :key="rowIndex" class="excel-row">
+                    <td class="excel-header" :class="{ 'excel-row-header-active': activeRow === rowIndex }">
+                        {{ row.carnet }}
+                    </td>
                     <td class="excel-header" :class="{ 'excel-row-header-active': activeRow === rowIndex }">
                         {{ row.nombre }}
                     </td>

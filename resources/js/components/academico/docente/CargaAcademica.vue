@@ -96,7 +96,7 @@ const props = defineProps(['cargaTitular', 'cargaAsociado']);
                                     }}</span>
                                 </v-card-subtitle>
                                 <v-card-actions>
-                                    <Link :href="route('academico-evaluacion-registro_notas', { uuid: item.raw.oferta.uuid })">
+                                    <Link :href="route('academico-evaluacion-registro_notas', { uuid: item.raw.uuid })">
                                         <v-btn color="primary" :text="$t('docente._ingresar_notas_')" variant="text"></v-btn>
                                     </Link>
                                 </v-card-actions>
