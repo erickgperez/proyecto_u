@@ -351,6 +351,7 @@ function calcularPromedio(item) {
                         hide-default-header
                         :items-per-page="-1"
                         hide-default-footer
+                        style="width: 100%"
                     >
                         <!-- ENCABEZADO -->
                         <template #thead>
