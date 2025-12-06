@@ -4,7 +4,7 @@ defineProps(['convocatoria', 'sede', 'step']);
 const emit = defineEmits(['changeStep', 'changeDrawer']);
 </script>
 <template>
-    <v-app-bar :elevation="0" class="bg-blue-grey-lighten-3 text-blue-darken-3">
+    <v-app-bar :elevation="0" class="bg-blue-grey-lighten-3">
         <v-app-bar-title>
             <v-card class="mx-auto bg-transparent">
                 <template v-slot:title>
@@ -12,7 +12,7 @@ const emit = defineEmits(['changeStep', 'changeDrawer']);
                 </template>
                 <template v-slot:subtitle v-if="sede">
                     <span>SEDE: {{ sede?.nombre }}</span>
-                    <span class="ms-3" v-if="convocatoria && convocatoria.configuracion && convocatoria.configuracion.cuota_sector_publico">
+                    <span v-if="convocatoria && convocatoria.configuracion && convocatoria.configuracion.cuota_sector_publico">
                         ({{ $t('convocatoria._cuota_cupo_sector_') }}:
                         <span class="text-pink font-weight-black">
                             {{ $t('convocatoria._publico_') }} - {{ convocatoria.configuracion.cuota_sector_publico }}%

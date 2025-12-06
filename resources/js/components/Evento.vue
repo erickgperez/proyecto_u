@@ -214,7 +214,7 @@ onMounted(() => {
     <v-layout>
         <v-app-bar class="bg-blue-grey-lighten-3 ma-0 rounded-t-xl">
             <v-toolbar-title>
-                <h2 class="text-blue-darken-3">{{ calendario?.descripcion }}</h2>
+                <h2>{{ calendario?.descripcion }}</h2>
             </v-toolbar-title>
 
             <template v-slot:append>
@@ -243,7 +243,7 @@ onMounted(() => {
                                         {{ $t('_desde_') + ' ' }} {{ date.format(item.fecha_inicio, 'keyboardDate') }} {{ $t('_hasta_') + ' ' }}
                                         {{ date.format(item.fecha_fin, 'keyboardDate') }}
                                     </v-card-title>
-                                    <v-card-text class="text--primary bg-white">
+                                    <v-card-text class="bg-white text-primary">
                                         <p>{{ item.nombre ?? item.tipo.descripcion }}</p>
                                         <p v-html="item.indicaciones"></p>
                                     </v-card-text>
