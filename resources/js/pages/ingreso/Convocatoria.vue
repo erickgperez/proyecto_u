@@ -72,7 +72,7 @@ const { step, selectedAction, localItems, selectedItem, handleAction, handleNext
 
 const dialog = ref(false);
 const itemDialog = ref<Item | null>(null);
-const selectedItemLabel = computed(() => selectedItem.value?.nombre ?? '');
+const selectedItemLabel = computed(() => selectedItem.value?.nombre + ' - ' + selectedItem.value?.anio_ingreso);
 const rutaBorrar = ref('ingreso-convocatoria-delete');
 const mensajes = {
     titulo1: t('convocatoria._convocatoria_'),
