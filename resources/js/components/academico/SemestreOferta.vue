@@ -142,7 +142,13 @@ watch(selected, (newVal) => {
 });
 
 watch(docenteTitularId, (newVal) => {
-    if (selected.value && selected.value.tipo === 'unidad' && (selected.value.docenteTitular == null || selected.value.docenteTitular.id != newVal)) {
+    if (
+        selected.value &&
+        selected.value.tipo === 'unidad' &&
+        (selected.value.docenteTitular == null || selected.value.docenteTitular.id != newVal) &&
+        selected.value.docenteTitular == null &&
+        newVal != null
+    ) {
         guardarDocenteTitular();
     }
 });
