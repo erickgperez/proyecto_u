@@ -213,7 +213,9 @@ onMounted(() => {
 <template>
     <v-layout>
         <v-app-bar class="bg-blue-grey-lighten-3 ma-0 rounded-t-xl">
-            <v-toolbar-title>{{ calendario?.descripcion }}</v-toolbar-title>
+            <v-toolbar-title>
+                <h2 class="text-blue-darken-3">{{ calendario?.descripcion }}</h2>
+            </v-toolbar-title>
 
             <template v-slot:append>
                 <v-btn icon="mdi-calendar-plus" color="primary" :title="$t('calendario._agregar_actividad_')" @click="addEvento"></v-btn>

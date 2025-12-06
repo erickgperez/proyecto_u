@@ -149,13 +149,13 @@ const extensions = [
 ];
 
 const titleForm = computed(() => {
-    return isEditing.value ? t('convocatoria._editar_') : t('convocatoria._crear_');
+    return isEditing.value ? t('_editar_convocatoria_') : t('_crear_convocatoria_');
 });
 </script>
 <template>
     <v-card class="rounded-t-xl">
-        <v-card-title class="border-b-md bg-blue-grey-lighten-3">
-            <h2 class="text-blue-darken-3">{{ titleForm }}</h2>
+        <v-card-title class="border-b-md bg-blue-grey-lighten-3 text-blue-darken-3">
+            {{ titleForm }}
         </v-card-title>
         <v-card-text class="pt-4">
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">

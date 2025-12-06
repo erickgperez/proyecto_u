@@ -89,13 +89,13 @@ onMounted(() => {
 });
 
 const titleForm = computed(() => {
-    return isEditing.value ? t('sede._editar_sede_') : t('sede._crear_sede_');
+    return isEditing.value ? t('_editar_sede_') : t('_crear_sede_');
 });
 </script>
 <template>
     <v-card class="rounded-t-xl">
-        <v-card-title class="border-b-md bg-blue-grey-lighten-3">
-            <h2 class="text-blue-darken-3">{{ titleForm }}</h2>
+        <v-card-title class="border-b-md bg-blue-grey-lighten-3 text-blue-darken-3">
+            {{ titleForm }}
         </v-card-title>
         <v-card-text class="pt-4">
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
