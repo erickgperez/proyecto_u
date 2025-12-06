@@ -559,12 +559,13 @@ onMounted(() => {
                             </v-menu>
                         </v-list-item>
                         <v-list-item
-                            v-if="hasAnyPermission([
-                                'MENU_ACADEMICO_TIPO-CURSO', 
-                                'MENU_ACADEMICO_USO-ESTADO', 
-                                'MENU_ACADEMICO_ESTADO', 
-                                'MENU_ACADEMICO_FORMA-IMPARTE'
-                            ])
+                            v-if="
+                                hasAnyPermission([
+                                    'MENU_ACADEMICO_TIPO-CURSO',
+                                    'MENU_ACADEMICO_USO-ESTADO',
+                                    'MENU_ACADEMICO_ESTADO',
+                                    'MENU_ACADEMICO_FORMA-IMPARTE',
+                                ])
                             "
                             prepend-icon="mdi-library-shelves"
                             append-icon="mdi-menu-right"
@@ -741,12 +742,8 @@ onMounted(() => {
                     </v-card>
                 </v-app-bar-title>
             </v-app-bar>
-            <v-main class="mt-1">
-                <v-card class="bg-surface-light mx-auto h-100">
-                    <v-card-text class="pt-4">
-                        <slot />
-                    </v-card-text>
-                </v-card>
+            <v-main class="ma-4">
+                <slot />
             </v-main>
         </v-app>
     </v-responsive>
