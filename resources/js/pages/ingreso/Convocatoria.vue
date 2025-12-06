@@ -107,7 +107,7 @@ const sheetName = ref('Listado_convocatorias');
 const fileName = ref('convocatorias');
 
 const headers = [
-    { title: t('convocatoria._fecha_creacion_'), key: 'created_at' },
+    { title: t('convocatoria._anio_ingreso_'), key: 'anio_ingreso' },
     { title: t('_nombre_'), key: 'nombre', align: 'start' },
     { title: t('_descripcion_'), key: 'descripcion' },
     { title: t('convocatoria._activa_'), key: 'activa' },
@@ -115,7 +115,10 @@ const headers = [
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
-const sortBy: SortBy[] = [{ key: 'nombre', order: 'asc' }];
+const sortBy: SortBy[] = [
+    { key: 'anio_ingreso', order: 'desc' },
+    { key: 'nombre', order: 'asc' },
+];
 
 const opcionesAccion = [
     {

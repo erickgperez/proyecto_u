@@ -5,8 +5,8 @@ import { onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
-import { useFunciones } from '@/composables/useFunciones';
 import { useFilteredMerge } from '@/composables/useFilteredMerge';
+import { useFunciones } from '@/composables/useFunciones';
 import {
     Bold,
     BulletList,
@@ -164,13 +164,6 @@ const extensions = [
                             :label="$t('_nombre_') + ' *'"
                         ></v-text-field>
 
-                        <v-text-field
-                            prepend-icon="mdi-form-textbox"
-                            v-model="formData.descripcion"
-                            :rules="[rules.maxLength(255)]"
-                            counter="255"
-                            :label="$t('_descripcion_')"
-                        ></v-text-field>
                         <v-number-input
                             required
                             icon-color="deep-orange"
@@ -182,6 +175,15 @@ const extensions = [
                             :hint="$t('convocatoria._anio_ingreso_hint_')"
                             persistent-hint
                         ></v-number-input>
+                    </v-col>
+                    <v-col cols="12">
+                        <v-text-field
+                            prepend-icon="mdi-form-textbox"
+                            v-model="formData.descripcion"
+                            :rules="[rules.maxLength(255)]"
+                            counter="255"
+                            :label="$t('_descripcion_')"
+                        ></v-text-field>
                         <v-checkbox v-model="formData.activa" :label="$t('convocatoria._activa_')"></v-checkbox>
                         <v-select
                             required
