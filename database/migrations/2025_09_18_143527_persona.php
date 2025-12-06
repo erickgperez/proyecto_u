@@ -25,7 +25,7 @@ return new class extends Migration
             $table->foreignId('sexo_id')->nullable()->comment('Sexo de la persona');
             $table->foreign('sexo_id')->references('id')->on('public.sexo')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->foreignId('sede_principal_id')->nullable()->comment('Sede principal donde está asignada la persona');
-            $table->foreign('sede_principal_id')->references('id')->on('public.sede')->onDelete('RESTRICT')->onUpdate('CASCADE');
+            $table->foreign('sede_principal_id')->references('id')->on('academico.sede')->onDelete('RESTRICT')->onUpdate('CASCADE');
             $table->boolean('permitir_editar')->default('false')->comment('Indica si la persona puede editar su perfil');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
