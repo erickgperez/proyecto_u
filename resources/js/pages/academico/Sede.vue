@@ -156,7 +156,7 @@ const opcionesAccion = [
 
                 <!-- *********************** CRUD PARTE 3: EJECUTAR ACCIONES ******************************-->
                 <v-window-item :value="3">
-                    <v-sheet v-if="step === 3">
+                    <v-sheet v-if="step === 3" class="bg-transparent">
                         <SedeForm
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
