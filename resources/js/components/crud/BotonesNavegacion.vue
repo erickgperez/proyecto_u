@@ -28,7 +28,15 @@ const props = defineProps({
             </template>
             {{ $t('_atras_') }}
         </v-btn>
-        <v-btn v-if="props.step == 3" prepend-icon="mdi-page-first" rounded variant="tonal" color="blue-darken-4" @click="emit('nextStep', 1)">
+        <v-btn
+            v-if="props.step == 3"
+            prepend-icon="mdi-page-first"
+            rounded
+            variant="tonal"
+            color="blue-darken-4"
+            @click="emit('nextStep', 1)"
+            class="ml-2"
+        >
             <template v-slot:prepend>
                 <v-icon color="success"></v-icon>
             </template>
