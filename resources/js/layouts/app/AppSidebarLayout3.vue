@@ -646,7 +646,7 @@ onMounted(() => {
                     </v-btn>
                 </v-list>
             </v-navigation-drawer>
-            <v-app-bar :elevation="10" rounded="b-xl">
+            <v-app-bar :elevation="10" rounded="b-xl" style="background-color: #f5f5f5">
                 <template v-slot:prepend>
                     <v-app-bar-nav-icon @click.stop="drawer = !drawer"></v-app-bar-nav-icon>
                 </template>
@@ -689,7 +689,7 @@ onMounted(() => {
                             </v-item-group>
                         </v-card>
                     </v-menu>
-                    <v-list rounded="xl">
+                    <v-list rounded="xl" class="bg-transparent">
                         <v-menu v-model="menu" :close-on-content-click="false" location="bottom center">
                             <template v-slot:activator="{ props }">
                                 <v-list-item
@@ -729,7 +729,7 @@ onMounted(() => {
                 </template>
 
                 <v-app-bar-title>
-                    <v-card class="mx-auto" :prepend-icon="props.icono">
+                    <v-card class="mx-auto bg-transparent" :prepend-icon="props.icono">
                         <template v-slot:title>
                             <span class="font-weight-black text-info">{{ props.titulo }}</span>
                         </template>
