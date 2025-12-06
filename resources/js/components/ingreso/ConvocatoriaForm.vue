@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import axios from 'axios';
 import Swal from 'sweetalert2';
-import { onMounted, ref, toRef } from 'vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -147,10 +147,17 @@ const extensions = [
     FormatClear,
     History,
 ];
+
+const titleForm = computed(() => {
+    return isEditing.value ? t('convocatoria._editar_') : t('convocatoria._crear_');
+});
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('_editar_convocatoria_') : $t('_crear_convocatoria_')} `">
-        <template v-slot:text>
+    <v-card class="rounded-t-xl">
+        <v-card-title class="border-b-md bg-blue-grey-lighten-3">
+            <h2 class="text-blue-darken-3">{{ titleForm }}</h2>
+        </v-card-title>
+        <v-card-text class="pt-4">
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
                     <v-col cols="12">
@@ -251,7 +258,7 @@ const extensions = [
                     </v-col>
                 </v-row>
             </v-form>
-        </template>
+        </v-card-text>
     </v-card>
 </template>
 <style lang="css" scoped>

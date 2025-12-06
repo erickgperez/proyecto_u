@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import {
     Bold,
     BulletList,
@@ -22,7 +22,7 @@ import {
     TextAlign,
     Underline,
 } from 'element-tiptap';
-import { onMounted, ref, toRef } from 'vue';
+import { computed, onMounted, ref, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
 
@@ -115,10 +115,17 @@ const extensions = [
     FormatClear,
     History,
 ];
+
+const titleForm = computed(() => {
+    return isEditing.value ? t('etapa._editar_') : t('etapa._crear_');
+});
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('etapa._editar_') : $t('etapa._crear_')} `">
-        <template v-slot:text>
+    <v-card class="rounded-t-xl">
+        <v-card-title class="border-b-md bg-blue-grey-lighten-3">
+            <h2 class="text-blue-darken-3">{{ titleForm }}</h2>
+        </v-card-title>
+        <v-card-text class="pt-4">
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
                     <v-col cols="12">
@@ -164,6 +171,6 @@ const extensions = [
                     </v-col>
                 </v-row>
             </v-form>
-        </template>
+        </v-card-text>
     </v-card>
 </template>

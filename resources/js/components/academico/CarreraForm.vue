@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import { useFilteredMerge } from '@/composables/useFilteredMerge';
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
 import { computed, onMounted, ref, toRef, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import type { VForm } from 'vuetify/components';
-import { useFilteredMerge } from '@/composables/useFilteredMerge';
 
 const { t } = useI18n();
 const { rules, mensajeExito, mensajeError } = useFunciones();
@@ -91,10 +91,17 @@ watch(
         }
     },
 );
+
+const titleForm = computed(() => {
+    return isEditing.value ? t('carrera._editar_') : t('carrera._crear_');
+});
 </script>
 <template>
-    <v-card :title="`${isEditing ? $t('carrera._editar_') : $t('carrera._crear_')} `">
-        <template v-slot:text>
+    <v-card class="rounded-t-xl">
+        <v-card-title class="border-b-md bg-blue-grey-lighten-3">
+            <h2 class="text-blue-darken-3">{{ titleForm }}</h2>
+        </v-card-title>
+        <v-card-text class="pt-4">
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
                     <v-col cols="12">
@@ -175,6 +182,6 @@ watch(
                     </v-col>
                 </v-row>
             </v-form>
-        </template>
+        </v-card-text>
     </v-card>
 </template>
