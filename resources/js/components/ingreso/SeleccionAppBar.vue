@@ -4,7 +4,7 @@ defineProps(['convocatoria', 'sede', 'step']);
 const emit = defineEmits(['changeStep', 'changeDrawer']);
 </script>
 <template>
-    <v-app-bar :elevation="0" class="bg-blue-grey-lighten-3">
+    <v-app-bar :elevation="0" class="bg-blue-grey-lighten-3 text-blue-darken-3">
         <v-app-bar-title>
             <v-card class="mx-auto bg-transparent">
                 <template v-slot:title>
