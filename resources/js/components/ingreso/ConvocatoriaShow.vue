@@ -7,7 +7,7 @@ const date = useDate();
 
 const props = defineProps(['item', 'accion']);
 
-const titleShow = t('convocatoria._mostrar_');
+const titleShow = t('_mostrar_convocatoria_');
 </script>
 <template>
     <v-card class="rounded-t-xl">
