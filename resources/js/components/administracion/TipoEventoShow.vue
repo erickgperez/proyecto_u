@@ -1,13 +1,20 @@
 <script setup lang="ts">
+import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
 
+const { t } = useI18n();
 const date = useDate();
 
 const props = defineProps(['item', 'accion']);
+
+const titleShow = t('tipoEvento._mostrar_');
 </script>
 <template>
-    <v-card :title="$t('tipoEvento._mostrar_')">
-        <template v-slot:text>
+    <v-card class="rounded-t-xl">
+        <v-card-title class="border-b-md bg-blue-grey-lighten-3 text-blue-darken-3">
+            {{ titleShow }}
+        </v-card-title>
+        <v-card-text>
             <v-row>
                 <v-col cols="4">
                     {{ $t('_id_') }}
@@ -74,6 +81,6 @@ const props = defineProps(['item', 'accion']);
                     {{ (props.item.updater?.name ?? '') + ' ' + (props.item.updater?.email ?? '') }}
                 </v-col>
             </v-row>
-        </template>
+        </v-card-text>
     </v-card>
 </template>
