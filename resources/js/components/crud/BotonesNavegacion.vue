@@ -14,23 +14,25 @@ const props = defineProps({
 });
 </script>
 <template>
-    <v-btn
-        v-if="props.step > 1 && props.selectedAction != 'new'"
-        prepend-icon="mdi-arrow-left-bold"
-        rounded
-        variant="tonal"
-        color="blue-darken-4"
-        @click="emit('nextStep', props.step - 1)"
-    >
-        <template v-slot:prepend>
-            <v-icon color="success"></v-icon>
-        </template>
-        {{ $t('_atras_') }}
-    </v-btn>
-    <v-btn v-if="props.step == 3" prepend-icon="mdi-page-first" rounded variant="tonal" color="blue-darken-4" @click="emit('nextStep', 1)">
-        <template v-slot:prepend>
-            <v-icon color="success"></v-icon>
-        </template>
-        {{ $t('_regresar_listado_') }}
-    </v-btn>
+    <div class="pa-2">
+        <v-btn
+            v-if="props.step > 1 && props.selectedAction != 'new'"
+            prepend-icon="mdi-arrow-left-bold"
+            rounded
+            variant="tonal"
+            color="blue-darken-4"
+            @click="emit('nextStep', props.step - 1)"
+        >
+            <template v-slot:prepend>
+                <v-icon color="success"></v-icon>
+            </template>
+            {{ $t('_atras_') }}
+        </v-btn>
+        <v-btn v-if="props.step == 3" prepend-icon="mdi-page-first" rounded variant="tonal" color="blue-darken-4" @click="emit('nextStep', 1)">
+            <template v-slot:prepend>
+                <v-icon color="success"></v-icon>
+            </template>
+            {{ $t('_regresar_listado_') }}
+        </v-btn>
+    </div>
 </template>

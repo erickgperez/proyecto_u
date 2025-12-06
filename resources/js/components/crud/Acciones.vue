@@ -86,7 +86,7 @@ function remove() {
 }
 </script>
 <template>
-    <v-card class="align-center justify-center">
+    <v-card class="align-center pa-2 justify-center rounded-t-xl">
         <v-card-title class="border-b-md">
             <h2 class="text-blue-darken-3">{{ props.selectedItemLabel }}</h2>
         </v-card-title>

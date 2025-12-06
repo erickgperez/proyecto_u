@@ -115,7 +115,7 @@ const filteredByGroups = computed(() => {
 });
 </script>
 <template>
-    <v-card>
+    <v-card class="rounded-t-xl">
         <v-card-title class="d-flex align-center border-b-md pe-2">
             <v-icon icon="mdi-format-list-text"></v-icon> &nbsp; {{ props.titleList }}
             <v-spacer></v-spacer>
