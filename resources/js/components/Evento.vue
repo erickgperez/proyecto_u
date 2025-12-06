@@ -212,7 +212,7 @@ onMounted(() => {
 
 <template>
     <v-layout>
-        <v-app-bar class="bg-blue-grey-lighten-3 ma-0 pa-0">
+        <v-app-bar class="bg-blue-grey-lighten-3 ma-0 rounded-t-xl">
             <v-toolbar-title>{{ calendario?.descripcion }}</v-toolbar-title>
 
             <template v-slot:append>
