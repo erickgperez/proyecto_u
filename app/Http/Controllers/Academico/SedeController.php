@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academico\Estado;
 use App\Models\Academico\Sede;
 use App\Models\PlanEstudio\Carrera;
 use App\Models\PlanEstudio\TipoCarrera;
@@ -77,9 +78,13 @@ class SedeController extends Controller
         //Quitar todas las relaciones entre carrera sede
         $sede->carreras()->sync([]);
         //Agregar los que vienen en el formulario
+        $estadoId = Estado::where('codigo', 'ACTIVA')->first()->id;
+        $carrerasData = [];
         foreach ($request->get('carreras') as $c) {
-            $sede->carreras()->attach($c['id'], ['cupo' => $c['cupo']]);
+            $carrerasData[$c['id']] = ['cupo' => $c['cupo'], 'estado_id' => $estadoId];
         }
+
+        $sede->carreras()->sync($carrerasData);
 
         $item = Sede::with('creator', 'updater', 'carreras')->find($sede->id);
 

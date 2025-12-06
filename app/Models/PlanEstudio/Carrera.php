@@ -64,7 +64,7 @@ class Carrera extends Model
 
     public function sedes(): BelongsToMany
     {
-        return $this->belongsToMany(Sede::class, 'academico.carrera_sede', 'carrera_id', 'sede_id')->using(CarreraSede::class);
+        return $this->belongsToMany(Sede::class, 'academico.carrera_sede', 'carrera_id', 'sede_id')->withPivot('cupo', 'estado_id');
     }
 
     public function estudios()
