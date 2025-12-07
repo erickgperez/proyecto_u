@@ -140,6 +140,10 @@ const exportarExcel = () => {
 const exportarPDF = (orientacion = 'portrait') => {
     const doc = new jsPDF({ unit: 'pt', format: 'letter', orientation: orientacion });
 
+    const pageSize = doc.internal.pageSize;
+    const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
+    const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+
     const totalPagesExp = '{total_pages_count_string}';
     const fecha = new Date();
     const opciones = { day: '2-digit', month: '2-digit', year: 'numeric' };
@@ -180,10 +184,6 @@ const exportarPDF = (orientacion = 'portrait') => {
         },
         //para dibujar el pie de página
         didDrawPage: (data) => {
-            const pageSize = doc.internal.pageSize;
-            const pageHeight = pageSize.height ? pageSize.height : pageSize.getHeight();
-            const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
-
             const pageNumber = doc.internal.getNumberOfPages();
 
             // Línea horizontal en el pie de página
