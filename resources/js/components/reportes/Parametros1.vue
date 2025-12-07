@@ -104,6 +104,7 @@ defineExpose({ formRef });
                     <v-select
                         prepend-icon="mdi-form-dropdown"
                         icon-color="deep-orange"
+                        :rules="[rules.required]"
                         v-model="estadoSeleccion"
                         :items="estados"
                         item-value="id"
@@ -118,7 +119,6 @@ defineExpose({ formRef });
                 <v-col cols="12">
                     <v-select
                         prepend-icon="mdi-form-dropdown"
-                        icon-color="deep-orange"
                         v-model="sedeSeleccion"
                         :items="sedes"
                         item-value="id"
@@ -145,7 +145,6 @@ defineExpose({ formRef });
                 <v-col cols="12">
                     <v-select
                         prepend-icon="mdi-form-dropdown"
-                        icon-color="deep-orange"
                         v-model="carreraSeleccion"
                         :items="carreras"
                         item-value="id"
