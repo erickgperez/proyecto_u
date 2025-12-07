@@ -19,7 +19,7 @@ class ReporteIngresoController extends Controller
     public function aspirantes(Request $request): Response
     {
 
-        return Inertia::render('ingreso/reportes/ReporteSeleccion');
+        return Inertia::render('reportes/ingreso/ReporteSeleccion');
     }
 
     public function getDataAspirantes(Request $request)
