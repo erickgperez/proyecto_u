@@ -20,7 +20,7 @@ return new class extends Migration
             $table->string('descripcion', length: 255)->comment('Descripción de la evaluación');
             $table->date('fecha')->nullable()->comment('Fecha de la evaluación');
             $table->date('fecha_limite_ingreso_nota')->nullable()->comment('Fecha límite de ingreso de notas');
-            $table->decimal('porcentaje', 5, 2)->comment('Porcentaje de la evaluación');
+            $table->decimal('porcentaje', 4, 1)->comment('Porcentaje de la evaluación');
 
             $table->foreignId('oferta_id')->comment('Id de la oferta académica');
             $table->foreign('oferta_id')->references('id')->on('academico.oferta')->onDelete('CASCADE')->onUpdate('CASCADE');

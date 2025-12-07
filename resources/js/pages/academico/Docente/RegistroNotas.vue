@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
+import axios from 'axios';
 import { computed, PropType, ref } from 'vue';
 import * as XLSX from 'xlsx';
 
@@ -49,51 +50,67 @@ const guardarValorAnterior = (e) => {
 const validarCelda = (e, row, key) => {
     let valor = e.target.value.trim();
 
-    // Si está vacío, revertir
-    if (valor === '') {
-        row[key] = valorAnterior.value;
-        e.target.value = valorAnterior.value;
-        return false;
+    let valorNuevo = valor;
+    let valorOld = valorAnterior.value;
+    // Si está vacío no hacer nada
+    if (valor !== '') {
+        // Si no es un número colocar 0
+        if (!/^[0-9]+([.][0-9]+)?$/.test(valor)) {
+            row[key] = 0;
+            e.target.value = 0;
+            return false;
+        }
+
+        // Si es número entero de 2 dígitos: autoformato 85 -> 8.5
+        if (/^\d{2}$/.test(valor) && valor !== '10') {
+            valor = (Number(valor) / 10).toFixed(1);
+        }
+
+        // Si es número entero de 1 dígito: autoformato 8 -> 8.0
+        if (/^\d$/.test(valor)) {
+            valor = Number(valor).toFixed(1);
+        }
+
+        // Validación final: permitir 0–10 con 1 decimal
+        const regex = /^(10(\.0)?|[0-9](\.[0-9])?)$/;
+
+        if (!regex.test(valor)) {
+            row[key] = valorAnterior.value;
+            e.target.value = valorAnterior.value;
+
+            return false;
+        }
+
+        const num = Number(valor);
+
+        if (num < 0 || num > 10) {
+            row[key] = valorAnterior.value;
+            e.target.value = valorAnterior.value;
+            return false;
+        }
+
+        // Valor válido → aplicar
+        row[key] = num.toFixed(1);
+        e.target.value = num.toFixed(1);
+
+        // si ha cambiado de valor guardar en el servidor
+        let valorAnteriorNum = Number(valorAnterior.value);
+        valorOld = valorAnteriorNum.toFixed(1);
+        valorNuevo = num.toFixed(1);
     }
-
-    // Si es número entero de 2 dígitos: autoformato 85 -> 8.5
-    if (/^\d{2}$/.test(valor) && valor !== '10') {
-        valor = (Number(valor) / 10).toFixed(1);
-    }
-
-    // Si es número entero de 1 dígito: autoformato 8 -> 8.0
-    if (/^\d$/.test(valor)) {
-        valor = Number(valor).toFixed(1);
-    }
-
-    // Validación final: permitir 0–10 con 1 decimal
-    const regex = /^(10(\.0)?|[0-9](\.[0-9])?)$/;
-
-    if (!regex.test(valor)) {
-        row[key] = valorAnterior.value;
-        e.target.value = valorAnterior.value;
-
-        return false;
-    }
-
-    const num = Number(valor);
-
-    if (num < 0 || num > 10) {
-        row[key] = valorAnterior.value;
-        e.target.value = valorAnterior.value;
-        return false;
-    }
-
-    // Valor válido → aplicar
-    row[key] = num.toFixed(1);
-    e.target.value = num.toFixed(1);
-
-    // si ha cambiado de valor guardar en el servidor
-    let valorAnteriorNum = Number(valorAnterior.value);
-    if (valorAnteriorNum.toFixed(1) !== num.toFixed(1)) {
+    if (valorOld !== valorNuevo) {
         console.log('Guardar en el servidor');
-        console.log(row.uuid);
+        console.log(row.id);
         console.log(key);
+        axios.post(
+            route('academico-evaluacion-save_calificacion', {
+                uuid: key,
+                id: row.id,
+            }),
+            {
+                calificacion: valorNuevo,
+            },
+        );
     }
     return true;
 };
@@ -155,7 +172,7 @@ const setActiveCell = (row, col) => {
 
 const findInput = (r, c) => document.querySelector(`input[data-row="${r}"][data-col="${c}"][data-visible="1"]`);
 
-// ------------------ NAVEGACIÓN TIPO EXCEL CON COLUMNAS VISIBLES ------------------
+// navegación por la cuadrícula de notas
 const onExcelNav = (e, fila, key) => {
     const row = Number(e.target.dataset.row);
     const col = Number(e.target.dataset.col);
@@ -241,6 +258,7 @@ const onExcelNav = (e, fila, key) => {
 const aplicarEscalaColor = ref(false);
 const aplicarGuiaFilaColumna = ref(false);
 
+//Mostrar las celdas con escala de color
 const colorEscalaExcel = (valor) => {
     if (valor === '' || valor === null || valor === undefined || !aplicarEscalaColor.value) return 'white';
 
@@ -266,12 +284,12 @@ const colorEscalaExcel = (valor) => {
     return `rgb(${r}, ${g}, ${b})`;
 };
 
-// ------------------ PROMEDIO PONDERADO ------------------
+// Cálculo de promedio ponderado
 function calcularPromedio(item) {
     let suma = 0;
     evaluaciones.value.forEach((ev) => {
         const v = Number(item[ev.key]) || 0;
-        suma += v * (ev.ponderacion || 0);
+        suma += v * (ev.ponderacion / 100 || 0);
     });
     // mostrar con 1 decimal
     return (Math.round(suma * 10) / 10).toFixed(1);
@@ -460,7 +478,6 @@ function calcularPromedio(item) {
         0 4px 10px rgba(0, 0, 0, 0.22);
 }
 
-/* Freeze first column header also */
 .excel-header:first-child {
     left: 0;
     z-index: 6;
@@ -474,7 +491,6 @@ function calcularPromedio(item) {
     height: 32px;
 }
 
-/* Freeze first column */
 .excel-cell:first-child {
     position: sticky;
     left: 0;
@@ -482,7 +498,6 @@ function calcularPromedio(item) {
     z-index: 4;
 }
 
-/* ────── INPUTS (Editable cells) ─────── */
 .excel-input {
     width: 100%;
     height: 100%;

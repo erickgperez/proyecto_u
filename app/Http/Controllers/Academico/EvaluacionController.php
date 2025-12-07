@@ -138,7 +138,7 @@ class EvaluacionController extends Controller
                 'visible' => true,
                 'fecha' => $ev->fecha,
                 'fecha_limite_ingreso_nota' => $ev->fecha_limite_ingreso_nota,
-                'editable' => ($ev->fecha > now() && $ev->fecha_limite_ingreso_nota < now()),
+                'editable' => ($ev->fecha < now() && $ev->fecha_limite_ingreso_nota > now()),
                 'tooltipVisible' => false,
             ];
         }
@@ -188,5 +188,23 @@ class EvaluacionController extends Controller
             'docente' => $docente,
             'imparte' => $imparte,
         ]);
+    }
+
+    public function saveCalificacion($uuid, $id, Request $request)
+    {
+        $request->validate([
+            'calificacion' => 'nullable|numeric|between:0,10',
+        ]);
+
+        $evaluacion = Evaluacion::where("uuid", $uuid)->first();
+        $calificacion = Calificacion::firstOrCreate([
+            'evaluacion_id' => $evaluacion->id,
+            'inscrito_id' => $id,
+        ]);
+
+        $calificacion->calificacion = $request->get('calificacion');
+        $calificacion->save();
+
+        return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
     }
 }
