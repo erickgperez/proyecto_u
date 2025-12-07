@@ -251,11 +251,11 @@ onMounted(() => {
                             {{ $t('reporte._plural_') }}
                             <v-menu activator="parent">
                                 <v-list class="bg-blue-grey-darken-2">
-                                    <Link v-if="hasPermission('MENU_INGRESO_REPORTES_ASPIRANTES')" :href="route('ingreso-reportes-aspirantes')">
+                                    <Link v-if="hasPermission('MENU_INGRESO_REPORTES_ASPIRANTES')" :href="route('reportes-ingreso-aspirantes')">
                                         <v-list-item
                                             link
                                             prepend-icon="mdi-account-star"
-                                            :class="$page.url === '/ingreso/reportes/aspirantes' ? 'bg-blue-lighten-4' : ''"
+                                            :class="$page.url === '/reportes/ingreso/aspirantes' ? 'bg-blue-lighten-4' : ''"
                                         >
                                             {{ $t('aspirante._plural_') }}
                                         </v-list-item>

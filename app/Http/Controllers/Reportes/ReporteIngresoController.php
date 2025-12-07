@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Ingreso;
+namespace App\Http\Controllers\Reportes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academico\Sede;
@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class IngresoReportesController extends Controller
+class ReporteIngresoController extends Controller
 {
 
     public function __construct(private SolicitudService $solicitudService) {}

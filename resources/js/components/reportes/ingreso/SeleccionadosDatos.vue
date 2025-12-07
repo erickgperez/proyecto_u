@@ -104,7 +104,7 @@ const loadReport = async () => {
         };
 
         //Obtener los datos desde el servidor
-        const response = await axios.post(route('ingreso-reportes-aspirantes-data'), payload, { signal: controller.signal });
+        const response = await axios.post(route('reportes-ingreso-aspirantes-data'), payload, { signal: controller.signal });
 
         items.value = response.data.aspirantes;
     } catch (err: any) {

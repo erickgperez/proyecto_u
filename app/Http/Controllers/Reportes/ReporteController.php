@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Reporte;
+namespace App\Http\Controllers\Reportes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academico\Sede;
