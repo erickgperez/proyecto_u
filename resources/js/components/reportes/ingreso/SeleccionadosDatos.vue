@@ -186,6 +186,11 @@ const exportarPDF = (orientacion = 'portrait') => {
 
             const pageNumber = doc.internal.getNumberOfPages();
 
+            // Línea horizontal en el pie de página
+            doc.setDrawColor(150); // gris suave
+            doc.setLineWidth(0.7);
+            doc.line(40, pageHeight - 35, pageWidth - 40, pageHeight - 35);
+
             doc.setFontSize(9);
 
             // Izquierda: fecha y hora
