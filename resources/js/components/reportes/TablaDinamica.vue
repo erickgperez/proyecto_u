@@ -19,18 +19,20 @@ const renderers = markRaw({
 </script>
 
 <template>
-    <VuePivottableUi
-        :data="props.items"
-        :renderers="renderers"
-        renderer-name="Table"
-        aggregatorName="Count"
-        :aggregators="aggregators"
-        :hiddenFromAggregators="['Dot Chart']"
-        :showRowTotal="true"
-        :showColTotal="true"
-    >
-        <template #aggregatorCell> <i class="fas fa-calculator" style="margin-right: 0.25rem"></i> </template>
-    </VuePivottableUi>
+    <v-sheet class="h-screen">
+        <VuePivottableUi
+            :data="props.items"
+            :renderers="renderers"
+            renderer-name="Table"
+            aggregatorName="Count"
+            :aggregators="aggregators"
+            :hiddenFromAggregators="['Dot Chart']"
+            :showRowTotal="true"
+            :showColTotal="true"
+        >
+            <template #aggregatorCell> <i class="fas fa-calculator" style="margin-right: 0.25rem"></i> </template>
+        </VuePivottableUi>
+    </v-sheet>
 </template>
 <style scoped>
 .pvtRenderers {
