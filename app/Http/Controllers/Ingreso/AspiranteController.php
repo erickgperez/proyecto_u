@@ -3,12 +3,10 @@
 namespace App\Http\Controllers\Ingreso;
 
 use App\Http\Controllers\Controller;
-use App\Models\Academico\Estado;
-use App\Models\Academico\Estudiante;
-use App\Models\Academico\EstudianteCarreraSede;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Workflow\Solicitud;
+use App\Services\AspiranteService;
 use App\Services\SolicitudService;
 use App\Services\EstudianteService;
 use Illuminate\Http\Request;
@@ -19,14 +17,7 @@ use Inertia\Response;
 class AspiranteController extends Controller
 {
 
-    protected $solicitudService;
-    protected $estudianteService;
-
-    public function __construct(SolicitudService $solicitudService, EstudianteService $estudianteService)
-    {
-        $this->solicitudService = $solicitudService;
-        $this->estudianteService = $estudianteService;
-    }
+    public function __construct(private SolicitudService $solicitudService, private EstudianteService $estudianteService, private AspiranteService $aspiranteService) {}
 
     public function save(Request $request) {}
 
@@ -101,52 +92,7 @@ class AspiranteController extends Controller
 
     public function aceptarSeleccion(int $id)
     {
-        $solicitud = Solicitud::with([
-            'solicitante',
-            'etapa',
-            'estado',
-            'modelo'
-        ])->where('id', $id)->first();
-
-
-        $convocatoriaAspirante = ConvocatoriaAspirante::with('solicitudCarreraSede')
-            ->whereBelongsTo($solicitud->solicitante)
-            ->whereBelongsTo($solicitud->modelo)
-            ->first();
-
-        $persona = $convocatoriaAspirante->aspirante->persona;
-        $convocatoria = $convocatoriaAspirante->convocatoria;
-        $sede = $convocatoriaAspirante->solicitudCarreraSede->carreraSede->sede;
-        //Crear el registro de estudiante
-        $estudiante = new Estudiante();
-        $estudiante->persona_id = $persona->id;
-        //Generar el carnet para el estudiante
-        $estudiante->carnet = $this->estudianteService->generateCarnet($persona, $convocatoria->anio_ingreso, $sede->codigo);
-        $estudiante->save();
-
-        //Agregar la carrera
-        $estado = Estado::where('codigo', 'ESTUDIANTE')->first();
-        $estudianteCarreraSede = new EstudianteCarreraSede();
-        $estudianteCarreraSede->estudiante()->associate($estudiante);
-        $estudianteCarreraSede->carreraSede()->associate($convocatoriaAspirante->solicitudCarreraSede->carreraSede);
-        $estudianteCarreraSede->fecha_inicio = new \DateTime();
-        $estudianteCarreraSede->estado()->associate($estado);
-        $estudianteCarreraSede->save();
-
-        //  Cambiarle rol al usuario        
-        $usuario = $persona->usuarios()->role(['aspirante'])->first();
-        $usuario->assignRole('estudiante');
-        $usuario->removeRole('aspirante');
-        //Verificar si no se ha puesto el nombre del usuario
-        $usuario->name = $persona->primer_nombre . ' ' . $persona->primer_apellido;
-        $usuario->save();
-
-        $solicitud->pasarSiguienteEtapa();
-        //$estadoSolicitud = WorkflowEstado::where('codigo', 'APROBADA');
-        $solicitud->save();
-
-        //Guardar en el historial de solicitud
-        $solicitud->guardarHistorial();
+        $this->aspiranteService->aplicarAceptarSeleccion($id);
 
         return redirect()->intended(route('home', absolute: false));
     }

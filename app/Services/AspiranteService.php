@@ -2,8 +2,12 @@
 
 namespace App\Services;
 
+use App\Models\Academico\Estado;
+use App\Models\Academico\Estudiante;
+use App\Models\Academico\EstudianteCarreraSede;
 use App\Models\Estudio;
 use App\Models\Ingreso\Aspirante;
+use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Persona;
 use App\Models\PlanEstudio\Grado;
 use App\Models\Secundaria\Carrera;
@@ -12,6 +16,7 @@ use App\Models\Secundaria\Institucion;
 use App\Models\Secundaria\Invitacion;
 use App\Models\Sexo;
 use App\Models\User;
+use App\Models\Workflow\Solicitud;
 
 class AspiranteService
 {
@@ -87,5 +92,56 @@ class AspiranteService
         }
 
         return $aspirante;
+    }
+
+    public function aplicarAceptarSeleccion($id)
+    {
+        $solicitud = Solicitud::with([
+            'solicitante',
+            'etapa',
+            'estado',
+            'modelo'
+        ])->where('id', $id)->first();
+
+
+        $convocatoriaAspirante = ConvocatoriaAspirante::with('solicitudCarreraSede')
+            ->whereBelongsTo($solicitud->solicitante)
+            ->whereBelongsTo($solicitud->modelo)
+            ->first();
+
+        $persona = $convocatoriaAspirante->aspirante->persona;
+        $convocatoria = $convocatoriaAspirante->convocatoria;
+        $sede = $convocatoriaAspirante->solicitudCarreraSede->carreraSede->sede;
+        //Crear el registro de estudiante
+        $estudiante = new Estudiante();
+        $estudiante->persona_id = $persona->id;
+        //Generar el carnet para el estudiante
+        $estudianteService = new EstudianteService();
+        $estudiante->carnet = $estudianteService->generateCarnet($persona, $convocatoria->anio_ingreso, $sede->codigo);
+        $estudiante->save();
+
+        //Agregar la carrera
+        $estado = Estado::where('codigo', 'ESTUDIANTE')->first();
+        $estudianteCarreraSede = new EstudianteCarreraSede();
+        $estudianteCarreraSede->estudiante()->associate($estudiante);
+        $estudianteCarreraSede->carreraSede()->associate($convocatoriaAspirante->solicitudCarreraSede->carreraSede);
+        $estudianteCarreraSede->fecha_inicio = new \DateTime();
+        $estudianteCarreraSede->estado()->associate($estado);
+        $estudianteCarreraSede->save();
+
+        //  Cambiarle rol al usuario        
+        $usuario = $persona->usuarios()->role(['aspirante'])->first();
+        $usuario->assignRole('estudiante');
+        $usuario->removeRole('aspirante');
+        //Verificar si no se ha puesto el nombre del usuario
+        $usuario->name = $persona->primer_nombre . ' ' . $persona->primer_apellido;
+        $usuario->save();
+
+        $solicitud->pasarSiguienteEtapa();
+        //$estadoSolicitud = WorkflowEstado::where('codigo', 'APROBADA');
+        $solicitud->save();
+
+        //Guardar en el historial de solicitud
+        $solicitud->guardarHistorial();
     }
 }

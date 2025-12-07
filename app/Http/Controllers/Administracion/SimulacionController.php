@@ -6,8 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Ingreso\AspiranteController;
 use App\Http\Controllers\Workflow\SolicitudIngresoController;
 use App\Models\Academico\CarreraSede;
+use App\Models\Academico\Estudiante;
 use App\Models\Academico\Sede;
 use App\Models\Ingreso\Convocatoria;
+use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Rol;
 use App\Models\Secundaria\DataBachillerato;
 use App\Models\User;
@@ -135,6 +137,23 @@ class SimulacionController extends Controller
             }
         } else {
             abort(403, 'Unauthorized action.');
+        }
+    }
+
+    public function aceptarSeleccion()
+    {
+        //obtener convocatoria aspirantes que están seleccionados
+        $convocatoriaAspirantes = ConvocatoriaAspirante::where('seleccionado', true)->get();
+
+        foreach ($convocatoriaAspirantes as $convocatoriaAspirante) {
+            $persona = $convocatoriaAspirante->aspirante->persona;
+            //Verificar si la persona tiene un registro de estudiante creado
+            $estudiante = Estudiante::where('persona_id', $persona->id)->first();
+            if (!$estudiante) {
+                //Aplicar la aceptación de la seleccion
+                $aspiranteService = new AspiranteService();
+                $aspiranteService->aplicarAceptarSeleccion($convocatoriaAspirante->solicitudCarreraSede->solicitud->id);
+            }
         }
     }
 }
