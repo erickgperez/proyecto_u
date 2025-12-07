@@ -345,44 +345,41 @@ function calcularPromedio(item) {
                     <v-data-table
                         :headers="headers"
                         :items="alumnos"
-                        class="excel-table"
+                        class="excel-table w-100"
                         hide-default-header
                         :items-per-page="-1"
                         hide-default-footer
-                        style="width: 100%"
                     >
                         <!-- ENCABEZADO -->
                         <template #thead>
-                            <thead>
-                                <tr class="excel-header">
-                                    <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Carnet</th>
-                                    <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Estudiante</th>
+                            <tr class="excel-header">
+                                <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Carnet</th>
+                                <th class="excel-header excel-first-col" :class="{ 'excel-header-active': activeCol === -1 }">Estudiante</th>
 
-                                    <th
-                                        v-for="(ev, colIndex) in evaluacionesVisibles"
-                                        :key="ev.key"
-                                        class="excel-header"
-                                        :class="{ 'excel-header-active': activeCol === colIndex, 'text-disabled': !ev.editable }"
+                                <th
+                                    v-for="(ev, colIndex) in evaluacionesVisibles"
+                                    :key="ev.key"
+                                    class="excel-header"
+                                    :class="{ 'excel-header-active': activeCol === colIndex, 'text-disabled': !ev.editable }"
+                                >
+                                    <v-tooltip
+                                        interactive
+                                        :open-on-hover="false"
+                                        open-on-click
+                                        style="max-width: 600px"
+                                        location="bottom"
+                                        v-model="ev.tooltipVisible"
+                                        @click="ev.tooltipVisible = false"
                                     >
-                                        <v-tooltip
-                                            interactive
-                                            :open-on-hover="false"
-                                            open-on-click
-                                            style="max-width: 600px"
-                                            location="bottom"
-                                            v-model="ev.tooltipVisible"
-                                            @click="ev.tooltipVisible = false"
-                                        >
-                                            <template v-slot:activator="{ props }">
-                                                <span v-bind="props">{{ ev.codigo }} ({{ ev.ponderacion }}%)</span>
-                                            </template>
-                                            <span class="text-caption text-wrap">{{ ev.descripcion }}</span>
-                                        </v-tooltip>
-                                    </th>
+                                        <template v-slot:activator="{ props }">
+                                            <span v-bind="props">{{ ev.codigo }} ({{ ev.ponderacion }}%)</span>
+                                        </template>
+                                        <span class="text-caption text-wrap">{{ ev.descripcion }}</span>
+                                    </v-tooltip>
+                                </th>
 
-                                    <th class="excel-header">Promedio</th>
-                                </tr>
-                            </thead>
+                                <th class="excel-header">Promedio</th>
+                            </tr>
                         </template>
 
                         <!-- CUERPO -->

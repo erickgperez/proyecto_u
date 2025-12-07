@@ -175,6 +175,9 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'MENU_INGRESO_ASPIRANTES_CALIFICACION-BACHILLERATO']);
         Permission::create(['name' => 'MENU_INGRESO_ASPIRANTES_PERFIL']);
 
+        Permission::create(['name' => 'MENU_INGRESO_REPORTES']);
+        Permission::create(['name' => 'MENU_INGRESO_REPORTES_ASPIRANTES']);
+
         //***** GESTION ACADEMICA
         // SEDES
         Permission::create(['name' => 'MENU_ACADEMICO_SEDE']);

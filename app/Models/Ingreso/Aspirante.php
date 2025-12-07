@@ -11,6 +11,7 @@ use App\Traits\UserStamps;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 
 class Aspirante extends Model
@@ -33,6 +34,11 @@ class Aspirante extends Model
     public function convocatorias(): BelongsToMany
     {
         return $this->belongsToMany(Convocatoria::class, 'ingreso.convocatoria_aspirante', 'aspirante_id', 'convocatoria_id');
+    }
+
+    public function convocatoriaAspirante(): HasMany
+    {
+        return $this->hasMany(ConvocatoriaAspirante::class, 'aspirante_id');
     }
 
     public function solicitudes(): MorphMany

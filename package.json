@@ -36,6 +36,8 @@
         "concurrently": "^9.0.1",
         "element-tiptap": "^2.2.1",
         "file-saver": "^2.0.5",
+        "jspdf": "^3.0.4",
+        "jspdf-autotable": "^5.0.2",
         "laravel-vite-plugin": "^1.0",
         "lucide-vue-next": "^0.468.0",
         "plotly.js": "^3.1.2",

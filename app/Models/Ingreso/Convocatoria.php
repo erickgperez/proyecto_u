@@ -33,6 +33,8 @@ class Convocatoria extends Model
         'calendarizacion_id'
     ];
 
+    protected $appends = ['nombreCompleto'];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
@@ -82,5 +84,10 @@ class Convocatoria extends Model
     public function solicitud(): MorphOne
     {
         return $this->morphOne(Solicitud::class, 'solicitante');
+    }
+
+    public function getNombreCompletoAttribute()
+    {
+        return $this->nombre . ' - ' . $this->anio_ingreso;
     }
 }

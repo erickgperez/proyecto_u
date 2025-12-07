@@ -3,7 +3,9 @@
 use App\Http\Controllers\Ingreso\AspiranteController;
 use App\Http\Controllers\Ingreso\CandidatosController;
 use App\Http\Controllers\Ingreso\ConvocatoriaController;
+use App\Http\Controllers\Ingreso\IngresoReportesController;
 use App\Http\Controllers\Ingreso\UploadFileController;
+use App\Http\Controllers\Reporte\ReporteController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -38,4 +40,9 @@ Route::middleware('auth', 'verified')->group(function () {
 
     Route::get('/ingreso/bachillerato/cargar-calificacion', [UploadFileController::class, 'cargarCalificacion'])->name('ingreso-bachillerato-cargar-calificacion');
     Route::post('/ingreso/bachillerato/import-calificacion', [UploadFileController::class, 'importCalificacion'])->name('ingreso-import-calificacion-bachillerato');
+
+    Route::get('/ingreso/reportes/aspirantes', [IngresoReportesController::class, 'aspirantes'])->name('ingreso-reportes-aspirantes');
+    Route::post('/ingreso/reportes/aspirantes/data', [IngresoReportesController::class, 'getDataAspirantes'])->name('ingreso-reportes-aspirantes-data');
+
+    Route::get('/reportes/parametros1', [ReporteController::class, 'parametros1'])->name('reportes-parametros1');
 });

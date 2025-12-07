@@ -12,10 +12,24 @@ class SolicitudService
     public function getQB(): Builder
     {
         $qb = Solicitud::with([
-            'solicitante' => ['persona' => ['sexo']],
+            'solicitante' => [
+                'persona' => [
+                    'sexo',
+                    'usuarios' => function ($query) {
+                        $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
+                            ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
+                            ->where('roles.model_type', 'App\Models\User')
+                            ->where('rol.name', 'aspirante')
+                            ->orWhere('rol.name', 'estudiante');
+                    }
+                ],
+                'convocatoriaAspirante' => [
+                    'solicitudCarreraSede' => ['carreraSede' => ['carrera']]
+                ]
+            ],
             'etapa',
             'estado',
-            'solicitudCarrerasSede',
+            'solicitudCarrerasSede' => ['carreraSede' => ['carrera']],
             'sede',
             'modelo' => ['configuracion']
         ])
@@ -39,6 +53,7 @@ class SolicitudService
             })
             ->leftJoin('workflow.solicitud_carrera_sede as scs', 'scs.id', '=', 'convocatoria_aspirante.solicitud_carrera_sede_id')
             ->leftJoin('academico.carrera_sede as cs', 'cs.id', '=', 'scs.carrera_sede_id')
+            ->leftJoin('academico.sede as sede', 'sede.id', '=', 'cs.sede_id')
             ->leftJoin('plan_estudio.carrera as carrera', 'carrera.id', '=', 'cs.carrera_id')
             ->leftJoin('workflow.tipo_carrera_sede_solicitud as tcss', 'tcss.id', '=', 'scs.tipo_carrera_sede_solicitud_id')
             ->join('public.persona as persona', 'aspirante.persona_id', '=', 'persona.id')

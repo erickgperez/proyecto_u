@@ -242,6 +242,27 @@ onMounted(() => {
                                 </v-list>
                             </v-menu>
                         </v-list-item>
+                        <v-list-item
+                            v-if="hasPermission('MENU_INGRESO_REPORTES_')"
+                            prepend-icon="mdi-file-document-multiple-outline"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('reporte._plural_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link v-if="hasPermission('MENU_INGRESO_REPORTES_ASPIRANTES')" :href="route('ingreso-reportes-aspirantes')">
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-star"
+                                            :class="$page.url === '/ingreso/reportes/aspirantes' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                            {{ $t('aspirante._plural_') }}
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
                     </v-sheet>
                     <v-sheet color="transparent" v-if="hasPermission('MODULO_ADMINISTRACION') && moduloActual?.codigo == 'administracion'">
                         <v-list-item

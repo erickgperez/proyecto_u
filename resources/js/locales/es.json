@@ -36,7 +36,9 @@
         "_resultados_disponibles_desde_": "Los resultados de la selección estarán disponibles a partir del ",
         "_seleccion_": "Selección",
         "_seleccionado_": "Seleccionado",
+        "_no_seleccionado_": "No seleccionado",
         "_seleccionada_": "Seleccionada",
+        "_estado_": "Estado",
         "_seleccion_aspirantes_": "Selección de aspirantes",
         "_seleccion_descripcion_": "Seleccionar los aspirantes que se aceptarán como estudiantes",
         "_ha_sido_msj_": "nos es grato comunicarle que usted ha sido",
@@ -289,7 +291,7 @@
         "_carnet_": "Carnet",
         "_carrera_sede_": "Carrera Sede",
         "_perfil_": "Perfil de estudiante",
-        "_perfil_descripcion_": "Datos personales y contacto del estudiante"        
+        "_perfil_descripcion_": "Datos personales y contacto del estudiante"
     },
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
     "etapa": {
@@ -579,6 +581,27 @@
     "_reenviar_invitacion_": "Reenviar invitación",
     "_registro_eliminado_correctamente_": "Registro eliminado correctamente",
     "_regresar_listado_": "Regresar al listado",
+    "reporte": {
+        "_columnas_": "Columnas",
+        "_exportar_": "Exportar",
+        "_pdf_vertical_": "PDF (Vertical)",
+        "_pdf_horizontal_": "PDF (Horizontal)",
+        "_singular_": "Reporte",
+        "_plural_": "Reportes",
+        "_estado_seleccion_": "Estado selección",
+        "_aspirantes_": "Reporte de aspirantes",
+        "_estado_seleccion_aspirantes_": "Estado de selección de aspirantes",
+        "_anterior_": "Anterior",
+        "_continuar_": "Continuar",
+        "_parametros_": "Parámetros",
+        "_parametros_descripcion_": "Parámetros para mostrar el reporte",
+        "_informe_": "Informe",
+        "_error_al_cargar_": "Error al cargar el reporte",
+        "_ingreso_aspirantes_": "Reporte de aspirantes",
+        "_pagina_": "Página",
+        "_de_": "de",
+        "_tabla_dinamica_": "Tabla dinámica"
+    },
     "_resumen_": "Resumen",
     "rol": {
         "_singular_": "Rol",

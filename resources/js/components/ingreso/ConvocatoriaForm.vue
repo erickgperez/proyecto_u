@@ -195,13 +195,13 @@ const titleForm = computed(() => {
                         <v-select
                             required
                             :rules="[rules.required]"
+                            prepend-icon="mdi-form-dropdown"
                             icon-color="deep-orange"
                             :label="$t('convocatoria._flujo_')"
                             :items="props.flujos"
                             v-model="formData.flujo_id"
                             item-title="nombre"
                             item-value="id"
-                            prepend-icon="mdi-form-dropdown"
                             :hint="$t('convocatoria._flujo_hint_')"
                             persistent-hint
                         ></v-select>
