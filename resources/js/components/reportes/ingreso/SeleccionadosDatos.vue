@@ -70,7 +70,7 @@ const itemsTransformados = computed(() =>
             transformedItem.seleccionado = i.seleccionado ? t('aspirante._seleccionado_') : t('aspirante._no_seleccionado_');
         }
         if (isVisibleColumn('carrera')) {
-            transformedItem.carrera = i.solicitante?.convocatoria_aspirante[0].solicitud_carrera_sede.carrera_sede.carrera.nombreCompleto;
+            transformedItem.carrera = i.solicitante?.convocatoria_aspirante[0]?.solicitud_carrera_sede?.carrera_sede?.carrera?.nombreCompleto;
         }
         return transformedItem;
     }),

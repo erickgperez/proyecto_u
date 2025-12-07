@@ -600,7 +600,9 @@
         "_ingreso_aspirantes_": "Reporte de aspirantes",
         "_pagina_": "Página",
         "_de_": "de",
-        "_tabla_dinamica_": "Tabla dinámica"
+        "_tabla_dinamica_": "Tabla dinámica",
+        "_sede_seleccion_hint_": "Deje sin seleccionar para mostrar todas las sedes",
+        "_carrera_seleccion_hint_": "Deje sin seleccionar para mostrar todas las carreras"
     },
     "_resumen_": "Resumen",
     "rol": {

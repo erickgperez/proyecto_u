@@ -128,6 +128,8 @@ defineExpose({ formRef });
                         clearable
                         multiple
                         return-object
+                        :hint="$t('reporte._sede_seleccion_hint_')"
+                        persistent-hint
                     >
                         <template v-slot:prepend-item>
                             <v-list-item title="Seleccionar todo" @click="toggleSelectAllSedes">
@@ -154,6 +156,8 @@ defineExpose({ formRef });
                         chips
                         clearable
                         return-object
+                        :hint="$t('reporte._carrera_seleccion_hint_')"
+                        persistent-hint
                     >
                         <template v-slot:prepend-item>
                             <v-list-item title="Seleccionar todo" @click="toggleSelectAllCarreras">
