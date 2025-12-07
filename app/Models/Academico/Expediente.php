@@ -5,6 +5,7 @@ namespace App\Models\Academico;
 use App\Models\Academico\Estado;
 use App\Models\Academico\Estudiante;
 use App\Models\Academico\Semestre;
+use App\Models\Academico\TipoCurso;
 use App\Models\PlanEstudio\CarreraUnidadAcademica;
 use App\Traits\HasCreateMany;
 use App\Traits\HasUuid;
@@ -20,6 +21,14 @@ class Expediente extends Model
     use UserStamps, HasUuid, HasCreateMany;
 
     protected $table = "academico.expediente";
+    protected $fillable = [
+        'estudiante_id',
+        'carrera_unidad_academica_id',
+        'semestre_id',
+        'tipo_curso_id',
+        'estado_id',
+        'matricula',
+    ];
 
 
     public function estudiante(): BelongsTo

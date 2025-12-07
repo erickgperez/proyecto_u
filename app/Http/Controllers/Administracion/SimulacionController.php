@@ -6,8 +6,14 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Ingreso\AspiranteController;
 use App\Http\Controllers\Workflow\SolicitudIngresoController;
 use App\Models\Academico\CarreraSede;
+use App\Models\Academico\Estado;
 use App\Models\Academico\Estudiante;
+use App\Models\Academico\Expediente;
+use App\Models\Academico\Imparte;
+use App\Models\Academico\Oferta;
 use App\Models\Academico\Sede;
+use App\Models\Academico\Semestre;
+use App\Models\Academico\TipoCurso;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Rol;
@@ -154,6 +160,44 @@ class SimulacionController extends Controller
                 $aspiranteService = new AspiranteService();
                 $aspiranteService->aplicarAceptarSeleccion($convocatoriaAspirante->solicitudCarreraSede->solicitud->id);
             }
+
+            //Inscribirlo en las asignaturas de primer semestre
+            $carreraSede = $convocatoriaAspirante->solicitudCarreraSede->carreraSede;
+            $carrera = $carreraSede->carrera;
+
+            $carreraUnidadesAcademicas = $carrera->unidadesAcademicas()->where('semestre', 1)->get();
+            $tipoCurso = TipoCurso::where('codigo', 'NM')->first();
+            $estado = Estado::where('codigo', 'EC')->first();
+
+            $carreraUnidadesAcademicas->each(function ($carreraUnidadAcademica) use ($tipoCurso, $estado, $estudiante, $carreraSede) {
+                $semestre = Semestre::firstOrCreate([
+                    'codigo' => '01',
+                    'anio' => '2026',
+                ]);
+                $oferta = Oferta::firstOrCreate([
+                    'carrera_unidad_academica_id' => $carreraUnidadAcademica->id,
+                    'semestre_id' => $semestre->id,
+                ]);
+
+                $expediente = Expediente::firstOrCreate([
+                    'estudiante_id' => $estudiante->id,
+                    'carrera_unidad_academica_id' => $carreraUnidadAcademica->id,
+                    'semestre_id' => $semestre->id,
+                ], [
+                    'tipo_curso_id' => $tipoCurso->id,
+                    'estado_id' => $estado->id,
+                    'matricula' => 1,
+                ]);
+
+                $imparte = Imparte::firstOrCreate([
+                    'oferta_id' => $oferta->id,
+                    'carrera_sede_id' => $carreraSede->id,
+                ], [
+                    'ofertada' => true,
+                    'cupo' => 50
+                ]);
+                $expediente->inscritos()->syncWithoutDetaching([$imparte->id]);
+            });
         }
     }
 }

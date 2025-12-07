@@ -17,6 +17,13 @@ class Imparte extends Model
 
     protected $table = "academico.imparte";
 
+    protected $fillable = [
+        'oferta_id',
+        'carrera_sede_id',
+        'ofertada',
+        'cupo',
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

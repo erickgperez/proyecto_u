@@ -17,6 +17,12 @@ class Oferta extends Model
 
     protected $table = "academico.oferta";
 
+    protected $fillable = [
+        'carrera_unidad_academica_id',
+        'semestre_id',
+        'docente_titular_id',
+    ];
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');
