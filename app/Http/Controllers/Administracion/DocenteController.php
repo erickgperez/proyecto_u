@@ -90,6 +90,7 @@ class DocenteController extends Controller
             $ofertaCarreraSede_[$o->carreraSede->titulo]['id'] = 'cs' . $o->carreraSede->id;
         }
         $ofertaCarreraSedeTree = [];
+        ksort($ofertaCarreraSede_);
         foreach ($ofertaCarreraSede_ as $k => $oo) {
             $unidades = $oo['unidades'];
             $title = array_column($unidades, 'title');
