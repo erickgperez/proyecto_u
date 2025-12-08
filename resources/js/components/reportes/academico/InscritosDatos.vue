@@ -18,6 +18,12 @@ const props = defineProps({
     unidadAcademicaSeleccion: Array,
 });
 
+const sede = computed(() => (props.sedeSeleccion && props.sedeSeleccion.length === 1 ? props.sedeSeleccion[0] : null));
+const carrera = computed(() => (props.carreraSeleccion && props.carreraSeleccion.length === 1 ? props.carreraSeleccion[0] : null));
+const unidadAcademica = computed(() =>
+    props.unidadAcademicaSeleccion && props.unidadAcademicaSeleccion.length === 1 ? props.unidadAcademicaSeleccion[0] : null,
+);
+
 defineEmits(['update:step']);
 
 const headers = ref([
@@ -62,7 +68,7 @@ const itemsTransformados = computed(() =>
             transformedItem.sexo = row.estudiante?.persona?.sexo.codigo;
         }
         if (isVisibleColumn('sede')) {
-            transformedItem.sede = row.estudiante?.carrera_sede?.sede?.nombre;
+            transformedItem.sede = row.inscritos[0]?.carrera_sede?.sede?.nombre;
         }
         if (isVisibleColumn('carrera')) {
             transformedItem.carrera = row.carrera_unidad_academica?.carrera?.nombre;
@@ -82,17 +88,13 @@ const itemsTransformados = computed(() =>
 
 const itemsExportar = ref([]);
 
-const conf = ref({
+const conf = computed(() => ({
     titulo: t('reporte._inscritos_'),
     subtitulo1: t('semestre._singular_') + ': ' + props.semestre.nombre,
-    subtitulo2: props.sedeSeleccion && props.sedeSeleccion.length === 1 ? t('sede._sede_') + ': ' + props.sedeSeleccion[0].nombre : '',
-    subtitulo3:
-        props.carreraSeleccion && props.carreraSeleccion.length === 1 ? t('carrera._singular_') + ': ' + props.carreraSeleccion[0].nombre : '',
-    subtitulo4:
-        props.unidadAcademicaSeleccion && props.unidadAcademicaSeleccion.length === 1
-            ? t('unidad_academica._singular_') + ': ' + props.unidadAcademicaSeleccion[0].nombre
-            : '',
-});
+    subtitulo2: sede.value ? t('sede._sede_') + ': ' + sede.value.nombre : '',
+    subtitulo3: carrera.value ? t('carrera._singular_') + ': ' + carrera.value.nombre : '',
+    subtitulo4: unidadAcademica.value ? t('unidad_academica._singular_') + ': ' + unidadAcademica.value.nombre : '',
+}));
 
 const loadReport = async () => {
     error.value = null;
@@ -245,6 +247,7 @@ const exportarPDF = (orientacion = 'portrait') => {
 
     <v-tabs-window v-model="tab">
         <v-tabs-window-item :value="1">
+            {{ sede }}
             <v-container fluid>
                 <v-toolbar color="surface">
                     <template v-slot:prepend>

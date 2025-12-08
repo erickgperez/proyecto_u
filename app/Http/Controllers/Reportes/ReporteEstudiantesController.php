@@ -30,29 +30,32 @@ class ReporteEstudiantesController extends Controller
                 'persona' => [
                     'sexo'
                 ],
-                'carreraSede' => [
-                    'carrera',
-                    'sede',
-                ],
             ],
             'estado',
             'carreraUnidadAcademica' => [
                 'carrera',
                 'unidadAcademica',
             ],
+            'inscritos' => [
+                'carreraSede' => [
+                    'carrera',
+                    'sede',
+                ],
+            ]
         ])
             ->whereHas('carreraUnidadAcademica', function ($query) use ($sedeSeleccionIds, $carreraSeleccionIds, $unidadAcademicaSeleccionIds) {
-                if (!empty($sedeSeleccionIds)) {
-                    $query->whereHas('carrera', function ($query) use ($sedeSeleccionIds) {
-                        $query->join('academico.carrera_sede as carrera_sede', 'carrera_sede.carrera_id', 'carrera.id')
-                            ->whereIn('carrera_sede.sede_id', $sedeSeleccionIds);
-                    });
-                }
                 if (!empty($carreraSeleccionIds)) {
                     $query->whereIn('carrera_id', $carreraSeleccionIds);
                 }
                 if (!empty($unidadAcademicaSeleccionIds)) {
                     $query->whereIn('unidad_academica_id', $unidadAcademicaSeleccionIds);
+                }
+            })
+            ->whereHas('inscritos', function ($query) use ($sedeSeleccionIds) {
+                if (!empty($sedeSeleccionIds)) {
+                    $query->whereHas('carreraSede', function ($query) use ($sedeSeleccionIds) {
+                        $query->whereIn('sede_id', $sedeSeleccionIds);
+                    });
                 }
             })
             ->where('semestre_id', $semestreId)

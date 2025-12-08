@@ -78,13 +78,13 @@ const itemsTransformados = computed(() =>
 
 const itemsExportar = ref([]);
 
-const conf = ref({
+const conf = computed(() => ({
     titulo: t('reporte._ingreso_aspirantes_'),
     subtitulo1: t('convocatoria._convocatoria_') + ': ' + props.convocatoria.nombreCompleto,
     subtitulo2: props.sedeSeleccion && props.sedeSeleccion.length === 1 ? t('sede._sede_') + ': ' + props.sedeSeleccion[0].nombre : '',
     subtitulo3:
         props.carreraSeleccion && props.carreraSeleccion.length === 1 ? t('carrera._singular_') + ': ' + props.carreraSeleccion[0].nombre : '',
-});
+}));
 
 const loadReport = async () => {
     error.value = null;
