@@ -171,7 +171,6 @@ watch(semestre, (newVal) => {
 <template>
     <v-card :title="item.nombreCompleto">
         <template v-slot:text>
-            {{ sede }}
             <v-form fast-fail @submit.prevent="submitForm" ref="formRef">
                 <v-row>
                     <v-col cols="12" class="pt-5 pl-5">
