@@ -2,6 +2,7 @@
 
 namespace App\Models\PlanEstudio;
 
+use App\Models\Academico\Oferta;
 use App\Models\User;
 use App\Traits\HasCreateMany;
 use App\Traits\HasUuid;
@@ -43,6 +44,11 @@ class CarreraUnidadAcademica extends Model
     public function requisitos(): BelongsToMany
     {
         return $this->belongsToMany(CarreraUnidadAcademica::class, 'plan_estudio.requisitos', 'carrera_unidad_academica_id', 'carrera_unidad_academica_requisito_id')->withPivot('tipo_requisito_id');
+    }
+
+    public function ofertas(): HasMany
+    {
+        return $this->hasMany(Oferta::class, 'carrera_unidad_academica_id');
     }
 
     public function creator()
