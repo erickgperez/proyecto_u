@@ -634,6 +634,30 @@ onMounted(() => {
                                 </v-list>
                             </v-menu>
                         </v-list-item>
+                        <v-list-item
+                            v-if="hasPermission('MENU_ACADEMICO_REPORTES_')"
+                            prepend-icon="mdi-file-document-multiple-outline"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('reporte._plural_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link
+                                        v-if="hasPermission('MENU_ACADEMICO_REPORTES_ESTUDIANTES_INSCRITOS')"
+                                        :href="route('reportes-estudiantes-inscritos')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-playlist-check"
+                                            :class="$page.url === '/reportes/estudiantes/inscritos' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                            {{ $t('reporte._inscritos_') }}
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
                     </v-sheet>
 
                     <v-btn

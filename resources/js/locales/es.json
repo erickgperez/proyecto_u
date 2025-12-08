@@ -291,7 +291,8 @@
         "_carnet_": "Carnet",
         "_carrera_sede_": "Carrera Sede",
         "_perfil_": "Perfil de estudiante",
-        "_perfil_descripcion_": "Datos personales y contacto del estudiante"
+        "_perfil_descripcion_": "Datos personales y contacto del estudiante",
+        "_matricula_": "Matrícula"
     },
     "_estudiantes_candidatos_carrera_universitaria_": "Estudiantes que son candidatos a estudiar en las carreras universitarias",
     "etapa": {
@@ -590,6 +591,8 @@
         "_plural_": "Reportes",
         "_estado_seleccion_": "Estado selección",
         "_aspirantes_": "Reporte de aspirantes",
+        "_inscritos_": "Inscritos",
+        "_inscritos_semestre_": "Estudiantes inscritos por semestre",
         "_estado_seleccion_aspirantes_": "Estado de selección de aspirantes",
         "_anterior_": "Anterior",
         "_continuar_": "Continuar",
@@ -602,7 +605,8 @@
         "_de_": "de",
         "_tabla_dinamica_": "Tabla dinámica",
         "_sede_seleccion_hint_": "Deje sin seleccionar para mostrar todas las sedes",
-        "_carrera_seleccion_hint_": "Deje sin seleccionar para mostrar todas las carreras"
+        "_carrera_seleccion_hint_": "Deje sin seleccionar para mostrar todas las carreras",
+        "_unidad_academica_seleccion_hint_": "Deje sin seleccionar para mostrar todas las unidades académicas"
     },
     "_resumen_": "Resumen",
     "rol": {

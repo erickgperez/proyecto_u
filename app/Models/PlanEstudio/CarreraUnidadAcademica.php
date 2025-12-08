@@ -18,6 +18,12 @@ class CarreraUnidadAcademica extends Model
 
     protected $table = 'plan_estudio.carrera_unidad_academica';
 
+    protected $appends = ['nombreCompleto'];
+
+    public function getNombreCompletoAttribute(): string
+    {
+        return (string) "({$this->semestre}) {$this->unidadAcademica->nombre}";
+    }
 
     public function area(): BelongsTo
     {

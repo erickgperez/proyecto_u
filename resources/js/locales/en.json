@@ -291,7 +291,8 @@
         "_carnet_": "Id card",
         "_carrera_sede_": "Career location",
         "_perfil_": "Student profile",
-        "_perfil_descripcion_": "Student personal and contact data"
+        "_perfil_descripcion_": "Student personal and contact data",
+        "_matricula_": "Enrollment"
     },
     "_estudiantes_candidatos_carrera_universitaria_": "Students who are candidates to study in university courses",
     "etapa": {
@@ -578,6 +579,8 @@
         "_plural_": "Reports",
         "_estado_seleccion_": "Selection status",
         "_aspirantes_": "Applicant report",
+        "_inscritos_": "Inscribed report",
+        "_inscritos_semestre_": "Students inscribed by semester",
         "_estado_seleccion_aspirantes_": "Applicant selection status",
         "_anterior_": "Previous",
         "_continuar_": "Continue",
@@ -590,7 +593,8 @@
         "_de_": "of",
         "_tabla_dinamica_": "Dynamic table",
         "_sede_seleccion_hint_": "Leave unselected to show all locations",
-        "_carrera_seleccion_hint_": "Leave unselected to show all careers"
+        "_carrera_seleccion_hint_": "Leave unselected to show all careers",
+        "_unidad_academica_seleccion_hint_": "Leave unselected to show all academic units"
     },
     "_resumen_": "Summary",
     "sede": {

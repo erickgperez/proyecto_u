@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Parametros1 from '@/components/reportes/Parametros1.vue';
-import SelectionadosDatos from '@/components/reportes/ingreso/SeleccionadosDatos.vue';
+import ParametrosSemestre from '@/components/reportes/ParametrosSemestre.vue';
+import InscritosDatos from '@/components/reportes/academico/InscritosDatos.vue';
 import { usePermissions } from '@/composables/usePermissions';
 import AppLayout from '@/layouts/AppLayout.vue';
 import { Head } from '@inertiajs/vue3';
@@ -12,10 +12,10 @@ const step = ref(1);
 const { hasPermission } = usePermissions();
 const items = [t('reporte._parametros_'), t('reporte._informe_')];
 
-const convocatoria = ref(null);
-const estadoSeleccion = ref([]);
+const semestre = ref(null);
 const sedeSeleccion = ref([]);
 const carreraSeleccion = ref([]);
+const unidadAcademicaSeleccion = ref([]);
 
 const parametrosRef = ref(null);
 
@@ -24,11 +24,11 @@ onMounted(() => {
 });
 
 const config = ref({
-    titulo1: t('aspirante._plural_'),
-    titulo2: t('reporte._estado_seleccion_'),
-    subtitulo: t('reporte._aspirantes_'),
-    icono: 'mdi-account-star',
-    permiso: 'MENU_INGRESO_REPORTES_ASPIRANTES',
+    titulo1: t('reporte._inscritos_'),
+    titulo2: t('reporte._inscritos_'),
+    subtitulo: t('reporte._inscritos_semestre_'),
+    icono: 'mdi-playlist-check',
+    permiso: 'MENU_ACADEMICO_REPORTES_ESTUDIANTES_INSCRITOS',
 });
 
 const validarParametros = async () => {
@@ -60,21 +60,21 @@ const validarParametros = async () => {
             <template v-slot:item.1>
                 <h3 class="text-h6">{{ $t('reporte._parametros_descripcion_') }}</h3>
 
-                <Parametros1
+                <ParametrosSemestre
                     ref="parametrosRef"
-                    @update:convocatoria="convocatoria = $event"
-                    @update:estado-seleccion="estadoSeleccion = $event"
+                    @update:semestre="semestre = $event"
                     @update:sede-seleccion="sedeSeleccion = $event"
                     @update:carrera-seleccion="carreraSeleccion = $event"
+                    @update:unidad-academica-seleccion="unidadAcademicaSeleccion = $event"
                 />
             </template>
 
             <template v-slot:item.2>
-                <SelectionadosDatos
-                    :convocatoria="convocatoria"
-                    :estadoSeleccion="estadoSeleccion"
+                <InscritosDatos
+                    :semestre="semestre"
                     :sedeSeleccion="sedeSeleccion"
                     :carreraSeleccion="carreraSeleccion"
+                    :unidadAcademicaSeleccion="unidadAcademicaSeleccion"
                     :step="step"
                     @update:step="step = $event"
                 />
