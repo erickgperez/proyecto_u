@@ -253,6 +253,7 @@ watch(semestre, (newVal) => {
                                                     <v-col cols="12">
                                                         <v-divider class="mb-4"></v-divider>
                                                         <span>{{ $t('perfil._elija_carga_academica_') }}</span>
+                                                        <v-divider class="mb-4"></v-divider>
                                                         <v-select
                                                             :label="$t('sede._sede_')"
                                                             v-model="sede"
@@ -264,7 +265,7 @@ watch(semestre, (newVal) => {
                                                             :indent-lines="true"
                                                             return-object
                                                         ></v-select>
-                                                        <v-select
+                                                        <v-autocomplete
                                                             :label="$t('carrera._singular_')"
                                                             v-model="carreraSede"
                                                             :items="carrerasSedeFiltradas"
@@ -275,9 +276,9 @@ watch(semestre, (newVal) => {
                                                             selectable
                                                             :indent-lines="true"
                                                             return-object
-                                                        ></v-select>
+                                                        ></v-autocomplete>
 
-                                                        <v-select
+                                                        <v-autocomplete
                                                             :label="$t('perfil._docente_carga_academica_asignada_')"
                                                             v-model="formData.cargaAsociado"
                                                             :items="unidadesImpartidasFiltradas"
@@ -288,9 +289,10 @@ watch(semestre, (newVal) => {
                                                             selectable
                                                             :indent-lines="true"
                                                             chips
+                                                            closable-chips
                                                             return-object
                                                             multiple
-                                                        ></v-select>
+                                                        ></v-autocomplete>
                                                     </v-col>
                                                 </v-row>
                                             </v-tabs-window-item>
