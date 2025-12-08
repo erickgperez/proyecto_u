@@ -14,10 +14,12 @@ use App\Models\Academico\Oferta;
 use App\Models\Academico\Sede;
 use App\Models\Academico\Semestre;
 use App\Models\Academico\TipoCurso;
+use App\Models\Calendarizacion;
 use App\Models\Ingreso\Convocatoria;
 use App\Models\Ingreso\ConvocatoriaAspirante;
 use App\Models\Rol;
 use App\Models\Secundaria\DataBachillerato;
+use App\Models\TipoCalendarizacion;
 use App\Models\User;
 use App\Models\Workflow\Solicitud;
 use App\Services\AspiranteService;
@@ -182,6 +184,17 @@ class SimulacionController extends Controller
                     'fecha_inicio' => (new \DateTime())->modify('-5 days'),
                     'fecha_fin' => (new \DateTime())->modify('+10 days'),
                 ]);
+
+                if (!$semestre->calendario) {
+                    $tipoCalendario = TipoCalendarizacion::where('codigo', 'SEMESTRE')->first();
+                    $calendarizacion = new Calendarizacion();
+                    $calendarizacion->codigo = substr('Semestre-' . $semestre->codigo, 0, 100); //llevará el mismo código que el semestre
+                    $calendarizacion->descripcion = substr('Actividades del semestre: ' . $semestre->descripcion, 0, 255);
+                    $calendarizacion->tipo()->associate($tipoCalendario);
+                    $calendarizacion->save();
+                    $semestre->calendario()->associate($calendarizacion);
+                    $semestre->save();
+                }
                 $oferta = Oferta::firstOrCreate([
                     'carrera_unidad_academica_id' => $carreraUnidadAcademica->id,
                     'semestre_id' => $semestre->id,
