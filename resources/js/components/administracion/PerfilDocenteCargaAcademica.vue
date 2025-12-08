@@ -61,17 +61,16 @@ const semestres = ref([]);
 const semestre = ref(null);
 const ofertaCarreraSede = ref([]);
 const ofertaCarrera = ref([]);
+const ofertaCarrera_ = ref([]);
 
 const cargaTitular = computed(() => {
     return ofertaCarrera.value.flatMap((item) => item.children.filter((child) => formData.value.cargaTitular.includes(child.id)));
 });
-const cargaAsociado = computed(() => {
-    return ofertaCarreraSede.value.flatMap((item) => formData.value.cargaAsociado.includes(item.id));
-});
 
 const sede = ref(null);
 const carreraSede = ref(null);
-const unidadImpartida = ref([]);
+const carrera = ref(null);
+const unidadOfertada = ref([]);
 
 const sedes = computed(() => {
     const seenIds = new Set();

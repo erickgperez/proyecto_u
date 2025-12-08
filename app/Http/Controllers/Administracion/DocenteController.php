@@ -9,6 +9,7 @@ use App\Models\Academico\Imparte;
 use App\Models\Academico\Oferta;
 use App\Models\Academico\Semestre;
 use App\Models\Persona;
+use App\Models\PlanEstudio\Carrera;
 use Illuminate\Http\Request;
 
 
@@ -108,6 +109,17 @@ class DocenteController extends Controller
                 'children' => $unidades
             ];
         }
+
+        //carreras que tengan al menos una unidad academica ofertada
+        $ofertaCarreras = Carrera::with([
+            'unidadesAcademicas' => ['ofertas']
+        ])
+            ->whereHas('unidadesAcademicas', function ($query) use ($semestre) {
+                $query->whereHas('ofertas', function ($query) use ($semestre) {
+                    $query->where('semestre_id', $semestre->id);
+                });
+            })
+            ->get();
 
         $cargaAsociado_ = $docente->imparte()
             ->select('imparte.*')
