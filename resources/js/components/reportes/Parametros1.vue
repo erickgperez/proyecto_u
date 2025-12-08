@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { computed, onMounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { VForm } from 'vuetify/components';
 
 const { rules } = useFunciones();
@@ -23,37 +23,6 @@ const sedes = ref([]);
 const carreras = ref([]);
 const formRef = ref<VForm | null>(null);
 
-const allSedesSelected = computed(() => {
-    return sedeSeleccion.value?.length === sedes.value.length && sedes.value.length > 0;
-});
-
-const someSedesSelected = computed(() => {
-    return sedeSeleccion.value?.length > 0 && sedeSeleccion.value?.length < sedes.value.length;
-});
-
-const toggleSelectAllSedes = () => {
-    if (allSedesSelected.value) {
-        sedeSeleccion.value = [];
-    } else {
-        sedeSeleccion.value = sedes.value.map((s) => s.id);
-    }
-};
-
-const allCarrerasSelected = computed(() => {
-    return carreraSeleccion.value?.length === carreras.value.length && carreras.value.length > 0;
-});
-
-const someCarrerasSelected = computed(() => {
-    return carreraSeleccion.value?.length > 0 && carreraSeleccion.value?.length < carreras.value.length;
-});
-
-const toggleSelectAllCarreras = () => {
-    if (allCarrerasSelected.value) {
-        carreraSeleccion.value = [];
-    } else {
-        carreraSeleccion.value = carreras.value.map((c) => c.id);
-    }
-};
 onMounted(() => {
     //Obtener desde el servidor los valores de convocatorias, sedes y carreras
     axios.get(route('reportes-parametros1')).then((response) => {
@@ -130,19 +99,7 @@ defineExpose({ formRef });
                         return-object
                         :hint="$t('reporte._sede_seleccion_hint_')"
                         persistent-hint
-                    >
-                        <template v-slot:prepend-item>
-                            <v-list-item title="Seleccionar todo" @click="toggleSelectAllSedes">
-                                <template v-slot:prepend>
-                                    <v-checkbox-btn
-                                        :model-value="allSedesSelected"
-                                        :indeterminate="someSedesSelected && !allSedesSelected"
-                                    ></v-checkbox-btn>
-                                </template>
-                            </v-list-item>
-                            <v-divider class="mt-2"></v-divider>
-                        </template>
-                    </v-select>
+                    ></v-select>
                 </v-col>
                 <v-col cols="12">
                     <v-select
@@ -158,19 +115,7 @@ defineExpose({ formRef });
                         return-object
                         :hint="$t('reporte._carrera_seleccion_hint_')"
                         persistent-hint
-                    >
-                        <template v-slot:prepend-item>
-                            <v-list-item title="Seleccionar todo" @click="toggleSelectAllCarreras">
-                                <template v-slot:prepend>
-                                    <v-checkbox-btn
-                                        :model-value="allCarrerasSelected"
-                                        :indeterminate="someCarrerasSelected && !allCarrerasSelected"
-                                    ></v-checkbox-btn>
-                                </template>
-                            </v-list-item>
-                            <v-divider class="mt-2"></v-divider>
-                        </template>
-                    </v-select>
+                    ></v-select>
                 </v-col>
             </v-row>
         </v-form>
