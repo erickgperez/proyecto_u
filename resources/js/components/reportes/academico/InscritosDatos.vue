@@ -16,6 +16,10 @@ const props = defineProps({
     sedeSeleccion: Array,
     carreraSeleccion: Array,
     unidadAcademicaSeleccion: Array,
+    botonAtras: {
+        type: Boolean,
+        default: true,
+    },
 });
 
 const sede = computed(() => (props.sedeSeleccion && props.sedeSeleccion.length === 1 ? props.sedeSeleccion[0] : null));
@@ -93,7 +97,7 @@ const conf = computed(() => ({
     subtitulo1: t('semestre._singular_') + ': ' + props.semestre.nombre,
     subtitulo2: sede.value ? t('sede._sede_') + ': ' + sede.value.nombre : '',
     subtitulo3: carrera.value ? t('carrera._singular_') + ': ' + carrera.value.nombre : '',
-    subtitulo4: unidadAcademica.value ? t('unidad_academica._singular_') + ': ' + unidadAcademica.value.nombre : '',
+    subtitulo4: unidadAcademica.value ? t('unidadAcademica._singular_') + ': ' + unidadAcademica.value.nombre : '',
 }));
 
 const loadReport = async () => {
@@ -247,10 +251,9 @@ const exportarPDF = (orientacion = 'portrait') => {
 
     <v-tabs-window v-model="tab">
         <v-tabs-window-item :value="1">
-            {{ sede }}
             <v-container fluid>
                 <v-toolbar color="surface">
-                    <template v-slot:prepend>
+                    <template v-slot:prepend v-if="botonAtras">
                         <v-btn @click="$emit('update:step', 1)" rounded variant="tonal" color="blue-darken-4" prepend-icon="mdi-arrow-left-bold">
                             <template v-slot:prepend>
                                 <v-icon color="success"></v-icon>
@@ -309,6 +312,7 @@ const exportarPDF = (orientacion = 'portrait') => {
                     <v-card-subtitle v-if="conf.subtitulo1"> {{ conf.subtitulo1 }} </v-card-subtitle>
                     <v-card-subtitle v-if="conf.subtitulo2"> {{ conf.subtitulo2 }} </v-card-subtitle>
                     <v-card-subtitle v-if="conf.subtitulo3"> {{ conf.subtitulo3 }} </v-card-subtitle>
+                    <v-card-subtitle v-if="conf.subtitulo4"> {{ conf.subtitulo4 }} </v-card-subtitle>
                     <v-card-text>
                         <v-data-table
                             :headers="visibleHeaders"

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Reportes\ReporteAsignaturaController;
 use App\Http\Controllers\Reportes\ReporteIngresoController;
 use App\Http\Controllers\Reportes\ReporteController;
 use App\Http\Controllers\Reportes\ReporteEstudiantesController;
@@ -16,4 +17,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/reportes/parametros1', [ReporteController::class, 'parametros1'])->name('reportes-parametros1');
 
     Route::get('/reportes/parametros/semestre', [ReporteController::class, 'parametrosSemestre'])->name('reportes-parametros-semestre');
+
+    Route::get('/reportes/asignatura/inscritos/titular/{uuid}', [ReporteAsignaturaController::class, 'inscritosTitular'])->name('reportes-asignatura-inscritos-titular');
+    Route::get('/reportes/asignatura/inscritos/asociado/{uuid}', [ReporteAsignaturaController::class, 'inscritosAsociado'])->name('reportes-asignatura-inscritos-asociado');
 });

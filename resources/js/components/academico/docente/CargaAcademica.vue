@@ -35,32 +35,11 @@ const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
                                     <Link :href="route('academico-evaluacion-index', { uuid: item.raw.uuid })">
                                         <v-btn color="deep-purple-accent-4" :text="$t('docente._configurar_evaluaciones_')" variant="text"></v-btn>
                                     </Link>
+                                    <v-spacer></v-spacer>
+                                    <Link :href="route('reportes-asignatura-inscritos-titular', { uuid: item.raw.uuid })">
+                                        <v-btn icon="mdi-chart-box-multiple-outline" color="deep-purple-accent-4"></v-btn>
+                                    </Link>
                                 </v-card-actions>
-
-                                <!--<div class="px-4">
-                                    <v-switch
-                                        :label="$t('inscripcion._ver_evaluaciones_')"
-                                        :model-value="isExpanded(item)"
-                                        @click="() => toggleExpand(item)"
-                                        color="green-darken-2"
-                                        base-color="primary"
-                                    ></v-switch>
-                                </div>
-
-                                <v-divider></v-divider>
-
-                                <v-expand-transition>
-                                    <div v-if="isExpanded(item)">
-                                        <v-list :lines="false" density="compact">
-                                            <v-list-item title="Eval 1"></v-list-item>
-                                            <v-list-item title="Eval 2"></v-list-item>
-                                            <v-list-item title="Eval 3"></v-list-item>
-                                            <v-list-item title="Eval 4"></v-list-item>
-                                            <v-list-item title="Eval 5"></v-list-item>
-                                        </v-list>
-                                    </div>
-                                </v-expand-transition>
-                                -->
                             </v-card>
                         </v-col>
                     </v-row>
@@ -101,32 +80,11 @@ const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
                                     >
                                         <v-btn color="primary" :text="$t('docente._ingresar_notas_')" variant="text"></v-btn>
                                     </Link>
+                                    <v-spacer></v-spacer>
+                                    <Link :href="route('reportes-asignatura-inscritos-asociado', { uuid: item.raw.uuid })">
+                                        <v-btn icon="mdi-chart-box-multiple-outline" color="primary"></v-btn>
+                                    </Link>
                                 </v-card-actions>
-
-                                <!--<div class="px-4">
-                                    <v-switch
-                                        :label="$t('inscripcion._ver_evaluaciones_')"
-                                        :model-value="isExpanded(item)"
-                                        @click="() => toggleExpand(item)"
-                                        color="green-darken-2"
-                                        base-color="primary"
-                                    ></v-switch>
-                                </div>
-
-                                <v-divider></v-divider>
-
-                                <v-expand-transition>
-                                    <div v-if="isExpanded(item)">
-                                        <v-list :lines="false" density="compact">
-                                            <v-list-item title="Eval 1"></v-list-item>
-                                            <v-list-item title="Eval 2"></v-list-item>
-                                            <v-list-item title="Eval 3"></v-list-item>
-                                            <v-list-item title="Eval 4"></v-list-item>
-                                            <v-list-item title="Eval 5"></v-list-item>
-                                        </v-list>
-                                    </div>
-                                </v-expand-transition>
-                                -->
                             </v-card>
                         </v-col>
                     </v-row>
