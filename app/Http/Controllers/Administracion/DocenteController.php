@@ -120,9 +120,19 @@ class DocenteController extends Controller
             $cargaAsociado[] = [
                 'id' => $item->id,
                 'carrera_sede_id' => $item->carrera_sede_id,
-                'nombre' => '(Sede:' . $item->carreraSede->sede->codigo . ') (' . $item->carreraSede->carrera->nombre . ') ' . $item->oferta->carreraUnidadAcademica->unidadAcademica->nombre,
+                'nombre' => '(Sede:' .
+                    $item->carreraSede->sede->codigo . ') (' .
+                    $item->carreraSede->carrera->codigo . ' ' .
+                    $item->carreraSede->carrera->nombre . ') (' .
+                    $item->oferta->carreraUnidadAcademica->semestre . ') ' .
+                    $item->oferta->carreraUnidadAcademica->unidadAcademica->nombre,
             ];
         }
+        //Ordenar por nombre
+        usort($cargaAsociado, function ($a, $b) {
+            return strcmp($a['nombre'], $b['nombre']);
+        });
+
 
         $cargaTitular = $docente->cargaTitular()
             ->where('semestre_id', $semestre->id)

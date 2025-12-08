@@ -114,7 +114,11 @@ const unidadesImpartidas = computed(() => {
                 '(Sede:' +
                 item.carrera_sede.sede.codigo +
                 ') (' +
+                item.carrera_sede.carrera.codigo +
+                ' ' +
                 item.carrera_sede.carrera.nombre +
+                ') (' +
+                item.oferta.carrera_unidad_academica.semestre +
                 ') ' +
                 item.oferta.carrera_unidad_academica.unidad_academica.nombre,
         }))
