@@ -255,6 +255,7 @@ watch(semestre, (newVal) => {
                                                         <v-divider class="mb-4"></v-divider>
                                                         <span>{{ $t('perfil._elija_carga_academica_') }}</span>
                                                         <v-select
+                                                            :label="$t('sede._sede_')"
                                                             v-model="sede"
                                                             :items="sedes"
                                                             item-value="id"
@@ -265,6 +266,7 @@ watch(semestre, (newVal) => {
                                                             return-object
                                                         ></v-select>
                                                         <v-select
+                                                            :label="$t('carrera._singular_')"
                                                             v-model="carreraSede"
                                                             :items="carrerasSedeFiltradas"
                                                             item-value="id"
@@ -277,6 +279,7 @@ watch(semestre, (newVal) => {
                                                         ></v-select>
 
                                                         <v-select
+                                                            :label="$t('perfil._docente_carga_academica_asignada_')"
                                                             v-model="formData.cargaAsociado"
                                                             :items="unidadesImpartidasFiltradas"
                                                             item-value="id"
