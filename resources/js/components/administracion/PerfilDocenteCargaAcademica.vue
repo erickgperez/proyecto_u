@@ -24,7 +24,6 @@ interface FormData {
     id: number | null;
     cargaTitular: [];
     cargaAsociado: [];
-    cargaAsociadoAux: [];
 }
 
 const props = defineProps(['item', 'accion']);
@@ -33,7 +32,6 @@ const formData = ref<FormData>({
     id: null,
     cargaTitular: [],
     cargaAsociado: [],
-    cargaAsociadoAux: [],
 });
 
 async function submitForm() {
@@ -42,7 +40,7 @@ async function submitForm() {
 
     if (valid) {
         //formData.value.cargaTitular = formData.value.cargaTitular.map((item) => item.id);
-        formData.value.cargaAsociado = formData.value.cargaAsociadoAux.map((item) => item.id);
+        //formData.value.cargaAsociado = formData.value.cargaAsociado.map((item) => item.id);
         try {
             const resp = await axios.postForm(route('academico-semestre-docente-carga-save', { uuid: props.item.docente.uuid }), formData.value);
             if (resp.data.status == 'ok') {
@@ -158,7 +156,6 @@ watch(semestre, (newVal) => {
                 ofertaCarreraSede.value = response.data.ofertaCarreraSede;
                 ofertaCarrera.value = response.data.ofertaCarrera;
                 formData.value.cargaAsociado = response.data.cargaAsociado;
-                formData.value.cargaAsociadoAux = response.data.cargaAsociado;
                 formData.value.cargaTitular = response.data.cargaTitular.map((item) => item.id);
             })
             .catch(function (error) {
@@ -276,7 +273,7 @@ watch(semestre, (newVal) => {
                                                         ></v-select>
 
                                                         <v-select
-                                                            v-model="formData.cargaAsociadoAux"
+                                                            v-model="formData.cargaAsociado"
                                                             :items="unidadesImpartidasFiltradas"
                                                             item-value="id"
                                                             item-title="nombre"

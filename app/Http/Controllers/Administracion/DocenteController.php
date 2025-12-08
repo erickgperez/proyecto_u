@@ -141,7 +141,15 @@ class DocenteController extends Controller
     {
 
         $docente = Docente::where('uuid', $uuid)->first();
-        $docente->imparte()->sync($request->get('cargaAsociado') ?? []);
+
+        $cargaAsociado = array_map(function ($item) {
+            return $item['id'];
+        }, $request->get('cargaAsociado') ?? []);
+
+        if ($cargaAsociado) {
+            $docente->imparte()->sync($cargaAsociado);
+        }
+
 
         //Desasociar todos los registros que tenga como titular
         foreach ($docente->cargaTitular as $oferta) {
