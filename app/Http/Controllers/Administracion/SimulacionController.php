@@ -148,6 +148,8 @@ class SimulacionController extends Controller
 
     public function aceptarSeleccion()
     {
+        ini_set('max_execution_time', 3000);
+
         //obtener convocatoria aspirantes que están seleccionados
         $convocatoriaAspirantes = ConvocatoriaAspirante::where('seleccionado', true)->get();
 
@@ -159,6 +161,9 @@ class SimulacionController extends Controller
                 //Aplicar la aceptación de la seleccion
                 $aspiranteService = new AspiranteService();
                 $aspiranteService->aplicarAceptarSeleccion($convocatoriaAspirante->solicitudCarreraSede->solicitud->id);
+
+                //Volver a consultarlo, porque si no existía se creó
+                $estudiante = Estudiante::where('persona_id', $persona->id)->first();
             }
 
             //Inscribirlo en las asignaturas de primer semestre
@@ -173,6 +178,9 @@ class SimulacionController extends Controller
                 $semestre = Semestre::firstOrCreate([
                     'codigo' => '01',
                     'anio' => '2026',
+                ], [
+                    'fecha_inicio' => (new \DateTime())->modify('-5 days'),
+                    'fecha_fin' => (new \DateTime())->modify('+10 days'),
                 ]);
                 $oferta = Oferta::firstOrCreate([
                     'carrera_unidad_academica_id' => $carreraUnidadAcademica->id,
