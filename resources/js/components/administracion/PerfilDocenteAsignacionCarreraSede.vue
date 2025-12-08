@@ -110,7 +110,6 @@ onMounted(() => {
                             <v-toolbar class="bg-blue-grey-lighten-3">
                                 <v-toolbar-title class="text-h6" :text="$t('perfil._asignado_en_')"></v-toolbar-title>
                             </v-toolbar>
-
                             <v-card-text>
                                 <v-row>
                                     <!--<v-col cols="12" md="6">

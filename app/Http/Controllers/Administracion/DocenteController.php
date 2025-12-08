@@ -120,6 +120,7 @@ class DocenteController extends Controller
         }
 
         $ofertaCarreraTree = [];
+        ksort($ofertaCarrera_);
         foreach ($ofertaCarrera_ as $k => $oo) {
             $unidades = $oo['unidades'];
             $title = array_column($unidades, 'title');
@@ -136,7 +137,10 @@ class DocenteController extends Controller
             ->join('academico.oferta as oferta', 'oferta.id', '=', 'imparte.oferta_id')
             ->where('oferta.semestre_id', $semestre->id)
             ->get();
-        $cargaTitular = $docente->cargaTitular()->where('semestre_id', $semestre->id)->get();
+
+        $cargaTitular = $docente->cargaTitular()
+            ->where('semestre_id', $semestre->id)
+            ->get();
 
         return response()->json([
             'status' => 'ok',
