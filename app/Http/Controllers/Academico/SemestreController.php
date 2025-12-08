@@ -40,16 +40,6 @@ class SemestreController extends Controller
             $semestreCheck = Semestre::where('codigo', $request->get('codigo'))->first();
             if ($semestreCheck === null) {
                 $semestre = new Semestre();
-
-                $tipoCalendario = TipoCalendarizacion::where('codigo', 'SEMESTRE')->first();
-                $calendarizacion = new Calendarizacion();
-                $calendarizacion->codigo = substr('Semestre-' . $request->get('codigo'), 0, 100); //llevará el mismo código que el semestre
-                $calendarizacion->descripcion = substr('Actividades del semestre: ' . $request->get('descripcion'), 0, 255);
-                $calendarizacion->tipo()->associate($tipoCalendario);
-                $calendarizacion->save();
-
-                //Asociar el calendario a la convocatoria
-                $semestre->calendario()->associate($calendarizacion);
             } else {
                 return response()->json(['status' => 'error', 'message' => 'semestre._codigo_ya existe_']);
             }
@@ -73,6 +63,17 @@ class SemestreController extends Controller
         $semestre->fecha_fin = $request->get('fecha_fin');
 
         $semestre->save();
+
+        if (!$semestre->calendario) {
+            $tipoCalendario = TipoCalendarizacion::where('codigo', 'SEMESTRE')->first();
+            $calendarizacion = new Calendarizacion();
+            $calendarizacion->codigo = substr('Semestre-' . $semestre->nombre, 0, 100); //llevará el mismo código que el semestre
+            $calendarizacion->descripcion = substr('Actividades del semestre: ' . $semestre->descripcion, 0, 255);
+            $calendarizacion->tipo()->associate($tipoCalendario);
+            $calendarizacion->save();
+            $semestre->calendario()->associate($calendarizacion);
+            $semestre->save();
+        }
 
         //Obtener la información de las relaciones del item recién creado/actualizado
         $item = Semestre::with('creator', 'updater', 'calendario')->find($semestre->id);
