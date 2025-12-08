@@ -37,46 +37,6 @@ onMounted(() => {
                 </v-card-subtitle>
             </v-card>
         </v-col>
-        <!--<v-col cols="12" md="3">
-            <Link :href="route('academico-docente-carga-academica', { uuid: docente?.uuid ?? 0 })">
-                <v-hover v-slot="{ isHovering, props }">
-                    <v-alert
-                        border="start"
-                        :class="{ 'on-hover-alert': isHovering }"
-                        class="bg-white"
-                        :elevation="isHovering ? 10 : 2"
-                        v-bind="props"
-                        variant="outlined"
-                        prominent
-                        icon="mdi-note-plus-outline"
-                        color="indigo-darken-2"
-                        :title="$t('dashboard._carga_')"
-                        :text="$t('dashboard._academica_')"
-                    >
-                    </v-alert>
-                </v-hover>
-            </Link>
-        </v-col>
-        
-        <v-col cols="12" md="3">
-            <Link :href="route('academico-docente-perfil', { uuid: docente?.uuid ?? 0 })">
-                <v-hover v-slot="{ isHovering, props }">
-                    <v-alert
-                        border="start"
-                        :class="{ 'on-hover-alert': isHovering }"
-                        class="bg-white"
-                        :elevation="isHovering ? 10 : 2"
-                        v-bind="props"
-                        variant="outlined"
-                        prominent
-                        icon="mdi-card-account-details-outline"
-                        color="orange-darken-4"
-                        :title="$t('dashboard._perfil_')"
-                    >
-                    </v-alert>
-                </v-hover>
-            </Link>
-        </v-col>-->
         <CargaAcademica :cargaTitular="docente?.carga_titular" :cargaAsociado="docente?.imparte" :uuidDocente="docente?.uuid" />
     </v-row>
 </template>
