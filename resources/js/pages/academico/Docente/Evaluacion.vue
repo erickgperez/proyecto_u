@@ -111,6 +111,10 @@ const opcionesAccion = [
         ...accionDeleteObject,
     },
 ];
+
+const totalPorcentaje = computed(() => {
+    return localItems.value.reduce((total, item) => total + (item.porcentaje || 0), 0);
+});
 </script>
 
 <template>
@@ -127,6 +131,18 @@ const opcionesAccion = [
         icono="mdi-book-open-variant-outline"
     >
         <v-sheet v-if="props.oferta" class="elevation-12 pa-2 rounded-xl">
+            <v-alert
+                v-if="totalPorcentaje < 100"
+                type="warning"
+                variant="outlined"
+                icon="mdi-alert-octagon-outline"
+                border="start"
+                color="warning"
+                class="mb-2"
+                prominent
+                title="Porcentaje total de evaluaciones debe ser 100%"
+            >
+            </v-alert>
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
                 <v-window-item :value="1">
