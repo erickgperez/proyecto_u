@@ -102,8 +102,11 @@ if (props.perfil === 'aspirante') {
     headers.push({ title: t('aspirante._seleccionado_'), key: 'seleccionado', align: 'center' });
 }
 
+headers.push({ title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'center' });
+if (props.perfil === 'estudiante') {
+    headers.push({ title: t('estudiante._carnet_'), key: 'estudiante.carnet', align: 'center' });
+}
 headers.push(
-    { title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'center' },
     { title: t('perfil._nombre_'), key: 'nombre', align: 'start' },
     { title: t('perfil._apellidos_'), key: 'apellidos', align: 'start' },
     { title: t('perfil._sexo_'), key: 'sexo.descripcion', align: 'center' },
