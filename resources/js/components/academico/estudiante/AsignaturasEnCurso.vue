@@ -42,7 +42,6 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                     ></v-switch>
                                 </div>
 
-                                <v-divider></v-divider>
                                 <v-expand-transition>
                                     <div v-if="isExpanded(item)">
                                         <v-table

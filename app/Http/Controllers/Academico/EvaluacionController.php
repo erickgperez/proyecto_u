@@ -7,6 +7,7 @@ use App\Models\Academico\Calificacion;
 use App\Models\Academico\Docente;
 use App\Models\Academico\Evaluacion;
 use App\Models\Academico\Imparte;
+use App\Models\Academico\Inscritos;
 use App\Models\Academico\Oferta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -207,13 +208,26 @@ class EvaluacionController extends Controller
         ]);
 
         $evaluacion = Evaluacion::where("uuid", $uuid)->first();
+        $inscrito = Inscritos::find($id);
+
         $calificacion = Calificacion::firstOrCreate([
             'evaluacion_id' => $evaluacion->id,
-            'inscrito_id' => $id,
+            'inscrito_id' => $inscrito->id,
         ]);
 
         $calificacion->calificacion = $request->get('calificacion');
         $calificacion->save();
+
+
+        //calcular el promedio ponderado
+        $nota_final = Calificacion::where('inscrito_id', $calificacion->inscrito_id)
+            ->join('academico.evaluacion as evaluacion', 'calificacion.evaluacion_id', '=', 'evaluacion.id')
+            ->selectRaw('SUM(calificacion * (evaluacion.porcentaje/100)) as nota')
+            ->first();
+
+        $expediente = $inscrito->expediente;
+        $expediente->calificacion = $nota_final->nota;
+        $expediente->save();
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_']);
     }
