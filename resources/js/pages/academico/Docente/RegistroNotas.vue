@@ -396,7 +396,7 @@ function calcularPromedio(item) {
                                     </v-tooltip>
                                 </th>
 
-                                <th class="excel-header">Promedio</th>
+                                <th class="excel-header">{{ $t('evaluacion._nota_final_') }}</th>
                             </tr>
                         </template>
 
