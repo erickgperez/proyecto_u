@@ -113,7 +113,7 @@ const opcionesAccion = [
 ];
 
 const totalPorcentaje = computed(() => {
-    return localItems.value.reduce((total, item) => total + (item.porcentaje || 0), 0);
+    return localItems.value.reduce((total, item) => Number(total) + Number(item.porcentaje || 0), 0);
 });
 </script>
 
@@ -142,6 +142,7 @@ const totalPorcentaje = computed(() => {
                 prominent
                 :title="$t('evaluacion._porcentaje_total_no_completo_')"
             >
+                {{ $t('evaluacion._porcentaje_total_actual_') }} {{ totalPorcentaje }}%
             </v-alert>
             <v-window v-model="step" class="h-auto w-100">
                 <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
