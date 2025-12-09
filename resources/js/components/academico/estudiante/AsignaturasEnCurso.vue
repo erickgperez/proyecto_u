@@ -40,16 +40,26 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                 </div>
 
                                 <v-divider></v-divider>
-
                                 <v-expand-transition>
                                     <div v-if="isExpanded(item)">
-                                        <v-list :lines="false" density="compact">
-                                            <v-list-item title="Eval 1"></v-list-item>
-                                            <v-list-item title="Eval 2"></v-list-item>
-                                            <v-list-item title="Eval 3"></v-list-item>
-                                            <v-list-item title="Eval 4"></v-list-item>
-                                            <v-list-item title="Eval 5"></v-list-item>
-                                        </v-list>
+                                        <v-table>
+                                            <thead>
+                                                <tr>
+                                                    <th class="text-left">{{ $t('evaluacion._singular_') }}</th>
+                                                    <th class="text-left">{{ $t('evaluacion._porcentaje_') }}</th>
+                                                    <th class="text-left">{{ $t('evaluacion._nota_') }}</th>
+                                                    <th class="text-left">{{ $t('evaluacion._fecha_realizacion_') }}</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr v-for="calificacion in item.raw.inscritos_pivot[0].calificacion" :key="calificacion.id">
+                                                    <td>{{ calificacion.evaluacion.codigo }}</td>
+                                                    <td>{{ calificacion.evaluacion.porcentaje }}%</td>
+                                                    <td>{{ calificacion.calificacion }}</td>
+                                                    <td>{{ calificacion.fecha }}</td>
+                                                </tr>
+                                            </tbody>
+                                        </v-table>
                                     </div>
                                 </v-expand-transition>
                             </v-card>

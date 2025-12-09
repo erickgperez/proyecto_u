@@ -50,7 +50,6 @@ onMounted(() => {
                                 single-line
                                 return-object
                             ></v-select>
-                            <!--{{ $t('carrera._singular_') }}: {{ estudianteCarreraSede.carrera.nombreCompleto }} :: {{ estudianteCarreraSede.sede.nombre }} -->
                         </v-col>
                     </v-row>
                 </v-card-subtitle>
@@ -115,27 +114,6 @@ onMounted(() => {
                 </v-hover>
             </Link>
         </v-col>
-        <!--
-        <v-col cols="12" md="3">
-            <Link :href="route('dashboard')">
-                <v-hover v-slot="{ isHovering, props }">
-                    <v-alert
-                        border="start"
-                        :class="{ 'on-hover-alert': isHovering }"
-                        class="bg-white"
-                        :elevation="isHovering ? 10 : 2"
-                        v-bind="props"
-                        variant="outlined"
-                        prominent
-                        icon="mdi-file-document-outline"
-                        color="deep-purple-darken-1"
-                        :title="$t('dashboard._documentos_')"
-                    >
-                    </v-alert>
-                </v-hover>
-            </Link>
-        </v-col>
-        -->
     </v-row>
     <v-divider class="my-4"></v-divider>
     <AsignaturasEnCurso :expediente="estudiante?.expediente" v-if="estudiante && estudiante.expediente.length > 0" />

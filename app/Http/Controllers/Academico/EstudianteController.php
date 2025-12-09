@@ -70,7 +70,11 @@ class EstudianteController extends Controller
                     $query->wherePivot('estado_id', $estadoActivo->id);
                 },
                 'expediente' => function ($query) {
-                    $query->with(['carreraUnidadAcademica' => ['unidadAcademica'], 'estado']);
+                    $query->with([
+                        'carreraUnidadAcademica' => ['unidadAcademica'],
+                        'estado',
+                        'inscritosPivot' => ['calificacion' => ['evaluacion']]
+                    ]);
                 }
             ])
             ->first();

@@ -16,6 +16,13 @@ class Evaluacion extends Model
 
     protected $table = "academico.evaluacion";
 
+    protected $appends = ['nombreCompleto'];
+
+    public function getNombreCompletoAttribute()
+    {
+        return $this->codigo . ' (' . $this->porcentaje . '%)';
+    }
+
     public function creator()
     {
         return $this->belongsTo(User::class, 'created_by');

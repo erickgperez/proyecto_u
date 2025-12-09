@@ -314,6 +314,7 @@
         "_plural_": "Evaluaciones",
         "_crear_": "Crear una nueva evaluación",
         "_editar_": "Editar evaluación",
+        "_fecha_realizacion_": "Fecha realización",
         "_mostrar_": "Mostrar evaluación",
         "_listado_": "Listado de evaluaciones",
         "_porcentaje_": "Porcentaje",
@@ -321,6 +322,7 @@
         "_porcentaje_no_mayor_100_": "Porcentaje total no puede ser mayor a 100%",
         "_porcentaje_total_actual_": "Porcentaje total actual",
         "_nota_final_": "Nota final",
+        "_nota_": "Nota",
         "_fecha_": "Fecha de evaluación",
         "_fecha_limite_ingreso_nota_": "Fecha límite de ingreso de notas"
     },
