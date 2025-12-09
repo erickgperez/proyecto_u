@@ -140,7 +140,7 @@ const totalPorcentaje = computed(() => {
                 color="warning"
                 class="mb-2"
                 prominent
-                title="Porcentaje total de evaluaciones debe ser 100%"
+                :title="$t('evaluacion._porcentaje_total_no_completo_')"
             >
             </v-alert>
             <v-window v-model="step" class="h-auto w-100">
