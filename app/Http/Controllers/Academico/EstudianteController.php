@@ -70,11 +70,20 @@ class EstudianteController extends Controller
                     $query->wherePivot('estado_id', $estadoActivo->id);
                 },
                 'expediente' => function ($query) {
-                    $query->with([
-                        'carreraUnidadAcademica' => ['unidadAcademica'],
-                        'estado',
-                        'inscritosPivot' => ['calificacion' => ['evaluacion']]
-                    ]);
+                    $query
+                        ->select('expediente.*', 'unidad_academica.nombre', 'unidad_academica.codigo', 'carrera_unidad_academica.semestre')
+                        ->join('plan_estudio.carrera_unidad_academica as carrera_unidad_academica', 'expediente.carrera_unidad_academica_id', '=', 'carrera_unidad_academica.id')
+                        ->join('plan_estudio.unidad_academica as unidad_academica', 'carrera_unidad_academica.unidad_academica_id', '=', 'unidad_academica.id')
+                        ->orderBy('unidad_academica.nombre', 'asc')
+                        ->with([
+                            'estado',
+                            'inscritosPivot' => ['calificacion' => function ($query) {
+                                $query
+                                    ->select('calificacion.*', 'evaluacion.codigo', 'evaluacion.porcentaje', 'evaluacion.fecha')
+                                    ->join('academico.evaluacion as evaluacion', 'calificacion.evaluacion_id', '=', 'evaluacion.id')
+                                    ->orderBy('evaluacion.fecha', 'desc');
+                            }]
+                        ]);
                 }
             ])
             ->first();

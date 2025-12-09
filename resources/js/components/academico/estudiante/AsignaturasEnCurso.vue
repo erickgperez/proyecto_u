@@ -18,11 +18,9 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                         <v-col v-for="item in items" :key="item.id" cols="12" md="6" sm="12">
                             <v-card variant="tonal" color="indigo-darken-3" rounded="xl" hover>
                                 <v-card-title class="d-flex align-center text-subtitle-1">
-                                    <h4>📚 {{ item.raw.carrera_unidad_academica.unidad_academica.nombre }}</h4>
+                                    <h4>📚 {{ item.raw.nombre }}</h4>
                                 </v-card-title>
-                                <v-card-subtitle>
-                                    {{ $t('_codigo_') }} {{ item.raw.carrera_unidad_academica.unidad_academica.codigo }}
-                                </v-card-subtitle>
+                                <v-card-subtitle> {{ $t('_codigo_') }} {{ item.raw.codigo }} </v-card-subtitle>
                                 <v-card-subtitle class="text-high-emphasis mb-1 opacity-100">
                                     {{ $t('inscripcion._matricula_') + ' ' + item.raw.matricula }}
                                 </v-card-subtitle>
@@ -41,7 +39,6 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                         base-color="primary"
                                     ></v-switch>
                                 </div>
-
                                 <v-expand-transition>
                                     <div v-if="isExpanded(item)">
                                         <v-table
@@ -62,10 +59,10 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                             </thead>
                                             <tbody>
                                                 <tr v-for="calificacion in item.raw.inscritos_pivot[0].calificacion" :key="calificacion.id">
-                                                    <td>{{ calificacion.evaluacion.codigo }}</td>
-                                                    <td class="text-right">{{ calificacion.evaluacion.porcentaje }}%</td>
+                                                    <td>{{ calificacion.codigo }}</td>
+                                                    <td class="text-right">{{ calificacion.porcentaje }}%</td>
                                                     <td class="text-right">{{ calificacion.calificacion }}</td>
-                                                    <td class="text-right">{{ date.format(calificacion.evaluacion.fecha, 'keyboardDate') }}</td>
+                                                    <td class="text-right">{{ date.format(calificacion.fecha, 'keyboardDate') }}</td>
                                                 </tr>
                                             </tbody>
                                         </v-table>
