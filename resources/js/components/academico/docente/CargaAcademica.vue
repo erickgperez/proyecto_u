@@ -10,7 +10,7 @@ const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
                 <template v-slot:default="{ items, isExpanded, toggleExpand }">
                     <v-row>
                         <v-col v-for="item in items" :key="item.id" cols="12" md="6">
-                            <v-card variant="outlined" v-if="item.raw.semestre">
+                            <v-card variant="tonal" color="indigo-darken-3" v-if="item.raw.semestre" rounded="xl" hover>
                                 <v-card-title class="d-flex align-center text-subtitle-1">
                                     <h4>📚 {{ item.raw.carrera_unidad_academica.unidad_academica.nombre }}</h4>
                                 </v-card-title>
@@ -33,11 +33,11 @@ const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
                                 </v-card-subtitle>
                                 <v-card-actions>
                                     <Link :href="route('academico-evaluacion-index', { uuid: item.raw.uuid })">
-                                        <v-btn color="deep-purple-accent-4" :text="$t('docente._configurar_evaluaciones_')" variant="text"></v-btn>
+                                        <v-btn :text="$t('docente._configurar_evaluaciones_')" variant="text"></v-btn>
                                     </Link>
                                     <v-spacer></v-spacer>
                                     <Link :href="route('reportes-asignatura-inscritos-titular', { uuid: item.raw.uuid })">
-                                        <v-btn icon="mdi-chart-box-multiple-outline" color="deep-purple-accent-4"></v-btn>
+                                        <v-btn icon="mdi-chart-box-multiple-outline"></v-btn>
                                     </Link>
                                 </v-card-actions>
                             </v-card>
@@ -50,7 +50,7 @@ const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
                 <template v-slot:default="{ items, isExpanded, toggleExpand }">
                     <v-row>
                         <v-col v-for="item in items" :key="item.id" cols="12" md="6">
-                            <v-card variant="outlined" v-if="item.raw.oferta.semestre">
+                            <v-card variant="tonal" color="indigo-darken-3" v-if="item.raw.oferta.semestre" rounded="xl" hover>
                                 <v-card-title class="d-flex align-center text-subtitle-1">
                                     <h4>📚 {{ item.raw.oferta.carrera_unidad_academica.unidad_academica.nombre }}</h4>
                                 </v-card-title>
@@ -78,11 +78,11 @@ const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
                                     <Link
                                         :href="route('academico-evaluacion-registro_notas', { uuid: item.raw.uuid, uuidDocente: props.uuidDocente })"
                                     >
-                                        <v-btn color="primary" :text="$t('docente._ingresar_notas_')" variant="text"></v-btn>
+                                        <v-btn :text="$t('docente._ingresar_notas_')" variant="text"></v-btn>
                                     </Link>
                                     <v-spacer></v-spacer>
                                     <Link :href="route('reportes-asignatura-inscritos-asociado', { uuid: item.raw.uuid })">
-                                        <v-btn icon="mdi-chart-box-multiple-outline" color="primary"></v-btn>
+                                        <v-btn icon="mdi-chart-box-multiple-outline"></v-btn>
                                     </Link>
                                 </v-card-actions>
                             </v-card>

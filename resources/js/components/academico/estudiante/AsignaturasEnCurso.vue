@@ -13,7 +13,7 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                 <template v-slot:default="{ items, isExpanded, toggleExpand }">
                     <v-row>
                         <v-col v-for="item in items" :key="item.id" cols="12" md="6" sm="12">
-                            <v-card variant="outlined">
+                            <v-card variant="tonal" color="indigo-darken-3" rounded="xl" hover>
                                 <v-card-title class="d-flex align-center text-subtitle-1">
                                     <h4>📚 {{ item.raw.carrera_unidad_academica.unidad_academica.nombre }}</h4>
                                 </v-card-title>
