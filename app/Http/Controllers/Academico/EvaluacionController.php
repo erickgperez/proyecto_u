@@ -56,12 +56,6 @@ class EvaluacionController extends Controller
 
         $oferta = Oferta::where("uuid", $request->get('oferta_uuid'))->first();
 
-        //Validar que la suma total de porcentajes no sea mayor que 100
-        $totalPorcentaje = Evaluacion::where('oferta_id', $oferta->id)->sum('porcentaje');
-        if ($totalPorcentaje + $request->get('porcentaje') > 100) {
-            return response()->json(['status' => 'error', 'message' => 'evaluacion._porcentaje_no_mayor_100_']);
-        }
-
         if ($request->get('id') === null) {
             // Está agregando uno nuevo, verificar que no exista el código para la misma asignatura ofertada
             $evaluacionCheck = Evaluacion::where('codigo', $request->get('codigo'))
@@ -72,6 +66,9 @@ class EvaluacionController extends Controller
             } else {
                 return response()->json(['status' => 'error', 'message' => 'evaluacion._codigo_ya existe_']);
             }
+
+            //Obtener el porcentaje ya registrado
+            $totalPorcentaje = Evaluacion::where('oferta_id', $oferta->id)->sum('porcentaje');
         } else {
             // Verificar que el nuevo código que ponga no esté utilizado por otro registro para la misma asignatura ofertada
             $evaluacionCheck = Evaluacion::where('codigo', $request->get('codigo'))
@@ -84,6 +81,14 @@ class EvaluacionController extends Controller
             } else {
                 return response()->json(['status' => 'error', 'message' => 'area._codigo_ya existe_']);
             }
+
+            //Obtener el porcentaje ya registrado, pero sin contar el registro que se está editando
+            $totalPorcentaje = Evaluacion::where('oferta_id', $oferta->id)->where('id', '!=', $request->get('id'))->sum('porcentaje');
+        }
+
+        //Validar que la suma total de porcentajes no sea mayor que 100
+        if ($totalPorcentaje + $request->get('porcentaje') > 100) {
+            return response()->json(['status' => 'error', 'message' => 'evaluacion._porcentaje_no_mayor_100_']);
         }
 
         $evaluacion->codigo = $request->get('codigo');
