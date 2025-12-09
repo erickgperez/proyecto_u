@@ -318,6 +318,7 @@
         "_listado_": "List of evaluations",
         "_porcentaje_": "Percentage",
         "_porcentaje_total_no_completo_": "The total percentage of evaluations must be 100%",
+        "_porcentaje_no_mayor_100_": "Total percentage cannot be greater than 100%",
         "_nota_final_": "Final grade",
         "_fecha_": "Evaluation date",
         "_fecha_limite_ingreso_nota_": "Date limit to enter notes"

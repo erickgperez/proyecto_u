@@ -318,6 +318,7 @@
         "_listado_": "Listado de evaluaciones",
         "_porcentaje_": "Porcentaje",
         "_porcentaje_total_no_completo_": "Porcentaje total de evaluaciones debe ser 100%",
+        "_porcentaje_no_mayor_100_": "Porcentaje total no puede ser mayor a 100%",
         "_nota_final_": "Nota final",
         "_fecha_": "Fecha de evaluación",
         "_fecha_limite_ingreso_nota_": "Fecha límite de ingreso de notas"

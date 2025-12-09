@@ -52,10 +52,15 @@ class EvaluacionController extends Controller
             'fecha_limite_ingreso_nota' => 'nullable|date',
             'porcentaje' => 'required|numeric',
             'oferta_uuid' => 'required|string',
-
         ]);
 
         $oferta = Oferta::where("uuid", $request->get('oferta_uuid'))->first();
+
+        //Validar que la suma total de porcentajes no sea mayor que 100
+        $totalPorcentaje = Evaluacion::where('oferta_id', $oferta->id)->sum('porcentaje');
+        if ($totalPorcentaje + $request->get('porcentaje') > 100) {
+            return response()->json(['status' => 'error', 'message' => 'evaluacion._porcentaje_no_mayor_100_']);
+        }
 
         if ($request->get('id') === null) {
             // Está agregando uno nuevo, verificar que no exista el código para la misma asignatura ofertada
