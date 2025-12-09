@@ -1,5 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { useDate } from 'vuetify';
+
+const date = useDate();
 
 const props = defineProps(['expediente']);
 
@@ -42,24 +45,32 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                 <v-divider></v-divider>
                                 <v-expand-transition>
                                     <div v-if="isExpanded(item)">
-                                        <v-table>
+                                        <v-table
+                                            v-if="
+                                                item.raw.inscritos_pivot &&
+                                                item.raw.inscritos_pivot.length > 0 &&
+                                                item.raw.inscritos_pivot[0].calificacion &&
+                                                item.raw.inscritos_pivot[0].calificacion.length > 0
+                                            "
+                                        >
                                             <thead>
                                                 <tr>
-                                                    <th class="text-left">{{ $t('evaluacion._singular_') }}</th>
-                                                    <th class="text-left">{{ $t('evaluacion._porcentaje_') }}</th>
-                                                    <th class="text-left">{{ $t('evaluacion._nota_') }}</th>
-                                                    <th class="text-left">{{ $t('evaluacion._fecha_realizacion_') }}</th>
+                                                    <th class="text-center">{{ $t('evaluacion._singular_') }}</th>
+                                                    <th class="text-center">{{ $t('evaluacion._porcentaje_') }}</th>
+                                                    <th class="text-center">{{ $t('evaluacion._nota_') }}</th>
+                                                    <th class="text-center">{{ $t('evaluacion._fecha_realizacion_') }}</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <tr v-for="calificacion in item.raw.inscritos_pivot[0].calificacion" :key="calificacion.id">
                                                     <td>{{ calificacion.evaluacion.codigo }}</td>
-                                                    <td>{{ calificacion.evaluacion.porcentaje }}%</td>
-                                                    <td>{{ calificacion.calificacion }}</td>
-                                                    <td>{{ calificacion.fecha }}</td>
+                                                    <td class="text-right">{{ calificacion.evaluacion.porcentaje }}%</td>
+                                                    <td class="text-right">{{ calificacion.calificacion }}</td>
+                                                    <td class="text-right">{{ date.format(calificacion.evaluacion.fecha, 'keyboardDate') }}</td>
                                                 </tr>
                                             </tbody>
                                         </v-table>
+                                        <v-alert v-else type="info" variant="tonal">{{ $t('evaluacion._no_evaluaciones_registradas_') }}</v-alert>
                                     </div>
                                 </v-expand-transition>
                             </v-card>
