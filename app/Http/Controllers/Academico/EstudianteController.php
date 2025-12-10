@@ -90,6 +90,13 @@ class EstudianteController extends Controller
         return response()->json(['status' => 'ok', 'estudiante' => $estudiante]);
     }
 
+    public function carreras($uuid)
+    {
+        $estudiante = Estudiante::where('uuid', $uuid)->first();
+        $carreras = $estudiante->carreraSede()->get();
+        return response()->json(['status' => 'ok', 'carreras' => $carreras]);
+    }
+
     public function perfil($uuid)
     {
         $estudiante = Estudiante::where('uuid', $uuid)->first();

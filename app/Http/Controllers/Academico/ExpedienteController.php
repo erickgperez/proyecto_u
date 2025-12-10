@@ -72,6 +72,19 @@ class ExpedienteController extends Controller
         $carreraSede = CarreraSede::find($id);
         $estudiante = Estudiante::where('uuid', $uuid)->first();
 
+        $data = $this->expedienteData($estudiante, $carreraSede);
+
+
+        return Inertia::render('academico/Estudiante/Expediente', [
+            'expediente' => $data['expediente'],
+            'estudiante' => $estudiante,
+            'carreraSede' => $carreraSede,
+            'mallaCurricular' => $data['mallaCurricular'],
+        ]);
+    }
+
+    protected function expedienteData($estudiante, $carreraSede)
+    {
         //Recuperar el expediente del estudiante en la carrera seleccionada
         $expediente = $estudiante->expediente()
             ->select('expediente.*')
@@ -100,11 +113,19 @@ class ExpedienteController extends Controller
             ->orderBy('ua.nombre', 'asc')
             ->get();
 
-        return Inertia::render('academico/Estudiante/Expediente', [
+        return [
             'expediente' => $expediente,
-            'estudiante' => $estudiante,
-            'carreraSede' => $carreraSede,
             'mallaCurricular' => $mallaCurricular,
-        ]);
+        ];
+    }
+
+    public function expedienteJson($uuid, $id)
+    {
+        $carreraSede = CarreraSede::find($id);
+        $estudiante = Estudiante::where('uuid', $uuid)->first();
+
+        $data = $this->expedienteData($estudiante, $carreraSede);
+
+        return response()->json($data);
     }
 }

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import PerfilEstudianteExpediente from '@/components/academico/estudiante/PerfilEstudianteExpediente.vue';
 import PerfilDatosContactoForm from '@/components/administracion/PerfilDatosContactoForm.vue';
 import PerfilDocenteAsignacionCarreraSede from '@/components/administracion/PerfilDocenteAsignacionCarreraSede.vue';
 import PerfilDocenteCargaAcademica from '@/components/administracion/PerfilDocenteCargaAcademica.vue';
@@ -322,6 +323,8 @@ onMounted(() => {
                         ></PerfilDocenteAsignacionCarreraSede>
                         <PerfilDocenteCargaAcademica v-if="selectedAction == 'docente-carga-academica'" :item="selectedItem" :perfil="props.perfil">
                         </PerfilDocenteCargaAcademica>
+                        <PerfilEstudianteExpediente v-if="selectedAction == 'estudiante-expediente'" :item="selectedItem">
+                        </PerfilEstudianteExpediente>
                     </v-sheet>
                 </v-window-item>
             </v-window>
