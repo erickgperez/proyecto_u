@@ -288,6 +288,9 @@
     },
     "_estudiante_": "Estudiante",
     "estudiante": {
+        "_singular_": "Estudiante",
+        "_perfil2_": "Perfil",
+        "_plural_": "Estudiantes",
         "_carnet_": "Carnet",
         "_carrera_sede_": "Carrera Sede",
         "_perfil_": "Perfil de estudiante",

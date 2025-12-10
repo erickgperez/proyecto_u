@@ -475,6 +475,30 @@ onMounted(() => {
                             </v-list-item>
                         </Link>
                         <v-list-item
+                            v-if="hasPermission('MENU_ACADEMICO_ESTUDIANTES_')"
+                            prepend-icon="mdi-account-group-outline"
+                            append-icon="mdi-menu-right"
+                            class="text-body-1 text-none text-left"
+                        >
+                            {{ $t('estudiante._plural_') }}
+                            <v-menu activator="parent">
+                                <v-list class="bg-blue-grey-darken-2">
+                                    <Link
+                                        v-if="hasPermission('MENU_ACADEMICO_ESTUDIANTES_PERFIL')"
+                                        :href="route('administracion-perfil-estudiante-index')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-school-outline"
+                                            :class="$page.url === '/administracion/perfil/estudiante' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                            {{ $t('estudiante._perfil2_') }}
+                                        </v-list-item>
+                                    </Link>
+                                </v-list>
+                            </v-menu>
+                        </v-list-item>
+                        <v-list-item
                             v-if="hasPermission('MENU_ACADEMICO_PLAN-ESTUDIO')"
                             prepend-icon="mdi-collage"
                             append-icon="mdi-menu-right"
