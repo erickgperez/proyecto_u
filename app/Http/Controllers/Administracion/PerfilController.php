@@ -131,7 +131,7 @@ class PerfilController extends Controller
             'creator',
             'updater',
             'datosContacto' => ['distritoResidencia'],
-            'estudiante',
+            'estudiante' => ['carreraSede' => ['carrera', 'sede']],
             'usuarios' => function ($query) {
                 $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
                     ->join('roles as rol', 'roles.role_id', '=', 'rol.id')

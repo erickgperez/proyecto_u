@@ -585,7 +585,9 @@
         "_asignado_en_": "Asignado en",
         "_asignado_en_indicaciones_": "Elija las sedes/carreras en que está asignado el docente",
         "_asignacion_principal_": "Asignado principalmente en",
-        "_sede_principal_": "Sede principal"
+        "_sede_principal_": "Sede principal",
+        "_mas_info_": "Más info",
+        "_ocultar_": "Ocultar"
     },
     "_plan_estudio_": "Plan de estudio",
     "_procesos_": "Procesos",

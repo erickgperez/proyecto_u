@@ -103,7 +103,7 @@ if (props.perfil === 'aspirante') {
     headers.push({ title: t('aspirante._seleccionado_'), key: 'seleccionado', align: 'center' });
 }
 
-headers.push({ title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'center' });
+//headers.push({ title: t('perfil._email_cuenta_'), key: 'email_cuenta', align: 'center' });
 if (props.perfil === 'estudiante') {
     headers.push({ title: t('estudiante._carnet_'), key: 'estudiante.carnet', align: 'center' });
 }
@@ -121,6 +121,7 @@ if (props.perfil === 'docente') {
     );
 }
 headers.push({ title: t('_acciones_'), key: 'actions', align: 'center' });
+headers.push({ width: 1, key: 'data-table-expand', align: 'end' });
 
 const sortBy: SortBy[] = [
     { key: 'apellidos', order: 'asc' },
@@ -248,11 +249,11 @@ onMounted(() => {
                         :fileName="fileName"
                         :ocultarCrear="ocultarCrear"
                     >
-                        <template v-slot:item.fecha_nacimiento="{ value }">
+                        <!--<template v-slot:item.fecha_nacimiento="{ value }">
                             <div class="d-flex ga-2">
                                 {{ value !== null ? date.format(value, 'keyboardDate') : '' }}
                             </div>
-                        </template>
+                        </template>-->
                         <template v-slot:item.id="{ value, item }" v-if="props.perfil === 'aspirante'">
                             <div class="d-flex ga-2">
                                 {{ item.aspirante.nie }}
@@ -264,10 +265,72 @@ onMounted(() => {
                                 <v-icon icon="mdi-close-box-outline" color="red" v-else></v-icon>
                             </div>
                         </template>
-                        <template v-slot:item.email_cuenta="{ value, item }">
+                        <!-- <template v-slot:item.email_cuenta="{ value, item }">
                             <div class="d-flex ga-2" v-if="item.usuarios.length > 0">
                                 {{ item.usuarios[0].email }}
                             </div>
+                        </template> -->
+
+                        <template v-slot:item.data-table-expand="{ internalItem, isExpanded, toggleExpand }">
+                            <v-btn
+                                :append-icon="isExpanded(internalItem) ? 'mdi-chevron-up' : 'mdi-chevron-down'"
+                                :text="isExpanded(internalItem) ? $t('perfil._ocultar_') : $t('perfil._mas_info_')"
+                                class="text-none"
+                                color="medium-emphasis"
+                                size="small"
+                                variant="text"
+                                width="105"
+                                border
+                                slim
+                                @click="toggleExpand(internalItem)"
+                            ></v-btn>
+                        </template>
+
+                        <template v-slot:expanded-row="{ columns, item }">
+                            <tr>
+                                <td :colspan="columns.length" class="py-2">
+                                    <v-table>
+                                        <tbody>
+                                            <tr>
+                                                <td class="bg-grey-lighten-2 w-25">{{ $t('perfil._email_cuenta_') }}:</td>
+                                                <td class="w-75">
+                                                    <span class="text-medium-emphasis" v-if="item.usuarios.length > 0">
+                                                        {{ item.usuarios[0].email }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-grey-lighten-2 w-25">{{ $t('perfil._fecha_nacimiento_') }}:</td>
+                                                <td class="w-75">
+                                                    <span class="text-medium-emphasis" v-if="item.fecha_nacimiento !== null">
+                                                        {{ date.format(item.fecha_nacimiento, 'keyboardDate') }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="bg-grey-lighten-2 w-25">{{ $t('perfil._edad_') }}:</td>
+                                                <td class="w-75">
+                                                    <span class="text-medium-emphasis" v-if="item.fecha_nacimiento !== null">
+                                                        {{ item.edad }}
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                            <tr v-if="props.perfil === 'estudiante'">
+                                                <td class="bg-grey-lighten-2 w-25">{{ $t('carrera._singular_') }}:</td>
+                                                <td class="w-75">
+                                                    <span class="text-medium-emphasis">
+                                                        <v-list-item
+                                                            v-for="carrera in item.estudiante.carrera_sede"
+                                                            :key="carrera.id"
+                                                            :title="carrera.titulo"
+                                                        ></v-list-item>
+                                                    </span>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </v-table>
+                                </td>
+                            </tr>
                         </template>
                     </Listado>
                 </v-window-item>

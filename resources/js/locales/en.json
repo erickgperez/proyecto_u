@@ -288,6 +288,9 @@
     },
     "_estudiante_": "Student",
     "estudiante": {
+        "_singular_": "Student",
+        "_perfil2_": "Profile",
+        "_plural_": "Students",
         "_carnet_": "Id card",
         "_carrera_sede_": "Career location",
         "_perfil_": "Student profile",
@@ -570,7 +573,9 @@
         "_asignado_en_": "Assigned to",
         "_asignado_en_indicaciones_": "Choose the campuses/programs where the teacher is assigned",
         "_asignacion_principal_": "Assigned primarily to",
-        "_sede_principal_": "Main campus"
+        "_sede_principal_": "Main campus",
+        "_mas_info_": "More info",
+        "_ocultar_": "Hide"
     },
     "_plan_estudio_": "Syllabus",
     "_procesos_": "processes",
