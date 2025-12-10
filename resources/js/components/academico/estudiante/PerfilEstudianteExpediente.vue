@@ -35,9 +35,17 @@ watch(carreraSede, () => {
 
 <template>
     <v-card class="rounded-t-xl">
-        <v-toolbar class="rounded-t-xl">
-            <v-spacer></v-spacer>
-            <v-select v-model="carreraSede" :items="carrerasSede" item-title="titulo2" item-value="id" label="Carrera" return-object></v-select>
+        <v-toolbar class="bg-blue-grey-lighten-3 rounded-t-xl">
+            <v-select
+                class="mt-5 mr-4 ml-4"
+                density="compact"
+                v-model="carreraSede"
+                :items="carrerasSede"
+                item-title="titulo2"
+                item-value="id"
+                label="Carrera"
+                return-object
+            ></v-select>
         </v-toolbar>
         <v-card-title>{{ item.nombreCompleto }}</v-card-title>
         <v-card-text> </v-card-text>
