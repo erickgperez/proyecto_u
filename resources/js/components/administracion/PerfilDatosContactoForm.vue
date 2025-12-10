@@ -64,7 +64,9 @@ const formData = ref<FormData>({
 
 const isEstudiante = computed(() => roles.includes('estudiante'));
 const isDocente = computed(() => roles.includes('docente'));
-const permitirEditar = computed(() => ((isEstudiante.value || isDocente.value) && !props.item.datos_contacto.permitir_editar ? false : true));
+const permitirEditar = computed(
+    () => !props.item.datos_contacto || ((isEstudiante.value || isDocente.value) && !props.item.datos_contacto.permitir_editar ? false : true),
+);
 
 async function submitForm() {
     const { valid } = await formRef.value!.validate();
