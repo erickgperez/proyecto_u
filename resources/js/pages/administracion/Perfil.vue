@@ -203,15 +203,15 @@ onMounted(() => {
     }
 
     if (props.perfil === 'estudiante') {
-        /*opciones.push({
+        opciones.push({
             orden: 40,
             permiso: acc.estudiante_expediente,
             title: t('expediente._singular_'),
             text: t('expediente._expediente_descripcion_'),
             emitAction: 'estudiante-expediente',
-            color: 'brown-darken-3',
+            color: 'brown-darken-4',
             icon: 'mdi-folder-table-outline',
-        });*/
+        });
     }
 
     if (props.perfil === 'aspirante' || props.perfil === 'estudiante') {
