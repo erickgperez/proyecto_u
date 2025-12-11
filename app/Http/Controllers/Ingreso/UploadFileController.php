@@ -34,7 +34,7 @@ class UploadFileController extends Controller
     public function import(Request $request)
     {
 
-        ini_set('max_execution_time', 300);
+        ini_set('max_execution_time', 3000);
 
         //phpinfo();
         //exit;
@@ -84,7 +84,7 @@ class UploadFileController extends Controller
     public function importCalificacion(Request $request)
     {
 
-        ini_set('max_execution_time', 300);
+        ini_set('max_execution_time', 3000);
 
         //phpinfo();
         //exit;
