@@ -40,6 +40,7 @@ class EstudianteService
         $estadoAP = $usoEstadoExpediente->estados()->where('codigo', 'AP')->first();
         $estadoEC = $usoEstadoExpediente->estados()->where('codigo', 'EC')->first();
         $estadoRP = $usoEstadoExpediente->estados()->where('codigo', 'RP')->first();
+        $estadoRT = $usoEstadoExpediente->estados()->where('codigo', 'RT')->first();
 
         $cargaAcademica = [];
         if ($semestre) {
@@ -73,13 +74,18 @@ class EstudianteService
                 if ($expediente->estado_id == $estadoEC->id) {
                     $expedienteEC[] = $expediente->carreraUnidadAcademica->id;
                 }
+                //Retiradas en el mismo semestre de inscripción
+                if ($expediente->estado_id == $estadoRT->id && $expediente->semestre_id == $semestre->id) {
+                    $expedienteRT[] = $expediente->carreraUnidadAcademica->id;
+                }
             }
 
             // Filtrar la oferta académica ...
-            // ... quitar las que ya aprobó o están en curso
-            $cargaAcademica = $ofertaAcademica->filter(function ($oferta) use ($expedienteAP, $expedienteEC) {
+            // ... quitar las que ya aprobó o están en curso, o retiradas en el mismo semestre de inscripción
+            $cargaAcademica = $ofertaAcademica->filter(function ($oferta) use ($expedienteAP, $expedienteEC, $expedienteRT) {
                 return !in_array($oferta->carreraUnidadAcademica->id, $expedienteAP)
-                    && !in_array($oferta->carreraUnidadAcademica->id, $expedienteEC);
+                    && !in_array($oferta->carreraUnidadAcademica->id, $expedienteEC)
+                    && !in_array($oferta->carreraUnidadAcademica->id, $expedienteRT);
             });
 
             // ... quitar las que no tiene ganados los requisitos
