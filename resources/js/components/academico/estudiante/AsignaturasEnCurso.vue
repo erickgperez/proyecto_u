@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useFunciones } from '@/composables/useFunciones';
 import axios from 'axios';
-import { ref } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
 import { route } from 'ziggy-js';
@@ -10,7 +10,15 @@ const { mensajeExito } = useFunciones();
 const { t } = useI18n();
 const date = useDate();
 
-const props = defineProps(['expediente']);
+const props = defineProps({
+    expediente: Array,
+    mostrarRetiro: {
+        type: Boolean,
+        default: false,
+    },
+});
+
+const semestreRetiro = ref(null);
 
 const localExpediente = ref(
     props.expediente ? props.expediente.map((item) => ({ ...item, isretiro: false })).filter((item) => item.estado.codigo == 'EC') : [],
@@ -33,6 +41,14 @@ const retirarAsignatura = (item) => {
             console.log(error);
         });
 };
+
+onMounted(() => {
+    //Recuperar la fecha de retiro, tomar el semestre de la primera asignatura
+    let semestreId = localExpediente.value[0].semestre_id;
+    axios.get(route('academico-retiro-semestre', { id: semestreId })).then((response) => {
+        semestreRetiro.value = response.data.semestre;
+    });
+});
 </script>
 <template>
     <v-card class="mx-auto" rounded="xl" v-if="localExpediente.length > 0">
@@ -55,7 +71,7 @@ const retirarAsignatura = (item) => {
                                         {{ $t('inscripcion._calificacion_') + ' ' + +(item.raw.calificacion ? item.raw.calificacion : '0') }}
                                     </span>
                                 </v-card-subtitle>
-                                <v-card-actions>
+                                <v-card-actions v-if="mostrarRetiro">
                                     <v-spacer></v-spacer>
                                     <v-btn color="error" text="Retirar" variant="text" @click="item.raw.isretiro = true"></v-btn>
                                 </v-card-actions>
@@ -108,7 +124,7 @@ const retirarAsignatura = (item) => {
                                         height="100%"
                                         style="bottom: 0"
                                     >
-                                        <v-card-text class="pb-0">
+                                        <v-card-text class="pb-0" v-if="semestreRetiro">
                                             <p class="text-h4 text-error d-flex align-center">
                                                 <v-icon icon="mdi-alert-circle" class="mr-2"></v-icon>
                                                 {{ $t('inscripcion._retiro_') }}
@@ -116,6 +132,12 @@ const retirarAsignatura = (item) => {
                                             <span class="text-weight-bold text-error">{{ item.raw.nombre }}</span>
                                             <p class="text-medium-emphasis text-error">
                                                 {{ $t('inscripcion._retiro_mensaje_') }}
+                                            </p>
+                                        </v-card-text>
+                                        <v-card-text v-else>
+                                            <span class="text-weight-bold text-error">{{ item.raw.nombre }}</span>
+                                            <p class="text-medium-emphasis text-error">
+                                                {{ $t('inscripcion._retiro_no_disponible_') }}
                                             </p>
                                         </v-card-text>
 
@@ -129,6 +151,7 @@ const retirarAsignatura = (item) => {
                                             ></v-btn>
                                             <v-spacer></v-spacer>
                                             <v-btn
+                                                v-if="semestreRetiro"
                                                 color="error"
                                                 text="Confirmar retiro"
                                                 prepend-icon="mdi-alert-circle"

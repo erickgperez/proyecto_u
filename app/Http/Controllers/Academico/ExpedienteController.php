@@ -14,6 +14,7 @@ use Inertia\Response;
 use Illuminate\Http\Request;
 use App\Models\Academico\TipoCurso;
 use App\Models\PlanEstudio\CarreraUnidadAcademica;
+use App\Models\TipoEvento;
 use App\Services\EstudianteService;
 
 class ExpedienteController extends Controller
@@ -139,5 +140,18 @@ class ExpedienteController extends Controller
         $expediente->estado_id = $estadoRT->id;
         $expediente->save();
         return response()->json(['status' => 'ok', 'expediente' => $expediente]);
+    }
+
+    public function semestreRetiro($id)
+    {
+        //Recuperar el semestre y verificar que tenga evento de RETIRO_ASIGNATURAS activo a la fecha actual
+        $semestre = Semestre::where('id', $id)->whereHas('calendario', function ($query) {
+            $tipoEvento = TipoEvento::where('codigo', 'RETIRO_ASIGNATURAS')->first();
+            $query->whereHas('eventos', function ($query) use ($tipoEvento) {
+                $query->where('tipo_evento_id', $tipoEvento->id)->where('fecha_inicio', '<=', now())->where('fecha_fin', '>=', now());
+            });
+        })->first();
+
+        return response()->json(['status' => 'ok', 'semestre' => $semestre]);
     }
 }

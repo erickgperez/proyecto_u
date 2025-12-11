@@ -431,7 +431,8 @@
         "_no_hay_semestre_activo_": "No se encontró un semestre con periodo de inscripción activo",
         "_retiro_": "Retiro de asignatura",
         "_retiro_mensaje_": "Estás a punto de retirar esta asignatura. Asegúrate de haber visitado la Unidad de Vida Estudiantil y que te hayan explicado las implicaciones de esta decisión. Si ya lo hiciste y estás seguro de tu decisión, procede a confirmar",
-        "_retiro_aplicado_correctamente_": "Retiro aplicado correctamente"
+        "_retiro_aplicado_correctamente_": "Retiro aplicado correctamente",
+        "_retiro_no_disponible_": "No es periodo de retiro de asignaturas"
     },
     "invitacion": {
         "_aceptadas_": "Aceptadas",

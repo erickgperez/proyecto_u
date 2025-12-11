@@ -116,7 +116,7 @@ onMounted(() => {
         </v-col>
     </v-row>
     <v-divider class="my-4"></v-divider>
-    <AsignaturasEnCurso :expediente="estudiante?.expediente" v-if="estudiante && estudiante.expediente.length > 0" />
+    <AsignaturasEnCurso :expediente="estudiante?.expediente" :mostrarRetiro="true" v-if="estudiante && estudiante.expediente.length > 0" />
 </template>
 <style scoped>
 .on-hover-alert {

@@ -102,6 +102,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/persona/{uuid}/docente/data', [DocenteController::class, 'getDocenteData'])->name('academico-persona-docente-data');
 
     Route::post('/academico/retiro/expediente/{uuid}', [ExpedienteController::class, 'retiro'])->name('academico-retiro');
+    Route::get('/academico/retiro/semestre/{id}', [ExpedienteController::class, 'semestreRetiro'])->name('academico-retiro-semestre');
 
     Route::get('/academico/oferta/{uuid}/evaluacion', [EvaluacionController::class, 'index'])->name('academico-evaluacion-index');
     Route::get('/academico/oferta/imparte/{uuid}/evaluacion/registro-notas/{uuidDocente}', [EvaluacionController::class, 'registroNotas'])->name('academico-evaluacion-registro_notas');
