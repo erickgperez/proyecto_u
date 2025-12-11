@@ -81,7 +81,7 @@ class EstudianteController extends Controller
                                 $query
                                     ->select('calificacion.*', 'evaluacion.codigo', 'evaluacion.porcentaje', 'evaluacion.fecha')
                                     ->join('academico.evaluacion as evaluacion', 'calificacion.evaluacion_id', '=', 'evaluacion.id')
-                                    ->orderBy('evaluacion.fecha', 'desc');
+                                    ->orderBy('evaluacion.fecha', 'asc');
                             }]
                         ]);
                 }
