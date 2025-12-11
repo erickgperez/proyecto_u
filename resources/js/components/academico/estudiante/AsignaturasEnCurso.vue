@@ -1,12 +1,38 @@
 <script setup lang="ts">
-import { computed } from 'vue';
+import { useFunciones } from '@/composables/useFunciones';
+import axios from 'axios';
+import { ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useDate } from 'vuetify';
+import { route } from 'ziggy-js';
 
+const { mensajeExito } = useFunciones();
+const { t } = useI18n();
 const date = useDate();
 
 const props = defineProps(['expediente']);
 
-const localExpediente = computed(() => (props.expediente ? props.expediente.filter((item) => item.estado.codigo == 'EC') : []));
+const localExpediente = ref(
+    props.expediente ? props.expediente.map((item) => ({ ...item, isretiro: false })).filter((item) => item.estado.codigo == 'EC') : [],
+);
+
+//función para realizar el retiro de la asignatura
+const retirarAsignatura = (item) => {
+    console.log(item);
+    axios
+        .post(route('academico-retiro', { uuid: item.uuid }), {
+            expediente: item.id,
+        })
+        .then((response) => {
+            if (response.data.status == 'ok') {
+                localExpediente.value = localExpediente.value.filter((item) => item.id != response.data.expediente.id);
+                mensajeExito(t('inscripcion._retiro_aplicado_correctamente_'));
+            }
+        })
+        .catch((error) => {
+            console.log(error);
+        });
+};
 </script>
 <template>
     <v-card class="mx-auto" rounded="xl" v-if="localExpediente.length > 0">
@@ -29,6 +55,10 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                         {{ $t('inscripcion._calificacion_') + ' ' + +(item.raw.calificacion ? item.raw.calificacion : '0') }}
                                     </span>
                                 </v-card-subtitle>
+                                <v-card-actions>
+                                    <v-spacer></v-spacer>
+                                    <v-btn color="error" text="Retirar" variant="text" @click="item.raw.isretiro = true"></v-btn>
+                                </v-card-actions>
 
                                 <div class="px-4">
                                     <v-switch
@@ -38,6 +68,7 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                         color="green-darken-2"
                                         base-color="primary"
                                     ></v-switch>
+                                    <v-spacer></v-spacer>
                                 </div>
                                 <v-expand-transition>
                                     <div v-if="isExpanded(item)">
@@ -68,6 +99,45 @@ const localExpediente = computed(() => (props.expediente ? props.expediente.filt
                                         </v-table>
                                         <v-alert v-else type="info" variant="tonal">{{ $t('evaluacion._no_evaluaciones_registradas_') }}</v-alert>
                                     </div>
+                                </v-expand-transition>
+                                <v-expand-transition>
+                                    <v-card
+                                        v-if="item.raw.isretiro"
+                                        variant="elevated"
+                                        class="position-absolute w-100"
+                                        height="100%"
+                                        style="bottom: 0"
+                                    >
+                                        <v-card-text class="pb-0">
+                                            <p class="text-h4 text-error d-flex align-center">
+                                                <v-icon icon="mdi-alert-circle" class="mr-2"></v-icon>
+                                                {{ $t('inscripcion._retiro_') }}
+                                            </p>
+                                            <span class="text-weight-bold text-error">{{ item.raw.nombre }}</span>
+                                            <p class="text-medium-emphasis text-error">
+                                                {{ $t('inscripcion._retiro_mensaje_') }}
+                                            </p>
+                                        </v-card-text>
+
+                                        <v-card-actions class="pt-6">
+                                            <v-btn
+                                                color="primary"
+                                                text="Cancelar"
+                                                variant="tonal"
+                                                class="rounded-xl"
+                                                @click="item.raw.isretiro = false"
+                                            ></v-btn>
+                                            <v-spacer></v-spacer>
+                                            <v-btn
+                                                color="error"
+                                                text="Confirmar retiro"
+                                                prepend-icon="mdi-alert-circle"
+                                                variant="tonal"
+                                                class="rounded-xl"
+                                                @click="retirarAsignatura(item.raw)"
+                                            ></v-btn>
+                                        </v-card-actions>
+                                    </v-card>
                                 </v-expand-transition>
                             </v-card>
                         </v-col>

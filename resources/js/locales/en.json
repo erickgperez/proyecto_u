@@ -428,7 +428,10 @@
         "_asignaturas_en_curso_": "Enrolled subjects",
         "_calificacion_": "Grade",
         "_ver_evaluaciones_": "Show evaluations",
-        "_no_hay_semestre_activo_": "No semester with an active registration period was found"
+        "_no_hay_semestre_activo_": "No semester with an active registration period was found",
+        "_retiro_": "Withdrawal of subject",
+        "_retiro_mensaje_": "You are about to withdraw this subject. Make sure you have visited the Student Life Unit and that you have been explained the implications of this decision. If you have already done so and are sure of your decision, proceed to confirm",
+        "_retiro_aplicado_correctamente_": "Withdrawal applied correctly"
     },
     "invitacion": {
         "_aceptadas_": "Accepted",

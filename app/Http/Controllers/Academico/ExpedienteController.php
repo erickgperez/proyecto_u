@@ -128,4 +128,16 @@ class ExpedienteController extends Controller
 
         return response()->json($data);
     }
+
+    public function retiro($uuid)
+    {
+        $expediente = Expediente::where('uuid', $uuid)->first();
+
+        $usoEstadoExpediente = UsoEstado::where('codigo', 'EXPEDIENTE')->first();
+        $estadoRT = $usoEstadoExpediente->estados()->where('codigo', 'RT')->first();
+
+        $expediente->estado_id = $estadoRT->id;
+        $expediente->save();
+        return response()->json(['status' => 'ok', 'expediente' => $expediente]);
+    }
 }
