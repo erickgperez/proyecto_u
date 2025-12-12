@@ -31,6 +31,9 @@ class EstadoSeeder extends Seeder
             ['codigo' => 'RT', 'descripcion' => 'Retirada', 'uso_estado_id' => UsoEstado::where('codigo', 'EXPEDIENTE')->first()->id],
             ['codigo' => 'EC', 'descripcion' => 'En curso', 'uso_estado_id' => UsoEstado::where('codigo', 'EXPEDIENTE')->first()->id],
 
+            ['codigo' => 'ACTIVO', 'descripcion' => 'El semestre está activo', 'uso_estado_id' => UsoEstado::where('codigo', 'SEMESTRE')->first()->id],
+            ['codigo' => 'INACTIVO', 'descripcion' => 'El semestre ya no está activo', 'uso_estado_id' => UsoEstado::where('codigo', 'SEMESTRE')->first()->id],
+
         ]);
     }
 }

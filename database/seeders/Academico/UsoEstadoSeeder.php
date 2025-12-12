@@ -17,6 +17,7 @@ class UsoEstadoSeeder extends Seeder
             ['codigo' => 'CARRERA_SEDE', 'descripcion' => 'Estados a utilizar en la tabla academico.carrera_sede'],
             ['codigo' => 'CARRERA', 'descripcion' => 'Estados a utilizar en plan_estudio.carrera'],
             ['codigo' => 'EXPEDIENTE', 'descripcion' => 'Estados a utilizar en el expediente del estudiante'],
+            ['codigo' => 'SEMESTRE', 'descripcion' => 'Estados a utilizar en semestres académicos'],
         ]);
     }
 }
