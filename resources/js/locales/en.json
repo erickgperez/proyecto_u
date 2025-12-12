@@ -24,6 +24,12 @@
         "_mostrar_": "Show area",
         "_permite_gestionar_": "Allows you to manage subject area data"
     },
+    "archivo": {
+        "_guardar_como_": "File → Save as",
+        "_tipo_txt_": "Type: Text (delimited by tabs) (*.txt)",
+        "_guardar_": "Save",
+        "_suba_archivo_": "Upload the file in this form (it is not necessary to change the extension to .csv)"
+    },
     "aspirante": {
         "_nie_": "NIE",
         "_no_tiene_cupo_": "there is no quota",

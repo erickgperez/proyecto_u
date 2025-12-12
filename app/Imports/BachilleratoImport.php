@@ -51,7 +51,6 @@ class BachilleratoImport implements ToModel, WithHeadingRow, WithChunkReading, W
     public function getCsvSettings(): array
     {
         return [
-            'input_encoding' => 'UTF-8',
             'delimiter' => "\t"
         ];
     }

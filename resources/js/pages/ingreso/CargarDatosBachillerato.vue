@@ -54,7 +54,7 @@ const submitForm = async () => {
                 confirmButtonColor: '#D7E1EE',
             });
         } catch (error) {
-            mensajeError(t('_verifique_que_ha_subido_archivo_csv_'));
+            mensajeError(t('_verifique_que_ha_subido_archivo_csv_') + '. ' + error.response.data.message);
         }
     }
     loading.value = false;
@@ -96,6 +96,16 @@ const submitForm = async () => {
         </v-sheet>
         <v-alert v-else border="top" type="warning" variant="outlined" prominent>
             {{ $t('_no_tiene_permiso_para_esta_accion_') }}
+        </v-alert>
+        <v-divider class="my-4"></v-divider>
+        <v-alert type="info" variant="tonal" border="start" class="rounded-xl" prominent>
+            <p class="text-medium-emphasis">Para generar el archivo en formato CSV desde Excel:</p>
+            <v-list lines="one" class="bg-transparent">
+                <v-list-item :title="$t('archivo._guardar_como_')" prepend-icon="mdi-circle-small"></v-list-item>
+                <v-list-item :title="$t('archivo._tipo_txt_')" prepend-icon="mdi-circle-small"></v-list-item>
+                <v-list-item :title="$t('archivo._guardar_')" prepend-icon="mdi-circle-small"></v-list-item>
+                <v-list-item :title="$t('archivo._suba_archivo_')" prepend-icon="mdi-circle-small"></v-list-item>
+            </v-list>
         </v-alert>
     </AppLayout>
 </template>

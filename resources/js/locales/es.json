@@ -24,6 +24,12 @@
         "_mostrar_": "Mostrar área",
         "_permite_gestionar_": "Permite gestionar los datos de las áreas de asignaturas"
     },
+    "archivo": {
+        "_guardar_como_": "Archivo → Guardar como",
+        "_tipo_txt_": "Tipo: Texto (delimitado por tabulaciones) (*.txt)",
+        "_guardar_": "Guardar",
+        "_suba_archivo_": "Suba el archivo en este formulario (no es necesario que cambie la extensión a .csv)"
+    },
     "aspirante": {
         "_nie_": "NIE",
         "_no_tiene_cupo_": "no tiene cupo",
