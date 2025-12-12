@@ -28,7 +28,8 @@
         "_guardar_como_": "Archivo → Guardar como",
         "_tipo_txt_": "Tipo: Texto (delimitado por tabulaciones) (*.txt)",
         "_guardar_": "Guardar",
-        "_suba_archivo_": "Suba el archivo en este formulario (no es necesario que cambie la extensión a .csv)"
+        "_suba_archivo_": "Suba el archivo en este formulario (no es necesario que cambie la extensión a .csv)",
+        "_indicaciones_": "Para generar el archivo en formato CSV desde Excel:"
     },
     "aspirante": {
         "_nie_": "NIE",

@@ -99,7 +99,7 @@ const submitForm = async () => {
         </v-alert>
         <v-divider class="my-4"></v-divider>
         <v-alert type="info" variant="tonal" border="start" class="rounded-xl" prominent>
-            <p class="text-medium-emphasis">Para generar el archivo en formato CSV desde Excel:</p>
+            <p class="text-medium-emphasis">{{ $t('archivo._indicaciones_') }}</p>
             <v-list lines="one" class="bg-transparent">
                 <v-list-item :title="$t('archivo._guardar_como_')" prepend-icon="mdi-circle-small"></v-list-item>
                 <v-list-item :title="$t('archivo._tipo_txt_')" prepend-icon="mdi-circle-small"></v-list-item>
