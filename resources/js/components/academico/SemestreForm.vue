@@ -28,9 +28,10 @@ interface FormData {
     descripcion: string;
     fecha_inicio: Date | null;
     fecha_fin: Date | null;
+    estado_id: number | null;
 }
 
-const props = defineProps(['item', 'accion']);
+const props = defineProps(['item', 'accion', 'estados']);
 
 const formData = ref<FormData>({
     id: null,
@@ -39,6 +40,7 @@ const formData = ref<FormData>({
     descripcion: '',
     fecha_inicio: null,
     fecha_fin: null,
+    estado_id: null,
 });
 const isEditing = toRef(() => props.accion === 'edit');
 
@@ -105,6 +107,17 @@ const titleForm = computed(() => {
                             :rules="[rules.required]"
                             :label="$t('_anio_') + ' *'"
                         ></v-number-input>
+                        <v-select
+                            required
+                            icon-color="deep-orange"
+                            prepend-icon="mdi-form-textbox"
+                            v-model="formData.estado_id"
+                            :items="estados"
+                            item-title="codigo"
+                            item-value="id"
+                            :rules="[rules.required]"
+                            :label="$t('estado._singular_') + ' *'"
+                        ></v-select>
 
                         <v-text-field prepend-icon="mdi-form-textbox" v-model="formData.descripcion" :label="$t('_descripcion_')"></v-text-field>
 

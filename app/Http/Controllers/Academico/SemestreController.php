@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Academico;
 
 use App\Http\Controllers\Controller;
 use App\Models\Academico\Semestre;
+use App\Models\Academico\UsoEstado;
 use App\Models\Calendarizacion;
 use App\Models\TipoCalendarizacion;
 use Carbon\Carbon;
@@ -20,8 +21,10 @@ class SemestreController extends Controller
     {
 
         $semestres = Semestre::with('creator', 'updater', 'calendario')->orderBy('codigo')->get();
+        $usoEstado = UsoEstado::where('codigo', 'SEMESTRE')->first();
+        $estados = $usoEstado->estados()->orderBy('codigo')->get();
 
-        return Inertia::render('academico/Semestre', ['items' => $semestres]);
+        return Inertia::render('academico/Semestre', ['items' => $semestres, 'estados' => $estados]);
     }
 
     public function save(Request $request)
@@ -33,6 +36,7 @@ class SemestreController extends Controller
             'descripcion' => 'nullable|string',
             'fecha_inicio' => 'required|date',
             'fecha_fin' => 'required|date',
+            'estado_id' => 'required|numeric',
         ]);
 
         if ($request->get('id') === null) {
@@ -61,6 +65,7 @@ class SemestreController extends Controller
         $semestre->descripcion = $request->get('descripcion');
         $semestre->fecha_inicio = $request->get('fecha_inicio');
         $semestre->fecha_fin = $request->get('fecha_fin');
+        $semestre->estado_id = $request->get('estado_id');
 
         $semestre->save();
 

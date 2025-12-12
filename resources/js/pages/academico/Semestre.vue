@@ -38,6 +38,11 @@ const props = defineProps({
         required: true,
         default: () => [],
     },
+    estados: {
+        type: Array,
+        required: true,
+        default: () => [],
+    },
 });
 
 const itemVacio = ref<Item>({
@@ -187,6 +192,7 @@ const opcionesAccion = [
                             v-if="selectedAction === 'new' || selectedAction === 'edit'"
                             :item="selectedAction === 'new' ? itemVacio : selectedItem"
                             :accion="selectedAction"
+                            :estados="props.estados"
                             @form-saved="handleFormSave"
                         ></SemestreForm>
                         <SemestreOferta v-if="selectedAction === 'oferta'" :item="selectedItem" :accion="selectedAction"></SemestreOferta>
