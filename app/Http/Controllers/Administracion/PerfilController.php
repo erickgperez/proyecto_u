@@ -173,7 +173,7 @@ class PerfilController extends Controller
                     ->where('rol.name', 'administrativo');
             }
         ])->select('persona.*')
-            ->join('academico.administrativo as administrativo', 'persona.id', '=', 'administrativo.persona_id');
+            ->join('public.administrativo as administrativo', 'persona.id', '=', 'administrativo.persona_id');
     }
 
 
