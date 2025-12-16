@@ -20,14 +20,16 @@ class EstudianteService
             Str::substr($anio_ingreso, -2);
 
         //buscar el último correlativo, últimos 3 caracteres
-        if ($tipo == 'estudiante') {
-            $correlativo = Estudiante::where('carnet', 'like', $carnet . '%')->max('carnet');
-        } elseif ($tipo == 'docente') {
-            $correlativo = Docente::where('codigo', 'like', $carnet . '%')->max('codigo');
-        } elseif ($tipo == 'administrativo') {
-            $correlativo = Administrativo::where('codigo', 'like', $carnet . '%')->max('codigo');
-        }
+        //if ($tipo == 'estudiante') {
+        $correlativo1 = Estudiante::where('carnet', 'like', $carnet . '%')->max('carnet');
+        //} elseif ($tipo == 'docente') {
+        $correlativo2 = Docente::where('codigo', 'like', $carnet . '%')->max('codigo');
+        //} elseif ($tipo == 'administrativo') {
+        $correlativo3 = Administrativo::where('codigo', 'like', $carnet . '%')->max('codigo');
+        //}
         $nextCorrelativo = 1;
+        //El máximo de los correlativos
+        $correlativo = max($correlativo1, $correlativo2, $correlativo3);
         if ($correlativo) {
             $lastThreeDigits = (int) Str::substr($correlativo, -3);
             $nextCorrelativo = $lastThreeDigits + 1;

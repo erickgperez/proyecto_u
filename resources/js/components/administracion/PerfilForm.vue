@@ -90,7 +90,10 @@ async function submitForm() {
 
 const isEstudiante = computed(() => roles.includes('estudiante'));
 const isDocente = computed(() => roles.includes('docente'));
-const permitirEditar = computed(() => ((isEstudiante.value || isDocente.value) && !props.item.permitir_editar ? false : true));
+const isAdministrativo = computed(() => roles.includes('administrativo'));
+const permitirEditar = computed(() =>
+    (isEstudiante.value || isDocente.value || isAdministrativo.value) && !props.item.permitir_editar ? false : true,
+);
 
 onMounted(() => {
     reset();
@@ -188,7 +191,7 @@ onMounted(() => {
                         ></v-text-field>
                     </v-col>
                     <v-select
-                        v-if="!(isDocente || isEstudiante) && props.perfil == 'docente'"
+                        v-if="!(isDocente || isEstudiante || isAdministrativo) && (props.perfil == 'docente' || props.perfil == 'administrativo')"
                         required
                         icon-color="deep-orange"
                         :rules="[rules.required]"

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('academico.administrativo', function (Blueprint $table) {
+        Schema::create('public.administrativo', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique()->after('id');
 
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('academico.administrativo');
+        Schema::dropIfExists('public.administrativo');
     }
 };

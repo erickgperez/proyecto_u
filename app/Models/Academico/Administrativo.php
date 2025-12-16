@@ -14,7 +14,7 @@ class Administrativo extends Model
 {
     use UserStamps, HasUuid, HasCreateMany;
 
-    protected $table = "academico.administrativo";
+    protected $table = "public.administrativo";
 
     public function creator()
     {

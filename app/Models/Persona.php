@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\Academico\Administrativo;
 use App\Models\Academico\Docente;
 use App\Models\Academico\Estudiante;
 use App\Models\Academico\Sede;
@@ -120,6 +121,10 @@ class Persona extends Model
     public function docente(): HasOne
     {
         return $this->hasOne(Docente::class, 'persona_id');
+    }
+    public function administrativo(): HasOne
+    {
+        return $this->hasOne(Administrativo::class, 'persona_id');
     }
 
     public function estudiante(): HasOne
