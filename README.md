@@ -4,7 +4,7 @@
 
 ### Clonar el repositorio
 
-`git clone git@github.com:erickgperez/proyecto_u.git`
+`git clone https://github.com/erickgperez/proyecto_u.git`
 
 Despues de clonar entrar al directorio en que se clonó el proyecto
 `cd proyectou`
