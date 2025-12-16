@@ -517,6 +517,19 @@
         "_nombre_": "Nombre"
     },
     "_permite_gestionar_datos_convocatorias_": "Permite gestionar los datos de las convocatoria",
+    "estudio": {
+        "_singular_": "Estudio",
+        "_administrar_": "Administrar estudios",
+        "_crear_": "Crear un nuevo estudio",
+        "_editar_": "Editar estudio",
+        "_mostrar_": "Mostrar estudio",
+        "_listado_": "Listado de estudios",
+        "_permite_gestionar_datos_": "Permite gestionar los estudios de la aplicación",
+        "_plural_": "Estudios",
+
+        "_descripcion_": "Formación académica"
+    },
+
     "perfil": {
         "_administrar_": "Administrar personas",
         "_permitir_edicion_": "Autorizar edición de datos personales",

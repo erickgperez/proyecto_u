@@ -507,6 +507,20 @@
         "_singular_": "Permiso"
     },
     "_permite_gestionar_datos_convocatorias_": "Allows you to manage application process data",
+
+    "estudio": {
+        "_singular_": "Study",
+        "_administrar_": "Manage studies",
+        "_crear_": "Create a new study",
+        "_editar_": "Edit study",
+        "_mostrar_": "Show study",
+        "_listado_": "List of studies",
+        "_permite_gestionar_datos_": "Allows you to manage study data",
+        "_plural_": "Studies",
+
+        "_descripcion_": "Academic formation"
+    },
+
     "perfil": {
         "_administrar_": "Manage people",
         "_permitir_edicion_": "Authorize editing of personal data",

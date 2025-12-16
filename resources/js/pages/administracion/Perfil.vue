@@ -81,6 +81,7 @@ const acc = {
     docente_asignacion_carrera_sede: 'ADMINISTRACION_PERFIL_DOCENTE_ASIGNACION-CARRERA-SEDE',
     docente_carga_academica: 'ADMINISTRACION_PERFIL_DOCENTE_CARGA-ACADEMICA',
     estudiante_expediente: 'ADMINISTRACION_PERFIL_ESTUDIANTE_EXPEDIENTE',
+    estudios: 'ADMINISTRACION_PERFIL_ESTUDIOS',
 };
 const permisoAny = 'ADMINISTRACION_PERFIL_';
 // Permisos requeridos por la interfaz
@@ -151,6 +152,15 @@ const opciones = [
         text: t('perfil._documentos_descripcion_'),
         emitAction: 'documentos',
         color: 'brown-darken-1',
+        icon: 'mdi-file-document-outline',
+    },
+    {
+        orden: 35,
+        permiso: acc.estudios,
+        title: t('estudio._plural_'),
+        text: t('estudio._descripcion_'),
+        emitAction: 'estudios',
+        color: 'indigo-darken-2',
         icon: 'mdi-file-document-outline',
     },
     {
