@@ -211,3 +211,11 @@ interface Estudiante {
     carreraSede: CarreraSede;
     expediente: Expediente[];
 }
+
+interface Docente {
+    id: number;
+    uuid: string;
+    persona_id: number;
+    persona: Persona;
+    codigo: string;
+}

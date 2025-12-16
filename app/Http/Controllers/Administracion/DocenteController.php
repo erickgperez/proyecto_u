@@ -8,13 +8,18 @@ use App\Models\Academico\Docente;
 use App\Models\Academico\Imparte;
 use App\Models\Academico\Oferta;
 use App\Models\Academico\Semestre;
+use App\Models\Documento\TipoDocumento;
 use App\Models\Persona;
 use App\Models\PlanEstudio\Carrera;
+use App\Models\Sexo;
 use Illuminate\Http\Request;
-
+use App\Services\DistritoService;
+use Inertia\Inertia;
 
 class DocenteController extends Controller
 {
+
+    public function __construct(private DistritoService $distritoService) {}
 
     public function data($id, Request $request)
     {
@@ -208,5 +213,43 @@ class DocenteController extends Controller
             ])
             ->first();
         return response()->json(['status' => 'ok', 'docente' => $docente]);
+    }
+
+    public function perfil($uuid)
+    {
+        $docente = Docente::where('uuid', $uuid)->first();
+
+        $sexos = Sexo::all();
+        $tiposDocumento = TipoDocumento::with('roles')->orderBy('codigo')->get();
+        $tipos = [];
+        foreach ($tiposDocumento as $td) {
+            foreach ($td->roles as $rol) {
+                if ($rol->guard_name == 'web' && $rol->name == 'docente') {
+                    $tipos[] = $td;
+                    break;
+                }
+            }
+        }
+        $distritosTree = $this->distritoService->distritosLikeTree();
+        $persona = $docente->persona()
+            ->with([
+                'datosContacto',
+                'sexo',
+                'usuarios' => function ($query) {
+                    $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
+                        ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
+                        ->where('roles.model_type', 'App\Models\User')
+                        ->where('rol.name', 'docente');
+                }
+            ])
+            ->first();
+
+        return Inertia::render('academico/Docente/Perfil', [
+            'docente' => $docente,
+            'persona' => $persona,
+            'sexos' => $sexos,
+            'tiposDocumento' => $tipos,
+            'distritosTree' => $distritosTree,
+        ]);
     }
 }

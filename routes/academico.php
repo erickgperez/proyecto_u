@@ -100,6 +100,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/academico/estudiante/{uuid}/carreras', [EstudianteController::class, 'carreras'])->name('academico-estudiante-carreras');
 
     Route::get('/academico/persona/{uuid}/docente/data', [DocenteController::class, 'getDocenteData'])->name('academico-persona-docente-data');
+    Route::get('/academico/docente/{uuid}/perfil', [DocenteController::class, 'perfil'])->name('academico-docente-perfil');
 
     Route::post('/academico/retiro/expediente/{uuid}', [ExpedienteController::class, 'retiro'])->name('academico-retiro');
     Route::get('/academico/retiro/semestre/{id}', [ExpedienteController::class, 'semestreRetiro'])->name('academico-retiro-semestre');
