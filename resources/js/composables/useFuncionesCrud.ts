@@ -49,6 +49,10 @@ export function useFuncionesCrud(itemVacio: any, items: any) {
         }
     };
 
+    const updateItems = (items: Array<any>) => {
+        localItems.value = items;
+    };
+
     return {
         step,
         selectedAction,
@@ -60,5 +64,6 @@ export function useFuncionesCrud(itemVacio: any, items: any) {
         selectItem,
         selectAction,
         handleFormSave,
+        updateItems,
     };
 }

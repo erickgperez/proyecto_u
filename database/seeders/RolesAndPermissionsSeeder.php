@@ -87,13 +87,13 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCUMENTOS_BORRAR']);
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCENTE_ASIGNACION-CARRERA-SEDE']);
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_DOCENTE_CARGA-ACADEMICA']);
-        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIOS']);
-        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIOS_TODO']);
-        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIOS_CREAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIOS_EXPORTAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIOS_EDITAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIOS_MOSTRAR']);
-        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIOS_BORRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIO']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIO_TODO']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIO_CREAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIO_EXPORTAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIO_EDITAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIO_MOSTRAR']);
+        Permission::create(['name' => 'ADMINISTRACION_PERFIL_ESTUDIO_BORRAR']);
 
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-PERSONALES']);
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_AUTORIZAR_EDICION_DATOS-CONTACTO']);

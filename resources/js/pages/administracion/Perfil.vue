@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import PerfilEstudianteExpediente from '@/components/academico/estudiante/PerfilEstudianteExpediente.vue';
+import Estudio from '@/components/administracion/Estudio.vue';
 import PerfilDatosContactoForm from '@/components/administracion/PerfilDatosContactoForm.vue';
 import PerfilDocenteAsignacionCarreraSede from '@/components/administracion/PerfilDocenteAsignacionCarreraSede.vue';
 import PerfilDocenteCargaAcademica from '@/components/administracion/PerfilDocenteCargaAcademica.vue';
@@ -400,6 +401,7 @@ onMounted(() => {
                         </PerfilDocenteCargaAcademica>
                         <PerfilEstudianteExpediente v-if="selectedAction == 'estudiante-expediente'" :item="selectedItem">
                         </PerfilEstudianteExpediente>
+                        <Estudio v-if="selectedAction == 'estudios'" :persona="selectedItem" :items="[]"></Estudio>
                     </v-sheet>
                 </v-window-item>
             </v-window>

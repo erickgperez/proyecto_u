@@ -14,7 +14,7 @@ use App\Http\Controllers\Administracion\TipoFlujoController;
 use App\Http\Controllers\Administracion\TransicionController;
 use App\Http\Controllers\Administracion\UsuarioController;
 use App\Http\Controllers\Documento\DocumentoController;
-use App\Http\Controllers\Ingreso\AspiranteController;
+use App\Http\Controllers\Administracion\EstudioController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware('auth', 'verified')->group(function () {
@@ -34,6 +34,10 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/administracion/perfil/{id}/documentos', [DocumentoController::class, 'documentosPersona'])->name('administracion-perfil-documentos');
     Route::post('/administracion/documento/save', [DocumentoController::class, 'documentoSave'])->name('administracion-documento-save');
     Route::get('/administracion/documento/{id}/descargar', [DocumentoController::class, 'documentoDescargar'])->name('administracion-documento-descargar');
+
+    Route::get('/administracion/perfil/{uuid}/estudios', [EstudioController::class, 'index'])->name('administracion-estudio-index');
+    Route::post('/administracion/perfil/{uuid}/estudio/save', [EstudioController::class, 'save'])->name('administracion-estudio-save');
+    Route::get('/administracion/estudio/{uuid}/delete', [EstudioController::class, 'delete'])->name('administracion-estudio-delete');
 
     Route::get('/seguridad/permisos', [PermisosController::class, 'index'])->name('seguridad-permisos-index');
     Route::post('/seguridad/permisos/save', [PermisosController::class, 'save'])->name('seguridad-permisos-save');

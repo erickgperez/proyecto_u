@@ -523,11 +523,16 @@
         "_crear_": "Crear un nuevo estudio",
         "_editar_": "Editar estudio",
         "_mostrar_": "Mostrar estudio",
-        "_listado_": "Listado de estudios",
-        "_permite_gestionar_datos_": "Permite gestionar los estudios de la aplicación",
+        "_listado_": "Estudios realizados por la persona",
+        "_permite_gestionar_": "Permite gestionar los estudios de la persona",
         "_plural_": "Estudios",
 
-        "_descripcion_": "Formación académica"
+        "_descripcion_": "Formación académica",
+        "_nombre_": "Nombre",
+        "_nombre_hint_": "Nombre del estudio",
+        "_institucion_": "Institución",
+        "_institucion_hint_": "Institución donde se realizó el estudio",
+        "_fecha_finalizacion_": "Fecha de finalización"
     },
 
     "perfil": {
