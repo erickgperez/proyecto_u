@@ -14,22 +14,22 @@ class EstudianteService
 {
     public function generateCarnet(Persona $persona, $anio_ingreso, $codigo_sede, $tipo = 'estudiante')
     {
-        $carnet = Str::upper(Str::substr($persona->primer_apellido, 0, 1)) .
-            Str::upper(Str::substr($persona->segundo_apellido ?? $persona->primer_apellido, 0, 1)) .
-            $codigo_sede .
-            Str::substr($anio_ingreso, -2);
 
         //buscar el último correlativo, últimos 3 caracteres
-        //if ($tipo == 'estudiante') {
-        $correlativo1 = Estudiante::where('carnet', 'like', $carnet . '%')->max('carnet');
-        //} elseif ($tipo == 'docente') {
-        $correlativo2 = Docente::where('codigo', 'like', $carnet . '%')->max('codigo');
-        //} elseif ($tipo == 'administrativo') {
-        $correlativo3 = Administrativo::where('codigo', 'like', $carnet . '%')->max('codigo');
-        //}
+        if ($tipo == 'estudiante') {
+            $carnet = Str::upper(Str::substr($persona->primer_apellido, 0, 1)) .
+                Str::upper(Str::substr($persona->segundo_apellido ?? $persona->primer_apellido, 0, 1)) .
+                $codigo_sede .
+                Str::substr($anio_ingreso, -2);
+            $correlativo = Estudiante::where('carnet', 'like', $carnet . '%')->max('carnet');
+        } elseif ($tipo == 'docente') {
+            $carnet = 'PU' . $codigo_sede;
+            $correlativo = Docente::where('codigo', 'like', $carnet . '%')->max('codigo');
+        } elseif ($tipo == 'administrativo') {
+            $carnet = 'AD' . $codigo_sede;
+            $correlativo = Administrativo::where('codigo', 'like', $carnet . '%')->max('codigo');
+        }
         $nextCorrelativo = 1;
-        //El máximo de los correlativos
-        $correlativo = max($correlativo1, $correlativo2, $correlativo3);
         if ($correlativo) {
             $lastThreeDigits = (int) Str::substr($correlativo, -3);
             $nextCorrelativo = $lastThreeDigits + 1;
