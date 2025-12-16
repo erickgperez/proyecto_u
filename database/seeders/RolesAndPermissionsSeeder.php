@@ -74,6 +74,7 @@ class RolesAndPermissionsSeeder extends Seeder
         Permission::create(['name' => 'MENU_ADMINISTRACION_PERFIL_ASPIRANTE']);
         Permission::create(['name' => 'MENU_ADMINISTRACION_PERFIL_ESTUDIANTE']);
         Permission::create(['name' => 'MENU_ADMINISTRACION_PERFIL_DOCENTE']);
+        Permission::create(['name' => 'MENU_ADMINISTRACION_PERFIL_ADMINISTRATIVO']);
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_TODO']);
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_CREAR']);
         Permission::create(['name' => 'ADMINISTRACION_PERFIL_EXPORTAR']);
@@ -362,6 +363,9 @@ class RolesAndPermissionsSeeder extends Seeder
             ->givePermissionTo();
 
         Role::create(['name' => 'estudiante'])
+            ->givePermissionTo();
+
+        Role::create(['name' => 'administrativo'])
             ->givePermissionTo();
 
         Role::create(['name' => 'docente'])

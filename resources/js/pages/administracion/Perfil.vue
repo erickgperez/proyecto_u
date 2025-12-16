@@ -178,6 +178,8 @@ const iconLayout = computed(() => {
         return 'mdi-human-male-board';
     } else if (props.perfil === 'estudiante') {
         return 'mdi-account-school-outline';
+    } else if (props.perfil === 'administrativo') {
+        return 'mdi-account-tie';
     }
     return '';
 });

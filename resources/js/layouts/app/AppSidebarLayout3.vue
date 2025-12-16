@@ -282,6 +282,18 @@ onMounted(() => {
                                         </v-list-item>
                                     </Link>
                                     <Link
+                                        v-if="hasPermission('MENU_ADMINISTRACION_PERFIL_ESTUDIANTE')"
+                                        :href="route('administracion-perfil-estudiante-index')"
+                                    >
+                                        <v-list-item
+                                            link
+                                            prepend-icon="mdi-account-school-outline"
+                                            :class="$page.url === '/administracion/perfil/estudiante' ? 'bg-blue-lighten-4' : ''"
+                                        >
+                                            {{ $t('perfil._estudiante_') }}
+                                        </v-list-item>
+                                    </Link>
+                                    <Link
                                         v-if="hasPermission('MENU_ADMINISTRACION_PERFIL_DOCENTE')"
                                         :href="route('administracion-perfil-docente-index')"
                                     >
@@ -294,15 +306,15 @@ onMounted(() => {
                                         </v-list-item>
                                     </Link>
                                     <Link
-                                        v-if="hasPermission('MENU_ADMINISTRACION_PERFIL_ESTUDIANTE')"
-                                        :href="route('administracion-perfil-estudiante-index')"
+                                        v-if="hasPermission('MENU_ADMINISTRACION_PERFIL_ADMINISTRATIVO')"
+                                        :href="route('administracion-perfil-administrativo-index')"
                                     >
                                         <v-list-item
                                             link
-                                            prepend-icon="mdi-account-school-outline"
-                                            :class="$page.url === '/administracion/perfil/estudiante' ? 'bg-blue-lighten-4' : ''"
+                                            prepend-icon="mdi-account-tie"
+                                            :class="$page.url === '/administracion/perfil/administrativo' ? 'bg-blue-lighten-4' : ''"
                                         >
-                                            {{ $t('perfil._estudiante_') }}
+                                            {{ $t('perfil._administrativo_') }}
                                         </v-list-item>
                                     </Link>
                                 </v-list>

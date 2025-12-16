@@ -544,6 +544,14 @@
         "_docente_carga_academica_descripcion_": "Asignación de la carga académica del docente",
         "_elija_carga_academica_": "Elija la carga académica a asignar",
 
+        "_administrativo_": "Administrativo",
+        "_administrar_administrativo": "Gestionar empleados administrativos",
+        "_crear_administrativo": "Crear nuevo administrativo",
+        "_editar_administrativo": "Editar datos del administrativo",
+        "_listado_administrativo": "Listado de administrativos",
+        "_mostrar_administrativo": "Mostrar datos de administrativos",
+        "_permite_gestionar_datos_administrativo": "Gestionar los datos de los administrativos",
+
         "_estudiante_": "Estudiante",
         "_administrar_estudiante": "Administrar estudiantes",
         "_crear_estudiante": "Crear nuevo estudiante",

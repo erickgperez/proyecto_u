@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Models\Academico\Administrativo;
 use App\Models\Academico\Docente;
 use App\Models\Academico\Estudiante;
 use App\Models\Academico\Oferta;
@@ -23,6 +24,8 @@ class EstudianteService
             $correlativo = Estudiante::where('carnet', 'like', $carnet . '%')->max('carnet');
         } elseif ($tipo == 'docente') {
             $correlativo = Docente::where('codigo', 'like', $carnet . '%')->max('codigo');
+        } elseif ($tipo == 'administrativo') {
+            $correlativo = Administrativo::where('codigo', 'like', $carnet . '%')->max('codigo');
         }
         $nextCorrelativo = 1;
         if ($correlativo) {

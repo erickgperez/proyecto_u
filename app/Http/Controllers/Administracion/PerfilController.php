@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Administracion;
 
 use App\Http\Controllers\Controller;
+use App\Models\Academico\Administrativo;
 use App\Models\Academico\Docente;
 use App\Models\Academico\Sede;
 use App\Models\DatosContacto;
@@ -150,6 +151,31 @@ class PerfilController extends Controller
         return $this->index('docente', $docentes);
     }
 
+    public function indexAdministrativo(): Response
+    {
+        $administrativos = $this->getAdministrativoBase()->get();
+
+        return $this->index('administrativo', $administrativos);
+    }
+
+    protected function getAdministrativoBase()
+    {
+        return Persona::with([
+            'sexo',
+            'creator',
+            'updater',
+            'datosContacto' => ['distritoResidencia'],
+            'administrativo',
+            'usuarios' => function ($query) {
+                $query->join('model_has_roles as roles', 'users.id', '=', 'roles.model_id')
+                    ->join('roles as rol', 'roles.role_id', '=', 'rol.id')
+                    ->where('roles.model_type', 'App\Models\User')
+                    ->where('rol.name', 'administrativo');
+            }
+        ])->select('persona.*')
+            ->join('academico.administrativo as administrativo', 'persona.id', '=', 'administrativo.persona_id');
+    }
+
 
     public function personaInfo($id, Request $request)
     {
@@ -246,6 +272,8 @@ class PerfilController extends Controller
             $personaData = $this->getDocenteBase()->find($persona->id);
         } elseif ($request->get('perfil') === 'estudiante') {
             $personaData = $this->getEstudianteBase()->find($persona->id);
+        } elseif ($request->get('perfil') === 'administrativo') {
+            $personaData = $this->getAdministrativoBase()->find($persona->id);
         }
 
         return response()->json(['status' => 'ok', 'message' => '_datos_guardados_', 'item' => $personaData]);
@@ -274,6 +302,19 @@ class PerfilController extends Controller
             $docente->persona()->associate($persona);
 
             $docente->save();
+        } elseif ($perfil === 'administrativo') {
+            $usuario->assignRole('administrativo');
+
+            //Crear registro en administrativo
+            $administrativo = new Administrativo();
+
+            //Crear el código del administrativo
+            $sede = ($persona->sede_principal_id != null) ? Sede::find($persona->sede_principal_id)->codigo : '01';
+            $year = date('Y');
+            $administrativo->codigo = $this->estudianteService->generateCarnet($persona, $year, $sede, 'administrativo');
+            $administrativo->persona()->associate($persona);
+
+            $administrativo->save();
         }
         $usuario->save();
 
