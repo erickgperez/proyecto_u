@@ -44,11 +44,6 @@ const modulos = [
         nombre: 'modulo._gestion_academica_',
         icono: 'mdi-file-document-edit-outline',
     },
-    {
-        codigo: 'calificaciones',
-        nombre: 'modulo._calificaciones_',
-        icono: 'mdi-book-education-outline',
-    },
 ];
 interface Modulo {
     codigo: string;
@@ -683,36 +678,6 @@ onMounted(() => {
                             </v-menu>
                         </v-list-item>
                     </v-sheet>
-
-                    <v-btn
-                        v-if="hasPermission('MODULO_CALIFICACIONES') && moduloActual?.codigo == 'calificaciones'"
-                        variant="text"
-                        append-icon="mdi-menu-right"
-                        class="text-body-1 text-none text-left"
-                    >
-                        {{ $t('_calificaciones_') }}
-                        <v-menu activator="parent">
-                            <v-list class="bg-blue-grey-darken-2">
-                                <v-list-item v-for="i in 3" :key="i" link append-icon="mdi-menu-right">
-                                    <v-list-item-title>Calificaciones Item {{ i }}</v-list-item-title>
-                                    <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
-                                        <v-list class="bg-blue-grey-darken-2">
-                                            <v-list-item v-for="j in 3" :key="j" link append-icon="mdi-menu-right">
-                                                <v-list-item-title>Calificaciones Item {{ i }} - {{ j }}</v-list-item-title>
-                                                <v-menu :open-on-focus="false" activator="parent" open-on-hover submenu>
-                                                    <v-list class="bg-blue-grey-darken-2">
-                                                        <v-list-item v-for="k in 5" :key="k" link>
-                                                            <v-list-item-title>Calificaciones Item {{ i }} - {{ j }} - {{ k }}</v-list-item-title>
-                                                        </v-list-item>
-                                                    </v-list>
-                                                </v-menu>
-                                            </v-list-item>
-                                        </v-list>
-                                    </v-menu>
-                                </v-list-item>
-                            </v-list>
-                        </v-menu>
-                    </v-btn>
                 </v-list>
             </v-navigation-drawer>
             <v-app-bar :elevation="10" rounded="b-xl" style="background-color: #f5f5f5">
