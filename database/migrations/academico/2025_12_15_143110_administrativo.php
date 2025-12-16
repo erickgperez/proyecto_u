@@ -11,15 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('academico.docente', function (Blueprint $table) {
+        Schema::create('academico.administrativo', function (Blueprint $table) {
             $table->id();
             $table->uuid('uuid')->unique()->after('id');
 
-            $table->comment('Tabla de docentes');
+            $table->comment('Tabla de administrativos');
 
             $table->string('codigo', 15)->unique();
 
-            $table->foreignId('persona_id')->comment('Persona a la que está asignado el docente');
+            $table->foreignId('persona_id')->comment('Persona a la que está asignado el administrativo');
             $table->foreign('persona_id')->references('id')->on('public.persona')->onDelete('RESTRICT')->onUpdate('CASCADE');
 
             $table->unsignedBigInteger('created_by')->nullable()->comment('Usuario que creó el registro');
@@ -36,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('academico.docente');
+        Schema::dropIfExists('academico.administrativo');
     }
 };
