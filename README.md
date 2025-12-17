@@ -1,5 +1,18 @@
 # Instalación y configuración del proyecto
 
+## Requisitos
+
+- PHP >= 8.2
+- Composer (https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos)
+- Node.js
+- NPM
+- PostgreSQL
+- Git
+
+### Instalar paquetes (entorno linux Debian)
+
+`sudo apt install php php-cli php-common php-curl php-dom php-intl php-mbstring php-mysql php-opcache php-pgsql php-xml php-zip postgresql pgsql pdo pdo_pgsql php-pgsql nodejs npm git curl unzip`
+
 ## Instalación de código fuente
 
 ### Clonar el repositorio
@@ -49,6 +62,10 @@ DB_PASSWORD=clavedb
 `composer run dev`
 
 Cargar el sitio en el navegador, verificar el puerto en que se ejecutó, por ejemplo: <http://127.0.0.1:8000>
+
+### Compilar para producción
+
+`composer run build`
 
 ## Configuración extra
 
