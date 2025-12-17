@@ -3,7 +3,6 @@ import EstudioForm from '@/components/administracion/EstudioForm.vue';
 import EstudioShow from '@/components/administracion/EstudioShow.vue';
 import Acciones from '@/components/crud/Acciones.vue';
 import BotonesNavegacion from '@/components/crud/BotonesNavegacion.vue';
-import Listado from '@/components/crud/Listado.vue';
 import { useAccionesObject } from '@/composables/useAccionesObject';
 import { useFuncionesCrud } from '@/composables/useFuncionesCrud';
 import { usePermissions } from '@/composables/usePermissions';
@@ -22,8 +21,8 @@ const { t } = useI18n();
 interface Item {
     id: number | null;
     uuid: string;
-    nombre: string;
-    institucion: string;
+    nombre_titulo: string;
+    nombre_institucion: string;
     fecha_finalizacion: Date | null;
 }
 const props = defineProps({
@@ -34,8 +33,8 @@ const props = defineProps({
 const itemVacio = ref<Item>({
     id: null,
     uuid: '',
-    nombre: '',
-    institucion: '',
+    nombre_titulo: '',
+    nombre_institucion: '',
     fecha_finalizacion: null,
 });
 
@@ -76,13 +75,14 @@ const sheetName = ref('Listado_estudios');
 const fileName = ref('estudios');
 
 const headers = [
-    { title: t('estudio._nombre_'), key: 'nombre_estudio' },
+    { title: t('estudio._nombre_'), key: 'nombre_titulo' },
     { title: t('estudio._institucion_'), key: 'nombre_institucion' },
     { title: t('estudio._fecha_finalizacion_'), key: 'fecha_finalizacion' },
     { title: t('_acciones_'), key: 'actions', align: 'center' },
 ];
 
 const sortBy: SortBy[] = [];
+const search = ref('');
 
 const opcionesAccion = [
     {
@@ -120,22 +120,51 @@ onMounted(() => {
     ******** presentación de un campo en el listado de la parte 1
     ************************************************************************************
     -->
-    <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12 rounded-xl">
+    <v-sheet v-if="hasPermission(permisos.listado)" class="elevation-12">
         <v-window v-model="step" class="h-auto w-100">
             <!-- ************************** CRUD PARTE 1: LISTADO *****************************-->
             <v-window-item :value="1">
-                <Listado
-                    @action="handleAction"
-                    @selectItem="selectItem"
-                    :items="localItems"
-                    :headers="headers"
-                    :sortBy="sortBy"
-                    :titleList="mensajes.tituloListado"
-                    :permisoCrear="permisos.crear"
-                    :permisoExportar="permisos.exportar"
-                    :sheetName="sheetName"
-                    :fileName="fileName"
-                ></Listado>
+                <v-data-iterator :items="localItems" item-value="id" :search="search">
+                    <template v-slot:header>
+                        <v-toolbar class="bg-blue-grey-lighten-3 rounded-t-xl px-2">
+                            <v-icon icon="mdi-format-list-text"></v-icon> &nbsp; {{ props.persona.nombreCompleto }}
+                            <v-spacer></v-spacer>
+
+                            <v-text-field
+                                v-model="search"
+                                density="compact"
+                                :label="$t('_buscar_')"
+                                prepend-inner-icon="mdi-magnify"
+                                variant="outlined"
+                                rounded="xl"
+                                flat
+                                hide-details
+                                single-line
+                            ></v-text-field>
+                            <v-btn
+                                v-if="hasPermission(permisos.crear)"
+                                icon="mdi-table-plus"
+                                color="success"
+                                class="ml-2"
+                                :title="$t('_crear_nuevo_registro_')"
+                                @click="handleAction('new')"
+                            ></v-btn>
+                        </v-toolbar>
+                    </template>
+                    <template v-slot:default="{ items }">
+                        <v-row>
+                            <v-col v-for="item in items" :key="item.id" cols="12" md="6" sm="12">
+                                <v-card class="ma-2 rounded-xl" variant="tonal" elevation="2">
+                                    <v-card-title class="d-flex align-center">
+                                        <h4>{{ item.raw.nombre_titulo }}</h4>
+                                    </v-card-title>
+
+                                    <v-card-text> {{ $t('estudio._institucion_') }}: {{ item.raw.nombre_institucion }} </v-card-text>
+                                </v-card>
+                            </v-col>
+                        </v-row>
+                    </template>
+                </v-data-iterator>
             </v-window-item>
 
             <!-- ********************* CRUD PARTE 2: ELEGIR ACCION A REALIZAR ****************************-->

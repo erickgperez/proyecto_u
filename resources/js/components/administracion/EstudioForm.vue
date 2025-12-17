@@ -23,8 +23,8 @@ function reset() {
 
 interface FormData {
     id: number | null;
-    nombre: string;
-    institucion: string;
+    nombre_titulo: string;
+    nombre_institucion: string;
     fecha_finalizacion: Date | null;
 }
 
@@ -32,8 +32,8 @@ const props = defineProps(['item', 'accion', 'persona']);
 
 const formData = ref<FormData>({
     id: null,
-    nombre: '',
-    institucion: '',
+    nombre_titulo: '',
+    nombre_institucion: '',
     fecha_finalizacion: null,
 });
 const isEditing = toRef(() => props.accion === 'edit');

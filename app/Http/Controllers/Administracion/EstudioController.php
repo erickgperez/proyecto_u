@@ -25,8 +25,8 @@ class EstudioController extends Controller
     {
         // Aunque se ha validado del lado del cliente, validar aquí también
         $request->validate([
-            'nombre' => 'required|string|max:255',
-            'institucion' => 'required|string|max:255',
+            'nombre_titulo' => 'required|string|max:255',
+            'nombre_institucion' => 'required|string|max:255',
             'fecha_finalizacion' => 'required|date',
         ]);
 
@@ -39,8 +39,8 @@ class EstudioController extends Controller
             $estudio = Estudio::find($request->get('id'));
         }
 
-        $estudio->nombre_titulo = $request->get('nombre');
-        $estudio->nombre_institucion = $request->get('institucion');
+        $estudio->nombre_titulo = $request->get('nombre_titulo');
+        $estudio->nombre_institucion = $request->get('nombre_institucion');
         $estudio->fecha_finalizacion = $request->get('fecha_finalizacion');
 
         $estudio->save();
