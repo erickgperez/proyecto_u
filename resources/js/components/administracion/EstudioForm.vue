@@ -88,7 +88,7 @@ const titleForm = computed(() => {
                             required
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
-                            v-model="formData.nombre"
+                            v-model="formData.nombre_titulo"
                             :rules="[rules.required, rules.maxLength(255)]"
                             counter="255"
                             :label="$t('estudio._nombre_') + ' *'"
@@ -100,7 +100,7 @@ const titleForm = computed(() => {
                         <v-text-field
                             icon-color="deep-orange"
                             prepend-icon="mdi-form-textbox"
-                            v-model="formData.institucion"
+                            v-model="formData.nombre_institucion"
                             :rules="[rules.required, rules.maxLength(255)]"
                             counter="255"
                             :label="$t('estudio._institucion_')"

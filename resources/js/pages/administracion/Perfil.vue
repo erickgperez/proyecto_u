@@ -158,7 +158,7 @@ const opciones = [
     {
         orden: 35,
         permiso: acc.estudios,
-        title: t('estudio._plural_'),
+        title: t('estudio._actividades_complementarias_'),
         text: t('estudio._descripcion_'),
         emitAction: 'estudios',
         color: 'indigo-darken-2',
