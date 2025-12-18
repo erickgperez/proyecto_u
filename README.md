@@ -3,7 +3,7 @@
 ## Requisitos
 
 - PHP >= 8.2
-- Composer (https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos)
+- Composer (<https://getcomposer.org/doc/00-intro.md#installation-linux-unix-macos>)
 - Node.js
 - NPM
 - PostgreSQL
@@ -11,7 +11,9 @@
 
 ### Instalar paquetes (entorno linux Debian)
 
-`sudo apt install php php-cli php-common php-curl php-dom php-intl php-mbstring php-mysql php-opcache php-pgsql php-xml php-zip postgresql pgsql pdo pdo_pgsql php-pgsql nodejs npm git curl unzip`
+Ejecutar con el usuario root
+
+`apt install php php-cli php-common php-curl php-dom php-intl php-mbstring php-mysql php-opcache php-pgsql php-xml php-zip postgresql pgsql pdo pdo_pgsql php-pgsql nodejs npm git curl unzip`
 
 ## Instalación de código fuente
 
@@ -20,7 +22,7 @@
 `git clone https://github.com/erickgperez/proyecto_u.git`
 
 Despues de clonar entrar al directorio en que se clonó el proyecto
-`cd proyectou`
+`cd proyecto_u`
 
 ### Instalar dependencias php
 
