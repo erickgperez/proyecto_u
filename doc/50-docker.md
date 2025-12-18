@@ -1,4 +1,4 @@
-# Instalación y configuración del proyecto
+# Instalación y configuración del proyecto usando docker
 
 ## Prerequisito
 
@@ -6,7 +6,7 @@ Para comenzar, asegúrese de tener [Docker instalado](http://www.docker.com/) en
 
 ## Clonar el repositorio
 
-`git clone git@github.com:erickgperez/proyecto_u.git`
+`git clone https://github.com/erickgperez/proyecto_u.git`
 
 Despues de clonar entrar al directorio en que se clonó el proyecto
 `cd proyecto_u`
