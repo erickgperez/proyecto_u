@@ -8,7 +8,7 @@
 
 Si no se ha instalado postgresql previamente, ejecutar el siguiente comando:
 
-`sudo apt install postgresql postgresql-contrib`
+`sudo apt install postgresql`
 
 ## Creación de usuario y base de datos
 
