@@ -63,10 +63,6 @@ DB_PASSWORD=claveusuario
 
 Cargar el sitio en el navegador, verificar el puerto en que se ejecutó, por ejemplo: <http://127.0.0.1:8000>
 
-### Compilar para producción
-
-`composer run build`
-
 ## Configuración extra
 
 Definir el nombre de la aplicación en el archivo .env
