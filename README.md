@@ -11,7 +11,7 @@
 
 ### Instalar paquetes (entorno linux Debian)
 
-`sudo apt install php php-cli php-common php-curl php-intl php-mbstring php-opcache php-pgsql php-xml php-zip postgresql php-pgsql nodejs npm git curl unzip`
+`sudo apt install php php-cli php-common php-curl php-intl php-mbstring php-opcache php-pgsql php-xml php-zip php-gd postgresql nodejs npm git curl unzip`
 
 ## Instalación de código fuente
 
