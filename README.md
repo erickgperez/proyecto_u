@@ -42,15 +42,15 @@ Despues de clonar entrar al directorio en que se clonó el proyecto
 
 ### Configurar la conexión a la base de datos
 
-Abrir el archivo `.env` y adecuar los valores
+Abrir el archivo `.env` descomentar (quitando el # al inicio de la línea) y adecuar los valores, por ejemplo:
 
-```
+```env
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
 DB_DATABASE=usuariodb
 DB_USERNAME=proyectodb
-DB_PASSWORD=clavedb
+DB_PASSWORD=claveusuario
 ```
 
 ### Cargar la estructura de la base de datos
