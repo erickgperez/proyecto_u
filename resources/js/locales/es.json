@@ -234,7 +234,8 @@
         "_configurar_evaluaciones_": "Configurar evaluaciones",
         "_carga_academica_": "Carga académica",
         "_tipo_asignacion_": "Tipo de asignación",
-        "_docente_asociado_": "Docente asociado",
+        "_profesor_asociado_": "Profesor asociado",
+        "_profesor_titular_": "Profesor titular",
         "_ingresar_notas_": "Ingresar notas"
     },
     "documento": {

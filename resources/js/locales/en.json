@@ -234,7 +234,8 @@
         "_configurar_evaluaciones_": "Configure evaluations",
         "_carga_academica_": "Academic load",
         "_tipo_asignacion_": "Assignment type",
-        "_docente_asociado_": "Associated teacher",
+        "_profesor_asociado_": "Associate professor",
+        "_profesor_titular_": "Head professor",
         "_ingresar_notas_": "Enter grades"
     },
     "documento": {

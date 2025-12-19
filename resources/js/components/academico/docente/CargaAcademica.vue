@@ -28,7 +28,7 @@ const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
                                 <v-card-subtitle>
                                     <span class="font-weight-bold">{{ $t('docente._tipo_asignacion_') }}:</span>
                                     <span class="font-weight-bold text-decoration-underline text-h6 text-primary">{{
-                                        $t('semestre._docente_titular_')
+                                        $t('docente._profesor_titular_')
                                     }}</span>
                                 </v-card-subtitle>
                                 <v-card-actions>
@@ -71,7 +71,7 @@ const props = defineProps(['cargaTitular', 'cargaAsociado', 'uuidDocente']);
                                 <v-card-subtitle>
                                     <span class="font-weight-bold">{{ $t('docente._tipo_asignacion_') }}:</span>
                                     <span class="font-weight-bold text-decoration-underline text-h6 text-secondary">{{
-                                        $t('docente._docente_asociado_')
+                                        $t('docente._profesor_asociado_')
                                     }}</span>
                                 </v-card-subtitle>
                                 <v-card-actions>
